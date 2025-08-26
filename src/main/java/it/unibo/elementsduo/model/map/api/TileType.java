@@ -7,11 +7,8 @@ package it.unibo.elementsduo.model.map.api;
 public enum TileType {
     WALL,
     FLOOR,
-    LAVA,
-    WATER,
     FIRESPAWN,
     WATERSPAWN,
     FIREEXIT,
-    WATEREXIT,
-    ACID
+    WATEREXIT
 }

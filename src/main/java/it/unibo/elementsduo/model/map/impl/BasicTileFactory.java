@@ -10,13 +10,12 @@ public class BasicTileFactory implements TileFactory{
     @Override
     public Tile createTile(char symbol, Position pos) {
         switch(symbol){
-            case '-' : return new SimpleTile(TileType.LAVA,'-',pos);
-            case 'A' : return new SimpleTile(TileType.WATEREXIT,'A',pos);
-            case 'F' : return new SimpleTile(TileType.FIREEXIT,'F',pos);
-            case 'P' : return new SimpleTile(TileType.FLOOR,'P',pos);
-            case '#' : return new SimpleTile(TileType.WALL,'#',pos);
-            case ';' : return new SimpleTile(TileType.WATER,';',pos);
-            case 'L' : return new SimpleTile(TileType.ACID,'L',pos);
+            case 'A' : return new SimpleTile(TileType.WATEREXIT,'A');
+            case 'F' : return new SimpleTile(TileType.FIREEXIT,'F');
+            case 'P' : return new SimpleTile(TileType.FLOOR,'P');
+            case '#' : return new SimpleTile(TileType.WALL,'#');
+            case 'W' : return new SimpleTile(TileType.WATERSPAWN,';');
+            case 'B' : return new SimpleTile(TileType.FIRESPAWN,'L');
             default: return null;
         }
     }

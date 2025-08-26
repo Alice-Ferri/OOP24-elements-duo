@@ -11,7 +11,4 @@ public interface Tile {
 
     //carattere usato sul file txt
     char getChar();
-
-    Position getPosition();
-
 }
