@@ -1,24 +1,31 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
 
+import it.unibo.elementsduo.model.enemies.api.EnemiesType;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.resources.Position;
 
 /* Standard enemies that move around the level and inflict damage when the player touches them. */
 public class ClassicEnemiesImpl implements Enemy {
-    private Position position;
-    private boolean alive=true;
+    private boolean alive = true;
+    private double x;
+    private double y;
+    private int direction=1;
+    private double speed=0.05;
 
-    public ClassicEnemiesImpl(Position pos) {
-        this.position = new Position(pos.x(), pos.y());
+    public ClassicEnemiesImpl(final char c, final Position pos) {
+        this.x= pos.x();
+        this.y= pos.y();
         this.alive = true;
-        
     }
 
     @Override
     public void move() {
-    
-}
+        if (alive) {
+            x += direction * speed;
+        }
+        //need to implements collision with walls 
+    }
 
     @Override
     public void attack() {
@@ -26,13 +33,9 @@ public class ClassicEnemiesImpl implements Enemy {
         // Classic enemy does not attack, so this method does nothing
     }
 
-    /**
-     * Update method called every tick.
-     * Moves the enemy and returns Optional.empty() since it does not shoot.
-     * @return Optional.empty() always
-     */
+    @Override
     public void update() {
-        
+        move();
     }
 
     @Override
@@ -40,8 +43,26 @@ public class ClassicEnemiesImpl implements Enemy {
         return alive;
     }
 
+     public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
     @Override
-    public Position GetPosition() {
-        return position;
+    public double getDirection() {
+        return direction;
+    }
+
+    @Override
+    public void setDirection() {
+        this.direction*=-1;
+    }
+
+    @Override
+    public EnemiesType getType() {
+        return EnemiesType.CLASSIC;
     }
 }
