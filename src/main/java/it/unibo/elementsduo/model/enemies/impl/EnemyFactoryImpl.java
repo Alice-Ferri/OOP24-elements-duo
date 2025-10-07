@@ -1,6 +1,5 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
-import it.unibo.elementsduo.model.enemies.api.EnemiesType;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.resources.Position;
@@ -8,10 +7,10 @@ import it.unibo.elementsduo.resources.Position;
 public class EnemyFactoryImpl implements EnemyFactory{
 
     @Override
-    public Enemy createEnemy(EnemiesType type, Position pos) {
-        return switch (type) {
-            case CLASSIC -> new ClassicEnemiesImpl(pos);
-            case PROJECTILE -> new ProjectilesEnemiesImpl(pos); 
+    public Enemy createEnemy(char c, Position pos) {
+        return switch (c) {
+            case 'C' -> new ClassicEnemiesImpl(c,pos); // Classic enemy
+            default -> throw new IllegalArgumentException("Unknown enemy type: " + c);
         };
     }
 }
