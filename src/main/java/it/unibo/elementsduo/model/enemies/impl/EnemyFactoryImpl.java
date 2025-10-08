@@ -10,6 +10,9 @@ public class EnemyFactoryImpl implements EnemyFactory{
     public Enemy createEnemy(char c, Position pos) {
         return switch (c) {
             case 'C' -> new ClassicEnemiesImpl(c,pos); // Classic enemy
+
+            case 'S' -> new ShooterEnemyImpl(c,pos); // Shooter enemy
+
             default -> throw new IllegalArgumentException("Unknown enemy type: " + c);
         };
     }

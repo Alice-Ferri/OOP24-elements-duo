@@ -63,6 +63,6 @@ public class ClassicEnemiesImpl implements Enemy {
 
     @Override
     public EnemiesType getType() {
-        return EnemiesType.CLASSIC;
+        return EnemiesType.C;
     }
 }
