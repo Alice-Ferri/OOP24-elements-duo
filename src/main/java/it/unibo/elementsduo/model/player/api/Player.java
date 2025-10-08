@@ -1,20 +1,31 @@
+
+
 package it.unibo.elementsduo.model.player.api;
 
-import it.unibo.elementsduo.resources.Position;
-import it.unibo.elementsduo.model.player.api.ports.PlayerWorldPort;
+import it.unibo.elementsduo.model.map.api.TileType;
 
 public interface Player {
-    PlayerType getType();
 
-    /** Posizione in tile*/
-    Position getPosition();
-
-    /** True se è a contatto col terreno (per consentire il salto) */
+    double getX();
+    double getY();
+    double getVelocityY();
     boolean isOnGround();
 
-    /** Input impostato dal Controller*/
-    void setInput(PlayerInput input);
+    void move(double dx);
+    void applyGravity(double gravity);
+    void jump(double strength);
+    void landOn(double groundY);
+    void stopJump(double ceilingY);
+    void setAirborne();
 
-    /** Avanza di un step */
-    PlayerStepResult step(double dt, PlayerWorldPort port);
+    PlayerType getType();
+
+    // Regole di interazione con le tile
+    boolean canWalkOn(TileType type);     
+    boolean isFatal(TileType type);       
+    TileType getGoalExitType();           
+
+    // Bounding box
+    default double getWidth() { return 0.8; }
+    default double getHeight() { return 1.0; }
 }
