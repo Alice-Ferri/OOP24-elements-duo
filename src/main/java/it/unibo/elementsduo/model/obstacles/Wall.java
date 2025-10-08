@@ -2,10 +2,8 @@ package it.unibo.elementsduo.model.Obstacles;
 
 import it.unibo.elementsduo.resources.Position;
 
-public class GreenPool extends Obstacle {
-
-    public GreenPool(Position position) {
+public class Wall extends Obstacle {
+    public Wall(final Position position) {
         super(position);
     }
-
 }

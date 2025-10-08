@@ -1,6 +1,6 @@
-package it.unibo.elementsduo.model.obstacles;
+package it.unibo.elementsduo.model.Obstacles;
 
-public class obstacleType {
+public class ObstacleType {
     public enum type {
         WATER_POOL,
         LAVA_POOL,

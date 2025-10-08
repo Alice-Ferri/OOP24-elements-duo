@@ -1,14 +1,14 @@
-package it.unibo.elementsduo.model.obstacles;
+package it.unibo.elementsduo.model.Obstacles;
 
 import it.unibo.elementsduo.resources.Position;
 
-public class obstacleFactory {
-    public obstacle createObstacle(final obstacleType.type type, final Position pos) {
+public class ObstacleFactory {
+    public Obstacle createObstacle(final ObstacleType.type type, final Position pos) {
         switch (type) {
             case WATER_POOL:
-                return new waterPool(pos);
+                return new WaterPool(pos);
             case LAVA_POOL:
-                return new lavaPool(pos);
+                return new LavaPool(pos);
 
             default:
                 throw new IllegalArgumentException("no obstacle");

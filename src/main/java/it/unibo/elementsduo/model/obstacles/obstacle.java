@@ -1,11 +1,11 @@
-package it.unibo.elementsduo.model.obstacles;
+package it.unibo.elementsduo.model.Obstacles;
 
 import it.unibo.elementsduo.resources.Position;
 
-public abstract class obstacle {
+public abstract class Obstacle {
     private final Position position;
 
-    public obstacle(final Position position) {
+    public Obstacle(final Position position) {
         this.position = position;
     }
 }
