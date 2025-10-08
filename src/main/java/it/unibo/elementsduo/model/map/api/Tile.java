@@ -1,7 +1,5 @@
 package it.unibo.elementsduo.model.map.api;
 
-import it.unibo.elementsduo.resources.Position;
-
 public interface Tile {
 
     TileType getType();
