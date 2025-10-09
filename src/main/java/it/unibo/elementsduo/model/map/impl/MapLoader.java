@@ -1,39 +1,48 @@
 package it.unibo.elementsduo.model.map.impl;
 
-import it.unibo.elementsduo.model.map.api.Level;
-import it.unibo.elementsduo.model.map.api.Tile;
-import it.unibo.elementsduo.model.map.api.TileFactory;
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.impl.obstacleFactory;
+import it.unibo.elementsduo.model.obstacles.impl.obstacleType;
+import it.unibo.elementsduo.utils.Position;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class MapLoader {
 
-    private static final String LEVELS_FOLDER = "levels/";
-    private static final String LEVEL_FILE_PREFIX = "map";
-    private static final String LEVEL_FILE_SUFFIX = ".txt";
+    private static final String levelFolder = "levels/";
+    private static final String levelFile = "map%d.txt";
 
-    private final TileFactory tileFactory;
+    private final obstacleFactory obstacleFactory;
 
-    public MapLoader(final TileFactory factory) {
-        this.tileFactory = factory;
+    private static final Map<Character,obstacleType.type> symbolMap = Map.of(
+        'P',obstacleType.type.FLOOR,
+        '#',obstacleType.type.WALL,
+        'B',obstacleType.type.FIRE_SPAWN,
+        'W',obstacleType.type.WATER_SPAWN,
+        'A',obstacleType.type.WATER_EXIT,
+        'F',obstacleType.type.FIRE_EXIT
+    );
+
+    public MapLoader(final obstacleFactory factory) {
+        this.obstacleFactory = Objects.requireNonNull(factory);
     }
 
-    public Level loadLevel(final int levelNumber) {
-        final String filePath = LEVELS_FOLDER + LEVEL_FILE_PREFIX + levelNumber + LEVEL_FILE_SUFFIX;
+    public boolean loadLevel(final int levelNumber) {
+        final String filePath = levelFolder + String.format(levelFile,levelNumber);
         return loadLevelFromFile(filePath);
     }
 
-    private Level loadLevelFromFile(final String filePath) {
-        final Map<Position, Tile> tiles = new HashMap<>();
+    private boolean loadLevelFromFile(final String filePath) {
+        final Set<obstacle> obstacles = new HashSet<>();
         final InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
-        System.out.println(getClass().getClassLoader().getResource("levels/map1.txt"));
 
         if (is == null) {
             throw new IllegalArgumentException("File non trovato: " + filePath);
@@ -46,10 +55,11 @@ public class MapLoader {
             while ((line = br.readLine()) != null) {
                 for (int x = 0; x < line.length(); x++) {
                     final char symbol = line.charAt(x);
+                    final obstacleType.type type = symbolMap.get(symbol);
                     final Position pos = new Position(x, y);
-                    final Tile tile = tileFactory.createTile(symbol);
-                    if (tile != null) {
-                        tiles.put(pos, tile);
+                    final obstacle ob = obstacleFactory.createObstacle(type,pos);
+                    if (ob != null) {
+                        obstacles.add(ob);
                     }
                 }
                 y++;
@@ -58,7 +68,7 @@ public class MapLoader {
             throw new RuntimeException("Errore nella lettura del file: " + filePath, e);
         }
 
-        return new LevelImpl(tiles);
+        return true;
     }
 }
 
