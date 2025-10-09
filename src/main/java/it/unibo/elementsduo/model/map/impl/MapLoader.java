@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.map.impl;
 
+import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.obstacleFactory;
 import it.unibo.elementsduo.model.obstacles.impl.obstacleType;
@@ -35,12 +36,12 @@ public class MapLoader {
         this.obstacleFactory = Objects.requireNonNull(factory);
     }
 
-    public boolean loadLevel(final int levelNumber) {
+    public Level loadLevel(final int levelNumber) {
         final String filePath = levelFolder + String.format(levelFile,levelNumber);
         return loadLevelFromFile(filePath);
     }
 
-    private boolean loadLevelFromFile(final String filePath) {
+    private Level loadLevelFromFile(final String filePath) {
         final Set<obstacle> obstacles = new HashSet<>();
         final InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
 
@@ -68,7 +69,7 @@ public class MapLoader {
             throw new RuntimeException("Errore nella lettura del file: " + filePath, e);
         }
 
-        return true;
+        return new LevelImpl(obstacles);
     }
 }
 

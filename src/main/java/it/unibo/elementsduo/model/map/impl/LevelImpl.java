@@ -1,147 +1,71 @@
 package it.unibo.elementsduo.model.map.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.elementsduo.model.map.api.Level;
-import it.unibo.elementsduo.model.map.api.Tile;
-import it.unibo.elementsduo.model.map.api.TileType;
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.impl.Floor;
+import it.unibo.elementsduo.model.obstacles.impl.Wall;
+import it.unibo.elementsduo.model.obstacles.impl.fireExit;
+import it.unibo.elementsduo.model.obstacles.impl.fireSpawn;
+import it.unibo.elementsduo.model.obstacles.impl.waterExit;
+import it.unibo.elementsduo.model.obstacles.impl.waterSpawn;
 
 public class LevelImpl implements Level{
 
-    private final Map<Position,Tile> mapTiles;
-    private boolean win;
-    private boolean lost;
+    private final Set<obstacle> obstacles;
 
-    public LevelImpl(){
-        mapTiles = new HashMap<>();
+    public LevelImpl(final Set<obstacle> ob){
+        this.obstacles = Set.copyOf(Objects.requireNonNull(ob));
     }
 
-    public LevelImpl(final Map<Position,Tile> map){
-        mapTiles = new HashMap<>(Objects.requireNonNull(map));
+    @Override
+    public Set<obstacle> getAllTiles() {
+        return this.obstacles;
     }
+
+    @Override
+    public <T extends obstacle> Set<T> getObstaclesByClass(Class<T> type) {
+        return this.obstacles.stream()
+        .filter(type::isInstance)
+        .map(type::cast)          
+        .collect(Collectors.toSet());
     
-
-    @Override
-    public boolean addTile(Position pos,Tile t) {
-        Objects.requireNonNull(pos);
-        Objects.requireNonNull(t);
-        return this.mapTiles.putIfAbsent(pos, t) == null;
     }
 
     @Override
-    public boolean removeTile(final Position pos) {
-        Objects.requireNonNull(pos);
-        return this.mapTiles.remove(pos) != null;
+    public Set<Wall> getWalls() {
+        return getObstaclesByClass(Wall.class);
     }
 
     @Override
-    public boolean removeTile(Position pos,Tile t) {
-        Objects.requireNonNull(pos);
-        Objects.requireNonNull(t);
-        return this.mapTiles.remove(pos, t);
+    public Set<Floor> getFloors() {
+        return getObstaclesByClass(Floor.class);
     }
 
     @Override
-    public Optional<Tile> getTileAt(Position pos) {
-        return pos==null ? Optional.empty() : Optional.of(mapTiles.get(pos));
+    public Set<fireSpawn> getFireSpawn() {
+        return getObstaclesByClass(fireSpawn.class);
     }
 
     @Override
-    public Set<Tile> getAllTiles() {
-        return Collections.unmodifiableSet(new HashSet<>(mapTiles.values()));
+    public Set<waterSpawn> getWaterSpawn() {
+        return getObstaclesByClass(waterSpawn.class);
     }
 
     @Override
-    public Set<Tile> getTileOfType(TileType type) {
-        Objects.requireNonNull(type);
-        return mapTiles.values().stream().filter( t -> t.getType().equals(type))
-        .collect(Collectors.toUnmodifiableSet());
+    public Set<fireExit> getFireExit() {
+        return getObstaclesByClass(fireExit.class);
     }
 
     @Override
-    public Set<Tile> getWalls() {
-        return getTileOfType(TileType.WALL);
+    public Set<waterExit> getWaterExit() {
+        return getObstaclesByClass(waterExit.class);
     }
 
-    @Override
-    public Set<Tile> getFloors() {
-        return getTileOfType(TileType.FLOOR);
-    }
-
-    @Override
-    public Set<Tile> getFireSpawn() {
-        return getTileOfType(TileType.FIRESPAWN);
-    }
-
-    @Override
-    public Set<Tile> getWaterSpawn() {
-        return getTileOfType(TileType.WATERSPAWN);
-    }
-
-    @Override
-    public Set<Tile> getFireExit() {
-        return getTileOfType(TileType.FIREEXIT);
-    }
-
-    @Override
-    public Set<Tile> getWaterExit() {
-        return getTileOfType(TileType.WATEREXIT);
-    }
-
-    @Override
-    public Set<Position> getPositionsOfType(final TileType type) {
-        Objects.requireNonNull(type);
-        return mapTiles.entrySet().stream()
-                .filter(e -> e.getValue().getType() == type)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toUnmodifiableSet());
-    }
-
-    public Set<Position> getFireSpawnPositions() {
-        return getPositionsOfType(TileType.FIRESPAWN);
-    }
-
-    public Set<Position> getWaterSpawnPositions() {
-        return getPositionsOfType(TileType.WATERSPAWN);
-    }
-
-    public Set<Position> getFireExitPositions() {
-        return getPositionsOfType(TileType.FIREEXIT);
-    }
-
-    public Set<Position> getWaterExitPositions() {
-        return getPositionsOfType(TileType.WATEREXIT);
-    }
-
-
-    @Override
-    public void setLevelWon() {
-        this.win=true;
-    }
-
-    @Override
-    public void setLevelLost() {
-        this.lost=true;
-    }
-
-    @Override
-    public boolean isLevelWon() {
-        return this.win;
-    }
-
-    @Override
-    public boolean isLevelLost() {
-        return this.lost;
-    }
-
+    
     
     
 }
