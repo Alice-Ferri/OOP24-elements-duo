@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.impl;
 
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.utils.Position;
 
 public class Floor extends Wall {
 
