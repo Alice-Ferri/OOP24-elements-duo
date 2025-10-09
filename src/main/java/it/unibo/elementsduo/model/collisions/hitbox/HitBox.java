@@ -5,5 +5,9 @@ import it.unibo.elementsduo.resources.Position;
 public interface HitBox {
     Position getCenter();
 
-    boolean collision(HitBox hitbox);
+    double getHalfHeight();
+
+    double getHalfWidth();
+
+    boolean intersects(HitBox hitbox);
 }
