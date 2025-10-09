@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.collisions.hitbox;
+package it.unibo.elementsduo.model.collisions.hitbox.api;
 
 import it.unibo.elementsduo.resources.Position;
 
