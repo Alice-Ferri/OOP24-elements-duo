@@ -5,9 +5,9 @@ import it.unibo.elementsduo.resources.Position;
 
 public class HitBoxImpl implements HitBox {
 
-    private Position center;
-    private double height;
-    private double width;
+    private final Position center;
+    private final double height;
+    private final double width;
 
     public HitBoxImpl(Position center, double height, double width) {
         this.center = center;
