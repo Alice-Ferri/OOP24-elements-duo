@@ -1,6 +1,8 @@
-package it.unibo.elementsduo.model.collisions.core;
+package it.unibo.elementsduo.model.collisions.core.impl;
 
 import java.util.List;
+
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 
 /* class to manage collisions */
 

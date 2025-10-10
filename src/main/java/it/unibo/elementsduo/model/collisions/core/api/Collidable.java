@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.collisions.core;
+package it.unibo.elementsduo.model.collisions.core.api;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
