@@ -1,26 +1,31 @@
 package it.unibo.elementsduo.model.collisions.core.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.resources.Vector2D;
 
 public class CollisionCheckerImpl implements CollisionChecker {
+
+    private List<Optional<CollisionInformations>> Informations = new ArrayList<>();
 
     @Override
     public void checkCollisions(List<Collidable> entities) {
         for (int i = 0; i < entities.size(); i++) {
             for (int k = i + 1; k < entities.size(); k++) {
-                checkCollisionBetweenTwoObjects(entities.get(i), entities.get(k));
+                Informations.add(checkCollisionBetweenTwoObjects(entities.get(i), entities.get(k)));
             }
         }
     }
 
-    private boolean checkCollisionBetweenTwoObjects(Collidable objectA, Collidable objectB) {
+    private Optional<CollisionInformations> checkCollisionBetweenTwoObjects(Collidable objectA, Collidable objectB) {
 
         if (!objectA.getHitBox().intersects(objectB.getHitBox()))
-            return false;
+            return Optional.empty();
 
         // calcolo la distanza tra i due centri degli oggetti coinvolti lungo i due assi
         double dx = objectA.getHitBox().getCenter().x() - objectB.getHitBox().getCenter().x();
@@ -54,6 +59,6 @@ public class CollisionCheckerImpl implements CollisionChecker {
                 normal = new Vector2D(0, -1);
         }
 
-        return true;
+        return Optional.of(new CollisionInformationsImpl(objectA, objectB, penetration, normal));
     }
 }
