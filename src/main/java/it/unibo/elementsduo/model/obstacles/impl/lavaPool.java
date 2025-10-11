@@ -1,12 +1,11 @@
 package it.unibo.elementsduo.model.obstacles.impl;
 
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.utils.Position;
 
-public class lavaPool implements obstacle {
+public class lavaPool extends Wall {
 
     public lavaPool(Position pos) {
-        // TODO Auto-generated constructor stub
+        super(pos);
     }
 
 }

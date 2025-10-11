@@ -5,7 +5,17 @@ import it.unibo.elementsduo.utils.Position;
 
 public class Wall implements obstacle {
 
+    private final Position pos;
+
     public Wall(Position pos) {
-        // TODO Auto-generated constructor stub
+        this.pos=pos;
     }
+
+    @Override
+    public Position getPos() {
+        return this.pos;
+    }
+
+    
+
 }

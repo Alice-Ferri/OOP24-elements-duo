@@ -16,7 +16,14 @@ public class obstacleFactory {
                 return new Wall(pos);
             case FLOOR:
                 return new Floor(pos);
-
+            case WATER_SPAWN:
+                return new waterSpawn(pos);
+             case FIRE_SPAWN:
+                return new fireSpawn(pos);
+            case FIRE_EXIT:
+                return new fireExit(pos);
+            case WATER_EXIT:
+                return new waterExit(pos);
             default:
                 throw new IllegalArgumentException("no obstacle");
         }
