@@ -1,9 +1,12 @@
 package it.unibo.elementsduo.model.collisions.core.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Vector;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
+import it.unibo.elementsduo.resources.Vector2D;
 
 public class CollisionCheckerImpl implements CollisionChecker {
 
@@ -34,12 +37,53 @@ public class CollisionCheckerImpl implements CollisionChecker {
         // così sappiamo di quanto andrà riposizionato il corpo
         double penetration;
 
+        // con questo campo indico la direzione da cui proviene l'impatto
+        Vector2D normal;
+
+        if (px < py) {
+            penetration = px;
+            if (dx > 0)
+                normal = new Vector2D(1, 0);
+            else
+                normal = new Vector2D(-1, 0);
+        }
+
+        else {
+            penetration = py;
+            if (dx > 0)
+                normal = new Vector2D(0, 1);
+            else
+                normal = new Vector2D(0, -1);
+        }
+
+        return true;
+    }
+
+    @Override
+    public Optional<Double> getPenetration(Collidable objectA, Collidable objectB) {
+        if (!objectA.getHitBox().intersects(objectB.getHitBox()))
+            return Optional.empty();
+
+        double dx = objectA.getHitBox().getCenter().x() - objectB.getHitBox().getCenter().x();
+        double dy = objectA.getHitBox().getCenter().y() - objectB.getHitBox().getCenter().y();
+
+        double px = (objectA.getHitBox().getHalfWidth() + objectB.getHitBox().getHalfWidth()) - Math.abs(dx);
+        double py = (objectA.getHitBox().getHalfHeight() + objectB.getHitBox().getHalfHeight()) - Math.abs(dy);
+
+        double penetration;
+
         if (px < py)
             penetration = px;
         else
             penetration = py;
 
-        return true;
+        return Optional.of(penetration);
+    }
+
+    @Override
+    public Optional<Vector2D> getNormal(Collidable objectA, Collidable objectB) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getNormal'");
     }
 
 }
