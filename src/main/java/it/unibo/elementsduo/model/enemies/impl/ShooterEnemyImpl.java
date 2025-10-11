@@ -2,7 +2,7 @@ package it.unibo.elementsduo.model.enemies.impl;
 
 import it.unibo.elementsduo.model.enemies.api.EnemiesType;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.utils.Position;
 
 public class ShooterEnemyImpl implements Enemy{
 

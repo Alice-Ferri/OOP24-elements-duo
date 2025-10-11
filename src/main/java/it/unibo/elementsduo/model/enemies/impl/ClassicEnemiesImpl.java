@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.enemies.impl;
 
 import it.unibo.elementsduo.model.enemies.api.EnemiesType;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.utils.Position;
 
 /* Standard enemies that move around the level and inflict damage when the player touches them. */
 public class ClassicEnemiesImpl implements Enemy {

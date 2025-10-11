@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.utils.Position;
 
 public class ProjectilesImpl implements Projectiles {
     private double x, y, speed = 0.05;

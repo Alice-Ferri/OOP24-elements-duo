@@ -4,6 +4,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
+import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.Floor;
@@ -16,13 +19,15 @@ import it.unibo.elementsduo.model.obstacles.impl.waterSpawn;
 public class LevelImpl implements Level{
 
     private final Set<obstacle> obstacles;
+    private final Set<Enemy> enemies;
 
-    public LevelImpl(final Set<obstacle> ob){
+    public LevelImpl(final Set<obstacle> ob, final Set<Enemy> en){
         this.obstacles = Set.copyOf(Objects.requireNonNull(ob));
+        this.enemies = Set.copyOf(Objects.requireNonNull(en));
     }
 
     @Override
-    public Set<obstacle> getAllTiles() {
+    public Set<obstacle> getAllObstacles() {
         return this.obstacles;
     }
 
@@ -63,6 +68,36 @@ public class LevelImpl implements Level{
     @Override
     public Set<waterExit> getWaterExit() {
         return getObstaclesByClass(waterExit.class);
+    }
+
+    @Override
+    public Set<Enemy> getAllEnemies() {
+        return this.enemies;
+    }
+
+    @Override
+    public <T extends Enemy> Set<T> getEnemyByClass(Class<T> type) {
+       return this.enemies.stream()
+        .filter(type::isInstance)
+        .map(type::cast)          
+        .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<Enemy> getLivingEnemies() {
+        return this.enemies.stream()
+        .filter(Enemy::isAlive)
+        .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @Override
+    public Set<ClassicEnemiesImpl> getClassicEnemies() {
+        return getEnemyByClass(ClassicEnemiesImpl.class);
+    }
+
+    @Override
+    public Set<ShooterEnemyImpl> getShooterEnemies() {
+        return getEnemyByClass(ShooterEnemyImpl.class);
     }
 
     
