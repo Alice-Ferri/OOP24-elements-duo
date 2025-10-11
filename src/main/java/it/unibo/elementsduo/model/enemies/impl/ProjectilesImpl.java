@@ -1,10 +1,14 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
+import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.obstacles.impl.Floor;
+import it.unibo.elementsduo.model.obstacles.impl.Wall;
 import it.unibo.elementsduo.utils.Position;
 
 public class ProjectilesImpl implements Projectiles {
-    private double x, y, speed = 0.05;
+    private double x, y;
+    private static final double SPEED = 0.05;
     private int direction;
     private boolean alive = true;
 
@@ -14,13 +18,14 @@ public class ProjectilesImpl implements Projectiles {
         this.direction = direction;
     }
 
-    @Override
-    public void update() {
-        x += direction * speed;
+    
 
-        //Position tilePos = new Position((int)Math.floor(x), (int)Math.floor(y));
-        // check if the projectile is out of bounds
-    }
+    @Override
+public void update(Level level) {
+    move(level);
+    
+}
+
 
     @Override
     public boolean isActive() {
@@ -41,6 +46,30 @@ public class ProjectilesImpl implements Projectiles {
     @Override
     public double getDirection() {
         return this.direction;
+    }
+
+
+
+    @Override
+    public void move(Level level) {
+        // Sposta il proiettile in avanti
+    x += direction * SPEED;
+
+    // Calcola la posizione corrente del proiettile
+    Position pos = new Position((int) Math.floor(x), (int) Math.floor(y));
+
+    // Controlla se in quella posizione c'è un ostacolo "solido"
+    boolean blocked = level.getAllObstacles().stream()
+        .filter(ob -> ob.getPos().equals(pos))
+        .anyMatch(ob ->
+            ob instanceof Wall ||
+            ob instanceof Floor
+        );
+
+    // Se ha colpito un ostacolo, viene disattivato
+    if (blocked) {
+        alive = false;
+    }
     }
 
     

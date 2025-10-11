@@ -1,7 +1,17 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
+import java.util.Optional;
+
 import it.unibo.elementsduo.model.enemies.api.EnemiesType;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
+import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.obstacles.impl.Floor;
+import it.unibo.elementsduo.model.obstacles.impl.Wall;
+import it.unibo.elementsduo.model.obstacles.impl.fireExit;
+import it.unibo.elementsduo.model.obstacles.impl.fireSpawn;
+import it.unibo.elementsduo.model.obstacles.impl.waterExit;
+import it.unibo.elementsduo.model.obstacles.impl.waterSpawn;
 import it.unibo.elementsduo.utils.Position;
 
 public class ShooterEnemyImpl implements Enemy{
@@ -10,7 +20,11 @@ public class ShooterEnemyImpl implements Enemy{
     private double x;
     private double y;
     private int direction=1;
-    private double speed=0.1;
+    private static final double SPEED=0.02;
+    // Counter used to manage automatic shooting
+    private int shootCooldown;
+    private static final int MAX_COOLDOWN = 180; // ticks between two shots
+
 
     public ShooterEnemyImpl(char c, Position pos) {
         this.x= pos.x();
@@ -18,16 +32,59 @@ public class ShooterEnemyImpl implements Enemy{
         this.alive = true;
 
     }
-    @Override
-    public void move() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
 
     @Override
-    public void attack() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'attack'");
+    public void move(Level level) {
+    double nextX = this.x + direction * SPEED;
+    double y = this.y;
+
+    // Calcola tile davanti e sotto
+    int frontX = (int) (direction > 0 ? Math.floor(nextX + 1) : Math.floor(nextX));
+    int belowX = (int) (direction > 0 ? Math.floor(nextX + 0.5) : Math.floor(nextX));
+    int frontY = (int) Math.floor(y);
+    int belowY = (int) Math.floor(y + 1);
+
+    Position frontTile = new Position(frontX, frontY);
+    Position belowTile = new Position(belowX, belowY);
+
+    // Controlli di collisione
+    boolean wallAhead = isBlocked(level, frontTile);
+    boolean noGround = !isBlocked(level, belowTile);
+
+    if (wallAhead || noGround) {
+        setDirection(); // gira
+    } else {
+        x = nextX; // muovi avanti
+    }
+    if (shootCooldown > 0) {
+            shootCooldown--;
+            
+        }
+        else {
+            attack();
+        }
+}
+
+public boolean isBlocked(Level level, Position pos) {
+    return level.getAllObstacles().stream()
+        .filter(ob -> ob.getPos().equals(pos))
+        .anyMatch(ob -> 
+            ob instanceof Wall ||
+            ob instanceof Floor ||
+            ob instanceof fireSpawn ||
+            ob instanceof waterSpawn ||
+            ob instanceof fireExit ||
+            ob instanceof waterExit
+        );
+}
+
+   public Optional<Projectiles> attack() {
+        if (shootCooldown <= 0) {
+            shootCooldown = MAX_COOLDOWN;
+            Position pos = new Position((int)this.x+1,(int)this.y);
+            return Optional.of(new ProjectilesImpl(pos, this.direction));
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -41,9 +98,8 @@ public class ShooterEnemyImpl implements Enemy{
     }
 
     @Override
-    public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public void update(Level level) {
+        move(level);
     }
 
     @Override

@@ -1,16 +1,19 @@
 package it.unibo.elementsduo.model.enemies.api;
 
+import java.util.Optional;
+
+import it.unibo.elementsduo.model.map.api.Level;
 
 public interface Enemy {
-    void move();
+    Optional<Projectiles> attack();
 
-    void attack();
+    void update(Level level);
     
     boolean isAlive();
 
     void setDirection();
 
-    void update();
+    void move(Level level);
 
     double getX();
 
