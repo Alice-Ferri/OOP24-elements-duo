@@ -6,28 +6,32 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable
 
 public class Lever implements Triggerable, Collidable {
 
+    HitBox hitbox;
+    boolean active; // initialy not active
+
+    public Lever(HitBox hitbox) {
+        this.hitbox = hitbox;
+        this.active = false;
+    }
+
     @Override
     public HitBox getHitBox() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHitBox'");
+        return this.hitbox;
     }
 
     @Override
     public boolean isActive() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isActive'");
+        return this.active;
     }
 
     @Override
     public void activate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'activate'");
+        this.active = true;
     }
 
     @Override
     public void deactivate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deactivate'");
+        this.active = false;
     }
 
 }
