@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.impl;
+package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
@@ -8,7 +8,7 @@ public class greenPool implements Collidable {
     HitBox hitbox;
 
     public greenPool(HitBox hitBox) {
-        this.hitbox = hitbox;
+        this.hitbox = hitBox;
     }
 
     @Override
