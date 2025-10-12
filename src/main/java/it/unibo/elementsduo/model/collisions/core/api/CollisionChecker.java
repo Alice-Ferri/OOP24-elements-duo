@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface CollisionChecker {
 
-    public void checkCollisions(List<Collidable> entities);
+    public List<CollisionInformations> checkCollisions(List<Collidable> entities);
 
 }

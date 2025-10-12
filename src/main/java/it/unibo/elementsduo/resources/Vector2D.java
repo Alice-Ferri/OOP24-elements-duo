@@ -1,5 +1,7 @@
 package it.unibo.elementsduo.resources;
 
+// class to represent a vector 
+
 public class Vector2D {
     private final double x;
     private final double y;

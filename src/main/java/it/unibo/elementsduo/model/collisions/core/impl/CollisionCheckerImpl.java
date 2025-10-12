@@ -11,15 +11,17 @@ import it.unibo.elementsduo.resources.Vector2D;
 
 public class CollisionCheckerImpl implements CollisionChecker {
 
-    private List<Optional<CollisionInformations>> Informations = new ArrayList<>();
-
     @Override
-    public void checkCollisions(List<Collidable> entities) {
+    public List<CollisionInformations> checkCollisions(List<Collidable> entities) {
+        List<CollisionInformations> Informations = new ArrayList<>();
         for (int i = 0; i < entities.size(); i++) {
             for (int k = i + 1; k < entities.size(); k++) {
-                Informations.add(checkCollisionBetweenTwoObjects(entities.get(i), entities.get(k)));
+                Optional<CollisionInformations> tmp = checkCollisionBetweenTwoObjects(entities.get(i), entities.get(k));
+                if (tmp.isPresent())
+                    Informations.add((checkCollisionBetweenTwoObjects(entities.get(i), entities.get(k))).get());
             }
         }
+        return Informations;
     }
 
     private Optional<CollisionInformations> checkCollisionBetweenTwoObjects(Collidable objectA, Collidable objectB) {
