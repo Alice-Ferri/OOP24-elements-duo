@@ -1,21 +1,21 @@
 package it.unibo.elementsduo.model.obstacles.impl;
 
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
 public class obstacleFactory {
-    public obstacle createObstacle(final obstacleType.type type, final Position pos) {
+    public Collidable createObstacle(final obstacleType.type type, final HitBox hitbox) {
         switch (type) {
             case WATER_POOL:
-                return new waterPool(pos);
+                return new waterPool(hitbox);
             case LAVA_POOL:
-                return new lavaPool(pos);
+                return new lavaPool(hitbox);
             case GREEN_POOL:
-                return new greenPool(pos);
+                return new greenPool(hitbox);
             case WALL:
-                return new Wall(pos);
+                return new Wall(hitbox);
             case FLOOR:
-                return new Floor(pos);
+                return new Floor(hitbox);
 
             default:
                 throw new IllegalArgumentException("no obstacle");

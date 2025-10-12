@@ -1,11 +1,17 @@
 package it.unibo.elementsduo.model.obstacles.impl;
 
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
-import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
-public class Wall implements obstacle {
+public class Wall implements Collidable {
+    HitBox hitBox;
 
-    public Wall(Position pos) {
-        // TODO Auto-generated constructor stub
+    public Wall(HitBox hitBox) {
+        this.hitBox = hitBox;
+    }
+
+    @Override
+    public HitBox getHitBox() {
+        return this.hitBox;
     }
 }
