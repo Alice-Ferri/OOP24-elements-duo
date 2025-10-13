@@ -17,15 +17,18 @@ public class CollisionManager {
         List<CollisionInformations> ci = ck.checkCollisions(entities);
         for (CollisionInformations c : ci) {
             Player player = null;
+            Collidable other;
             Collidable a = c.getObjectA();
             Collidable b = c.getObjectB();
             Vector2D normal = c.getNormal();
 
             if (a instanceof Player p) {
                 player = p;
+                other = b;
             }
             if (b instanceof Player p) {
                 player = p;
+                other = a;
                 normal = new Vector2D(-normal.getX(), -normal.getY());
             }
 
