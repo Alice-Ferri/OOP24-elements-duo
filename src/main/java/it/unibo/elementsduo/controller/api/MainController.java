@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller;
+package it.unibo.elementsduo.controller.api;
 
 public interface MainController {
     public void startGame();
