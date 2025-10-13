@@ -9,6 +9,9 @@ import it.unibo.elementsduo.model.obstacles.impl.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.impl.waterExit;
 import it.unibo.elementsduo.model.obstacles.impl.waterSpawn;
 import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
+import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -29,6 +32,11 @@ public class LevelPanel extends JPanel {
         fireExit.class, Color.RED,
         waterExit.class, new Color(0, 191, 255) 
     );
+    // Nella classe LevelPanel, aggiungi questa mappa
+    private final Map<Class<? extends Enemy>, Color> enemyColorMap = Map.of(
+    ClassicEnemiesImpl.class, new Color(139, 0, 0), // Rosso Scuro per il nemico base
+    ShooterEnemyImpl.class, new Color(75, 0, 130)  // Viola Scuro per il nemico che spara
+);
 
     public LevelPanel(final Level level) {
         this.level = Objects.requireNonNull(level);
@@ -53,7 +61,8 @@ public class LevelPanel extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g); 
-        drawLevel(g); 
+        drawLevel(g);
+        drawEnemies(g); 
     }
 
     private void drawLevel(final Graphics g) {
@@ -69,6 +78,31 @@ public class LevelPanel extends JPanel {
 
             g.setColor(Color.BLACK);
             g.drawRect(x, y, elementSize, elementSize);
+        });
+    }
+
+    private void drawEnemies(final Graphics g) {
+        this.level.getAllEnemies().stream().forEach(enemy -> {
+
+            
+            final Color enemyColor = this.enemyColorMap.getOrDefault(enemy.getClass(), Color.PINK);
+            g.setColor(enemyColor);
+
+            final double x = enemy.getX() * elementSize;
+            final double y = enemy.getY() * elementSize;
+
+            
+            g.fillOval((int)x,(int) y, elementSize, elementSize);
+
+            
+            if (enemy.getClass().equals(ShooterEnemyImpl.class)) {
+                g.setColor(Color.WHITE); 
+                final int detailSize = elementSize / 2;
+                final int detailOffset = elementSize / 4;
+                g.fillOval((int)x + detailOffset,(int) y + detailOffset, detailSize, detailSize);
+            }
+
+            
         });
     }
 }

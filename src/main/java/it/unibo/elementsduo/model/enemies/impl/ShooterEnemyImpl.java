@@ -20,9 +20,8 @@ public class ShooterEnemyImpl implements Enemy{
     private double x;
     private double y;
     private int direction=1;
-    private static final double SPEED=0.02;
-    // Counter used to manage automatic shooting
-    private int shootCooldown;
+    private static final double SPEED=0.02; 
+    private int shootCooldown; // Counter used to manage automatic shooting
     private static final int MAX_COOLDOWN = 180; // ticks between two shots
 
 
@@ -52,9 +51,9 @@ public class ShooterEnemyImpl implements Enemy{
     boolean noGround = !isBlocked(level, belowTile);
 
     if (wallAhead || noGround) {
-        setDirection(); // gira
+        setDirection(); 
     } else {
-        x = nextX; // muovi avanti
+        x = nextX; 
     }
     if (shootCooldown > 0) {
             shootCooldown--;

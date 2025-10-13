@@ -52,10 +52,9 @@ public void update(Level level) {
 
     @Override
     public void move(Level level) {
-        // Sposta il proiettile in avanti
     x += direction * SPEED;
 
-    // Calcola la posizione corrente del proiettile
+    
     Position pos = new Position((int) Math.floor(x), (int) Math.floor(y));
 
     // Controlla se in quella posizione c'è un ostacolo "solido"
@@ -66,7 +65,6 @@ public void update(Level level) {
             ob instanceof Floor
         );
 
-    // Se ha colpito un ostacolo, viene disattivato
     if (blocked) {
         alive = false;
     }

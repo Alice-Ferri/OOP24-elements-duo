@@ -103,7 +103,7 @@ public boolean isBlocked(Level level, Position pos) {
     }
 
     @Override
-    public void update(Level level) {
+    public void update(Level level ) {
         move(level);
     }
 }
