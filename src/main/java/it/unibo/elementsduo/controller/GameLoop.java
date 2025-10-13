@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.controller;
 
-public class gameLoop implements Runnable{
+public class GameLoop implements Runnable{
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = 1_000_000_000/TARGET_FPS;
     private volatile boolean running = false;
@@ -16,6 +16,23 @@ public class gameLoop implements Runnable{
             gameThread.start();
         }
     }
+
+    public synchronized void stop () {
+        if (!running) {
+            return;
+        }
+        running = false;
+        try {
+            gameThread.join();
+            } 
+        catch (final InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            gameThread.start();
+        }
+    
+    
+
 
     @Override
     public void run() {
