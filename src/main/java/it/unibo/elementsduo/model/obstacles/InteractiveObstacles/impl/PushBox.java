@@ -5,8 +5,6 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pushable;
 
 public class PushBox extends InteractiveObstacle implements Pushable {
 
-    HitBox hitbox;
-
     public PushBox(HitBox hitbox) {
         super(hitbox);
     }

@@ -5,8 +5,6 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Platform;
 
 public class PlatformImpl extends InteractiveObstacle implements Platform {
 
-    HitBox hitbox;
-
     public PlatformImpl(HitBox hitbox) {
         super(hitbox);
     }
