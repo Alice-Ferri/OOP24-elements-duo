@@ -3,12 +3,12 @@ package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Platform;
 
-public class PlatformImpl implements Platform {
+public class PlatformImpl extends InteractiveObstacle implements Platform {
 
     HitBox hitbox;
 
     public PlatformImpl(HitBox hitbox) {
-        this.hitbox = hitbox;
+        super(hitbox);
     }
 
     @Override

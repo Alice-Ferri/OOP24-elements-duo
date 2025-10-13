@@ -4,13 +4,13 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
 
-public class button implements Triggerable, Collidable {
+public class button extends InteractiveObstacle implements Triggerable, Collidable {
 
     private boolean active;
     private HitBox hitbox;
 
     public button(HitBox hitbox) {
-        this.hitbox = hitbox;
+        super(hitbox);
         this.active = false;
     }
 
