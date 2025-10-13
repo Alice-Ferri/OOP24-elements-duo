@@ -1,8 +1,6 @@
 package it.unibo.elementsduo.controller.impl;
 
-import javax.swing.SwingUtilities;
-
-import it.unibo.elementsduo.controller.gameLoop;
+import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.api.MainController;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.map.api.Level;
@@ -14,7 +12,7 @@ public class MainControllerImpl implements MainController {
 
     private final Level level;
     private final GameFrame view;
-    private final gameLoop gameLoop;
+    private final GameLoop gameLoop;
 
     public MainControllerImpl(){
 
@@ -26,19 +24,22 @@ public class MainControllerImpl implements MainController {
         }
         
         this.view = new GameFrame(level);
-        this.gameLoop = new gameLoop();
+        this.gameLoop = new GameLoop(this);
     }
 
     @Override
     public void update(double deltaTime) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        this.level.getAllEnemies().forEach(obj -> obj.update());
     }
 
     @Override
     public void render() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
+        this.view.repaint();
+    }
+
+    public void start(){
+        this.view.setVisible(true);
+        this.gameLoop.start();
     }
 
     
