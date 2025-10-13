@@ -6,7 +6,7 @@ import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.obstacleFactory;
 import it.unibo.elementsduo.model.obstacles.impl.obstacleType;
-import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.resources.Position;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,16 +26,15 @@ public class MapLoader {
     private final obstacleFactory obstacleFactory;
     private final EnemyFactory enemiesFactory;
 
-    private static final Map<Character,obstacleType.type> symbolMap = Map.of(
-        'P',obstacleType.type.FLOOR,
-        '#',obstacleType.type.WALL,
-        'B',obstacleType.type.FIRE_SPAWN,
-        'W',obstacleType.type.WATER_SPAWN,
-        'A',obstacleType.type.WATER_EXIT,
-        'F',obstacleType.type.FIRE_EXIT
-    );
+    private static final Map<Character, obstacleType.type> symbolMap = Map.of(
+            'P', obstacleType.type.FLOOR,
+            '#', obstacleType.type.WALL,
+            'B', obstacleType.type.FIRE_SPAWN,
+            'W', obstacleType.type.WATER_SPAWN,
+            'A', obstacleType.type.WATER_EXIT,
+            'F', obstacleType.type.FIRE_EXIT);
 
-    private static final Set<Character> symbolEnemies = Set.of('C','S');
+    private static final Set<Character> symbolEnemies = Set.of('C', 'S');
 
     public MapLoader(final obstacleFactory factory, final EnemyFactory enemyFactory) {
         this.obstacleFactory = Objects.requireNonNull(factory);
@@ -43,7 +42,7 @@ public class MapLoader {
     }
 
     public Level loadLevel(final int levelNumber) {
-        final String filePath = levelFolder + String.format(levelFile,levelNumber);
+        final String filePath = levelFolder + String.format(levelFile, levelNumber);
         return loadLevelFromFile(filePath);
     }
 
@@ -65,14 +64,14 @@ public class MapLoader {
                     final char symbol = line.charAt(x);
                     final Position pos = new Position(x, y);
 
-                    if(symbolEnemies.contains(symbol)){
+                    if (symbolEnemies.contains(symbol)) {
                         enemies.add(enemiesFactory.createEnemy(symbol, pos));
 
-                    }else if(symbolMap.containsKey(symbol)){
+                    } else if (symbolMap.containsKey(symbol)) {
                         final obstacleType.type type = symbolMap.get(symbol);
-                        obstacles.add(obstacleFactory.createObstacle(type,pos));
+                        obstacles.add(obstacleFactory.createObstacle(type, pos));
                     }
-                    
+
                 }
                 y++;
             }
@@ -80,7 +79,6 @@ public class MapLoader {
             throw new RuntimeException("Errore nella lettura del file: " + filePath, e);
         }
 
-        return new LevelImpl(obstacles,enemies);
+        return new LevelImpl(obstacles, enemies);
     }
 }
-

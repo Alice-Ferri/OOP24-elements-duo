@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.impl;
 
-import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.resources.Position;
 
 public class waterSpawn extends Wall {
 

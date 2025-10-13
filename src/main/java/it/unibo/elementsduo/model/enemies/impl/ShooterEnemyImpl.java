@@ -12,76 +12,72 @@ import it.unibo.elementsduo.model.obstacles.impl.fireExit;
 import it.unibo.elementsduo.model.obstacles.impl.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.impl.waterExit;
 import it.unibo.elementsduo.model.obstacles.impl.waterSpawn;
-import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.resources.Position;
 
-public class ShooterEnemyImpl implements Enemy{
+public class ShooterEnemyImpl implements Enemy {
 
     private boolean alive = true;
     private double x;
     private double y;
-    private int direction=1;
-    private static final double SPEED=0.02;
+    private int direction = 1;
+    private static final double SPEED = 0.02;
     // Counter used to manage automatic shooting
     private int shootCooldown;
     private static final int MAX_COOLDOWN = 180; // ticks between two shots
 
-
     public ShooterEnemyImpl(char c, Position pos) {
-        this.x= pos.x();
-        this.y= pos.y();
+        this.x = pos.x();
+        this.y = pos.y();
         this.alive = true;
 
     }
 
     @Override
     public void move(Level level) {
-    double nextX = this.x + direction * SPEED;
-    double y = this.y;
+        double nextX = this.x + direction * SPEED;
+        double y = this.y;
 
-    // Calcola tile davanti e sotto
-    int frontX = (int) (direction > 0 ? Math.floor(nextX + 1) : Math.floor(nextX));
-    int belowX = (int) (direction > 0 ? Math.floor(nextX + 0.5) : Math.floor(nextX));
-    int frontY = (int) Math.floor(y);
-    int belowY = (int) Math.floor(y + 1);
+        // Calcola tile davanti e sotto
+        int frontX = (int) (direction > 0 ? Math.floor(nextX + 1) : Math.floor(nextX));
+        int belowX = (int) (direction > 0 ? Math.floor(nextX + 0.5) : Math.floor(nextX));
+        int frontY = (int) Math.floor(y);
+        int belowY = (int) Math.floor(y + 1);
 
-    Position frontTile = new Position(frontX, frontY);
-    Position belowTile = new Position(belowX, belowY);
+        Position frontTile = new Position(frontX, frontY);
+        Position belowTile = new Position(belowX, belowY);
 
-    // Controlli di collisione
-    boolean wallAhead = isBlocked(level, frontTile);
-    boolean noGround = !isBlocked(level, belowTile);
+        // Controlli di collisione
+        boolean wallAhead = isBlocked(level, frontTile);
+        boolean noGround = !isBlocked(level, belowTile);
 
-    if (wallAhead || noGround) {
-        setDirection(); // gira
-    } else {
-        x = nextX; // muovi avanti
-    }
-    if (shootCooldown > 0) {
-            shootCooldown--;
-            
+        if (wallAhead || noGround) {
+            setDirection(); // gira
+        } else {
+            x = nextX; // muovi avanti
         }
-        else {
+        if (shootCooldown > 0) {
+            shootCooldown--;
+
+        } else {
             attack();
         }
-}
+    }
 
-public boolean isBlocked(Level level, Position pos) {
-    return level.getAllObstacles().stream()
-        .filter(ob -> ob.getPos().equals(pos))
-        .anyMatch(ob -> 
-            ob instanceof Wall ||
-            ob instanceof Floor ||
-            ob instanceof fireSpawn ||
-            ob instanceof waterSpawn ||
-            ob instanceof fireExit ||
-            ob instanceof waterExit
-        );
-}
+    public boolean isBlocked(Level level, Position pos) {
+        return level.getAllObstacles().stream()
+                .filter(ob -> ob.getPos().equals(pos))
+                .anyMatch(ob -> ob instanceof Wall ||
+                        ob instanceof Floor ||
+                        ob instanceof fireSpawn ||
+                        ob instanceof waterSpawn ||
+                        ob instanceof fireExit ||
+                        ob instanceof waterExit);
+    }
 
-   public Optional<Projectiles> attack() {
+    public Optional<Projectiles> attack() {
         if (shootCooldown <= 0) {
             shootCooldown = MAX_COOLDOWN;
-            Position pos = new Position((int)this.x+1,(int)this.y);
+            Position pos = new Position((int) this.x + 1, (int) this.y);
             return Optional.of(new ProjectilesImpl(pos, this.direction));
         }
         return Optional.empty();
@@ -119,8 +115,8 @@ public boolean isBlocked(Level level, Position pos) {
 
     @Override
     public EnemiesType getType() {
-        return EnemiesType.S; 
-        
+        return EnemiesType.S;
+
     }
-    
+
 }

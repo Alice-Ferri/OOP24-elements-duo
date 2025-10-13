@@ -8,7 +8,7 @@ import it.unibo.elementsduo.model.obstacles.impl.fireExit;
 import it.unibo.elementsduo.model.obstacles.impl.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.impl.waterExit;
 import it.unibo.elementsduo.model.obstacles.impl.waterSpawn;
-import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.resources.Position;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -22,18 +22,17 @@ public class LevelPanel extends JPanel {
     private static final int elementSize = 32;
     private final Level level;
     private final Map<Class<? extends obstacle>, Color> colorMap = Map.of(
-        Wall.class, Color.DARK_GRAY,
-        Floor.class, Color.LIGHT_GRAY,
-        fireSpawn.class, Color.ORANGE,
-        waterSpawn.class, Color.BLUE,
-        fireExit.class, Color.RED,
-        waterExit.class, new Color(0, 191, 255) 
-    );
+            Wall.class, Color.DARK_GRAY,
+            Floor.class, Color.LIGHT_GRAY,
+            fireSpawn.class, Color.ORANGE,
+            waterSpawn.class, Color.BLUE,
+            fireExit.class, Color.RED,
+            waterExit.class, new Color(0, 191, 255));
 
     public LevelPanel(final Level level) {
         this.level = Objects.requireNonNull(level);
         this.setPreferredSize(calculatePanelSize());
-        this.setBackground(Color.white); 
+        this.setBackground(Color.white);
     }
 
     private Dimension calculatePanelSize() {
@@ -52,8 +51,8 @@ public class LevelPanel extends JPanel {
 
     @Override
     protected void paintComponent(final Graphics g) {
-        super.paintComponent(g); 
-        drawLevel(g); 
+        super.paintComponent(g);
+        drawLevel(g);
     }
 
     private void drawLevel(final Graphics g) {

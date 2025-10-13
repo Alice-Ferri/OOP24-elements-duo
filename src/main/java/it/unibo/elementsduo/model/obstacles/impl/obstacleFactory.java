@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.obstacles.impl;
 
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
-import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.resources.Position;
 
 public class obstacleFactory {
     public obstacle createObstacle(final obstacleType.type type, final Position pos) {
@@ -18,7 +18,7 @@ public class obstacleFactory {
                 return new Floor(pos);
             case WATER_SPAWN:
                 return new waterSpawn(pos);
-             case FIRE_SPAWN:
+            case FIRE_SPAWN:
                 return new fireSpawn(pos);
             case FIRE_EXIT:
                 return new fireExit(pos);

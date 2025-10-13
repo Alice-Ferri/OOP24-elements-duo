@@ -8,6 +8,8 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.resources.Vector2D;
+import it.unibo.elementsduo.resources.Position;
+
 
 public class CollisionCheckerImpl implements CollisionChecker {
 
