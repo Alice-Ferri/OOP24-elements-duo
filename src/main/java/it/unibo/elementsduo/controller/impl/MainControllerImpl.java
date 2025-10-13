@@ -12,15 +12,15 @@ import it.unibo.elementsduo.view.GameFrame;
 public class MainControllerImpl implements MainController {
 
     @Override
-    public void startGame() {
+    public void update(double deltaTime) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'startGame'");
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
-    public void stopGame() {
+    public void render() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stopGame'");
+        throw new UnsupportedOperationException("Unimplemented method 'render'");
     }
 
     

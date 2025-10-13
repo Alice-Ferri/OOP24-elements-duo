@@ -1,8 +1,9 @@
 package it.unibo.elementsduo.controller.api;
 
 public interface MainController {
-    public void startGame();
+    
+    public void update(double deltaTime);
 
-    public void stopGame();
+    public void render();
 
 }
