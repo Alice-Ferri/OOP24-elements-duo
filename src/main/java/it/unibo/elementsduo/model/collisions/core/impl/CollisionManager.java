@@ -24,18 +24,22 @@ public class CollisionManager {
             Collidable b = c.getObjectB();
             Vector2D normal = c.getNormal();
 
+            if ((a instanceof Player && b instanceof Enemy) || (a instanceof Player && b instanceof Enemy)) {
+                handlePlayerVsEnemy(c);
+            }
+
         }
     }
 
-    private void handlePlayerVsEnemy() {
+    private void handlePlayerVsEnemy(CollisionInformations c) {
 
     }
 
-    private void handlePlayerVsWall() {
+    private void handlePlayerVsWall(CollisionInformations c) {
 
     }
 
-    private void handlePlayerVsProjectile() {
+    private void handlePlayerVsProjectile(CollisionInformations c) {
 
     }
 
