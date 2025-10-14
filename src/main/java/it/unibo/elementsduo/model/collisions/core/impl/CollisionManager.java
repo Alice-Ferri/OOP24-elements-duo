@@ -6,7 +6,9 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -26,13 +28,21 @@ public class CollisionManager {
 
             if ((a instanceof Player && b instanceof Enemy) || (a instanceof Player && b instanceof Enemy)) {
                 handlePlayerVsEnemy(c);
+            } else if ((a instanceof Player && b instanceof Projectiles)
+                    || (a instanceof Projectiles && b instanceof Player)) {
+                handlePlayerVsProjectile(c);
+            } else if ((a instanceof Player && b instanceof obstacle)
+                    || (a instanceof obstacle && b instanceof Player)) {
+                handlePlayerVsWall(c);
+            } else if ((a instanceof Enemy && b instanceof obstacle) || (a instanceof obstacle && b instanceof Enemy)) {
+                handleEnemyVsObstacle(c);
             }
 
         }
     }
 
     private void handlePlayerVsEnemy(CollisionInformations c) {
-
+        System.out.println("il giocatore ha toccato un nemico: GAME OVER");
     }
 
     private void handlePlayerVsWall(CollisionInformations c) {
@@ -40,6 +50,10 @@ public class CollisionManager {
     }
 
     private void handlePlayerVsProjectile(CollisionInformations c) {
+        System.out.println("il giocatore ha toccato un nemico: GAME OVER");
+    }
+
+    private void handleEnemyVsObstacle(CollisionInformations c) {
 
     }
 
