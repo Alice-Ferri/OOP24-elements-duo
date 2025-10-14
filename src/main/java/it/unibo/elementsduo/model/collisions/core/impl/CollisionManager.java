@@ -7,7 +7,6 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -20,11 +19,8 @@ public class CollisionManager {
     public void manageCollisions(List<Collidable> entities) {
         List<CollisionInformations> ci = ck.checkCollisions(entities);
         for (CollisionInformations c : ci) {
-            Player player = null;
-            Collidable other = null;
             Collidable a = c.getObjectA();
             Collidable b = c.getObjectB();
-            Vector2D normal = c.getNormal();
 
             if ((a instanceof Player && b instanceof Enemy) || (a instanceof Player && b instanceof Enemy)) {
                 handlePlayerVsEnemy(c);
@@ -46,7 +42,22 @@ public class CollisionManager {
     }
 
     private void handlePlayerVsWall(CollisionInformations c) {
+        final Player player = getPlayerFrom(c);
+        final Vector2D normal = getNormalFor(player, c);
+        final double penetration = c.getPenetration();
 
+        final double corrX = normal.getX() * penetration;
+        final double corrY = normal.getY() * penetration;
+
+        // Correzione orizzontale
+        player.move(corrX);
+
+        // correzione verticale
+        if (normal.getY() == 1) {
+            player.landOn(player.getY() + corrY);
+        } else if (normal.getY() == -1) {
+            player.stopJump(player.getY() + corrY);
+        }
     }
 
     private void handlePlayerVsProjectile(CollisionInformations c) {
@@ -54,19 +65,26 @@ public class CollisionManager {
     }
 
     private void handleEnemyVsObstacle(CollisionInformations c) {
-
     }
 
-    private Player getPLayerFrom(CollisionInformations c) {
-
+    private Player getPlayerFrom(CollisionInformations c) {
+        return c.getObjectA() instanceof Player ? (Player) c.getObjectA() : (Player) c.getObjectB();
     }
 
     private Enemy getEnemyFrom(CollisionInformations c) {
-
+        return c.getObjectA() instanceof Enemy ? (Enemy) c.getObjectA() : (Enemy) c.getObjectB();
     }
 
-    private Player getProjectileFrom(CollisionInformations c) {
+    private Projectiles getProjectileFrom(CollisionInformations c) {
+        return c.getObjectA() instanceof Projectiles ? (Projectiles) c.getObjectA() : (Projectiles) c.getObjectB();
+    }
 
+    private Vector2D getNormalFor(Collidable target, CollisionInformations collision) {
+        if (collision.getObjectA() == target) {
+            return collision.getNormal();
+        } else {
+            return new Vector2D(-collision.getNormal().getX(), -collision.getNormal().getY()); // Va invertita.
+        }
     }
 
 }

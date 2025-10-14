@@ -8,7 +8,7 @@ public interface Enemy {
     Optional<Projectiles> attack();
 
     void update(Level level);
-    
+
     boolean isAlive();
 
     void setDirection();
@@ -24,4 +24,3 @@ public interface Enemy {
     EnemiesType getType();
 
 }
-

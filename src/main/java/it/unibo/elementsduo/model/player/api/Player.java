@@ -1,7 +1,9 @@
 
 package it.unibo.elementsduo.model.player.api;
 
-public interface Player {
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+
+public interface Player extends Collidable {
 
     double getX();
 
