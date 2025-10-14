@@ -1,7 +1,9 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
+import java.util.Set;
+
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.Floor;
 import it.unibo.elementsduo.model.obstacles.impl.Wall;
 import it.unibo.elementsduo.utils.Position;
@@ -17,16 +19,11 @@ public class ProjectilesImpl implements Projectiles {
         this.y = pos.y();
         this.direction = direction;
     }
-
-    
-
     @Override
-public void update(Level level) {
-    move(level);
+    public void update(Set<obstacle> obstacles, double deltaTime) {
+        move(obstacles,deltaTime);
     
-}
-
-
+    }
     @Override
     public boolean isActive() {
         return alive;
@@ -48,28 +45,25 @@ public void update(Level level) {
         return this.direction;
     }
 
-
-
     @Override
-    public void move(Level level) {
-    x += direction * SPEED;
+    public void move(Set<obstacle> obstacles, double deltaTime) {
+        double stepX = direction * SPEED * deltaTime;
+        x += stepX;
 
-    
-    Position pos = new Position((int) Math.floor(x), (int) Math.floor(y));
+        Position pos = new Position((int) Math.floor(x), (int) Math.floor(y));
+        boolean blocked = isBlocked(obstacles, pos);
 
-    // Controlla se in quella posizione c'è un ostacolo "solido"
-    boolean blocked = level.getAllObstacles().stream()
-        .filter(ob -> ob.getPos().equals(pos))
-        .anyMatch(ob ->
-            ob instanceof Wall ||
-            ob instanceof Floor
-        );
-
-    if (blocked) {
-        alive = false;
-    }
+        if (blocked) {
+            alive = false; 
+        }
     }
 
-    
-
+    public boolean isBlocked(Set<obstacle> obstacles, Position pos) {
+        return obstacles.stream()
+            .filter(ob -> ob.getPos().equals(pos))
+            .anyMatch(ob -> 
+                ob instanceof Wall ||
+                ob instanceof Floor
+            );
+    }
 }

@@ -1,19 +1,20 @@
 package it.unibo.elementsduo.model.enemies.api;
 
 import java.util.Optional;
+import java.util.Set;
 
-import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
 public interface Enemy {
     Optional<Projectiles> attack();
 
-    void update(Level level);
+    void update(Set<obstacle> obstacles, double deltaTime);
     
     boolean isAlive();
 
     void setDirection();
 
-    void move(Level level);
+    void move(Set<obstacle> obstacles, double deltaTime);
 
     double getX();
 

@@ -2,11 +2,12 @@ package it.unibo.elementsduo.model.enemies.impl;
 
 
 import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.elementsduo.model.enemies.api.EnemiesType;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.Floor;
 import it.unibo.elementsduo.model.obstacles.impl.Wall;
 import it.unibo.elementsduo.model.obstacles.impl.fireExit;
@@ -21,7 +22,7 @@ public class ClassicEnemiesImpl implements Enemy {
     private double x;
     private double y;
     private int direction=1;
-    private double speed=0.05;
+    private final static double SPEED =0.05;
 
     public ClassicEnemiesImpl(final char c, final Position pos) {
         this.x= pos.x();
@@ -29,12 +30,13 @@ public class ClassicEnemiesImpl implements Enemy {
         this.alive = true;
     }
 
-    @Override
-    public void move(Level level) {
-    double nextX = this.x + direction * speed;
+ @Override
+public void move(Set<obstacle> obstacles, double deltaTime) {
+    double stepX = direction * SPEED * deltaTime; 
+    double nextX = this.x + stepX;
     double y = this.y;
 
-    // Calcola tile davanti e sotto
+
     int frontX = (int) (direction > 0 ? Math.floor(nextX + 1) : Math.floor(nextX));
     int belowX = (int) (direction > 0 ? Math.floor(nextX + 0.5) : Math.floor(nextX));
     int frontY = (int) Math.floor(y);
@@ -43,19 +45,18 @@ public class ClassicEnemiesImpl implements Enemy {
     Position frontTile = new Position(frontX, frontY);
     Position belowTile = new Position(belowX, belowY);
 
-    // Controlli di collisione
-    boolean wallAhead = isBlocked(level, frontTile);
-    boolean noGround = !isBlocked(level, belowTile);
+    
+    boolean wallAhead = isBlocked(obstacles, frontTile);
+    boolean noGround = !isBlocked(obstacles, belowTile);
 
     if (wallAhead || noGround) {
-        setDirection(); // gira
+        setDirection(); // Cambia direzione
     } else {
-        x = nextX; // muovi avanti
+        x = nextX; // Esegue il movimento
     }
 }
-
-public boolean isBlocked(Level level, Position pos) {
-    return level.getAllObstacles().stream()
+    public boolean isBlocked(Set<obstacle> obstacles, Position pos) {
+    return obstacles.stream()
         .filter(ob -> ob.getPos().equals(pos))
         .anyMatch(ob -> 
             ob instanceof Wall ||
@@ -72,7 +73,6 @@ public boolean isBlocked(Level level, Position pos) {
         // Classic enemy does not attack
         return Optional.empty();
     }
-
 
     @Override
     public boolean isAlive() {
@@ -101,9 +101,8 @@ public boolean isBlocked(Level level, Position pos) {
     public EnemiesType getType() {
         return EnemiesType.C;
     }
-
     @Override
-    public void update(Level level ) {
-        move(level);
+    public void update(Set<obstacle> obstacles, double deltaTime) {
+        move(obstacles, deltaTime);
     }
 }

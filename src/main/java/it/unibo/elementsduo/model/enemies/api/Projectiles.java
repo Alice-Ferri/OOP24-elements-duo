@@ -1,13 +1,14 @@
 package it.unibo.elementsduo.model.enemies.api;
 
-import it.unibo.elementsduo.model.map.api.Level;
+import java.util.Set;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
 /**
  * Interface representing a projectile in the game.
  */
 public interface Projectiles {
 
-    void update(Level level);
+    void update(Set<obstacle> obstacles, double deltaTime);
 
     double getX();
 
@@ -17,7 +18,7 @@ public interface Projectiles {
 
     boolean isActive();
 
-    void move(Level level);
+    void move(Set<obstacle> obstacles, double deltaTime);
 }
 
 
