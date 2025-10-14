@@ -57,4 +57,16 @@ public class CollisionManager {
 
     }
 
+    private Player getPLayerFrom(CollisionInformations c) {
+
+    }
+
+    private Enemy getEnemyFrom(CollisionInformations c) {
+
+    }
+
+    private Player getProjectileFrom(CollisionInformations c) {
+
+    }
+
 }
