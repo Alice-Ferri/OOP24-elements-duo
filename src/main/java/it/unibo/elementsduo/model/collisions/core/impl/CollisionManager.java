@@ -24,37 +24,19 @@ public class CollisionManager {
             Collidable b = c.getObjectB();
             Vector2D normal = c.getNormal();
 
-            if (a instanceof Player p) {
-                player = p;
-                other = b;
-            }
-            if (b instanceof Player p) {
-                player = p;
-                other = a;
-                normal = new Vector2D(-normal.getX(), -normal.getY());
-            }
-
-            if (player == null)
-                continue;
-
-            if (other instanceof Enemy) {
-                System.out.println("collision between player and enemy, game finish");
-            } else if (other instanceof Lever) {
-                // attiva leva
-            } else {
-                final double corrX = normal.getX() * c.getPenetration();
-                final double corrY = normal.getY() * c.getPenetration();
-
-                // orizzontal correction
-                player.move(corrX);
-                // vertical correction
-                if (normal.getY() == 1) {
-                    player.landOn(player.getY() + corrY);
-                }
-                if (normal.getY() == -1) {
-                    player.stopJump(player.getY() + corrY);
-                }
-            }
         }
     }
+
+    private void handlePlayerVsEnemy() {
+
+    }
+
+    private void handlePlayerVsWall() {
+
+    }
+
+    private void handlePlayerVsProjectile() {
+
+    }
+
 }
