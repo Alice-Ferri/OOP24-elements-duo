@@ -12,14 +12,12 @@ import it.unibo.elementsduo.utils.Position;
 
 import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.Map;
 import java.util.Objects;
 
 public class LevelPanel extends JPanel {
 
-    private static final int elementSize = 32;
     private final Level level;
     private final Map<Class<? extends obstacle>, Color> colorMap = Map.of(
         Wall.class, Color.DARK_GRAY,
@@ -30,15 +28,18 @@ public class LevelPanel extends JPanel {
         waterExit.class, new Color(0, 191, 255) 
     );
 
+    private record panelSize(int width, int height) {}
+    private final panelSize panelSize;
+
     public LevelPanel(final Level level) {
         this.level = Objects.requireNonNull(level);
-        this.setPreferredSize(calculatePanelSize());
+        this.panelSize = calculatePanelSize();
         this.setBackground(Color.white); 
     }
 
-    private Dimension calculatePanelSize() {
+    private panelSize calculatePanelSize() {
         if (level.getAllObstacles().isEmpty()) {
-            return new Dimension(0, 0);
+            return new panelSize(0, 0);
         }
         final int maxX = level.getAllObstacles().stream()
                 .mapToInt(obs -> obs.getPos().x())
@@ -48,7 +49,7 @@ public class LevelPanel extends JPanel {
                 .mapToInt(obs -> obs.getPos().y())
                 .max()
                 .orElse(0);
-        return new Dimension((maxX + 1) * elementSize, (maxY + 1) * elementSize);
+        return new panelSize((maxX + 1), (maxY + 1));
 
     }
 
@@ -58,23 +59,30 @@ public class LevelPanel extends JPanel {
 
         final int panelWidth = getWidth();
         final int panelHeight = getHeight();
-        final Dimension levelSize = calculatePanelSize();
-        
-        final int offsetX = (panelWidth - levelSize.width) / 2;
-        final int offsetY = (panelHeight - levelSize.height) / 2;
 
-        drawLevel(g,offsetX,offsetY); 
+        final int elementWidth = getWidth() / panelSize.width();
+        final int elementHeight = getHeight() / panelSize.height();
+
+        final int elementSize =  Math.min(elementWidth, elementHeight);
+
+        
+        final int renderedWidth = elementSize * panelSize.width;
+        final int renderedHeight = elementSize * panelSize.height;
+        final int offsetX = (panelWidth - renderedWidth) / 2;
+        final int offsetY = (panelHeight - renderedHeight) / 2;
+
+        drawLevel(g, elementSize, offsetX, offsetY);
     }
 
-    private void drawLevel(final Graphics g, int offestX,int offsetY) {
+    private void drawLevel(final Graphics g,int elementSize, int offsetX,int offsetY) {
         this.level.getAllObstacles().stream().forEach(obs -> {
             final Position pos = obs.getPos();
-
             final Color tileColor = this.colorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
-            g.setColor(tileColor);
 
-            final int x = pos.x() * elementSize +offestX;
-            final int y = pos.y() * elementSize +offsetY;
+            final int x = pos.x() * elementSize + offsetX;
+            final int y = pos.y() * elementSize + offsetY;
+
+            g.setColor(tileColor);
             g.fillRect(x, y, elementSize, elementSize);
 
             g.setColor(Color.BLACK);
