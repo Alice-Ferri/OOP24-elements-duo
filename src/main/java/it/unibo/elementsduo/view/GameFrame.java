@@ -1,8 +1,6 @@
 package it.unibo.elementsduo.view;
 
 import it.unibo.elementsduo.model.map.api.Level;
-import it.unibo.elementsduo.model.map.impl.MapLoader;
-
 import javax.swing.*;
 
 public class GameFrame extends JFrame {
@@ -14,7 +12,7 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         panel = new LevelPanel(level);
         add(panel);
-        setSize(800, 600);
+        setSize(1000, 670);
         setLocationRelativeTo(null);
         setVisible(true);
     }

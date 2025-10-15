@@ -45,7 +45,9 @@ public class LevelPanel extends JPanel {
     }
 
     private Dimension calculatePanelSize() {
-
+        if (level.getAllObstacles().isEmpty()) {
+            return new Dimension(0, 0);
+        }
         final int maxX = level.getAllObstacles().stream()
                 .mapToInt(obs -> obs.getPos().x())
                 .max()
@@ -61,19 +63,28 @@ public class LevelPanel extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g); 
-        drawLevel(g);
+        
         drawEnemies(g); 
+
+        final int panelWidth = getWidth();
+        final int panelHeight = getHeight();
+        final Dimension levelSize = calculatePanelSize();
+        
+        final int offsetX = (panelWidth - levelSize.width) / 2;
+        final int offsetY = (panelHeight - levelSize.height) / 2;
+
+        drawLevel(g,offsetX,offsetY); 
     }
 
-    private void drawLevel(final Graphics g) {
+    private void drawLevel(final Graphics g, int offestX,int offsetY) {
         this.level.getAllObstacles().stream().forEach(obs -> {
             final Position pos = obs.getPos();
 
             final Color tileColor = this.colorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
             g.setColor(tileColor);
 
-            final int x = pos.x() * elementSize;
-            final int y = pos.y() * elementSize;
+            final int x = pos.x() * elementSize +offestX;
+            final int y = pos.y() * elementSize +offsetY;
             g.fillRect(x, y, elementSize, elementSize);
 
             g.setColor(Color.BLACK);
