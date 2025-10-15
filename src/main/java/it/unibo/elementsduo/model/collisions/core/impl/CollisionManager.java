@@ -22,16 +22,14 @@ public class CollisionManager {
             Collidable a = c.getObjectA();
             Collidable b = c.getObjectB();
 
-            if ((a instanceof Player && b instanceof Enemy) || (a instanceof Player && b instanceof Enemy)) {
-                handlePlayerVsEnemy(c);
-            } else if ((a instanceof Player && b instanceof Projectiles)
-                    || (a instanceof Projectiles && b instanceof Player)) {
-                handlePlayerVsProjectile(c);
-            } else if ((a instanceof Player && b instanceof obstacle)
-                    || (a instanceof obstacle && b instanceof Player)) {
-                handlePlayerVsWall(c);
-            } else if ((a instanceof Enemy && b instanceof obstacle) || (a instanceof obstacle && b instanceof Enemy)) {
+            if (are(a, b, Player.class, obstacle.class)) {
+                handlePlayerVsObstacle(c);
+            } else if (are(a, b, Enemy.class, obstacle.class)) {
                 handleEnemyVsObstacle(c);
+            } else if (are(a, b, Player.class, Enemy.class)) {
+                handlePlayerVsEnemy(c);
+            } else if (are(a, b, Player.class, Projectiles.class)) {
+                handlePlayerVsProjectile(c);
             }
 
         }
@@ -41,7 +39,7 @@ public class CollisionManager {
         System.out.println("il giocatore ha toccato un nemico: GAME OVER");
     }
 
-    private void handlePlayerVsWall(CollisionInformations c) {
+    private void handlePlayerVsObstacle(CollisionInformations c) {
         final Player player = getPlayerFrom(c);
         final Vector2D normal = getNormalFor(player, c);
         final double penetration = c.getPenetration();
@@ -85,6 +83,10 @@ public class CollisionManager {
         } else {
             return new Vector2D(-collision.getNormal().getX(), -collision.getNormal().getY()); // Va invertita.
         }
+    }
+
+    private boolean are(final Collidable a, final Collidable b, final Class<?> c1, final Class<?> c2) {
+        return (c1.isInstance(a) && c2.isInstance(b)) || (c1.isInstance(b) && c2.isInstance(a));
     }
 
 }
