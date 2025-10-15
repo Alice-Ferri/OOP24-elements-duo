@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -15,78 +16,13 @@ import it.unibo.elementsduo.resources.Vector2D;
 
 public class CollisionManager {
     private CollisionChecker ck = new CollisionCheckerImpl();
+    CollisionHandler ch = new CollisionHandlerImpl();
 
     public void manageCollisions(List<Collidable> entities) {
         List<CollisionInformations> ci = ck.checkCollisions(entities);
         for (CollisionInformations c : ci) {
-            Collidable a = c.getObjectA();
-            Collidable b = c.getObjectB();
-
-            if (are(a, b, Player.class, obstacle.class)) {
-                handlePlayerVsObstacle(c);
-            } else if (are(a, b, Enemy.class, obstacle.class)) {
-                handleEnemyVsObstacle(c);
-            } else if (are(a, b, Player.class, Enemy.class)) {
-                handlePlayerVsEnemy(c);
-            } else if (are(a, b, Player.class, Projectiles.class)) {
-                handlePlayerVsProjectile(c);
-            }
-
+            ch.handle(c);
         }
-    }
-
-    private void handlePlayerVsEnemy(CollisionInformations c) {
-        System.out.println("il giocatore ha toccato un nemico: GAME OVER");
-    }
-
-    private void handlePlayerVsObstacle(CollisionInformations c) {
-        final Player player = getPlayerFrom(c);
-        final Vector2D normal = getNormalFor(player, c);
-        final double penetration = c.getPenetration();
-
-        final double corrX = normal.getX() * penetration;
-        final double corrY = normal.getY() * penetration;
-
-        // Correzione orizzontale
-        player.move(corrX);
-
-        // correzione verticale
-        if (normal.getY() == 1) {
-            player.landOn(player.getY() + corrY);
-        } else if (normal.getY() == -1) {
-            player.stopJump(player.getY() + corrY);
-        }
-    }
-
-    private void handlePlayerVsProjectile(CollisionInformations c) {
-        System.out.println("il giocatore ha toccato un nemico: GAME OVER");
-    }
-
-    private void handleEnemyVsObstacle(CollisionInformations c) {
-    }
-
-    private Player getPlayerFrom(CollisionInformations c) {
-        return c.getObjectA() instanceof Player ? (Player) c.getObjectA() : (Player) c.getObjectB();
-    }
-
-    private Enemy getEnemyFrom(CollisionInformations c) {
-        return c.getObjectA() instanceof Enemy ? (Enemy) c.getObjectA() : (Enemy) c.getObjectB();
-    }
-
-    private Projectiles getProjectileFrom(CollisionInformations c) {
-        return c.getObjectA() instanceof Projectiles ? (Projectiles) c.getObjectA() : (Projectiles) c.getObjectB();
-    }
-
-    private Vector2D getNormalFor(Collidable target, CollisionInformations collision) {
-        if (collision.getObjectA() == target) {
-            return collision.getNormal();
-        } else {
-            return new Vector2D(-collision.getNormal().getX(), -collision.getNormal().getY()); // Va invertita.
-        }
-    }
-
-    private boolean are(final Collidable a, final Collidable b, final Class<?> c1, final Class<?> c2) {
-        return (c1.isInstance(a) && c2.isInstance(b)) || (c1.isInstance(b) && c2.isInstance(a));
     }
 
 }
