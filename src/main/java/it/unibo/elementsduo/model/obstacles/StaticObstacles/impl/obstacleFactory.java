@@ -4,7 +4,7 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
 public class obstacleFactory {
-    public Collidable createObstacle(final obstacleType.type type, final HitBox hitbox) {
+    public obstacle createObstacle(final obstacleType.type type, final HitBox hitbox) {
         switch (type) {
             case WATER_POOL:
                 return new waterPool(hitbox);

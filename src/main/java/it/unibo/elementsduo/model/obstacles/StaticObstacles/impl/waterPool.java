@@ -3,12 +3,12 @@ package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
-public class waterPool implements Collidable {
+public class waterPool extends Wall {
 
     HitBox hitbox;
 
     public waterPool(HitBox hitBox) {
-        this.hitbox = hitBox;
+        super(hitBox);
     }
 
     @Override

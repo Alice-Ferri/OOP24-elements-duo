@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
-public class Wall implements Collidable {
+public class Wall implements obstacle {
     HitBox hitBox;
 
     public Wall(HitBox hitBox) {
