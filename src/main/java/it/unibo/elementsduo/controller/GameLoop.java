@@ -4,54 +4,48 @@ import java.util.Objects;
 
 import it.unibo.elementsduo.controller.api.MainController;
 
-public class GameLoop implements Runnable{
+public class GameLoop implements Runnable {
     private static final int TARGET_FPS = 60;
-    private static final long OPTIMAL_TIME = 1_000_000_000/TARGET_FPS;
+    private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
     private volatile boolean running = false;
     private Thread gameThread;
     private final MainController engine;
 
-    public GameLoop (final MainController engine) {
+    public GameLoop(final MainController engine) {
         this.engine = Objects.requireNonNull(engine);
     }
 
-    public synchronized void start () {
+    public synchronized void start() {
         if (running) {
             return;
-        }
-        else {
+        } else {
             running = true;
-            gameThread= new Thread(this);
+            gameThread = new Thread(this);
             gameThread.start();
         }
     }
 
-    public synchronized void stop () {
+    public synchronized void stop() {
         if (!running) {
             return;
         }
         running = false;
         try {
             gameThread.join();
-            } 
-        catch (final InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            gameThread.start();
+        } catch (final InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
-    
-    
-
+    }
 
     @Override
     public void run() {
         long lastLoopTime = System.nanoTime();
 
-        while (running){
+        while (running) {
             final long now = System.nanoTime();
             final long UpdateLength = now - lastLoopTime;
             lastLoopTime = now;
-            final double deltaTime = UpdateLength / ((double)OPTIMAL_TIME);
+            final double deltaTime = UpdateLength / ((double) OPTIMAL_TIME);
             this.engine.update(deltaTime);
             this.engine.render();
 
@@ -62,9 +56,9 @@ public class GameLoop implements Runnable{
                 }
             } catch (final InterruptedException e) {
                 Thread.currentThread().interrupt();
-                running=false;
+                running = false;
             }
         }
     }
-    
+
 }
