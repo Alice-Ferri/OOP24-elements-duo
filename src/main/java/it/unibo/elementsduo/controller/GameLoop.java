@@ -45,18 +45,20 @@ public class GameLoop implements Runnable {
             final long now = System.nanoTime();
             final long UpdateLength = now - lastLoopTime;
             lastLoopTime = now;
-            final double deltaTime = UpdateLength / ((double) OPTIMAL_TIME);
+            final double deltaTime = UpdateLength / 1_000_000_000.0;
             this.engine.update(deltaTime);
             this.engine.render();
 
-            try {
-                final long sleepTime = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME / 1_000_000);
-                if (sleepTime > 0) {
-                    Thread.sleep(sleepTime);
+            long elapsed = System.nanoTime() - lastLoopTime;
+            long sleepNanos = OPTIMAL_TIME - elapsed;
+
+            if (sleepNanos > 0) {
+                try {
+                    Thread.sleep(sleepNanos / 1_000_000, (int) (sleepNanos % 1_000_000));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    running = false;
                 }
-            } catch (final InterruptedException e) {
-                Thread.currentThread().interrupt();
-                running = false;
             }
         }
     }
