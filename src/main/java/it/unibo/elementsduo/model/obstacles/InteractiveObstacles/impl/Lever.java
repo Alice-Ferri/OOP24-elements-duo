@@ -13,7 +13,6 @@ public class Lever extends InteractiveObstacle implements Triggerable {
 
     public Lever(Position center, double halfWidth, double halfHeight) {
         super(center, halfWidth, halfHeight);
-        this.active = false;
     }
 
     @Override
