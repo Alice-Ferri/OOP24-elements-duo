@@ -8,4 +8,6 @@ public interface Triggerable {
     void activate();
 
     void deactivate();
+
+    void toggle();
 }
