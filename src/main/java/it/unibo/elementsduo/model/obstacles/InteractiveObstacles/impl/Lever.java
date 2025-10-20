@@ -1,12 +1,15 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import java.util.ArrayList;
+import java.util.List;
+
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
 import it.unibo.elementsduo.resources.Position;
 
 public class Lever extends InteractiveObstacle implements Triggerable {
 
-    boolean active; // initialy not active
+    boolean active = false; // initialy not active
+    List<Triggerable> linkedObjects = new ArrayList<>();
 
     public Lever(Position center, double halfWidth, double halfHeight) {
         super(center, halfWidth, halfHeight);
@@ -20,18 +23,35 @@ public class Lever extends InteractiveObstacle implements Triggerable {
 
     @Override
     public void activate() {
-        this.active = true;
+        toggle();
     }
 
     @Override
     public void deactivate() {
-        this.active = false;
+        if (this.active) {
+            active = false;
+            for (Triggerable t : linkedObjects) {
+                t.deactivate();
+            }
+        }
     }
 
     @Override
     public void toggle() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toggle'");
+        this.active = !this.active;
+        if (active) {
+            for (Triggerable t : linkedObjects) {
+                t.activate();
+            }
+        } else {
+            for (Triggerable t : linkedObjects) {
+                t.deactivate();
+            }
+        }
+    }
+
+    public void linkTo(Triggerable t) {
+        linkedObjects.add(t);
     }
 
 }
