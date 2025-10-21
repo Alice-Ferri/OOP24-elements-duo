@@ -22,13 +22,18 @@ public class Lever extends InteractiveObstacle implements Triggerable {
 
     @Override
     public void activate() {
-        toggle();
+        if (!this.active) {
+            this.active = true;
+            for (Triggerable t : linkedObjects) {
+                t.activate();
+            }
+        }
     }
 
     @Override
     public void deactivate() {
         if (this.active) {
-            active = false;
+            this.active = false;
             for (Triggerable t : linkedObjects) {
                 t.deactivate();
             }
