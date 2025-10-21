@@ -1,15 +1,17 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+import java.util.ArrayList;
+
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
 import it.unibo.elementsduo.resources.Position;
 
 public class button extends InteractiveObstacle implements Triggerable {
 
-    private boolean active;
+    private boolean active = false;
+    private ArrayList<Triggerable> linkedObjects = new ArrayList<>();
 
     public button(Position center, double halfWidth, double halfHeight) {
         super(center, halfWidth, halfHeight);
-        this.active = false;
     }
 
     @Override
@@ -19,18 +21,33 @@ public class button extends InteractiveObstacle implements Triggerable {
 
     @Override
     public void activate() {
-        this.active = true;
+        if (!this.active) {
+            this.active = true;
+            for (Triggerable t : linkedObjects) {
+                t.activate();
+            }
+        }
     }
 
     @Override
     public void deactivate() {
-        this.active = false;
+        if (this.active) {
+            this.active = false;
+            for (Triggerable t : linkedObjects) {
+                t.deactivate();
+            }
+        }
     }
 
+    // this method is not needed
     @Override
     public void toggle() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'toggle'");
+    }
+
+    public void linkTo(Triggerable t) {
+        linkedObjects.add(t);
     }
 
 }
