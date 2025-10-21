@@ -1,10 +1,11 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pushable;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class PushBox extends InteractiveObstacle implements Pushable {
+public class PushBox extends InteractiveObstacle implements Pushable, Movable {
 
     private static final double GROUND_FRICTION = 0.75;
     private static final double AIR_FRICTION = 0.98;
@@ -64,6 +65,29 @@ public class PushBox extends InteractiveObstacle implements Pushable {
 
     public Vector2D getVelocity() {
         return this.velocity;
+    }
+
+    @Override
+    public void correctPhysicsCollision(double penetration, Vector2D normal) {
+        final double TOLERANCE = 0.001;
+        final double CORRECTION_PERCENTAGE = 0.8;
+        final double depth = Math.max(penetration - TOLERANCE, 0);
+        final Vector2D correction = normal.multiply(depth * CORRECTION_PERCENTAGE);
+
+        move(correction);
+        final double vn = velocity.dot(normal);
+        if (vn < 0) {
+            this.velocity = this.velocity.subtract(normal.multiply(vn));
+        }
+
+        if (normal.y() < -0.5) {
+            this.onGround = true;
+            this.velocity = new Vector2D(this.velocity.x(), 0);
+        } else if (normal.y() > 0.5) {
+            this.velocity = new Vector2D(this.velocity.x(), 0);
+        } else if (Math.abs(normal.x()) > 0.5) {
+            this.velocity = new Vector2D(0, this.velocity.y());
+        }
     }
 
 }
