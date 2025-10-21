@@ -42,4 +42,8 @@ public class LeverActivationHandler implements CollisionHandler {
         }
     }
 
+    public void atEndCollision(Lever l) {
+        this.activeLevers.remove(l);
+    }
+
 }

@@ -1,6 +1,9 @@
 package it.unibo.elementsduo.model.collisions.core.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
@@ -8,15 +11,19 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ButtonActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHanlder;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.player.api.Player;
 
 /* class to manage collisions */
 
 public class CollisionManager {
     private CollisionChecker ck = new CollisionCheckerImpl();
-    private CollisionHandlersRegister register;
+    private CollisionHandlersRegister register = new CollisionHandlersRegister();
+
+    private Set<Lever> LeversColliding = new HashSet<>();
+    private Set<Lever> LeverLast = new HashSet<>();
 
     public CollisionManager() {
-        register = new CollisionHandlersRegister();
         register.registerHandler(new LeverActivationHandler());
         register.registerHandler(new ButtonActivationHandler());
         register.registerHandler(new PhysicsHanlder());
@@ -27,7 +34,29 @@ public class CollisionManager {
 
         for (CollisionInformations c : collisionsInfo) {
             register.handle(c);
+
+            Collidable a = c.getObjectA();
+            Collidable b = c.getObjectB();
+            if ((a instanceof Player && b instanceof Lever) || (b instanceof Player && a instanceof Lever)) {
+                Lever l = (Lever) (a instanceof Lever ? a : b);
+                LeversColliding.add(l);
+            }
         }
+
+        Optional<LeverActivationHandler> leverHandlerOptional = register.getHandler(LeverActivationHandler.class);
+        LeverActivationHandler leverhandler = null;
+        if (leverHandlerOptional.isPresent())
+            leverhandler = leverHandlerOptional.get();
+
+        for (Lever l : LeverLast) {
+            if (!LeversColliding.contains(l)) {
+                leverhandler.atEndCollision(l);
+            }
+        }
+
+        LeverLast.clear();
+        LeverLast.addAll(LeversColliding);
+
     }
 
 }
