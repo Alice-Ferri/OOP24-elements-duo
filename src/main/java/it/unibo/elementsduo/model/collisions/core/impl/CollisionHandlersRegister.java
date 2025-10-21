@@ -4,13 +4,26 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 public class CollisionHandlersRegister {
     private List<CollisionHandler> register = new ArrayList<>();
+    private Map<Class<? extends CollisionHandler>, CollisionHandler> handlersMap = new HashMap<>();
 
     public void registerHandler(CollisionHandler ch) {
-        register.add(ch);
+        Objects.requireNonNull(ch);
+        if (!handlersMap.containsKey(ch.getClass())) {
+            handlersMap.put(ch.getClass(), ch);
+            register.add(ch);
+        }
+    }
+
+    public <T extends CollisionHandler> Optional<T> getHandler(Class<T> type) {
+        return Optional.ofNullable((T) handlersMap.get(type));
     }
 
     public void handle(CollisionInformations info) {
