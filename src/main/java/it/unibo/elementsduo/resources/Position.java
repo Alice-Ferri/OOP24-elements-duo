@@ -1,6 +1,11 @@
 package it.unibo.elementsduo.resources;
 
 public record Position(double x, double y) {
+
+    public Position add(final Vector2D v) {
+        return new Position(this.x + v.x(), this.y + v.y());
+    }
+
     public Vector2D vectorTo(Position otherPosition) {
         return new Vector2D(otherPosition.x - this.x, otherPosition.y - this.y);
     }

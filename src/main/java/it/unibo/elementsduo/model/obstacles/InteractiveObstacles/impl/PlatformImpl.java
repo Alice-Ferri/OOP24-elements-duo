@@ -28,8 +28,7 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable {
         Position target = forward ? b : a;
         Vector2D dir = pos.vectorTo(target).normalize();
         velocity = dir.multiply(speed);
-        pos = new Position(this.pos.x() + (velocity.multiply(delta)).x(),
-                this.pos.y() + (velocity.multiply(delta)).y());
+        pos = pos.add(velocity.multiply(delta));
         this.center = pos;
 
         if (pos.distanceBetween(target) < speed * delta) {
