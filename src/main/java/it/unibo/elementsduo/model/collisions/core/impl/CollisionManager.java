@@ -5,6 +5,7 @@ import java.util.List;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHanlder;
 
 /* class to manage collisions */
 
