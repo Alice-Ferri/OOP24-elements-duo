@@ -18,9 +18,10 @@ public class PhysicsHanlder implements CollisionHandler {
         Vector2D normal = c.getNormal();
         if (c.getObjectA() instanceof Movable m)
             movable = m;
-        else if (c.getObjectB() instanceof Movable m)
+        else if (c.getObjectB() instanceof Movable m) {
             movable = m;
-        normal.multiply(-1);
+            normal.multiply(-1);
+        }
 
         if (movable != null) {
             movable.correctPhysicsCollision(c.getPenetration(), normal);
