@@ -24,8 +24,8 @@ public class MenuFrame extends JFrame {
         this.setResizable(true);
     }
 
-    public void addView(final JPanel view) {
-        this.contentPanel.add(view);
+    public void addView(final JPanel view,final String key) {
+        this.contentPanel.add(view,key);
     }
 
     public void showView(final String key) {
