@@ -6,7 +6,6 @@ import java.util.Set;
 import it.unibo.elementsduo.model.enemies.api.EnemiesType;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.Floor;
 import it.unibo.elementsduo.model.obstacles.impl.Wall;
@@ -23,8 +22,8 @@ public class ShooterEnemyImpl implements Enemy{
     private double y;
     private int direction=1;
     private static final double SPEED=0.02; 
-    private int shootCooldown; // Counter used to manage automatic shooting
-    private static final int MAX_COOLDOWN = 180; // ticks between two shots
+    private double shootCooldown; // Counter used to manage automatic shooting
+    private static final int MAX_COOLDOWN = 90; // ticks between two shots
  @Override
 public void move(Set<obstacle> obstacles, double deltaTime) {
     double stepX = direction * SPEED * deltaTime; 
@@ -71,28 +70,12 @@ public void move(Set<obstacle> obstacles, double deltaTime) {
         );
 }
     
-
-public boolean isBlocked(Level level, Position pos) {
-    return level.getAllObstacles().stream()
-        .filter(ob -> ob.getPos().equals(pos))
-        .anyMatch(ob -> 
-            ob instanceof Wall ||
-            ob instanceof Floor ||
-            ob instanceof fireSpawn ||
-            ob instanceof waterSpawn ||
-            ob instanceof fireExit ||
-            ob instanceof waterExit
-        );
-}
-
     public ShooterEnemyImpl(char c, Position pos) {
         this.x= pos.x();
         this.y= pos.y();
         this.alive = true;
 
     }
-
-    
 
    public Optional<Projectiles> attack() {
         if (shootCooldown <= 0) {

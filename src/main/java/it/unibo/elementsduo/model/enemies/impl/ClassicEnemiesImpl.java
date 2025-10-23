@@ -22,7 +22,7 @@ public class ClassicEnemiesImpl implements Enemy {
     private double x;
     private double y;
     private int direction=1;
-    private final static double SPEED =0.05;
+    private final static double SPEED =0.1;
 
     public ClassicEnemiesImpl(final char c, final Position pos) {
         this.x= pos.x();
@@ -32,7 +32,7 @@ public class ClassicEnemiesImpl implements Enemy {
 
  @Override
 public void move(Set<obstacle> obstacles, double deltaTime) {
-    double stepX = direction * SPEED * deltaTime; 
+    double stepX = direction * SPEED* deltaTime; 
     double nextX = this.x + stepX;
     double y = this.y;
 

@@ -24,6 +24,7 @@ public class LevelImpl implements Level{
     public LevelImpl(final Set<obstacle> ob, final Set<Enemy> en){
         this.obstacles = Set.copyOf(Objects.requireNonNull(ob));
         this.enemies = Set.copyOf(Objects.requireNonNull(en));
+        
     }
 
     @Override
@@ -99,8 +100,5 @@ public class LevelImpl implements Level{
     public Set<ShooterEnemyImpl> getShooterEnemies() {
         return getEnemyByClass(ShooterEnemyImpl.class);
     }
-
-    
-    
     
 }

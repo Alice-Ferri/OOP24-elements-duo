@@ -3,6 +3,7 @@ package it.unibo.elementsduo.model.map.api;
 import java.util.Set;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
@@ -32,6 +33,7 @@ public interface Level {
 
     Set<ClassicEnemiesImpl> getClassicEnemies();
     Set<ShooterEnemyImpl> getShooterEnemies();
+
 
 
 
