@@ -13,8 +13,9 @@ public class MainControllerImpl implements MainController {
     private final Level level;
     private final GameFrame view;
     private final GameLoop gameLoop;
+    private final InputController input;
 
-    public MainControllerImpl(){
+    public MainControllerImpl() {
 
         final MapLoader mapLoader = new MapLoader(new obstacleFactory(), new EnemyFactoryImpl());
         try {
@@ -25,10 +26,14 @@ public class MainControllerImpl implements MainController {
         
         this.view = new GameFrame(level);
         this.gameLoop = new GameLoop(this);
+
+        this.input = new InputController(this.level);
+        this.input.install();
     }
 
     @Override
     public void update(double deltaTime) {
+        this.input.update(deltaTime);
         this.level.getAllEnemies().forEach(obj -> obj.update());
     }
 
@@ -41,6 +46,5 @@ public class MainControllerImpl implements MainController {
         this.view.setVisible(true);
         this.gameLoop.start();
     }
-
     
 }
