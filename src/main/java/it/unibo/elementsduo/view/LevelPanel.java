@@ -4,7 +4,6 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.api.Level;
-import it.unibo.elementsduo.model.map.impl.LevelImpl;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.Floor;
 import it.unibo.elementsduo.model.obstacles.impl.Wall;
@@ -73,7 +72,7 @@ public class LevelPanel extends JPanel {
 
         drawLevel(g,offsetX,offsetY); 
         drawEnemies(g, offsetX, offsetY);
-        drawProjectiles(g, offsetX, offsetY);
+        
     }
 
     private void drawLevel(final Graphics g, int offestX,int offsetY) {
@@ -116,19 +115,6 @@ public class LevelPanel extends JPanel {
         });
     }
 
-    private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY) {
-        g.setColor(Color.YELLOW); 
-        final int projectileSize = elementSize / 4; 
-        final int offset = (elementSize - projectileSize) / 2; 
-
-             /*level.getAllProjectiles().stream().forEach(projectile -> {
-                final double x = projectile.getX() * elementSize + offsetX;
-                final double y = projectile.getY() * elementSize + offsetY;
-                g.fillOval((int)x + offset, (int)y + offset, projectileSize, projectileSize);
-            });
-        */
-        
-    }
 }
 
 
