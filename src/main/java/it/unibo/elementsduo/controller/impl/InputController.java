@@ -119,9 +119,9 @@ public final class InputController implements KeyEventDispatcher {
 
 
     private static final class DirectionScheme {
-        final int left, right, jump;
+        private final int left, right, jump;
 
-        DirectionScheme(int left, int right, int jump) {
+        DirectionScheme(final int left, final int right, final int jump) {
             this.left = left;
             this.right = right;
             this.jump = jump;

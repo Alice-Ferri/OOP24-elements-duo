@@ -29,6 +29,12 @@ public class MainControllerImpl implements MainController {
 
         this.input = new InputController(this.level);
         this.input.install();
+
+        this.view.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override public void windowClosing(java.awt.event.WindowEvent e) {
+                input.uninstall();
+            }
+        });
     }
 
     @Override
