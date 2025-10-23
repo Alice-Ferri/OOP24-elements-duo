@@ -2,8 +2,11 @@ package it.unibo.elementsduo.controller.api;
 
 public interface MainController {
     
-    public void update(double deltaTime);
+    void startApp();
 
-    public void render();
+    void showInitialMenu();
 
+    void showLevelMenu();
+
+    void startGame(final int levelNumber);
 }

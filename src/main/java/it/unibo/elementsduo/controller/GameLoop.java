@@ -2,16 +2,16 @@ package it.unibo.elementsduo.controller;
 
 import java.util.Objects;
 
-import it.unibo.elementsduo.controller.api.MainController;
+import it.unibo.elementsduo.controller.api.GameController;
 
 public class GameLoop implements Runnable{
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = 1_000_000_000/TARGET_FPS;
     private volatile boolean running = false;
     private Thread gameThread;
-    private final MainController engine;
+    private final GameController engine;
 
-    public GameLoop (final MainController engine) {
+    public GameLoop (final GameController engine) {
         this.engine = Objects.requireNonNull(engine);
     }
 
