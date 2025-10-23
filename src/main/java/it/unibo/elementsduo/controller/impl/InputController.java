@@ -19,7 +19,7 @@ public final class InputController implements KeyEventDispatcher {
     private static final double JUMP_STRENGTH = 6.0;
 
     private final Level level;
-    private final EnumMap<PlayerType, DirectionScheme> keyScheme = new EnumMap<>(PlayerType.class);
+    private final EnumMap<PlayerType, DirectionScheme> playerControls = new EnumMap<>(PlayerType.class);
 
     private final Set<Integer> pressed = new HashSet<>();
     private final Set<Integer> handledPress = new HashSet<>();
@@ -30,12 +30,12 @@ public final class InputController implements KeyEventDispatcher {
     public InputController(final Level level) {
         this.level = Objects.requireNonNull(level);
 
-        keyScheme.put(PlayerType.FIREBOY,   new DirectionScheme(KeyEvent.VK_A,     KeyEvent.VK_D,     KeyEvent.VK_W));
-        keyScheme.put(PlayerType.WATERGIRL, new DirectionScheme(KeyEvent.VK_LEFT,  KeyEvent.VK_RIGHT, KeyEvent.VK_UP));
+        playerControls.put(PlayerType.FIREBOY,   new DirectionScheme(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W));
+        playerControls.put(PlayerType.WATERGIRL, new DirectionScheme(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP));
     }
 
     public void install() {
-        if (this.installed) {
+        if (installed) {
             return;
         }
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
@@ -64,20 +64,20 @@ public final class InputController implements KeyEventDispatcher {
         }
 
         players.stream()
-        .filter(p -> keyScheme.get(p.getType()) != null)
+        .filter(p -> playerControls.get(p.getType()) != null)
         .forEach(p -> {
-            final DirectionScheme directions = keyScheme.get(p.getType());
-            applyHorizontalMovement(p, directions, deltaTime);
-            applyJump(p, directions);
+            final DirectionScheme controls = playerControls.get(p.getType());
+            applyHorizontalMovement(p, controls, deltaTime);
+            applyJump(p, controls);
         });
     }
 
 
-    private void applyHorizontalMovement(Player p, DirectionScheme directions, double deltaTime) {
+    private void applyHorizontalMovement(Player p, DirectionScheme controls, double deltaTime) {
 
         final double velocityX;
-        final boolean left  = pressed.contains(directions.left);
-        final boolean right = pressed.contains(directions.right);
+        final boolean left  = pressed.contains(controls.left);
+        final boolean right = pressed.contains(controls.right);
     
         if (left == right){
             return;
@@ -87,12 +87,12 @@ public final class InputController implements KeyEventDispatcher {
         p.move(velocityX * deltaTime);
     }
     
-    private void applyJump(Player p, DirectionScheme directions) {
+    private void applyJump(Player p, DirectionScheme controls) {
 
-        final boolean jumpDown = pressed.contains(directions.jump);
+        final boolean jumpDown = pressed.contains(controls.jump);
 
-        if (jumpDown && !handledPress.contains(directions.jump)) {
-            handledPress.add(directions.jump);
+        if (jumpDown && !handledPress.contains(controls.jump)) {
+            handledPress.add(controls.jump);
             if (p.isOnGround()) {
                 p.jump(JUMP_STRENGTH);
             }
