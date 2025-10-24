@@ -1,7 +1,9 @@
 package it.unibo.elementsduo.model.player.api;
 
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.core.api.Movable;
 
-public interface Player {
+public interface Player extends Collidable, Movable {
 
     double getX();
     double getY();
@@ -15,8 +17,14 @@ public interface Player {
     void stopJump(double ceilingY);
     void setAirborne();
 
-    PlayerType getPlayerType();           
+    PlayerType getType();         
 
-    default double getWidth() { return 0.8; }
-    default double getHeight() { return 1.0; }
+    //Bounding box
+    default double getWidth() {
+        return 0.8;
+    }
+
+    default double getHeight() {
+        return 1.0;
+    }
 }
