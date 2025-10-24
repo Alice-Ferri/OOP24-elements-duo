@@ -1,7 +1,5 @@
 package it.unibo.elementsduo.resources;
 
-// class to represent a vector 
-
 public record Vector2D(double x, double y) {
     public static final Vector2D ZERO = new Vector2D(0, 0);
 
