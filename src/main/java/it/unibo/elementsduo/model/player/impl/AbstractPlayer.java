@@ -62,4 +62,43 @@ public abstract class AbstractPlayer implements Player {
     @Override public void setAirborne() {
         this.onGround = false;
     }
+
+    @Override
+    public HitBox getHitBox() {
+        return new HitBoxImpl(
+            new Position(this.x, this.y),
+            getHeight(),
+            getWidth()
+        );
+    }
+
+    @Override
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+
+        final double POSITION_SLOP = 0.001;
+        final double CORRECTION_PERCENT = 0.8;
+    
+        if (penetration <= 0) {
+            return;
+        }
+
+        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+        this.x += correction.x();
+        this.y += correction.y();
+
+        final double velocityNormal = this.velocity.dot(normal);
+        if (velocityNormal < 0) {
+            this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
+        }
+
+        final double normalY = normal.y();
+        if (normalY < -0.5) {
+            this.onGround = true;
+            this.velocity = new Vector2D(this.velocity.x(), 0);
+        } else if (normalY > 0.5) {
+            this.velocity = new Vector2D(this.velocity.x(), 0);
+        }
+    }
+
 }
