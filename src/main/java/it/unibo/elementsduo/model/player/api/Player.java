@@ -17,7 +17,7 @@ public interface Player extends Collidable, Movable {
     void stopJump(double ceilingY);
     void setAirborne();
 
-    PlayerType getType();         
+    PlayerType getPlayerType();         
 
     //Bounding box
     default double getWidth() {
