@@ -1,12 +1,16 @@
 package it.unibo.elementsduo.model.player.impl;
 
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.resources.Vector2D;
 
 public abstract class AbstractPlayer implements Player {
+
     protected double x;
     protected double y;
-    protected double velocityY = 0;
+    protected Vector2D velocity = new Vector2D(0, 0);
     protected boolean onGround = true;
 
     protected AbstractPlayer(final Position startPos) {
@@ -15,54 +19,60 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override public double getX() {
-        return x; 
+        return this.x; 
     }
 
     @Override public double getY() {
-        return y;
+        return this.y;
     }
 
     @Override public double getVelocityY() {
-        return velocityY;
+        return this.velocity.y();
     }
 
     @Override public boolean isOnGround() {
-        return onGround;
+        return this.onGround;
     }
 
-    @Override public void move(final double dx) {
-        this.x += dx;
+    @Override
+    public void move(final double dx) {
+        this.velocity = new Vector2D(dx, this.velocity.y());
+        this.x += this.velocity.x();
     }
-
-    @Override public void applyGravity(final double gravity) {
-        if (!onGround) {
-            velocityY += gravity;
-            y += velocityY;
+    
+    @Override
+    public void applyGravity(final double gravity) {
+        if (!this.onGround) {
+            this.velocity = this.velocity.add(new Vector2D(0, gravity));
+            this.y += this.velocity.y();
         }
     }
-
-    @Override public void jump(final double strength) {
-        if (onGround) {
-            velocityY = -strength;
-            onGround = false;
+    
+    @Override
+    public void jump(final double strength) {
+        if (this.onGround) {
+            this.velocity = this.velocity.add(new Vector2D(0, -strength));
+            this.onGround = false;
         }
     }
-
-    @Override public void landOn(final double groundY) {
+    
+    @Override
+    public void landOn(final double groundY) {
         this.y = groundY;
-        velocityY = 0;
-        onGround = true;
+        this.velocity = new Vector2D(this.velocity.x(), 0);
+        this.onGround = true;
     }
-
-    @Override public void stopJump(final double ceilingY) {
+    
+    @Override
+    public void stopJump(final double ceilingY) {
         this.y = ceilingY;
-        this.velocityY = 0;
+        this.velocity = new Vector2D(this.velocity.x(), 0);
     }
 
     @Override public void setAirborne() {
         this.onGround = false;
     }
-
+    
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(
