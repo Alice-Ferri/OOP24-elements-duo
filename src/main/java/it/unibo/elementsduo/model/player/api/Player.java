@@ -2,7 +2,6 @@
 
 package it.unibo.elementsduo.model.player.api;
 
-import it.unibo.elementsduo.model.map.api.TileType;
 
 public interface Player {
 
@@ -18,14 +17,8 @@ public interface Player {
     void stopJump(double ceilingY);
     void setAirborne();
 
-    PlayerType getType();
+    PlayerType getPlayerType();           
 
-    // Regole di interazione con le tile
-    boolean canWalkOn(TileType type);     
-    boolean isFatal(TileType type);       
-    TileType getGoalExitType();           
-
-    // Bounding box
     default double getWidth() { return 0.8; }
     default double getHeight() { return 1.0; }
 }

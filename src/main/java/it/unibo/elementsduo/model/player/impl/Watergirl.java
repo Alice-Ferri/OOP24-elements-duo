@@ -10,25 +10,8 @@ public class Watergirl extends AbstractPlayer {
         super(startPos);
     }
 
-    @Override public PlayerType getType() {
+    @Override public PlayerType getPlayerType() {
         return PlayerType.WATERGIRL;
     }
 
-    @Override
-    public boolean canWalkOn(final obstacleType.type obstacle) {
-        return switch (obstacle) {
-            case FLOOR, FIREEXIT, WATEREXIT, FIRESPAWN, WATERSPAWN -> true;
-            case WALL -> false;
-        };
-    }
-
-    @Override
-    public boolean isFatal(final obstacleType.type obstacle) {
-        return obstacle == obstacleType.type.FIRESPAWN;
-    }
-
-    @Override
-    public obstacleType.type obstacle getGoalExitType() {
-        return obstacleType.type.WATEREXIT;
-    }
 }
