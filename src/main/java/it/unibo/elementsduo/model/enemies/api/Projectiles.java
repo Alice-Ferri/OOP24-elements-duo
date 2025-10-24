@@ -1,30 +1,47 @@
 package it.unibo.elementsduo.model.enemies.api;
 
+import java.util.Set;
+
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
+
 /**
  * Interface representing a projectile in the game.
+ * Projectiles are typically fired by shooter enemies and can interact with the environment.
  */
 public interface Projectiles {
 
     /**
-     * Moves the projectile according to its direction and speed.
-     */
-    void update();
-
-    /**
      * Returns the current position of the projectile.
      * @return the projectile's position
+     * @param obstacles the set of obstacles present in the game world.
+     * @param deltaTime the time elapsed since the last update.
+     */
+    void update(Set<Obstacle> obstacles, double deltaTime);
+
+    /**
+     * @return the X-coordinate
      */
     double getX();
 
+    /**
+     * @return the Y-coordinate.
+     */
     double getY();
 
+    /**
+     * @return the direction as a double.
+     */
     double getDirection();
 
     /**
-     * Checks if the projectile is still active.
-     * (e.g., it has not left the screen and has not hit a target).
-     * @return true if the projectile is active, false otherwise
+     * @return true if the projectile is active, false otherwise.
      */
     boolean isActive();
 
+    /**
+     * @param obstacles the set of obstacles to check for collision against.
+     * @param deltaTime the time elapsed since the last move calculation.
+     */
+    void move(Set<Obstacle> obstacles, double deltaTime);
 }
+
