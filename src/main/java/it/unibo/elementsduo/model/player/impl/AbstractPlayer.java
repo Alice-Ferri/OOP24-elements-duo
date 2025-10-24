@@ -8,10 +8,10 @@ import it.unibo.elementsduo.resources.Vector2D;
 
 public abstract class AbstractPlayer implements Player {
 
-    protected double x;
-    protected double y;
-    protected Vector2D velocity = new Vector2D(0, 0);
-    protected boolean onGround = true;
+    private double x;
+    private double y;
+    private Vector2D velocity = new Vector2D(0, 0);
+    private boolean onGround = true;
 
     protected AbstractPlayer(final Position startPos) {
         this.x = startPos.x();
