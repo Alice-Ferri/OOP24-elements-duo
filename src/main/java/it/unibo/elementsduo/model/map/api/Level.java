@@ -12,6 +12,7 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
+import it.unibo.elementsduo.model.player.api.Player;
 
 public interface Level {
 
@@ -32,6 +33,8 @@ public interface Level {
 
     Set<ClassicEnemiesImpl> getClassicEnemies();
     Set<ShooterEnemyImpl> getShooterEnemies();
+
+    Set<Player> getAllPlayers();
 
 
 

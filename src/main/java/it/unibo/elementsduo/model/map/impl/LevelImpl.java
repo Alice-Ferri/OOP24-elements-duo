@@ -15,15 +15,18 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
+import it.unibo.elementsduo.model.player.api.Player;
 
 public class LevelImpl implements Level{
 
     private final Set<Obstacle> obstacles;
     private final Set<Enemy> enemies;
+    private final Set<Player> players;
 
-    public LevelImpl(final Set<Obstacle> ob, final Set<Enemy> en){
+    public LevelImpl(final Set<Obstacle> ob, final Set<Enemy> en, final Set<Player> pl){
         this.obstacles = Set.copyOf(Objects.requireNonNull(ob));
         this.enemies = Set.copyOf(Objects.requireNonNull(en));
+        this.players = Set.copyOf(Objects.requireNonNull(pl));
         
     }
 
@@ -99,6 +102,10 @@ public class LevelImpl implements Level{
     @Override
     public Set<ShooterEnemyImpl> getShooterEnemies() {
         return getEnemyByClass(ShooterEnemyImpl.class);
+    }
+
+    public Set<Player> getAllPlayers(){
+        return this.players;
     }
     
 }
