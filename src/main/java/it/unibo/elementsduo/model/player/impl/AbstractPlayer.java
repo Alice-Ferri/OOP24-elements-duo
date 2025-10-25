@@ -18,19 +18,23 @@ public abstract class AbstractPlayer implements Player {
         this.y = startPos.y();
     }
 
-    @Override public double getX() {
-        return this.x; 
+    @Override
+    public double getX() {
+        return this.x;
     }
 
-    @Override public double getY() {
+    @Override
+    public double getY() {
         return this.y;
     }
 
-    @Override public double getVelocityY() {
+    @Override
+    public double getVelocityY() {
         return this.velocity.y();
     }
 
-    @Override public boolean isOnGround() {
+    @Override
+    public boolean isOnGround() {
         return this.onGround;
     }
 
@@ -39,7 +43,7 @@ public abstract class AbstractPlayer implements Player {
         this.velocity = new Vector2D(dx, this.velocity.y());
         this.x += this.velocity.x();
     }
-    
+
     @Override
     public void applyGravity(final double gravity) {
         if (!this.onGround) {
@@ -47,7 +51,7 @@ public abstract class AbstractPlayer implements Player {
             this.y += this.velocity.y();
         }
     }
-    
+
     @Override
     public void jump(final double strength) {
         if (this.onGround) {
@@ -55,31 +59,31 @@ public abstract class AbstractPlayer implements Player {
             this.onGround = false;
         }
     }
-    
+
     @Override
     public void landOn(final double groundY) {
         this.y = groundY;
         this.velocity = new Vector2D(this.velocity.x(), 0);
         this.onGround = true;
     }
-    
+
     @Override
     public void stopJump(final double ceilingY) {
         this.y = ceilingY;
         this.velocity = new Vector2D(this.velocity.x(), 0);
     }
 
-    @Override public void setAirborne() {
+    @Override
+    public void setAirborne() {
         this.onGround = false;
     }
-    
+
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(
-            new Position(this.x, this.y),
-            getHeight(),
-            getWidth()
-        );
+                new Position(this.x, this.y),
+                getHeight(),
+                getWidth());
     }
 
     @Override
@@ -87,7 +91,7 @@ public abstract class AbstractPlayer implements Player {
 
         final double POSITION_SLOP = 0.001;
         final double CORRECTION_PERCENT = 0.8;
-    
+
         if (penetration <= 0) {
             return;
         }
@@ -110,5 +114,4 @@ public abstract class AbstractPlayer implements Player {
             this.velocity = new Vector2D(this.velocity.x(), 0);
         }
     }
-
 }

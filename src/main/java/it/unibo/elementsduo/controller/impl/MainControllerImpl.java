@@ -19,8 +19,9 @@ public class MainControllerImpl implements MainController {
     private final GameFrame view;
     private final GameLoop gameLoop;
     private final Set<Projectiles> projectiles = new HashSet<>();
+    private final InputController input;
 
-    public MainControllerImpl(){
+    public MainControllerImpl() {
 
         final MapLoader mapLoader = new MapLoader(new obstacleFactory(), new EnemyFactoryImpl());
         try {
@@ -28,18 +29,27 @@ public class MainControllerImpl implements MainController {
         } catch (final Exception e) {
             throw new IllegalStateException("Impossibile caricare il livello.", e);
         }
-        
+
         this.view = new GameFrame(level);
         this.gameLoop = new GameLoop(this);
+
+        this.input = new InputController(this.level);
+        this.input.install();
+
+        this.view.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                input.uninstall();
+            }
+        });
     }
 
     @Override
     public void update(double deltaTime) {
-        
         this.level.getAllEnemies().forEach(obj -> {
             obj.update(level.getAllObstacles(), deltaTime);
         });
-        
+        this.input.update(deltaTime);
     }
 
     @Override
@@ -47,10 +57,9 @@ public class MainControllerImpl implements MainController {
         this.view.repaint();
     }
 
-    public void start(){
+    public void start() {
         this.view.setVisible(true);
         this.gameLoop.start();
     }
 
-    
 }

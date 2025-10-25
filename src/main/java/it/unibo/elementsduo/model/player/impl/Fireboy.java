@@ -9,8 +9,8 @@ public class Fireboy extends AbstractPlayer {
         super(startPos);
     }
 
-    @Override public PlayerType getPlayerType() {
+    @Override
+    public PlayerType getPlayerType() {
         return PlayerType.FIREBOY;
     }
-
 }
