@@ -48,11 +48,11 @@ public class LevelPanel extends JPanel {
             return new Dimension(0, 0);
         }
         final int maxX = level.getAllObstacles().stream()
-                .mapToInt(obs -> obs.getPos().x())
+                .mapToInt(obs -> toPx(obs.getHitBox().getCenter().x()))
                 .max()
                 .orElse(0);
         final int maxY = level.getAllObstacles().stream()
-                .mapToInt(obs -> obs.getPos().y())
+                .mapToInt(obs -> toPx(obs.getHitBox().getCenter().y()))
                 .max()
                 .orElse(0);
         return new Dimension((maxX + 1) * elementSize, (maxY + 1) * elementSize);
@@ -77,17 +77,17 @@ public class LevelPanel extends JPanel {
 
     private void drawLevel(final Graphics g, int offestX,int offsetY) {
         this.level.getAllObstacles().stream().forEach(obs -> {
-            final Position pos = obs.getPos();
+            final Position pos = obs.getHitBox().getCenter();
 
             final Color tileColor = this.colorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
             g.setColor(tileColor);
 
             final double x = pos.x() * elementSize +offestX;
             final double y = pos.y() * elementSize +offsetY;
-            g.fillRect(x, y, elementSize, elementSize);
+            g.fillRect(toPx(x),toPx(y), elementSize, elementSize);
 
             g.setColor(Color.BLACK);
-            g.drawRect(x, y, elementSize, elementSize);
+            g.drawRect(toPx(x),toPx(y), elementSize, elementSize);
         });
     }
 
@@ -113,6 +113,10 @@ public class LevelPanel extends JPanel {
                 g.fillOval((int)x + detailOffset,(int) y + detailOffset, detailSize, detailSize);
             }    
         });
+    }
+
+    private static int toPx(double worldUnits) {
+        return (int) Math.round(worldUnits * elementSize);
     }
 
 }

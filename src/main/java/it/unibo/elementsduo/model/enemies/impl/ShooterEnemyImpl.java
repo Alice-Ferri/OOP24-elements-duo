@@ -77,7 +77,7 @@ public final class ShooterEnemyImpl implements Enemy {
      */
     private boolean isBlocked(final Set<Obstacle> obstacles, final Position pos) {
         return obstacles.stream()
-            .filter(ob -> ob.getPos().equals(pos))
+            .filter(ob -> ob.getHitBox().getCenter().equals(pos))
             .anyMatch(ob ->
                 ob instanceof Wall
                 || ob instanceof Floor
