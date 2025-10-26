@@ -12,14 +12,15 @@ public class PushBox extends InteractiveObstacle implements Pushable, Movable {
     private static final double GRAVITY = 9.8;
     private static final double MIN_VELOCITY_X = 0.02;
     private static final double MAX_FALL_SPEED = 15;
+    private static double halfWidth = 0.5;
+    private static double halfHeight = 0.5;
 
     private Vector2D velocity = Vector2D.ZERO;
-    private double mass;
+    private double mass = 1;
     private boolean onGround = false;
 
-    public PushBox(Position center, double halfWidth, double halfHeight, double mass) {
+    public PushBox(Position center) {
         super(center, halfWidth, halfHeight);
-        this.mass = mass;
     }
 
     @Override

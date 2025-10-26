@@ -6,19 +6,21 @@ import it.unibo.elementsduo.resources.Vector2D;
 
 public class PlatformImpl extends InteractiveObstacle implements Triggerable {
 
+    private static double halfWidth = 0.5;
+    private static double halfHeight = 0.5;
+
     private Position a, b;
-    private double speed;
+    private double speed = 1.0;
     private Position pos;
     private Vector2D velocity = Vector2D.ZERO;
     private boolean forward = true;
     private boolean active = false;
 
-    public PlatformImpl(Position pos, Position a, Position b, double halfWidth, double halfHeight, double speed) {
+    public PlatformImpl(Position pos, Position a, Position b) {
         super(pos, halfWidth, halfHeight);
         this.a = a;
         this.b = b;
         this.pos = pos;
-        this.speed = speed;
     }
 
     public void update(double delta) {
