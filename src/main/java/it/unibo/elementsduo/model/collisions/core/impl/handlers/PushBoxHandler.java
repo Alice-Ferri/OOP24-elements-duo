@@ -42,8 +42,6 @@ public class PushBoxHandler implements CollisionHandler {
                 push = -push;
             box.push(new Vector2D(push, 0));
         }
-
-        physics.handle(c);
     }
 
 }
