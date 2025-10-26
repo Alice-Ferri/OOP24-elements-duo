@@ -1,6 +1,8 @@
 package it.unibo.elementsduo.controller.api;
 
-public interface GameController {
+import it.unibo.elementsduo.controller.subcontroller.api.Controller;
+
+public interface GameController extends Controller{
     
     public void update(double deltaTime);
 
