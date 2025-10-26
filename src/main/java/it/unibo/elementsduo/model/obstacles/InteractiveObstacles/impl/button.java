@@ -6,12 +6,12 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerList
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
 import it.unibo.elementsduo.resources.Position;
 
-public class button extends InteractiveObstacle implements Triggerable {
+public class Button extends InteractiveObstacle implements Triggerable {
 
     private boolean active = false;
     private ArrayList<TriggerListener> linkedObjects = new ArrayList<>();
 
-    public button(Position center, double halfWidth, double halfHeight) {
+    public Button(Position center, double halfWidth, double halfHeight) {
         super(center, halfWidth, halfHeight);
     }
 
