@@ -6,19 +6,18 @@ import it.unibo.elementsduo.resources.Position;
 public class InteractiveObstacleFactoryImpl implements InteractiveObstacleFactory {
 
     @Override
-    public Lever createLever(Position pos, double halfWidth, double halfHeight) {
-        return new Lever(pos, halfWidth, halfHeight);
+    public Lever createLever(Position pos) {
+        return new Lever(pos);
     }
 
     @Override
-    public PushBox createPushBox(Position pos, double halfWidth, double halfHeight, double mass) {
-        return new PushBox(pos, halfWidth, halfHeight, mass);
+    public PushBox createPushBox(Position pos) {
+        return new PushBox(pos);
     }
 
     @Override
-    public PlatformImpl createMovingPlatform(Position pos, Position a, Position b, double halfWidth, double halfHeight,
-            double speed) {
-        return new PlatformImpl(pos, a, b, halfWidth, halfHeight, speed);
+    public PlatformImpl createMovingPlatform(Position pos, Position a, Position b) {
+        return new PlatformImpl(pos, a, b);
     }
 
 }

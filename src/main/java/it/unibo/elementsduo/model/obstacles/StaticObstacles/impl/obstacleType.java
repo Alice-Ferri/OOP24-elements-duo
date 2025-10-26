@@ -6,6 +6,10 @@ public class obstacleType {
         LAVA_POOL,
         GREEN_POOL,
         WALL,
-        FLOOR;
+        FLOOR,
+        WATER_SPAWN,
+        FIRE_SPAWN,
+        FIRE_EXIT,
+        WATER_EXIT;
     }
 }
