@@ -3,27 +3,109 @@ package it.unibo.elementsduo.model.player.api;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 
+/**
+ * Represents a player entity in the game.
+ * 
+ * A {@code Player} is both {@link Collidable} and {@link Movable}, and defines
+ * basic physical behavior such as movement, jumping, and collision handling.
+ * 
+ */
+
 public interface Player extends Collidable, Movable {
 
+    /**
+     * Returns the current horizontal position of the player.
+     *
+     * @return the x-coordinate of the player
+     */
     double getX();
+
+    /**
+     * Returns the current vertical position of the player.
+     *
+     * @return the y-coordinate of the player
+     */
     double getY();
+
+    /**
+     * Returns the current vertical velocity of the player.
+     *
+     * @return the vertical component of the player's velocity
+     */
     double getVelocityY();
+
+    /**
+     * Returns whether the player is currently on the ground.
+     *
+     * @return {@code true} if the player is on the ground, {@code false} otherwise
+     */
     boolean isOnGround();
 
+    /**
+     * Moves the player horizontally by the given delta value.
+     *
+     * @param dx the horizontal movement delta
+     */
     void move(double dx);
+
+    /**
+     * Applies a gravitational force to the player.
+     *
+     * @param gravity the gravity acceleration to apply
+     */
     void applyGravity(double gravity);
+
+    /**
+     * Makes the player jump with the given strength.
+     * 
+     * @param strength the upward jump force
+     */
     void jump(double strength);
+
+    /**
+     * Lands the player on a solid surface.
+     * 
+     * @param groundY the vertical coordinate of the ground surface
+     */
     void landOn(double groundY);
+
+    /**
+     * Stops the player's upward movement due to a ceiling collision.
+     * 
+     * @param ceilingY the vertical coordinate of the ceiling
+     */
     void stopJump(double ceilingY);
+
+    /**
+     * Marks the player as airborne.
+     */
     void setAirborne();
 
-    PlayerType getPlayerType();         
+    /**
+     * Returns the specific player type (e.g. {@link PlayerType#FIREBOY} or
+     * {@link PlayerType#WATERGIRL}).
+     *
+     * @return the type of this player
+     */
+    PlayerType getPlayerType();
 
-    //Bounding box
+
+    void update (double deltaTime, InputController input);
+
+    /**
+     * Returns the width of the player's bounding box.
+     *
+     * @return the player's width
+     */
     default double getWidth() {
         return 0.8;
     }
 
+    /**
+     * Returns the height of the player's bounding box.
+     *
+     * @return the player's height
+     */
     default double getHeight() {
         return 1.0;
     }

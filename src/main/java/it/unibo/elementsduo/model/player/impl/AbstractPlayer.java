@@ -3,6 +3,7 @@ package it.unibo.elementsduo.model.player.impl;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -72,7 +73,40 @@ public abstract class AbstractPlayer implements Player {
     @Override public void setAirborne() {
         this.onGround = false;
     }
+
+
+    @Override
+    public void update(final double deltaTime, final InputController input) {
+        handleInput(input);
+
+        if (!this.onGround) {
+            this.velocity = this.velocity.add(new Vector2D(0, GRAVITY * deltaTime));
+        }
+
+        this.x += this.velocity.x() * deltaTime;
+        this.y += this.velocity.y() * deltaTime;
+    }
     
+
+    private void handleInput(final InputController input) {
+        final PlayerType type = this.getPlayerType(); 
+
+        final boolean left = input.isMoveLeftPressed(type);
+        final boolean right = input.isMoveRightPressed(type);
+
+        if (left == right) { 
+            this.setVelocityX(0);
+        } else if (left) {
+            this.setVelocityX(-RUN_SPEED);
+        } else { 
+            this.setVelocityX(RUN_SPEED);
+        }
+
+        if (input.isJumpPressed(type)) {
+            this.jump(JUMP_STRENGTH);
+        }
+    }
+
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(
