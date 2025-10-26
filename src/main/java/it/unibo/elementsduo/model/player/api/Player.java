@@ -81,6 +81,10 @@ public interface Player extends Collidable, Movable {
      */
     void setAirborne();
 
+    void setVelocityX(double vx);
+
+    void update (double deltaTime, InputController input);
+
     /**
      * Returns the specific player type (e.g. {@link PlayerType#FIREBOY} or
      * {@link PlayerType#WATERGIRL}).
@@ -90,7 +94,7 @@ public interface Player extends Collidable, Movable {
     PlayerType getPlayerType();
 
 
-    void update (double deltaTime, InputController input);
+    
 
     /**
      * Returns the width of the player's bounding box.

@@ -74,6 +74,10 @@ public abstract class AbstractPlayer implements Player {
         this.onGround = false;
     }
 
+    @Override
+    public void setVelocityX(final double vx) {
+        this.velocity = new Vector2D(vx, this.velocity.y());
+    }
 
     @Override
     public void update(final double deltaTime, final InputController input) {
