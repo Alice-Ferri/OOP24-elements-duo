@@ -11,8 +11,10 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ButtonActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHanlder;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /* class to manage collisions */
@@ -24,10 +26,14 @@ public class CollisionManager {
     private Set<Lever> LeversColliding = new HashSet<>();
     private Set<Lever> LeverLast = new HashSet<>();
 
-    public CollisionManager() {
+    private final EventManager eventManager;
+
+    public CollisionManager(final EventManager eventManager) {
+        this.eventManager = eventManager;
         register.registerHandler(new LeverActivationHandler());
         register.registerHandler(new ButtonActivationHandler());
         register.registerHandler(new PushBoxHandler());
+        register.registerHandler(new PlayerEnemyHandler(this.eventManager));
         register.registerHandler(new PhysicsHanlder());
     }
 
