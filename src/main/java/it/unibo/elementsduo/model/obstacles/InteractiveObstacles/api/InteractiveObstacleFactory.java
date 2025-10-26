@@ -6,10 +6,9 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.resources.Position;
 
 public interface InteractiveObstacleFactory {
-    Lever createLever(Position pos, double halfWidth, double halfHeight);
+    Lever createLever(Position pos);
 
-    PushBox createPushBox(Position pos, double halfWidth, double halfHeight, double mass);
+    PushBox createPushBox(Position pos);
 
-    PlatformImpl createMovingPlatform(Position pos, Position a, Position b, double halfWidth, double halfHeight,
-            double speed);
+    PlatformImpl createMovingPlatform(Position pos, Position a, Position b);
 }
