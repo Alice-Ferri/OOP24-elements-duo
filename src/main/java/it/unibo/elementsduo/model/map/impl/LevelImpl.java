@@ -1,10 +1,12 @@
 package it.unibo.elementsduo.model.map.impl;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.api.Level;
@@ -24,6 +26,7 @@ public class LevelImpl implements Level{
     private final Set<Enemy> enemies;
     private final Set<Player> players;
     private final Set<InteractiveObstacle> interactiveObs;
+    private final Set<Projectiles> projectiles = new HashSet<>();
 
     public LevelImpl(final Set<Obstacle> ob, final Set<Enemy> en, final Set<Player> pl, final Set<InteractiveObstacle> iob){
         this.obstacles = Set.copyOf(Objects.requireNonNull(ob));
@@ -112,11 +115,26 @@ public class LevelImpl implements Level{
     }
 
     @Override
-    public <T extends Enemy> Set<T> getInteractiveObsByClass(Class<T> type) {
+    public <T extends InteractiveObstacle> Set<T> getInteractiveObsByClass(Class<T> type) {
        return this.interactiveObs.stream()
         .filter(type::isInstance)
         .map(type::cast)          
         .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<Projectiles> getAllProjectiles() {
+        return Set.copyOf(this.projectiles); 
+    }
+
+    @Override
+    public void addProjectile(Projectiles p) {
+        this.projectiles.add(p);
+    }
+
+    @Override
+    public void cleanProjectiles() {
+        this.projectiles.removeIf(p -> !p.isActive());
     }
     
 }

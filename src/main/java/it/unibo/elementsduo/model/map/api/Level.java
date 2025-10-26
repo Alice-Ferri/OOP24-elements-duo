@@ -3,10 +3,12 @@ package it.unibo.elementsduo.model.map.api;
 import java.util.Set;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
@@ -36,9 +38,11 @@ public interface Level {
 
     Set<Player> getAllPlayers();
 
-    <T extends Enemy> Set<T> getInteractiveObsByClass(Class<T> type);
+    <T extends InteractiveObstacle> Set<T> getInteractiveObsByClass(Class<T> type);
 
-
+    Set<Projectiles> getAllProjectiles();
+    void addProjectile(Projectiles p);
+    void cleanProjectiles();
 
 
 }
