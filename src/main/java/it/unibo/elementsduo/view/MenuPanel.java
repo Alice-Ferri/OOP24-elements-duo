@@ -7,12 +7,12 @@ import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import java.awt.Component;
 
-public class MainMenuPanel extends JPanel {
+public class MenuPanel extends JPanel {
     
     private final JButton startButton;
     private final JButton loadButton;
 
-    public MainMenuPanel() {
+    public MenuPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.startButton = new JButton("Inizia a Giocare");

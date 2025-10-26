@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller.api;
+package it.unibo.elementsduo.controller.maincontroller.api;
 
 public interface MainController {
     

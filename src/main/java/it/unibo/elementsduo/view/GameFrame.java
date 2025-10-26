@@ -1,24 +1,34 @@
 package it.unibo.elementsduo.view;
 
-import it.unibo.elementsduo.model.map.api.Level;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 
 public class GameFrame extends JFrame {
 
-    private final LevelPanel panel;
+    private final CardLayout cardLayout;
+    private final JPanel contentPanel;
 
-    public GameFrame(final Level level) {
-        super("Elements Duo");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        panel = new LevelPanel(level);
-        add(panel);
-        setSize(1000, 670);
-        setLocationRelativeTo(null);
-        setVisible(true);
+    public GameFrame() {
+        this.setTitle("Elements Duo");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setPreferredSize(new Dimension(800, 600));
+
+        this.cardLayout = new CardLayout();
+        this.contentPanel = new JPanel(this.cardLayout);
+        this.add(this.contentPanel);
+
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setResizable(true);
     }
 
-    public LevelPanel getPanel() {
-        return panel;
+    public void addView(final JPanel view,final String key) {
+        this.contentPanel.add(view,key);
     }
 
+    public void showView(final String key) {
+        this.cardLayout.show(this.contentPanel, key);
+    }
 }

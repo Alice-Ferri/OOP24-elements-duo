@@ -1,7 +1,9 @@
-package it.unibo.elementsduo.controller.impl;
+package it.unibo.elementsduo.controller.gamecontroller.impl;
+
+import javax.swing.JPanel;
 
 import it.unibo.elementsduo.controller.GameLoop;
-import it.unibo.elementsduo.controller.api.GameController;
+import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.map.impl.MapLoader;
@@ -23,7 +25,7 @@ public class GameControllerImpl implements GameController {
             throw new IllegalStateException("Impossibile caricare il livello.", e);
         }
         
-        this.view = new GameFrame(level);
+        this.view = new GameFrame();
         this.gameLoop = new GameLoop(this);
     }
 
@@ -40,6 +42,24 @@ public class GameControllerImpl implements GameController {
     public void start(){
         this.view.setVisible(true);
         this.gameLoop.start();
+    }
+
+    @Override
+    public void activate() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'activate'");
+    }
+
+    @Override
+    public void deactivate() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deactivate'");
+    }
+
+    @Override
+    public JPanel getPanel() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPanel'");
     }
 
     

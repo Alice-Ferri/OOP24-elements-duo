@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller.api;
+package it.unibo.elementsduo.controller.gamecontroller.api;
 
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
 

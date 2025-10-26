@@ -2,7 +2,7 @@ package it.unibo.elementsduo.controller;
 
 import java.util.Objects;
 
-import it.unibo.elementsduo.controller.api.GameController;
+import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 
 public class GameLoop implements Runnable{
     private static final int TARGET_FPS = 60;
