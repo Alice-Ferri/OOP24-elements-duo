@@ -9,7 +9,8 @@ public class Watergirl extends AbstractPlayer {
         super(startPos);
     }
 
-    @Override public PlayerType getPlayerType() {
+    @Override
+    public PlayerType getPlayerType() {
         return PlayerType.WATERGIRL;
     }
 
