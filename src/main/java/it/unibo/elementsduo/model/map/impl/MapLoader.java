@@ -2,8 +2,13 @@ package it.unibo.elementsduo.model.map.impl;
 
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.impl.Fireboy;
+import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleType;
@@ -26,6 +31,7 @@ public class MapLoader {
 
     private final obstacleFactory obstacleFactory;
     private final EnemyFactory enemiesFactory;
+    private final InteractiveObstacleFactory interactiveObsFactory;
 
     private static final Map<Character,obstacleType.type> symbolMap = Map.of(
         'P',obstacleType.type.FLOOR,
@@ -37,10 +43,14 @@ public class MapLoader {
     );
 
     private static final Set<Character> symbolEnemies = Set.of('C','S');
+    private static final Set<Character> symbolPlayer = Set.of('W','B');
+    private static final Set<Character> symbolInteractiveObstacle = Set.of('L','P','M');
 
-    public MapLoader(final obstacleFactory factory, final EnemyFactory enemyFactory) {
+
+    public MapLoader(final obstacleFactory factory, final EnemyFactory enemyFactory,final InteractiveObstacleFactory interactiveObstacleFactory) {
         this.obstacleFactory = Objects.requireNonNull(factory);
         this.enemiesFactory = Objects.requireNonNull(enemyFactory);
+        this.interactiveObsFactory = Objects.requireNonNull(interactiveObstacleFactory);
     }
 
     public Level loadLevel(final int levelNumber) {
@@ -51,6 +61,8 @@ public class MapLoader {
     private Level loadLevelFromFile(final String filePath) {
         final Set<Obstacle> obstacles = new HashSet<>();
         final Set<Enemy> enemies = new HashSet<>();
+        final Set<Player> players = new HashSet<>();
+        final Set<InteractiveObstacle> interactiveObstacles = new HashSet<>();
         final InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
 
         if (is == null) {
@@ -72,6 +84,29 @@ public class MapLoader {
                     }else if(symbolMap.containsKey(symbol)){
                         final obstacleType.type type = symbolMap.get(symbol);
                         obstacles.add(obstacleFactory.createObstacle(type,new HitBoxImpl(pos,1,1)));
+                    }else if(symbolPlayer.contains(symbol)){
+                        if (symbol == 'W') {
+                            players.add(new Watergirl(pos));
+                        }else{
+                            players.add(new Fireboy(pos));
+                        }
+                    }else if(symbolInteractiveObstacle.contains(symbol)){
+                         switch (symbol) {
+                            case 'L' : interactiveObstacles.add(
+                                    interactiveObsFactory.createLever(pos, 0.5, 0.5));
+                                    break;
+                            case 'P' : interactiveObstacles.add(
+                                    interactiveObsFactory.createPushBox(pos, 0.5, 0.5, 1.0));
+                                    break;
+                            case 'M' : interactiveObstacles.add(
+                                    interactiveObsFactory.createMovingPlatform(
+                                            pos,pos,pos,
+                                            0.5, 0.3, 1.0));
+                                            break;
+                            default:
+                                break;
+                        }
+
                     }
                     
                 }
@@ -81,7 +116,7 @@ public class MapLoader {
             throw new RuntimeException("Errore nella lettura del file: " + filePath, e);
         }
 
-        return new LevelImpl(obstacles,enemies);
+        return new LevelImpl(obstacles,enemies,players,interactiveObstacles);
     }
 }
 

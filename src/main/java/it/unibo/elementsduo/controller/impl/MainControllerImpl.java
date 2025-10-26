@@ -10,6 +10,7 @@ import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.map.impl.MapLoader;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactory;
 import it.unibo.elementsduo.view.GameFrame;
 
@@ -22,7 +23,7 @@ public class MainControllerImpl implements MainController {
 
     public MainControllerImpl(){
 
-        final MapLoader mapLoader = new MapLoader(new obstacleFactory(), new EnemyFactoryImpl());
+        final MapLoader mapLoader = new MapLoader(new obstacleFactory(), new EnemyFactoryImpl(),new InteractiveObstacleFactoryImpl());
         try {
             this.level = mapLoader.loadLevel(1);
         } catch (final Exception e) {

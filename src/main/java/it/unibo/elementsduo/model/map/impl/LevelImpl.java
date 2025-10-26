@@ -10,6 +10,7 @@ import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
@@ -22,11 +23,13 @@ public class LevelImpl implements Level{
     private final Set<Obstacle> obstacles;
     private final Set<Enemy> enemies;
     private final Set<Player> players;
+    private final Set<InteractiveObstacle> interactiveObs;
 
-    public LevelImpl(final Set<Obstacle> ob, final Set<Enemy> en, final Set<Player> pl){
+    public LevelImpl(final Set<Obstacle> ob, final Set<Enemy> en, final Set<Player> pl, final Set<InteractiveObstacle> iob){
         this.obstacles = Set.copyOf(Objects.requireNonNull(ob));
         this.enemies = Set.copyOf(Objects.requireNonNull(en));
         this.players = Set.copyOf(Objects.requireNonNull(pl));
+        this.interactiveObs = Set.copyOf(Objects.requireNonNull(iob));
         
     }
 
@@ -106,6 +109,14 @@ public class LevelImpl implements Level{
 
     public Set<Player> getAllPlayers(){
         return this.players;
+    }
+
+    @Override
+    public <T extends Enemy> Set<T> getInteractiveObsByClass(Class<T> type) {
+       return this.interactiveObs.stream()
+        .filter(type::isInstance)
+        .map(type::cast)          
+        .collect(Collectors.toSet());
     }
     
 }

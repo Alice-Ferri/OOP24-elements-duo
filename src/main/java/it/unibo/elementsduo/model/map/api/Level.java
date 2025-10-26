@@ -36,6 +36,8 @@ public interface Level {
 
     Set<Player> getAllPlayers();
 
+    <T extends Enemy> Set<T> getInteractiveObsByClass(Class<T> type);
+
 
 
 
