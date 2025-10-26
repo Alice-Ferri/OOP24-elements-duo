@@ -1,10 +1,11 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class PlatformImpl extends InteractiveObstacle implements Triggerable {
+public class PlatformImpl extends InteractiveObstacle implements Triggerable, TriggerListener {
 
     private static double halfWidth = 0.5;
     private static double halfHeight = 0.5;
@@ -60,6 +61,15 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable {
 
     public Vector2D getVelocity() {
         return this.velocity;
+    }
+
+    @Override
+    public void onTriggered(boolean state) {
+        if (state) {
+            this.activate();
+        } else {
+            this.deactivate();
+        }
     }
 
 }
