@@ -20,7 +20,7 @@ public class PhysicsHanlder implements CollisionHandler {
             movable = m;
         else if (c.getObjectB() instanceof Movable m) {
             movable = m;
-            normal.multiply(-1);
+            normal = normal.multiply(-1);
         }
 
         if (movable != null) {
