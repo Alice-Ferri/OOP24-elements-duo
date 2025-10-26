@@ -47,18 +47,10 @@ public class CollisionCheckerImpl implements CollisionChecker {
 
         if (px < py) {
             penetration = px;
-            if (dx > 0)
-                normal = new Vector2D(1, 0);
-            else
-                normal = new Vector2D(-1, 0);
-        }
-
-        else {
+            normal = new Vector2D(dx > 0 ? 1 : -1, 0);
+        } else {
             penetration = py;
-            if (dx > 0)
-                normal = new Vector2D(0, 1);
-            else
-                normal = new Vector2D(0, -1);
+            normal = new Vector2D(0, dy > 0 ? 1 : -1);
         }
 
         return Optional.of(new CollisionInformationsImpl(objectA, objectB, penetration, normal));
