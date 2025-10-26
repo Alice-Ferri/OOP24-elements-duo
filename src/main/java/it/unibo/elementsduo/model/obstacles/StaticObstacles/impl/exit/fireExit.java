@@ -7,7 +7,7 @@ import it.unibo.elementsduo.resources.Position;
 
 public class fireExit extends StaticObstacle implements ExitZone {
 
-    public fireExit(Position pos, HitBox hitBox) {
+    public fireExit(HitBox hitBox) {
         super(hitBox);
     }
 }
