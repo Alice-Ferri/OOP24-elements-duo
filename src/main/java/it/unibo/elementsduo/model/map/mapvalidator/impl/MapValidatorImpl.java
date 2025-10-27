@@ -2,11 +2,14 @@ package it.unibo.elementsduo.model.map.mapvalidator.impl;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
@@ -93,7 +96,26 @@ public class MapValidatorImpl implements MapValidator{
     }
 
     private void checkEnemyFloors(final Level level) throws InvalidMapException{
-        
+        final Set<Position> floorPositions = level.getObstaclesByClass(Floor.class).stream()
+                .map(obs -> new Position(
+                (int) obs.getHitBox().getCenter().x(),
+                (int) obs.getHitBox().getCenter().y()))
+                .collect(Collectors.toSet());
+
+        for (final Enemy enemy : level.getAllEnemies()) {
+            final Position enemyPos = new Position(
+                (int) enemy.getX(),
+                (int) enemy.getY()
+            );
+            
+            final Position posBelow = new Position(enemyPos.x(), enemyPos.y() + 1);
+            if (!floorPositions.contains(posBelow)) {
+                throw new InvalidMapException(
+                    "Errore di posizionamento: Il nemico a " + enemyPos 
+                    + " sta fluttuando. Manca un pavimento nella posizione " + posBelow + "."
+                );
+            }
+        }
     }
     
 }
