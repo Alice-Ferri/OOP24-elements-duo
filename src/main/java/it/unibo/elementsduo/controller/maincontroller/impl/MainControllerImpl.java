@@ -1,14 +1,19 @@
 package it.unibo.elementsduo.controller.maincontroller.impl;
 
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
+
+import it.unibo.elementsduo.controller.gamecontroller.impl.GameControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.controller.maincontroller.api.HomeNavigation;
 import it.unibo.elementsduo.controller.maincontroller.api.LevelSelectionNavigation;
 import it.unibo.elementsduo.controller.maincontroller.api.MainController;
 import it.unibo.elementsduo.controller.subcontroller.impl.HomeController;
 import it.unibo.elementsduo.controller.subcontroller.impl.LevelSelectionController;
+import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
+import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.map.impl.MapLoader;
+import it.unibo.elementsduo.model.obstacles.impl.obstacleFactory;
 import it.unibo.elementsduo.view.GameFrame;
-import it.unibo.elementsduo.view.LevelPanel;
 import it.unibo.elementsduo.view.LevelSelectionPanel;
 import it.unibo.elementsduo.view.MenuPanel;
 
@@ -16,6 +21,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     private final GameFrame mainFrame;
     private Controller currentController;
+    private final MapLoader mapLoader;
 
 
     private static final String menuKey = "menu";
@@ -24,11 +30,21 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     public MainControllerImpl(){
         this.mainFrame = new GameFrame();
+        mapLoader= new MapLoader(new obstacleFactory(), new EnemyFactoryImpl());
     }
 
     @Override
     public void startGame(int levelNumber) {
-        
+        this.checkController();
+
+        final Level level;
+        level = this.mapLoader.loadLevel(levelNumber);
+        final Controller gameController = new GameControllerImpl(level, this);
+        gameController.activate();
+        final String currentGameKey = gameKey + levelNumber;
+        mainFrame.addView(gameController.getPanel(), currentGameKey);
+        mainFrame.showView(currentGameKey);
+        currentController = gameController;
         
     }
 

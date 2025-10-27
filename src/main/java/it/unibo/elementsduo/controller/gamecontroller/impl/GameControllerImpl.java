@@ -4,28 +4,22 @@ import javax.swing.JPanel;
 
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
-import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
+import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.model.map.api.Level;
-import it.unibo.elementsduo.model.map.impl.MapLoader;
-import it.unibo.elementsduo.model.obstacles.impl.obstacleFactory;
-import it.unibo.elementsduo.view.GameFrame;
+import it.unibo.elementsduo.view.LevelPanel;
 
 public class GameControllerImpl implements GameController {
 
     private final Level level;
-    private final GameFrame view;
+    private final LevelPanel view;
     private final GameLoop gameLoop;
+    private final GameNavigation controller; //lo utilizzerò quando sarà gestito lo stop al gameloop
 
-    public GameControllerImpl(){
+    public GameControllerImpl(final Level level, final GameNavigation controller){
 
-        final MapLoader mapLoader = new MapLoader(new obstacleFactory(), new EnemyFactoryImpl());
-        try {
-            this.level = mapLoader.loadLevel(1);
-        } catch (final Exception e) {
-            throw new IllegalStateException("Impossibile caricare il livello.", e);
-        }
-        
-        this.view = new GameFrame();
+        this.level = level;
+        this.controller = controller;
+        this.view = new LevelPanel(this.level); 
         this.gameLoop = new GameLoop(this);
     }
 
@@ -46,20 +40,17 @@ public class GameControllerImpl implements GameController {
 
     @Override
     public void activate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'activate'");
+        this.start();
     }
 
     @Override
     public void deactivate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deactivate'");
+        this.gameLoop.stop();
     }
 
     @Override
     public JPanel getPanel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPanel'");
+        return this.view;
     }
 
     
