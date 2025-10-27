@@ -3,9 +3,10 @@ package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.resources.Position;
 
-public abstract class InteractiveObstacle implements Collidable {
+public abstract class InteractiveObstacle implements obstacle {
 
     Position center;
     final double halfHeight;

@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
+package it.unibo.elementsduo.model.obstacles.api;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 
