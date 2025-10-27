@@ -19,5 +19,6 @@ public final class EnemyFactoryImpl implements EnemyFactory {
             case 'S' -> new ShooterEnemyImpl(pos); 
             default -> throw new IllegalArgumentException("Unknown enemy type: " + c);
 
+};
+    }
 }
-// Line has trailing spaces solved by ensuring no trailing spaces here.

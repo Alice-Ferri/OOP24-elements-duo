@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.enemies.api;
 
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.utils.Position;
 
 /**
@@ -13,6 +14,6 @@ public interface EnemyFactory {
      * @param pos the starting position of the enemy.
      * @return the created Enemy instance.
      */
-    Enemy createEnemy(char c, Position pos);
+    Enemy createEnemy(char c, Position pos,EnemiesMoveManager moveManager);
 }
 

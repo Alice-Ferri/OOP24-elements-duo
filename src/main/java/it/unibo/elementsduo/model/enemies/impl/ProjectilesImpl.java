@@ -16,7 +16,7 @@ import it.unibo.elementsduo.utils.Position;
  * Implementation of the Projectiles interface, representing a moving entity
  * fired by an enemy.
  */
-public final class ProjectilesImpl implements Projectiles {
+public final class ProjectilesImpl implements Projectiles,Movable {
 
     // Campi e static final in ordine corretto, una dichiarazione per riga
     private static final double SPEED = 0.08;
@@ -35,14 +35,6 @@ public final class ProjectilesImpl implements Projectiles {
         this.x = pos.x();
         this.y = pos.y();
         this.direction = direction;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void update(final Set<obstacle> obstacles, final double deltaTime) {
-        move(obstacles, deltaTime);
     }
 
     /**
@@ -81,43 +73,39 @@ public final class ProjectilesImpl implements Projectiles {
      * {@inheritDoc}
      */
     @Override
-    public void move(final Set<obstacle> obstacles, final double deltaTime) {
-        final double stepX = this.direction * SPEED * deltaTime;
-        final double nextX = this.x + stepX;
-        final double currentY = this.y; // 'y' era un 'hidden field', rinominato in 'currentY'
-
-        final int frontX = (int) (this.direction > 0 ? Math.floor(nextX + 1) : Math.floor(nextX));
-        final int frontY = (int) Math.floor(currentY);
-
-        final Position frontTile = new Position(frontX, frontY);
-
-        final boolean wallAhead = isBlocked(obstacles, frontTile);
-
-        if (wallAhead) {
-            this.alive = false; // Il proiettile si disattiva dopo l'impatto.
-        } else {
-            this.x = nextX; // Esegue il movimento
-        }
+    public void move(final double deltaTime) {
+        this.velocity = new Vector2D(deltatime, this.velocity.y());
+        this.x += this.velocity.x(); 
     }
 
-    /**
-     * Checks if the target position is blocked by an obstacle that should stop the projectile.
-     *
-     * @param obstacles the set of obstacles in the game.
-     * @param pos the position to check.
-     * @return true if the position is blocked, false otherwise.
-     */
-    private boolean isBlocked(final Set<obstacle> obstacles, final Position pos) {
-        return obstacles.stream()
-            .filter(ob -> ob.getPos().equals(pos))
-            .anyMatch(ob ->
-                ob instanceof Wall
-                || ob instanceof Floor
-                || ob instanceof fireSpawn
-                || ob instanceof waterSpawn
-                || ob instanceof fireExit
-                || ob instanceof waterExit
-            );
+    @Override
+    public void update(final Set<obstacle> obstacles, final double deltaTime) {
+        this.move(obstacles, deltaTime);
     }
+
+    @Override
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+
+    final double POSITION_SLOP = 0.001;
+    final double CORRECTION_PERCENT = 0.8;
+    if (penetration <= 0) {
+    return;
+    }
+    final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+    final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+    this.x += correction.x();
+    this.y += correction.y();
+
+    final double velocityNormal = this.velocity.dot(normal);
+    if (velocityNormal < 0) {
+        this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
+    }
+}
+@Override
+    public HitBox getHitBox() {
+        return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
+    }
+
+
 }
 
