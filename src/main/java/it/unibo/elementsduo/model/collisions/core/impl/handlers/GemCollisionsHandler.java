@@ -12,7 +12,7 @@ public class GemCollisionsHandler implements CollisionHandler {
 
     private final EventManager eventManager;
 
-    GemCollisionsHandler(EventManager em) {
+    public GemCollisionsHandler(EventManager em) {
         this.eventManager = em;
     }
 

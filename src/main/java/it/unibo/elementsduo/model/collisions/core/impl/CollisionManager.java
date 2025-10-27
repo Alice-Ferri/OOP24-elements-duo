@@ -9,6 +9,7 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ButtonActivationHandler;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.GemCollisionsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHanlder;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
@@ -34,7 +35,7 @@ public class CollisionManager {
         register.registerHandler(new ButtonActivationHandler());
         register.registerHandler(new PushBoxHandler());
         register.registerHandler(new PlayerEnemyHandler(this.eventManager));
-        register.registerHandler(new GemCollisionHandler(this.eventManager));
+        register.registerHandler(new GemCollisionsHandler(this.eventManager));
         register.registerHandler(new PhysicsHanlder());
     }
 
