@@ -1,47 +1,59 @@
 package it.unibo.elementsduo.model.enemies.api;
 
-import java.util.Set;
 
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
+import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Interface representing a projectile in the game.
- * Projectiles are typically fired by shooter enemies and can interact with the environment.
+ * Represents a projectile, a mobile and short-lived entity that
+ * is spawned by an enemy.
  */
-public interface Projectiles {
+public interface Projectiles extends Movable {
 
     /**
-     * Returns the current position of the projectile.
-     * @return the projectile's position
-     * @param obstacles the set of obstacles present in the game world.
-     * @param deltaTime the time elapsed since the last update.
+     * Updates the projectile's state, including movement.
+     *
+     * @param obstacles the set of obstacles in the game, used for any required logic.
+     * @param deltaTime the time elapsed since the last frame.
      */
-    void update(Set<Obstacle> obstacles, double deltaTime);
+    void update(double deltaTime);
 
     /**
-     * @return the X-coordinate
+     * Executes physics correction in case of a collision.
+     *
+     * @param penetration the depth of penetration into the colliding object.
+     * @param normal the normal vector of the collision point.
      */
-    double getX();
+    void correctPhysicsCollision(double penetration, Vector2D normal);
 
     /**
-     * @return the Y-coordinate.
-     */
-    double getY();
-
-    /**
-     * @return the direction as a double.
-     */
-    double getDirection();
-
-    /**
+     * Indicates whether the projectile is still active and should be rendered/updated.
+     *
      * @return true if the projectile is active, false otherwise.
      */
     boolean isActive();
 
     /**
-     * @param obstacles the set of obstacles to check for collision against.
-     * @param deltaTime the time elapsed since the last move calculation.
+     * Gets the projectile's current X-coordinate.
+     *
+     * @return the X-coordinate.
      */
-    void move(Set<Obstacle> obstacles, double deltaTime);
-}
+    double getX();
 
+    /**
+     * Gets the projectile's current Y-coordinate.
+     *
+     * @return the Y-coordinate.
+     */
+    double getY();
+
+    /**
+     * Gets the direction of the projectile's movement.
+     *
+     * @return the direction.
+     */
+    double getDirection();
+
+    HitBox getHitBox();
+}

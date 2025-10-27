@@ -1,91 +1,45 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
 import java.util.Optional;
-import java.util.Set;
 
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
 import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Implementation of a shooter enemy, an enemy that moves laterally and fires projectiles.
+ * Standard enemy that moves laterally in the level and inflicts damage when the player touches it.
  */
 public final class ShooterEnemyImpl implements Enemy {
 
-    private static final double SPEED = 0.02;
+    private static final double SPEED = 0.1;
     private static final int MAX_COOLDOWN = 90;
 
-    private boolean alive = true;
+
+    private boolean alive;
     private double x;
     private double y;
     private int direction = 1;
+
+    private Vector2D velocity = new Vector2D(0, 0);
+    private EnemiesMoveManager moveManager;
     private double shootCooldown;
 
     /**
+     * Constructor for the classic enemy.
      * @param pos the starting position.
      */
     public ShooterEnemyImpl(final Position pos) {
         this.x = pos.x();
         this.y = pos.y();
         this.alive = true;
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void move(final Set<Obstacle> obstacles, final double deltaTime) {
-        final double stepX = this.direction * SPEED * deltaTime;
-        final double nextX = this.x + stepX;
-        final double currentY = this.y; // 'y' was a hidden field
-
-        final int frontX = (int) (this.direction > 0 ? Math.floor(nextX + 1) : Math.floor(nextX));
-        final int belowX = (int) (this.direction > 0 ? Math.floor(nextX + 0.5) : Math.floor(nextX));
-        final int frontY = (int) Math.floor(currentY);
-        final int belowY = (int) Math.floor(currentY + 1);
-
-        final Position frontTile = new Position(frontX, frontY);
-        final Position belowTile = new Position(belowX, belowY);
-
-
-        final boolean wallAhead = this.isBlocked(obstacles, frontTile);
-        final boolean noGround = !this.isBlocked(obstacles, belowTile);
-
-        if (wallAhead || noGround) {
-            this.setDirection();
-        } else {
-            this.x = nextX;
-        }
+        this.velocity = new Vector2D(this.direction * SPEED, 0); 
         
-        if (this.shootCooldown > 0) {
-            this.shootCooldown -= deltaTime;
-        } else {
-            this.attack();
-        }
-    }
-
-    /**
-     * @param obstacles the set of obstacles in the game.
-     * @param pos the position to check.
-     * @return true if the position is blocked, false otherwise.
-     */
-    private boolean isBlocked(final Set<Obstacle> obstacles, final Position pos) {
-        return obstacles.stream()
-            .filter(ob -> ob.getHitBox().getCenter().equals(pos))
-            .anyMatch(ob ->
-                ob instanceof Wall
-                || ob instanceof Floor
-                || ob instanceof fireSpawn
-                || ob instanceof waterSpawn
-                || ob instanceof fireExit
-                || ob instanceof waterExit
-            );
+        
     }
 
     /**
@@ -99,7 +53,7 @@ public final class ShooterEnemyImpl implements Enemy {
             return Optional.of(new ProjectilesImpl(pos, this.direction));
         }
         return Optional.empty();
-
+        
     }
 
     /**
@@ -114,14 +68,7 @@ public final class ShooterEnemyImpl implements Enemy {
      * {@inheritDoc}
      */
     @Override
-    public void setDirection() {
-        this.direction *= -1;
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getX() {
+    public double getX() { 
         return this.x;
     }
 
@@ -144,9 +91,64 @@ public final class ShooterEnemyImpl implements Enemy {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void update(final Set<Obstacle> obstacles, final double deltaTime) {
-        this.move(obstacles, deltaTime);
+   @Override
+    public void setDirection() {
+        this.direction *= -1;
+        this.velocity = new Vector2D(this.direction * SPEED, this.velocity.y());
     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(double deltaTime) { 
+        
+        this.moveManager.handleEdgeDetection(this);
+        
+        this.velocity = new Vector2D(this.direction * SPEED, 0);
+        this.x += this.velocity.x() * deltaTime;
+        if (this.shootCooldown > 0) {
+            this.shootCooldown -= deltaTime;
+        } else {
+            this.attack();
+        }
+
+    }
+
+    @Override
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+        final double POSITION_SLOP = 0.001;
+        final double CORRECTION_PERCENT = 0.8;
+        if (penetration <= 0) {
+            return;
+        }
+        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+
+        this.x += correction.x();
+        this.y += correction.y();
+
+        final double velocityNormal = this.velocity.dot(normal);
+        if (velocityNormal < 0) {
+            this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
+        }
+
+        final double normalX = normal.x();
+        if (Math.abs(normalX) > 0.5) { 
+            this.setDirection(); 
+        }
+
+    }
+    @Override
+    public HitBox getHitBox() {
+        return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
+    }
+
+       @Override
+    public void setMoveManager(final EnemiesMoveManager manager) {
+        this.moveManager = manager;
+    }
+    
 }
+
+
 

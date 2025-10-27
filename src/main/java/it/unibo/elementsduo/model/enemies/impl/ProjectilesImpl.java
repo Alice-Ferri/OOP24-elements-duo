@@ -1,17 +1,10 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
-import java.util.Set;
-
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
 import it.unibo.elementsduo.resources.Position;
-
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Implementation of the Projectiles interface, representing a moving entity
@@ -19,31 +12,24 @@ import it.unibo.elementsduo.resources.Position;
  */
 public final class ProjectilesImpl implements Projectiles {
 
-    // Campi e static final in ordine corretto, una dichiarazione per riga
     private static final double SPEED = 0.08;
     private double x;
     private double y;
     private final int direction;
     private boolean alive = true;
 
+    private Vector2D velocity = new Vector2D(0, 0);
+
     /**
      * Constructs a new projectile with an initial position and direction.
      *
      * @param pos the starting position of the projectile.
-     * @param direction the initial direction of travel (e.g., 1 or -1).
+     * @param direction the initial direction.
      */
     public ProjectilesImpl(final Position pos, final int direction) {
         this.x = pos.x();
         this.y = pos.y();
         this.direction = direction;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void update(final Set<Obstacle> obstacles, final double deltaTime) {
-        move(obstacles, deltaTime);
     }
 
     /**
@@ -77,47 +63,35 @@ public final class ProjectilesImpl implements Projectiles {
     public double getDirection() {
         return this.direction;
     }
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
-    public void move(final Set<Obstacle> obstacles, final double deltaTime) {
-        final double stepX = this.direction * SPEED * deltaTime;
-        final double nextX = this.x + stepX;
-        final double currentY = this.y; // 'y' era un 'hidden field', rinominato in 'currentY'
-
-        final int frontX = (int) (this.direction > 0 ? Math.floor(nextX + 1) : Math.floor(nextX));
-        final int frontY = (int) Math.floor(currentY);
-
-        final Position frontTile = new Position(frontX, frontY);
-
-        final boolean wallAhead = isBlocked(obstacles, frontTile);
-
-        if (wallAhead) {
-            this.alive = false; // Il proiettile si disattiva dopo l'impatto.
-        } else {
-            this.x = nextX; // Esegue il movimento
-        }
+    public void update(final double deltaTime) {
+        this.velocity = new Vector2D(this.direction * SPEED, 0);
+        this.x += this.velocity.x() * deltaTime;
     }
 
-    /**
-     * Checks if the target position is blocked by an obstacle that should stop the projectile.
-     *
-     * @param obstacles the set of obstacles in the game.
-     * @param pos the position to check.
-     * @return true if the position is blocked, false otherwise.
-     */
-    private boolean isBlocked(final Set<Obstacle> obstacles, final Position pos) {
-        return obstacles.stream()
-            .filter(ob -> ob.getHitBox().getCenter().equals(pos))
-            .anyMatch(ob ->
-                ob instanceof Wall
-                || ob instanceof Floor
-                || ob instanceof fireSpawn
-                || ob instanceof waterSpawn
-                || ob instanceof fireExit
-                || ob instanceof waterExit
-            );
+    @Override
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+
+    final double POSITION_SLOP = 0.001;
+    final double CORRECTION_PERCENT = 0.8;
+    if (penetration <= 0) {
+    return;
+    }
+    final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+    final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+    this.x += correction.x();
+    this.y += correction.y();
+
+    final double velocityNormal = this.velocity.dot(normal);
+    if (velocityNormal < 0) {
+        this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
+    }
+    }
+
+    @Override
+    public HitBox getHitBox() {
+        return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
     }
 }
 

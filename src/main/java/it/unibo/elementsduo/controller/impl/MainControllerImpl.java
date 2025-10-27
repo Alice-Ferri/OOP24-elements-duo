@@ -48,7 +48,7 @@ public class MainControllerImpl implements MainController {
     @Override
     public void update(double deltaTime) {
         this.level.getAllEnemies().forEach(obj -> {
-            obj.update(level.getAllObstacles(), deltaTime);
+            obj.update(deltaTime);
         });
         this.input.update(deltaTime);
     }

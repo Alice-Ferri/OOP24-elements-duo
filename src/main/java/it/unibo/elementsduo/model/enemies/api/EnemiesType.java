@@ -6,6 +6,7 @@ package it.unibo.elementsduo.model.enemies.api;
  * classic enemy / shooter enemy.
  */
 public enum EnemiesType {
+
     C, 
     S
 }

@@ -1,16 +1,15 @@
 package it.unibo.elementsduo.model.enemies.api;
 
 import java.util.Optional;
-import java.util.Set;
 
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
 /**
  * Represents a generic enemy in the game.
- * An enemy is a dynamic entity that can move, attack, and interact with the environment.
  */
-public interface Enemy {
+public interface Enemy extends Movable,ManagerInjectable { 
 
     /**
      * @return an {@link Optional} containing a {@link Projectiles} instance if an attack occurs, 
@@ -19,13 +18,14 @@ public interface Enemy {
     Optional<Projectiles> attack();
 
     /**
+     * Updates the enemy's state, including movement and behavioral logic.
+     *
      * @param obstacles the set of obstacles currently present in the game world.
-     * @param deltaTime the time elapsed since the last update (in milliseconds or game ticks).
+     * @param deltaTime the time elapsed since the last update.
      */
-    void update(Set<Obstacle> obstacles, double deltaTime);
+    void update(double deltaTime);
 
-    /** 
-     * @return true if the enemy is alive, false otherwise.
+    /** * @return true if the enemy is alive, false otherwise.
      */
     boolean isAlive();
 
@@ -33,12 +33,6 @@ public interface Enemy {
      * Reverses the enemy's current movement direction.
      */
     void setDirection();
-
-    /**
-     * @param obstacles the set of obstacles to check for collision against.
-     * @param deltaTime the time elapsed since the last move calculation.
-     */
-    void move(Set<Obstacle> obstacles, double deltaTime);
 
     /**
      * @return the X-coordinate.
@@ -51,7 +45,12 @@ public interface Enemy {
     double getY();
 
     /**
-     * @return the direction.
+     * @return the current movement direction (+1 or -1).
      */
     double getDirection();
+
+    HitBox getHitBox(); 
+
+    void setMoveManager(EnemiesMoveManager manager);
+
 }

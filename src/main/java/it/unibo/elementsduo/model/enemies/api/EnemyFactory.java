@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.enemies.api;
 
 import it.unibo.elementsduo.resources.Position;
 
+
 /**
  * Factory for creating different types of enemies.
  * The enemy type is determined by a character code.
