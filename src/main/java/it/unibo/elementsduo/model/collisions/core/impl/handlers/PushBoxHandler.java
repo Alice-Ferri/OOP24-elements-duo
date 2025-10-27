@@ -11,9 +11,6 @@ public class PushBoxHandler implements CollisionHandler {
 
     private final static double PUSH_FORCE = 15;
 
-    private final PhysicsHanlder physics = new PhysicsHanlder();
-
-    @Override
     public boolean canHandle(Collidable a, Collidable b) {
         return (a instanceof Player && b instanceof PushBox) || (a instanceof PushBox && b instanceof Player);
     }
@@ -42,8 +39,6 @@ public class PushBoxHandler implements CollisionHandler {
                 push = -push;
             box.push(new Vector2D(push, 0));
         }
-
-        physics.handle(c);
     }
 
 }

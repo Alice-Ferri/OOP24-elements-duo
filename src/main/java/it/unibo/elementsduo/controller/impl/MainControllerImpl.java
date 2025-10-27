@@ -11,7 +11,7 @@ import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.map.impl.MapLoader;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactory;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
 
 public class MainControllerImpl implements MainController {
@@ -24,7 +24,8 @@ public class MainControllerImpl implements MainController {
 
     public MainControllerImpl() {
 
-        final MapLoader mapLoader = new MapLoader(new obstacleFactory(), new EnemyFactoryImpl(),new InteractiveObstacleFactoryImpl());
+        final MapLoader mapLoader = new MapLoader(new obstacleFactoryImpl(), new EnemyFactoryImpl(),
+                new InteractiveObstacleFactoryImpl());
         try {
             this.level = mapLoader.loadLevel(1);
         } catch (final Exception e) {
@@ -33,11 +34,12 @@ public class MainControllerImpl implements MainController {
 
         this.view = new GameFrame(level);
         this.gameLoop = new GameLoop(this);
-        //final EnemiesMoveManagerImpl moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
-            
-            //level.setEnemiesMoveManager(moveManager);
+        // final EnemiesMoveManagerImpl moveManager = new
+        // EnemiesMoveManagerImpl(level.getAllObstacles());
 
-        this.input = new InputController(this.level);
+        // level.setEnemiesMoveManager(moveManager);
+
+        this.input = new InputController();
         this.input.install();
 
         this.view.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -53,7 +55,6 @@ public class MainControllerImpl implements MainController {
         this.level.getAllEnemies().forEach(obj -> {
             obj.update(deltaTime);
         });
-        this.input.update(deltaTime);
     }
 
     @Override

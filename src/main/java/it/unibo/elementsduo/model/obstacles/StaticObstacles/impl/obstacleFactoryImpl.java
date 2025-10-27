@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
@@ -13,7 +14,7 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
 
-public class obstacleFactory {
+public class obstacleFactoryImpl implements ObstacleFactory {
     public StaticObstacle createObstacle(final obstacleType.type type, final HitBox hitbox) {
         switch (type) {
             case WATER_POOL:
@@ -26,14 +27,14 @@ public class obstacleFactory {
                 return new Wall(hitbox);
             case FLOOR:
                 return new Floor(hitbox);
-            case FIRE_SPAWN:
-                return new fireSpawn(hitbox);
             case WATER_SPAWN:
                 return new waterSpawn(hitbox);
-            case FIRE_EXIT:
-                return new fireExit(hitbox);
             case WATER_EXIT:
                 return new waterExit(hitbox);
+            case FIRE_SPAWN:
+                return new fireSpawn(hitbox);
+            case FIRE_EXIT:
+                return new fireExit(hitbox);
             default:
                 throw new IllegalArgumentException("no obstacle");
         }

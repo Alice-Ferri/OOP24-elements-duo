@@ -9,10 +9,13 @@ import it.unibo.elementsduo.resources.Position;
 
 public class Lever extends InteractiveObstacle implements Triggerable {
 
+    private static double halfWidth = 0.5;
+    private static double halfHeight = 0.5;
+
     boolean active = false; // initialy not active
     List<TriggerListener> linkedObjects = new ArrayList<>();
 
-    public Lever(Position center, double halfWidth, double halfHeight) {
+    public Lever(Position center) {
         super(center, halfWidth, halfHeight);
     }
 
