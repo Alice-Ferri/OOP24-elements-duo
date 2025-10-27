@@ -14,6 +14,6 @@ public interface EnemyFactory {
      * @param pos the starting position of the enemy.
      * @return the created Enemy instance.
      */
-    Enemy createEnemy(char c, Position pos,EnemiesMoveManager moveManager);
+    Enemy createEnemy(char c, Position pos);
 }
 

@@ -4,6 +4,6 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 
 public interface EnemiesMoveManager {
 
-    public void handleEdgeDetection(final Enemy enemy);
+    void handleEdgeDetection(Enemy enemy);
     
 }

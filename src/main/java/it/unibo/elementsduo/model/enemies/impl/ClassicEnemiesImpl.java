@@ -1,62 +1,43 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
-import java.util.Optional;
-import java.util.Set;
-
-import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
-import it.unibo.elementsduo.model.collisions.core.api.Movable; 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.enemies.api.EnemiesType;
-import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.Obstacle;
-import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Standard enemy that moves laterally in the level and inflicts damage when the player touches it.
+ * Implementation of the Projectiles interface, representing a moving entity
+ * fired by an enemy.
  */
-public final class ClassicEnemiesImpl implements Enemy,Movable {
+public final class ProjectilesImpl implements Projectiles {
 
-    private static final double SPEED = 0.1;
-
-
-    private boolean alive;
+    // Campi e static final in ordine corretto, una dichiarazione per riga
+    private static final double SPEED = 0.08;
     private double x;
-    private final double y;
-    private int direction = 1;
+    private double y;
+    private final int direction;
+    private boolean alive = true;
 
     private Vector2D velocity = new Vector2D(0, 0);
-    private final EnemiesMoveManager moveManager;
 
     /**
-     * Constructor for the classic enemy.
-     * @param pos the starting position.
+     * Constructs a new projectile with an initial position and direction.
+     *
+     * @param pos the starting position of the projectile.
+     * @param direction the initial direction of travel (e.g., 1 or -1).
      */
-    public ClassicEnemiesImpl(final Position pos, final EnemiesMoveManager moveManager) {
+    public ProjectilesImpl(final Position pos, final int direction) {
         this.x = pos.x();
         this.y = pos.y();
-        this.alive = true;
-        this.velocity = new Vector2D(this.direction * SPEED, 0); 
-        this.moveManager=moveManager;
-        
+        this.direction = direction;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<Projectiles> attack() {
-        // Classic enemy does not attack
-        return Optional.empty();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isAlive() {
+    public boolean isActive() {
         return this.alive;
     }
 
@@ -64,7 +45,7 @@ public final class ClassicEnemiesImpl implements Enemy,Movable {
      * {@inheritDoc}
      */
     @Override
-    public double getX() { 
+    public double getX() {
         return this.x;
     }
 
@@ -84,57 +65,34 @@ public final class ClassicEnemiesImpl implements Enemy,Movable {
         return this.direction;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-   @Override
-    public void setDirection() {
-        this.direction *= -1;
-        // Aggiorna immediatamente la velocity
-        this.velocity = new Vector2D(this.direction * SPEED, this.velocity.y());
-    }
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void update(double deltaTime) { 
-        
-        this.moveManager.handleEdgeDetection(this);
-        
+    public void update(final double deltaTime) {
         this.velocity = new Vector2D(this.direction * SPEED, 0);
         this.x += this.velocity.x() * deltaTime;
-
     }
 
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-        final double POSITION_SLOP = 0.001;
-        final double CORRECTION_PERCENT = 0.8;
-        if (penetration <= 0) {
-            return;
-        }
-        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
 
-        this.x += correction.x();
-        this.y += correction.y();
-
-        final double velocityNormal = this.velocity.dot(normal);
-        if (velocityNormal < 0) {
-            this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
-        }
-
-        final double normalX = normal.x();
-        if (Math.abs(normalX) > 0.5) { 
-            this.setDirection(); 
-        }
-
+    final double POSITION_SLOP = 0.001;
+    final double CORRECTION_PERCENT = 0.8;
+    if (penetration <= 0) {
+    return;
     }
+    final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+    final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+    this.x += correction.x();
+    this.y += correction.y();
+
+    final double velocityNormal = this.velocity.dot(normal);
+    if (velocityNormal < 0) {
+        this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
+    }
+    }
+
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
     }
 }
-
-
 

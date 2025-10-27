@@ -101,10 +101,7 @@ public final class ProjectilesImpl implements Projectiles,Movable {
         this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
     }
 }
-@Override
-    public HitBox getHitBox() {
-        return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
-    }
+
 
 
 }

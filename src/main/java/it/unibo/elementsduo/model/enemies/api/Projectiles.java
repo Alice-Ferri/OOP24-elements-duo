@@ -1,8 +1,9 @@
 package it.unibo.elementsduo.model.enemies.api;
 
-import java.util.Set;
 
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Represents a projectile, a mobile and short-lived entity that
@@ -16,16 +17,7 @@ public interface Projectiles extends Movable {
      * @param obstacles the set of obstacles in the game, used for any required logic.
      * @param deltaTime the time elapsed since the last frame.
      */
-    void update(Set<obstacle> obstacles, double deltaTime);
-
-    /**
-     * Executes the base movement calculation.
-     *
-     * @param obstacles the set of obstacles in the game.
-     * @param deltaTime the time elapsed since the last frame.
-     */
-    void move(Set<obstacle> obstacles, double deltaTime);
-
+    void update(double deltaTime);
 
     /**
      * Executes physics correction in case of a collision.
@@ -62,4 +54,6 @@ public interface Projectiles extends Movable {
      * @return the direction.
      */
     double getDirection();
+
+    HitBox getHitBox();
 }

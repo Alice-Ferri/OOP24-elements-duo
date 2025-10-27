@@ -1,14 +1,15 @@
 package it.unibo.elementsduo.model.enemies.api;
 
 import java.util.Optional;
-import java.util.Set;
 
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable { 
+public interface Enemy extends Movable,ManagerInjectable { 
 
     /**
      * @return an {@link Optional} containing a {@link Projectiles} instance if an attack occurs, 
@@ -47,5 +48,9 @@ public interface Enemy extends Movable {
      * @return the current movement direction (+1 or -1).
      */
     double getDirection();
+
+    HitBox getHitBox(); 
+
+    void setMoveManager(EnemiesMoveManager manager);
 
 }
