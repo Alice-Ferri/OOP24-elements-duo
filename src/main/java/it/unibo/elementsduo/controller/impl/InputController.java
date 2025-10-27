@@ -5,28 +5,24 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
 public final class InputController implements KeyEventDispatcher {
 
-    private final Level level;
     private final EnumMap<PlayerType, DirectionScheme> playerControls = new EnumMap<>(PlayerType.class);
 
     private final Set<Integer> pressed = new HashSet<>();
-    private final Set<Integer> handledPress = new HashSet<>();
+    private final Set<Integer> handledPress = new HashSet<>(); 
 
     private boolean enabled = true;
     private boolean installed = false;
 
-    public InputController(final Level level) {
-        this.level = Objects.requireNonNull(level);
-
-        playerControls.put(PlayerType.FIREBOY,   new DirectionScheme(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W));
-        playerControls.put(PlayerType.WATERGIRL, new DirectionScheme(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP));
+    public InputController() {
+        playerControls.put(PlayerType.FIREBOY, new DirectionScheme(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W));
+        playerControls.put(PlayerType.WATERGIRL,
+                new DirectionScheme(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP));
     }
 
     public void install() {
@@ -90,7 +86,6 @@ public final class InputController implements KeyEventDispatcher {
         }
         return false; 
     }
-
 
 
 
