@@ -34,6 +34,7 @@ public class CollisionManager {
         register.registerHandler(new ButtonActivationHandler());
         register.registerHandler(new PushBoxHandler());
         register.registerHandler(new PlayerEnemyHandler(this.eventManager));
+        register.registerHandler(new GemCollisionHandler(this.eventManager));
         register.registerHandler(new PhysicsHanlder());
     }
 
