@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.map.impl;
+package it.unibo.elementsduo.model.map.level.impl;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
-import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;

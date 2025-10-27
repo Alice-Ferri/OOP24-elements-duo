@@ -3,7 +3,7 @@ package it.unibo.elementsduo.view;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
-import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;

@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.map.impl;
+package it.unibo.elementsduo.model.map.level;
 
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
@@ -6,7 +6,8 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
-import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;

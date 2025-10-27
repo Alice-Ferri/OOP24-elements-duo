@@ -1,7 +1,8 @@
 package it.unibo.elementsduo.view;
 
-import it.unibo.elementsduo.model.map.api.Level;
 import javax.swing.*;
+
+import it.unibo.elementsduo.model.map.level.api.Level;
 
 public class GameFrame extends JFrame {
 
