@@ -3,20 +3,15 @@ package it.unibo.elementsduo.controller.impl;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import it.unibo.elementsduo.model.map.api.Level;
-import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
 public final class InputController implements KeyEventDispatcher {
-
-    private static final double RUN_SPEED = 8.0;
-    private static final double JUMP_STRENGTH = 6.0;
 
     private final Level level;
     private final EnumMap<PlayerType, DirectionScheme> playerControls = new EnumMap<>(PlayerType.class);
@@ -52,56 +47,35 @@ public final class InputController implements KeyEventDispatcher {
         handledPress.clear();
     }
 
-    public void update(final double deltaTime) {
-
-        final Collection<Player> players = level.getAllPlayers();
-        if (!enabled){
-            return;
-        }
-
-        if (players == null || players.isEmpty()) {
-            return;
-        }
-
-        players.stream()
-        .filter(p -> playerControls.get(p.getType()) != null)
-        .forEach(p -> {
-            final DirectionScheme controls = playerControls.get(p.getType());
-            applyHorizontalMovement(p, controls, deltaTime);
-            applyJump(p, controls);
-        });
+    public boolean isMoveLeftPressed(final PlayerType type) {
+        final DirectionScheme controls = playerControls.get(type);
+        return controls != null && pressed.contains(controls.left);
     }
 
-
-    private void applyHorizontalMovement(Player p, DirectionScheme controls, double deltaTime) {
-
-        final double velocityX;
-        final boolean left  = pressed.contains(controls.left);
-        final boolean right = pressed.contains(controls.right);
-    
-        if (left == right){
-            return;
-        }
-    
-        velocityX = left ? -RUN_SPEED : RUN_SPEED;
-        p.move(velocityX * deltaTime);
+    public boolean isMoveRightPressed(final PlayerType type) {
+        final DirectionScheme controls = playerControls.get(type);
+        return controls != null && pressed.contains(controls.right);
     }
-    
-    private void applyJump(Player p, DirectionScheme controls) {
+
+    public boolean isJumpPressed(final PlayerType type) {
+        final DirectionScheme controls = playerControls.get(type);
+        if (controls == null) {
+            return false;
+        }
 
         final boolean jumpDown = pressed.contains(controls.jump);
 
         if (jumpDown && !handledPress.contains(controls.jump)) {
-            handledPress.add(controls.jump);
-            if (p.isOnGround()) {
-                p.jump(JUMP_STRENGTH);
-            }
+            handledPress.add(controls.jump); 
+            return true; 
         }
+        return false; 
     }
     
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
-        if (!enabled) return false;
+        if (!enabled)
+            return false;
 
         switch (e.getID()) {
             case KeyEvent.KEY_PRESSED -> {
@@ -111,11 +85,13 @@ public final class InputController implements KeyEventDispatcher {
                 pressed.remove(e.getKeyCode());
                 handledPress.remove(e.getKeyCode());
             }
-            default -> {}
+            default -> {
+            }
         }
-
-        return false;
+        return false; 
     }
+
+
 
 
     private static final class DirectionScheme {
