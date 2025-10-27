@@ -33,6 +33,9 @@ public class MainControllerImpl implements MainController {
 
         this.view = new GameFrame(level);
         this.gameLoop = new GameLoop(this);
+        //final EnemiesMoveManagerImpl moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
+            
+            //level.setEnemiesMoveManager(moveManager);
 
         this.input = new InputController(this.level);
         this.input.install();
