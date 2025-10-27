@@ -19,7 +19,6 @@ public class HomeController implements Controller{
     @Override
     public void activate() {
         this.view.getStartButton().addActionListener(e -> {
-            System.out.println("ciao");
             this.controller.goToLevelSelection();
         });
     }
