@@ -5,6 +5,8 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.resources.Vector2D;
+import it.unibo.elementsduo.model.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.events.impl.PlayerDiedEvent;
 
@@ -23,15 +25,32 @@ public class PlayerEnemyHandler implements CollisionHandler {
 
     @Override
     public void handle(CollisionInformations c) {
-        final Player p;
+        final Player player;
+        final Enemy enemy;
+        Vector2D normal = c.getNormal();
         if (c.getObjectA() instanceof Player) {
-            p = (Player) c.getObjectA();
+            player = (Player) c.getObjectA();
+            enemy = (Enemy) c.getObjectB();
         } else {
-            p = (Player) c.getObjectB();
+            player = (Player) c.getObjectB();
+            enemy = (Enemy) c.getObjectA();
+            normal = normal.multiply(-1);
         }
 
-        if (p != null) {
-            this.eventManager.notify(new PlayerDiedEvent(p));
+        if (player == null) {
+            return;
+        }
+
+        boolean isOn;
+        if (normal.y() < -0.5)
+            isOn = true;
+        else
+            isOn = false;
+
+        if (isOn) {
+            this.eventManager.notify(new EnemyDiedEvent(enemy));
+        } else {
+            this.eventManager.notify(new PlayerDiedEvent(player));
         }
     }
 
