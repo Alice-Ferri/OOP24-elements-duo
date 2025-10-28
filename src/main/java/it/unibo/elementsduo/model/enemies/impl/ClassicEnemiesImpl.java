@@ -1,7 +1,12 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
+import java.util.Optional;
+
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -12,14 +17,16 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 public final class ProjectilesImpl implements Projectiles {
 
-    // Campi e static final in ordine corretto, una dichiarazione per riga
-    private static final double SPEED = 0.08;
+    private static final double SPEED = 0.8;
+
+
+    private boolean alive;
     private double x;
     private double y;
-    private final int direction;
-    private boolean alive = true;
+    private int direction = 1;
 
     private Vector2D velocity = new Vector2D(0, 0);
+    private EnemiesMoveManager moveManager;
 
     /**
      * Constructs a new projectile with an initial position and direction.
@@ -30,14 +37,25 @@ public final class ProjectilesImpl implements Projectiles {
     public ProjectilesImpl(final Position pos, final int direction) {
         this.x = pos.x();
         this.y = pos.y();
-        this.direction = direction;
+        this.alive = true;
+        this.velocity = new Vector2D(this.direction * SPEED, 0); 
+        
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isActive() {
+    public Optional<Projectiles> attack() {
+        // Classic enemy does not attack
+        return Optional.empty();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAlive() {
         return this.alive;
     }
 
@@ -65,34 +83,61 @@ public final class ProjectilesImpl implements Projectiles {
         return this.direction;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+   @Override
+    public void setDirection() {
+        this.direction *= -1;
+        // Aggiorna immediatamente la velocity
+        this.velocity = new Vector2D(this.direction * SPEED, this.velocity.y());
+    }
+
     @Override
-    public void update(final double deltaTime) {
+    public void update(double deltaTime) { 
+        
+        this.moveManager.handleEdgeDetection(this);
+        
         this.velocity = new Vector2D(this.direction * SPEED, 0);
         this.x += this.velocity.x() * deltaTime;
+
     }
 
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+        final double POSITION_SLOP = 0.001;
+        final double CORRECTION_PERCENT = 0.8;
+        if (penetration <= 0) {
+            return;
+        }
+        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
 
-    final double POSITION_SLOP = 0.001;
-    final double CORRECTION_PERCENT = 0.8;
-    if (penetration <= 0) {
-    return;
-    }
-    final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-    final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
-    this.x += correction.x();
-    this.y += correction.y();
+        this.x += correction.x();
+        this.y += correction.y();
 
-    final double velocityNormal = this.velocity.dot(normal);
-    if (velocityNormal < 0) {
-        this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
-    }
-    }
+        final double velocityNormal = this.velocity.dot(normal);
+        if (velocityNormal < 0) {
+            this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
+        }
 
+        final double normalX = normal.x();
+        if (Math.abs(normalX) > 0.5) { 
+            this.setDirection(); 
+        }
+
+    }
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
     }
+
+       @Override
+    public void setMoveManager(final EnemiesMoveManager manager) {
+        this.moveManager = manager;
+    }
+    
 }
+
+
 

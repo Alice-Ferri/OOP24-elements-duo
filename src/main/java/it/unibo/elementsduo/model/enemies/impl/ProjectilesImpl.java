@@ -1,35 +1,31 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
-import java.util.Set;
-
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
-import it.unibo.elementsduo.model.obstacles.impl.Floor;
-import it.unibo.elementsduo.model.obstacles.impl.Wall;
-import it.unibo.elementsduo.model.obstacles.impl.fireExit;
-import it.unibo.elementsduo.model.obstacles.impl.fireSpawn;
-import it.unibo.elementsduo.model.obstacles.impl.waterExit;
-import it.unibo.elementsduo.model.obstacles.impl.waterSpawn;
-import it.unibo.elementsduo.utils.Position;
+import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Implementation of the Projectiles interface, representing a moving entity
  * fired by an enemy.
  */
-public final class ProjectilesImpl implements Projectiles,Movable {
+public final class ProjectilesImpl implements Projectiles {
 
-    // Campi e static final in ordine corretto, una dichiarazione per riga
-    private static final double SPEED = 0.08;
+    private static final double SPEED = 5.0;
+    private static final double PROJECTILE_SIZE = 0.25;
     private double x;
     private double y;
     private final int direction;
     private boolean alive = true;
 
+    private Vector2D velocity = new Vector2D(0, 0);
+
     /**
      * Constructs a new projectile with an initial position and direction.
      *
      * @param pos the starting position of the projectile.
-     * @param direction the initial direction of travel (e.g., 1 or -1).
+     * @param direction the initial direction.
      */
     public ProjectilesImpl(final Position pos, final int direction) {
         this.x = pos.x();
@@ -69,18 +65,10 @@ public final class ProjectilesImpl implements Projectiles,Movable {
         return this.direction;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void move(final double deltaTime) {
-        this.velocity = new Vector2D(deltatime, this.velocity.y());
-        this.x += this.velocity.x(); 
-    }
-
-    @Override
-    public void update(final Set<obstacle> obstacles, final double deltaTime) {
-        this.move(obstacles, deltaTime);
+    public void update(final double deltaTime) {
+        this.velocity = new Vector2D(this.direction * SPEED, 0);
+        this.x += this.velocity.x() * deltaTime;
     }
 
     @Override
@@ -100,9 +88,11 @@ public final class ProjectilesImpl implements Projectiles,Movable {
     if (velocityNormal < 0) {
         this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
     }
-}
+    }
 
-
-
+    @Override
+    public HitBox getHitBox() {
+        return new HitBoxImpl(new Position(this.x, this.y), PROJECTILE_SIZE, PROJECTILE_SIZE);
+    }
 }
 
