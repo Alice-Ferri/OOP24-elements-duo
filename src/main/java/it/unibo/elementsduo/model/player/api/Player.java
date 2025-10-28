@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.player.api;
 
+import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 
@@ -83,7 +84,7 @@ public interface Player extends Collidable, Movable {
 
     void setVelocityX(double vx);
 
-    void update (double deltaTime, InputController input);
+    void update(double deltaTime, InputController input);
 
     /**
      * Returns the specific player type (e.g. {@link PlayerType#FIREBOY} or
@@ -92,9 +93,6 @@ public interface Player extends Collidable, Movable {
      * @return the type of this player
      */
     PlayerType getPlayerType();
-
-
-    
 
     /**
      * Returns the width of the player's bounding box.
