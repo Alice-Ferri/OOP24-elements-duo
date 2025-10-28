@@ -5,6 +5,8 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionInformationsImpl;
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
+import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.resources.Vector2D;
 
 public class PhysicsHandler implements CollisionHandler {
@@ -16,6 +18,10 @@ public class PhysicsHandler implements CollisionHandler {
     public void handle(CollisionInformations c) {
         Movable movable = null;
         Vector2D normal = c.getNormal();
+        if (c.getObjectA() instanceof ShooterEnemyImpl && c.getObjectB() instanceof Projectiles ||
+                c.getObjectA() instanceof ShooterEnemyImpl && c.getObjectB() instanceof Projectiles) {
+            return;
+        }
         if (c.getObjectA() instanceof Movable m)
             movable = m;
         else if (c.getObjectB() instanceof Movable m) {
