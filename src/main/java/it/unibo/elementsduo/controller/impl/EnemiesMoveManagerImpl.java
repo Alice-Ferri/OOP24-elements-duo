@@ -14,7 +14,7 @@ public class EnemiesMoveManagerImpl implements EnemiesMoveManager{
 
     private Set<Obstacle> obstacles = new HashSet<>();
 
-    public void EnemiesMoveManager(final Set<Obstacle> obstacles) {
+    public EnemiesMoveManagerImpl(final Set<Obstacle> obstacles) {
         this.obstacles = obstacles;
     }
 

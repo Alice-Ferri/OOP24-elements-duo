@@ -22,103 +22,99 @@ import java.util.Objects;
 
 public class LevelPanel extends JPanel {
 
-    private static final int elementSize = 32;
+    private final int elementSize = 32;
     private final Level level;
-    private final Map<Class<? extends StaticObstacle>, Color> colorMap = Map.of(
+
+    private final Map<Class<? extends StaticObstacle>, Color> staticObstacleColorMap = Map.of(
         Wall.class, Color.DARK_GRAY,
         Floor.class, Color.LIGHT_GRAY,
         fireSpawn.class, Color.ORANGE,
         waterSpawn.class, Color.BLUE,
         fireExit.class, Color.RED,
-        waterExit.class, new Color(0, 191, 255) 
+        waterExit.class, new Color(0, 191, 255)
     );
-       private final Map<Class<? extends Enemy>, Color> enemyColorMap = Map.of(
-    ClassicEnemiesImpl.class, new Color(139, 0, 0),
-    ShooterEnemyImpl.class, new Color(75, 0, 130)  
-);
+
+    private final Map<Class<? extends Enemy>, Color> enemyColorMap = Map.of(
+        ClassicEnemiesImpl.class, new Color(139, 0, 0),
+        ShooterEnemyImpl.class, new Color(75, 0, 130)
+    );
 
     public LevelPanel(final Level level) {
         this.level = Objects.requireNonNull(level);
-        this.setPreferredSize(calculatePanelSize());
-        this.setBackground(Color.white); 
+        this.setPreferredSize(calculateStaticLayoutSize());
+        this.setBackground(Color.white);
     }
 
-    private Dimension calculatePanelSize() {
-        if (level.getAllObstacles().isEmpty()) {
+    private Dimension calculateStaticLayoutSize() {
+        var staticObstacles = level.getAllObstacles().stream()
+                                    .filter(StaticObstacle.class::isInstance)
+                                    .toList();
+
+        if (staticObstacles.isEmpty()) {
             return new Dimension(0, 0);
         }
-        final int maxX = level.getAllObstacles().stream()
-                .mapToInt(obs -> toPx(obs.getHitBox().getCenter().x()))
-                .max()
-                .orElse(0);
-        final int maxY = level.getAllObstacles().stream()
-                .mapToInt(obs -> toPx(obs.getHitBox().getCenter().y()))
-                .max()
-                .orElse(0);
-        return new Dimension((maxX + 1) * elementSize, (maxY + 1) * elementSize);
 
+        final int maxX = staticObstacles.stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
+                .max()
+                .orElse(0);
+        final int maxY = staticObstacles.stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().y())
+                .max()
+                .orElse(0);
+
+        return new Dimension((maxX + 1) * elementSize, (maxY + 1) * elementSize);
     }
 
     @Override
     protected void paintComponent(final Graphics g) {
-        super.paintComponent(g); 
+        super.paintComponent(g);
 
-        final int panelWidth = getWidth();
-        final int panelHeight = getHeight();
-        final Dimension levelSize = calculatePanelSize();
-        
-        final int offsetX = (panelWidth - levelSize.width) / 2;
-        final int offsetY = (panelHeight - levelSize.height) / 2;
+        final Dimension staticLayoutSize = calculateStaticLayoutSize();
+        final int offsetX = (getWidth() - staticLayoutSize.width) / 2;
+        final int offsetY = (getHeight() - staticLayoutSize.height) / 2;
 
-        drawLevel(g,offsetX,offsetY); 
+        drawStaticObstacles(g, offsetX, offsetY);
         drawEnemies(g, offsetX, offsetY);
-        
     }
 
-    private void drawLevel(final Graphics g, int offestX,int offsetY) {
-        this.level.getAllObstacles().stream().forEach(obs -> {
-            final Position pos = obs.getHitBox().getCenter();
+    private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY) {
+        this.level.getAllObstacles().stream()
+            .filter(StaticObstacle.class::isInstance)
+            .map(StaticObstacle.class::cast)
+            .forEach(obs -> {
+                final int gridX = (int) obs.getHitBox().getCenter().x();
+                final int gridY = (int) obs.getHitBox().getCenter().y();
 
-            final Color tileColor = this.colorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
-            g.setColor(tileColor);
+                final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
+                g.setColor(tileColor);
 
-            final double x = pos.x() * elementSize +offestX;
-            final double y = pos.y() * elementSize +offsetY;
-            g.fillRect(toPx(x),toPx(y), elementSize, elementSize);
+                final int pixelX = gridX * elementSize + offsetX;
+                final int pixelY = gridY * elementSize + offsetY;
 
-            g.setColor(Color.BLACK);
-            g.drawRect(toPx(x),toPx(y), elementSize, elementSize);
-        });
+                g.fillRect(pixelX, pixelY, elementSize, elementSize);
+
+                g.setColor(Color.BLACK);
+                g.drawRect(pixelX, pixelY, elementSize, elementSize);
+            });
     }
 
     private void drawEnemies(final Graphics g, final int offsetX, final int offsetY) {
         this.level.getAllEnemies().stream().forEach(enemy -> {
-
-            
             final Color enemyColor = this.enemyColorMap.getOrDefault(enemy.getClass(), Color.PINK);
             g.setColor(enemyColor);
 
-            
-            final double x = enemy.getX() * elementSize + offsetX; 
-            final double y = enemy.getY() * elementSize + offsetY;
+            final int pixelX = (int) Math.round(enemy.getX() * elementSize) + offsetX;
+            final int pixelY = (int) Math.round(enemy.getY() * elementSize) + offsetY;
 
-            
-            g.fillOval((int)x,(int) y, elementSize, elementSize);
+            g.fillOval(pixelX, pixelY, elementSize, elementSize);
 
-            
-            if (enemy.getClass().equals(ShooterEnemyImpl.class)) {
-                g.setColor(Color.WHITE); 
+            if (enemy instanceof ShooterEnemyImpl) {
+                g.setColor(Color.WHITE);
                 final int detailSize = elementSize / 2;
                 final int detailOffset = elementSize / 4;
-                g.fillOval((int)x + detailOffset,(int) y + detailOffset, detailSize, detailSize);
-            }    
+                g.fillOval(pixelX + detailOffset, pixelY + detailOffset, detailSize, detailSize);
+            }
         });
     }
-
-    private static int toPx(double worldUnits) {
-        return (int) Math.round(worldUnits * elementSize);
-    }
-
 }
-
-

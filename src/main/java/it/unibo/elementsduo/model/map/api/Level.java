@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.map.api;
 
 import java.util.Set;
 
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
@@ -43,6 +44,8 @@ public interface Level {
     Set<Projectiles> getAllProjectiles();
     void addProjectile(Projectiles p);
     void cleanProjectiles();
+
+    void setEnemiesMoveManager(final EnemiesMoveManager manager);
 
 
 }

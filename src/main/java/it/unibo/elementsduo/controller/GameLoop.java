@@ -5,7 +5,7 @@ import java.util.Objects;
 import it.unibo.elementsduo.controller.api.MainController;
 
 public class GameLoop implements Runnable {
-    private static final int TARGET_FPS = 60;
+    private static final int TARGET_FPS = 120;
     private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
     private volatile boolean running = false;
     private Thread gameThread;

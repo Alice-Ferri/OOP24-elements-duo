@@ -5,7 +5,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
@@ -136,5 +138,12 @@ public class LevelImpl implements Level{
     public void cleanProjectiles() {
         this.projectiles.removeIf(p -> !p.isActive());
     }
+
+    public void setEnemiesMoveManager(final EnemiesMoveManager manager) {
+        this.enemies.stream()
+            .filter(e -> e instanceof ManagerInjectable)
+            .map(e -> (ManagerInjectable) e)
+            .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));
+        }
     
 }

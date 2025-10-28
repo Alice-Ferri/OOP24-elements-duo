@@ -16,7 +16,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 public final class ClassicEnemiesImpl implements Enemy {
 
-    private static final double SPEED = 0.1;
+    private static final double SPEED = 0.8;
 
 
     private boolean alive;

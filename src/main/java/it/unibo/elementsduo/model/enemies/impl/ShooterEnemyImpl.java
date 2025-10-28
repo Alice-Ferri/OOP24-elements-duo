@@ -16,7 +16,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 public final class ShooterEnemyImpl implements Enemy {
 
-    private static final double SPEED = 0.1;
+    private static final double SPEED = 2.0;
     private static final int MAX_COOLDOWN = 90;
 
 
