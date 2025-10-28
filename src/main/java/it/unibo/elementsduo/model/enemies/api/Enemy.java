@@ -6,11 +6,12 @@ import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable,ManagerInjectable,Collidable { 
+public interface Enemy extends Movable,ManagerInjectable,Collidable,GameEntity { 
 
     /**
      * @return an {@link Optional} containing a {@link Projectiles} instance if an attack occurs, 
