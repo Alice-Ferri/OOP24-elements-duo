@@ -4,6 +4,7 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.events.api.Event;
+import it.unibo.elementsduo.model.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -18,20 +19,20 @@ public final class ProjectilesImpl implements Projectiles {
     private double x;
     private double y;
     private final int direction;
-    private boolean alive = true;
-
+    private boolean alive;
     private Vector2D velocity = new Vector2D(0, 0);
 
     /**
      * Constructs a new projectile with an initial position and direction.
      *
-     * @param pos the starting position of the projectile.
+     * @param pos       the starting position of the projectile.
      * @param direction the initial direction.
      */
     public ProjectilesImpl(final Position pos, final int direction) {
         this.x = pos.x();
         this.y = pos.y();
         this.direction = direction;
+        this.alive = true;
     }
 
     /**
@@ -75,20 +76,20 @@ public final class ProjectilesImpl implements Projectiles {
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
 
-    final double POSITION_SLOP = 0.001;
-    final double CORRECTION_PERCENT = 0.8;
-    if (penetration <= 0) {
-    return;
-    }
-    final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-    final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
-    this.x += correction.x();
-    this.y += correction.y();
+        final double POSITION_SLOP = 0.001;
+        final double CORRECTION_PERCENT = 0.8;
+        if (penetration <= 0) {
+            return;
+        }
+        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+        this.x += correction.x();
+        this.y += correction.y();
 
-    final double velocityNormal = this.velocity.dot(normal);
-    if (velocityNormal < 0) {
-        this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
-    }
+        final double velocityNormal = this.velocity.dot(normal);
+        if (velocityNormal < 0) {
+            this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
+        }
     }
 
     @Override
@@ -98,12 +99,13 @@ public final class ProjectilesImpl implements Projectiles {
 
     @Override
     public void onEvent(Event event) {
-        deactivate();
+        if (event instanceof ProjectileSolidEvent) {
+            this.deactivate();
+        }
     }
 
     @Override
-    public void deactivate(){
-        this.alive=false;
+    public void deactivate() {
+        this.alive = false;
     }
 }
-
