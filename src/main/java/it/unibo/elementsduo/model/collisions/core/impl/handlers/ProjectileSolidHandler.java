@@ -7,6 +7,7 @@ import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
 public class ProjectileSolidHandler implements CollisionHandler {
 
@@ -18,8 +19,8 @@ public class ProjectileSolidHandler implements CollisionHandler {
 
     @Override
     public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Projectiles && b instanceof StaticObstacle)
-                || (b instanceof Projectiles && a instanceof StaticObstacle);
+        return (a instanceof Projectiles && b instanceof obstacle)
+                || (b instanceof Projectiles && a instanceof obstacle);
     }
 
     @Override
