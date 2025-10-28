@@ -112,10 +112,10 @@ public class LevelPanel extends JPanel {
                     final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
                     g.setColor(tileColor);
 
-                    g.fillRect(x, y, w, h); 
+                    g.fillRect(x, y, w, h);
 
                     g.setColor(Color.BLACK);
-                    g.drawRect(x, y, w, h); 
+                    g.drawRect(x, y, w, h);
                 });
     }
 
@@ -159,13 +159,13 @@ public class LevelPanel extends JPanel {
             final Color enemyColor = this.enemyColorMap.getOrDefault(enemy.getClass(), Color.PINK);
             g.setColor(enemyColor);
 
-            final double cx = enemy.getX(); 
-            final double cy = enemy.getY(); 
-            final double tlx = cx - enemyHalfWidth;  
+            final double cx = enemy.getX();
+            final double cy = enemy.getY();
+            final double tlx = cx - enemyHalfWidth;
             final double tly = cy - enemyHalfHeight;
 
             final int pixelX = toPx(tlx) + offsetX;
-            final int pixelY = toPx(tly) + offsetY; 
+            final int pixelY = toPx(tly) + offsetY;
             final int w = toPx(enemyHalfWidth * 2.0);
             final int h = toPx(enemyHalfHeight * 2.0);
 
@@ -179,12 +179,13 @@ public class LevelPanel extends JPanel {
             }
         });
     }
+
     private int toPx(final double worldCoord) {
         return (int) Math.round(worldCoord * this.elementSize);
     }
 
     private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY) {
-     
+
         final double projectileWidth = 0.25;
         final double projectileHeight = 0.25;
         final double projHalfWidth = projectileWidth / 2.0;
@@ -194,15 +195,14 @@ public class LevelPanel extends JPanel {
 
             final double cx = projectile.getX();
             final double cy = projectile.getY();
-            final double tlx = cx - projHalfWidth;  
-            final double tly = cy - projHalfHeight; 
+            final double tlx = cx - projHalfWidth;
+            final double tly = cy - projHalfHeight;
 
             final int pixelX = toPx(tlx) + offsetX;
             final int pixelY = toPx(tly) + offsetY;
-            final int w = toPx(projectileWidth); 
+            final int w = toPx(projectileWidth);
             final int h = toPx(projectileHeight);
-            
-            
+
             g.fillOval(pixelX, pixelY, w, h);
         });
     }
@@ -230,10 +230,9 @@ public class LevelPanel extends JPanel {
                 g.setColor(Color.BLACK);
             }
 
-            g.fillRect(x, y, w, h);
+            g.fillOval(x, y, w, h);
 
             g.setColor(Color.BLACK);
-            g.drawRect(x, y, w, h);
         });
     }
 

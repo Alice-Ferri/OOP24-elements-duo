@@ -106,7 +106,7 @@ public class MapLoader {
                             case 'M':
                                 interactiveObstacles.add(
                                         interactiveObsFactory.createMovingPlatform(
-                                                pos, pos, new Position(pos.x() - 3, pos.y() - 3)));
+                                                pos, pos, new Position(pos.x(), pos.y() - 3)));
                                 break;
                             default:
                                 break;

@@ -12,6 +12,8 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.view.LevelPanel;
 
 public class GameControllerImpl implements GameController {
@@ -46,6 +48,15 @@ public class GameControllerImpl implements GameController {
         this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
         this.level.cleanProjectiles();
         this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
+        this.level.getInteractiveObstacles().stream()
+                .filter(PushBox.class::isInstance)
+                .map(PushBox.class::cast)
+                .forEach(box -> box.update(deltaTime));
+
+        level.getInteractiveObstacles().stream()
+                .filter(PlatformImpl.class::isInstance)
+                .map(PlatformImpl.class::cast)
+                .forEach(p -> p.update(deltaTime));
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
     }
 
