@@ -1,11 +1,14 @@
 package it.unibo.elementsduo.model.map.level.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -29,6 +32,7 @@ public class LevelImpl implements Level {
     private final Set<Player> players;
     private final Set<InteractiveObstacle> interactiveObs;
     private final Set<Projectiles> projectiles = new HashSet<>();
+    private final List<Collidable> collidables = new ArrayList<>();
 
     public LevelImpl(final Set<obstacle> ob, final Set<Enemy> en, final Set<Player> pl,
             final Set<InteractiveObstacle> iob) {
@@ -36,12 +40,19 @@ public class LevelImpl implements Level {
         this.enemies = Set.copyOf(Objects.requireNonNull(en));
         this.players = Set.copyOf(Objects.requireNonNull(pl));
         this.interactiveObs = Set.copyOf(Objects.requireNonNull(iob));
-
+        this.collidables.addAll(obstacles);
+        this.collidables.addAll(interactiveObs);
+        this.collidables.addAll(players);
+        this.collidables.addAll(enemies);
     }
 
     @Override
     public Set<obstacle> getAllObstacles() {
         return this.obstacles;
+    }
+
+    public Set<InteractiveObstacle> getInteractiveObstacles(){
+        return this.interactiveObs;
     }
 
     @Override
@@ -145,6 +156,11 @@ public class LevelImpl implements Level {
                 .filter(e -> e instanceof ManagerInjectable)
                 .map(e -> (ManagerInjectable) e)
                 .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));
+    }
+
+    @Override
+    public List<Collidable> getAllCollidables() {
+        return this.collidables;
     }
 
 }

@@ -38,14 +38,12 @@ public class MapLoader {
     private static final Map<Character, obstacleType.type> symbolMap = Map.of(
             'P', obstacleType.type.FLOOR,
             '#', obstacleType.type.WALL,
-            'B', obstacleType.type.FIRE_SPAWN,
-            'W', obstacleType.type.WATER_SPAWN,
             'A', obstacleType.type.WATER_EXIT,
             'F', obstacleType.type.FIRE_EXIT);
 
     private static final Set<Character> symbolEnemies = Set.of('C', 'S');
     private static final Set<Character> symbolPlayer = Set.of('W', 'B');
-    private static final Set<Character> symbolInteractiveObstacle = Set.of('L', 'P', 'M');
+    private static final Set<Character> symbolInteractiveObstacle = Set.of('L', 'H', 'M');
 
     public MapLoader(final ObstacleFactory factory, final EnemyFactory enemyFactory,
             final InteractiveObstacleFactory interactiveObstacleFactory) {
@@ -97,7 +95,7 @@ public class MapLoader {
                                 interactiveObstacles.add(
                                         interactiveObsFactory.createLever(pos));
                                 break;
-                            case 'P':
+                            case 'H':
                                 interactiveObstacles.add(
                                         interactiveObsFactory.createPushBox(pos));
                                 break;

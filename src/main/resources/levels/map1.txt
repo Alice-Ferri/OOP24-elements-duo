@@ -13,6 +13,6 @@
 #PPPPPPP............#
 #.W.....PPPPPP......#
 #PPPP...........PPPP#
-#.B............PPPPP#
+#.B......LHM...PPPPP#
 #PPPPPPPPPPPPPPPPPPP#
 #####################

@@ -1,8 +1,10 @@
 package it.unibo.elementsduo.model.map.level.api;
 
+import java.util.List;
 import java.util.Set;
 
 import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
@@ -56,5 +58,9 @@ public interface Level {
     void cleanProjectiles();
 
     void setEnemiesMoveManager(final EnemiesMoveManager manager);
+
+    Set<InteractiveObstacle> getInteractiveObstacles();
+
+    List<Collidable> getAllCollidables();
 
 }
