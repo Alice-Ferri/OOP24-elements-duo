@@ -1,139 +1,64 @@
 package it.unibo.elementsduo.model.map.level.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
-import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
 import it.unibo.elementsduo.model.player.api.Player;
+
 
 public class LevelImpl implements Level {
 
-    private final Set<obstacle> obstacles;
-    private final Set<Enemy> enemies;
-    private final Set<Player> players;
-    private final Set<InteractiveObstacle> interactiveObs;
+    private final Set<GameEntity> gameEntities;
     private final Set<Projectiles> projectiles = new HashSet<>();
-    private final List<Collidable> collidables = new ArrayList<>();
 
-    public LevelImpl(final Set<obstacle> ob, final Set<Enemy> en, final Set<Player> pl,
-            final Set<InteractiveObstacle> iob) {
-        this.obstacles = Set.copyOf(Objects.requireNonNull(ob));
-        this.enemies = Set.copyOf(Objects.requireNonNull(en));
-        this.players = Set.copyOf(Objects.requireNonNull(pl));
-        this.interactiveObs = Set.copyOf(Objects.requireNonNull(iob));
-        this.collidables.addAll(obstacles);
-        this.collidables.addAll(interactiveObs);
-        this.collidables.addAll(players);
-        this.collidables.addAll(enemies);
+    public LevelImpl(final Set<GameEntity> gameEntities) {
+        this.gameEntities = Set.copyOf(Objects.requireNonNull(gameEntities));
     }
 
     @Override
-    public Set<obstacle> getAllObstacles() {
-        return this.obstacles;
-    }
-
-    public Set<InteractiveObstacle> getInteractiveObstacles(){
-        return this.interactiveObs;
+    public Set<GameEntity> getGameEntities() {
+        return this.gameEntities; 
     }
 
     @Override
-    public <T extends obstacle> Set<T> getObstaclesByClass(Class<T> type) {
-        return this.obstacles.stream()
+    public <T extends GameEntity> Set<T> getEntitiesByClass(final Class<T> type) {
+        return this.gameEntities.stream()
                 .filter(type::isInstance)
                 .map(type::cast)
-                .collect(Collectors.toSet());
-
-    }
-
-    @Override
-    public Set<Wall> getWalls() {
-        return getObstaclesByClass(Wall.class);
-    }
-
-    @Override
-    public Set<Floor> getFloors() {
-        return getObstaclesByClass(Floor.class);
-    }
-
-    @Override
-    public Set<fireSpawn> getFireSpawn() {
-        return getObstaclesByClass(fireSpawn.class);
-    }
-
-    @Override
-    public Set<waterSpawn> getWaterSpawn() {
-        return getObstaclesByClass(waterSpawn.class);
-    }
-
-    @Override
-    public Set<fireExit> getFireExit() {
-        return getObstaclesByClass(fireExit.class);
-    }
-
-    @Override
-    public Set<waterExit> getWaterExit() {
-        return getObstaclesByClass(waterExit.class);
-    }
-
-    @Override
-    public Set<Enemy> getAllEnemies() {
-        return this.enemies;
-    }
-
-    @Override
-    public <T extends Enemy> Set<T> getEnemyByClass(Class<T> type) {
-        return this.enemies.stream()
-                .filter(type::isInstance)
-                .map(type::cast)
-                .collect(Collectors.toSet());
-    }
-
-    @Override
-    public Set<Enemy> getLivingEnemies() {
-        return this.enemies.stream()
-                .filter(Enemy::isAlive)
                 .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override
-    public Set<ClassicEnemiesImpl> getClassicEnemies() {
-        return getEnemyByClass(ClassicEnemiesImpl.class);
+    public Set<obstacle> getAllObstacles() {
+        return getEntitiesByClass(obstacle.class);
     }
 
     @Override
-    public Set<ShooterEnemyImpl> getShooterEnemies() {
-        return getEnemyByClass(ShooterEnemyImpl.class);
+    public Set<Enemy> getAllEnemies() {
+        return getEntitiesByClass(Enemy.class);
     }
 
+    @Override
     public Set<Player> getAllPlayers() {
-        return this.players;
+        return getEntitiesByClass(Player.class);
     }
 
     @Override
-    public <T extends InteractiveObstacle> Set<T> getInteractiveObsByClass(Class<T> type) {
-        return this.interactiveObs.stream()
-                .filter(type::isInstance)
-                .map(type::cast)
-                .collect(Collectors.toSet());
+    public Set<InteractiveObstacle> getAllInteractiveObstacles() {
+        return getEntitiesByClass(InteractiveObstacle.class);
     }
 
     @Override
@@ -142,25 +67,34 @@ public class LevelImpl implements Level {
     }
 
     @Override
-    public void addProjectile(Projectiles p) {
-        this.projectiles.add(p);
+    public void addProjectile(final Projectiles p) {
+        if (p != null) {
+            this.projectiles.add(p);
+        }
     }
 
     @Override
-    public void cleanProjectiles() {
-        this.projectiles.removeIf(p -> !p.isActive());
+    public void removeInactiveProjectiles() {
+        this.projectiles.removeIf(proj -> !proj.isActive());
     }
 
+    @Override
     public void setEnemiesMoveManager(final EnemiesMoveManager manager) {
-        this.enemies.stream()
-                .filter(e -> e instanceof ManagerInjectable)
-                .map(e -> (ManagerInjectable) e)
+        this.getEntitiesByClass(Enemy.class).stream()
+                .filter(ManagerInjectable.class::isInstance)
+                .map(ManagerInjectable.class::cast)
                 .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));
     }
 
     @Override
     public List<Collidable> getAllCollidables() {
-        return this.collidables;
+        Stream<GameEntity> entityStream = this.gameEntities.stream();
+        Stream<Projectiles> projectileStream = this.projectiles.stream();
+
+        return Stream.concat(entityStream, projectileStream)
+                     .filter(Collidable.class::isInstance)
+                     .map(Collidable.class::cast)
+                     .collect(Collectors.toList());        
     }
 
 }
