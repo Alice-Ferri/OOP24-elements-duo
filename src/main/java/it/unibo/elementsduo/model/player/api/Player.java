@@ -3,6 +3,7 @@ package it.unibo.elementsduo.model.player.api;
 import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 
 /**
  * Represents a player entity in the game.
@@ -12,7 +13,7 @@ import it.unibo.elementsduo.model.collisions.core.api.Movable;
  * 
  */
 
-public interface Player extends Collidable, Movable {
+public interface Player extends Collidable, Movable, GameEntity {
 
     /**
      * Returns the current horizontal position of the player.

@@ -40,16 +40,16 @@ public class MapValidatorImpl implements MapValidator{
     }
 
     private void checkSpawnsAndExits(final Level level) throws InvalidMapException{
-        if (level.getObstaclesByClass(fireSpawn.class).size() != 1) {
+        if (level.getEntitiesByClass(fireSpawn.class).size() != 1) {
             throw new InvalidMapException("La mappa deve avere esattamente 1 fire spawn.");
         }
-        if (level.getObstaclesByClass(waterSpawn.class).size() != 1) {
+        if (level.getEntitiesByClass(waterSpawn.class).size() != 1) {
             throw new InvalidMapException("La mappa deve avere esattamente 1 water spawn.");
         }
-        if (level.getObstaclesByClass(fireExit.class).size() != 1) {
+        if (level.getEntitiesByClass(fireExit.class).size() != 1) {
             throw new InvalidMapException("La mappa deve avere esattamente 1 fire exit.");
         }
-        if (level.getObstaclesByClass(waterExit.class).size() != 1) {
+        if (level.getEntitiesByClass(waterExit.class).size() != 1) {
             throw new InvalidMapException("La mappa deve avere esattamente 1 water exit.");
         }
     }
@@ -82,7 +82,7 @@ public class MapValidatorImpl implements MapValidator{
     }
 
     private Set<Position> getWallPositions(final Level level) {
-        return level.getObstaclesByClass(Wall.class).stream()
+        return level.getEntitiesByClass(Wall.class).stream()
             .map(obs -> new Position(
                 (int) obs.getHitBox().getCenter().x(),
                 (int) obs.getHitBox().getCenter().y()
@@ -97,7 +97,7 @@ public class MapValidatorImpl implements MapValidator{
     }
 
     private void checkEnemyFloors(final Level level) throws InvalidMapException{
-        final Set<Position> floorPositions = level.getObstaclesByClass(Floor.class).stream()
+        final Set<Position> floorPositions = level.getEntitiesByClass(Floor.class).stream()
                 .map(obs -> new Position(
                 (int) obs.getHitBox().getCenter().x(),
                 (int) obs.getHitBox().getCenter().y()))
@@ -128,10 +128,10 @@ public class MapValidatorImpl implements MapValidator{
         
         final Set<Position> emptySpace = calculateEmptySpace(dims, blockedPositions);
 
-        final Position fireSpawnPos = getObstaclePos(level.getObstaclesByClass(fireSpawn.class).iterator().next());
-        final Position fireExitPos = getObstaclePos(level.getObstaclesByClass(fireExit.class).iterator().next());
-        final Position waterSpawnPos = getObstaclePos(level.getObstaclesByClass(waterSpawn.class).iterator().next());
-        final Position waterExitPos = getObstaclePos(level.getObstaclesByClass(waterExit.class).iterator().next());
+        final Position fireSpawnPos = getObstaclePos(level.getEntitiesByClass(fireSpawn.class).iterator().next());
+        final Position fireExitPos = getObstaclePos(level.getEntitiesByClass(fireExit.class).iterator().next());
+        final Position waterSpawnPos = getObstaclePos(level.getEntitiesByClass(waterSpawn.class).iterator().next());
+        final Position waterExitPos = getObstaclePos(level.getEntitiesByClass(waterExit.class).iterator().next());
 
         checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, emptySpace);
         checkPathForPlayer("Water", waterSpawnPos, waterExitPos, emptySpace);

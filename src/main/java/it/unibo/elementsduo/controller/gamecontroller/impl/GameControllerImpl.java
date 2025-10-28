@@ -61,12 +61,12 @@ public class GameControllerImpl implements GameController {
         });
         this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
         this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
-        this.level.getInteractiveObstacles().stream()
+        this.level.getAllInteractiveObstacles().stream()
                 .filter(PushBox.class::isInstance)
                 .map(PushBox.class::cast)
                 .forEach(box -> box.update(deltaTime));
 
-        level.getInteractiveObstacles().stream()
+        level.getAllInteractiveObstacles().stream()
                 .filter(PlatformImpl.class::isInstance)
                 .map(PlatformImpl.class::cast)
                 .forEach(p -> p.update(deltaTime));
