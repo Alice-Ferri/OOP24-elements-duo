@@ -6,8 +6,11 @@ import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
+import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.view.LevelPanel;
 
@@ -18,6 +21,8 @@ public class GameControllerImpl implements GameController {
     private final GameLoop gameLoop;
     private final EnemiesMoveManager moveManager;
     private final GameNavigation controller; // lo utilizzerò quando sarà gestito lo stop al gameloop
+    private final CollisionManager collisionManager;
+    private final InputController inputController = new InputController();
 
     public GameControllerImpl(final Level level, final GameNavigation controller) {
 
@@ -26,6 +31,8 @@ public class GameControllerImpl implements GameController {
         this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
+        this.collisionManager = new CollisionManager(new EventManager());
+        this.inputController.install();
     }
 
     @Override
@@ -38,6 +45,8 @@ public class GameControllerImpl implements GameController {
         });
         this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
         this.level.cleanProjectiles();
+        this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
+        this.collisionManager.manageCollisions(this.level.getAllCollidables());
     }
 
     @Override

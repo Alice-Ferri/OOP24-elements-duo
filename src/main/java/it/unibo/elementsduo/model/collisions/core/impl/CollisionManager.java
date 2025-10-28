@@ -15,6 +15,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -41,6 +42,14 @@ public class CollisionManager {
         register.notifyUpdateStart();
 
         List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
+
+        for (Collidable c : entities) {
+            if (c instanceof Player p) {
+                p.setAirborne();
+            } else if (c instanceof PushBox b) {
+                b.setOnGround(false);
+            }
+        }
 
         for (CollisionInformations c : collisionsInfo) {
             register.handle(c);
