@@ -95,19 +95,24 @@ public class LevelPanel extends JPanel {
                 .filter(StaticObstacle.class::isInstance)
                 .map(StaticObstacle.class::cast)
                 .forEach(obs -> {
-                    final int gridX = (int) obs.getHitBox().getCenter().x();
-                    final int gridY = (int) obs.getHitBox().getCenter().y();
+                    final HitBox hb = obs.getHitBox();
+                    final double cx = hb.getCenter().x();
+                    final double cy = hb.getCenter().y();
+                    final double hw = hb.getHalfWidth();
+                    final double hh = hb.getHalfHeight();
+
+                    final int x = toPx(cx - hw) + offsetX;
+                    final int y = toPx(cy - hh) + offsetY;
+                    final int w = toPx(hw * 2.0);
+                    final int h = toPx(hh * 2.0);
 
                     final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
                     g.setColor(tileColor);
 
-                    final int pixelX = gridX * elementSize + offsetX;
-                    final int pixelY = gridY * elementSize + offsetY;
-
-                    g.fillRect(pixelX, pixelY, elementSize, elementSize);
+                    g.fillRect(x, y, w, h); 
 
                     g.setColor(Color.BLACK);
-                    g.drawRect(pixelX, pixelY, elementSize, elementSize);
+                    g.drawRect(x, y, w, h); 
                 });
     }
 
