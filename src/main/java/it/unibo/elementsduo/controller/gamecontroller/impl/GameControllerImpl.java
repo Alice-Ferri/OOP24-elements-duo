@@ -44,7 +44,6 @@ public class GameControllerImpl implements GameController {
             }
         });
         this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
-        this.level.cleanProjectiles();
         this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
     }
