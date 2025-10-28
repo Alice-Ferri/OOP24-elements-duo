@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.map.api;
+package it.unibo.elementsduo.model.map.level.api;
 
 import java.util.Set;
 

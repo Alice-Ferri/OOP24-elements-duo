@@ -7,7 +7,7 @@ import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
-import it.unibo.elementsduo.model.map.api.Level;
+import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.view.LevelPanel;
 
 public class GameControllerImpl implements GameController {
