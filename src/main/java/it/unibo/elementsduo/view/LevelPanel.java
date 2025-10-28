@@ -87,6 +87,7 @@ public class LevelPanel extends JPanel {
         drawStaticObstacles(g, offsetX, offsetY);
         drawInteractiveObstacles(g, offsetX, offsetY);
         drawEnemies(g, offsetX, offsetY);
+        drawProjectiles(g, offsetX, offsetY);
     }
 
     private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY) {
@@ -163,5 +164,19 @@ public class LevelPanel extends JPanel {
 
     private int toPx(final double worldCoord) {
         return (int) Math.round(worldCoord * this.elementSize);
+    }
+
+    private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY) {
+        g.setColor(Color.YELLOW);
+
+        final int projectileSize = elementSize / 4;
+        final int centerOffset = -projectileSize / 2;
+
+        this.level.getAllProjectiles().stream().forEach(projectile -> {
+            final int pixelX = (int) Math.round(projectile.getX() * elementSize) + offsetX;
+            final int pixelY = (int) Math.round(projectile.getY() * elementSize) + offsetY;
+            g.fillOval(pixelX + centerOffset, pixelY + centerOffset,
+                    projectileSize, projectileSize);
+        });
     }
 }

@@ -6,7 +6,6 @@ import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -17,7 +16,7 @@ import it.unibo.elementsduo.resources.Vector2D;
 public final class ShooterEnemyImpl implements Enemy {
 
     private static final double SPEED = 2.0;
-    private static final int MAX_COOLDOWN = 90;
+    private static final double MAX_COOLDOWN = 3.0;
 
 
     private boolean alive;
@@ -49,8 +48,14 @@ public final class ShooterEnemyImpl implements Enemy {
     public Optional<Projectiles> attack() {
         if (this.shootCooldown <= 0) {
             this.shootCooldown = MAX_COOLDOWN;
-            final Position pos = new Position((int) (this.x) + this.direction, (int) (this.y));
-            return Optional.of(new ProjectilesImpl(pos, this.direction));
+            final double spawnOffset = 0.5;
+
+        final Position pos = new Position(
+            this.x + this.direction * spawnOffset, 
+            this.y
+        ); 
+        
+        return Optional.of(new ProjectilesImpl(pos, this.direction));
         }
         return Optional.empty();
         
@@ -111,7 +116,6 @@ public final class ShooterEnemyImpl implements Enemy {
         } else {
             this.attack();
         }
-
     }
 
     @Override
