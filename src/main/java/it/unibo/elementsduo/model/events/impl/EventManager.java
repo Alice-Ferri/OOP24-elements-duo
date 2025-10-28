@@ -17,8 +17,10 @@ public class EventManager {
 
     public void notify(Event event) {
         final List<EventListener> evListeners = this.Listeners.get(event.getClass());
-        for (EventListener listener : evListeners) {
-            listener.onEvent(event);
+        if (evListeners != null) {
+            for (EventListener listener : evListeners) {
+                listener.onEvent(event);
+            }
         }
     }
 }
