@@ -9,15 +9,23 @@ import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.events.impl.GemCollectedEvent;
 import it.unibo.elementsduo.model.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
+import it.unibo.elementsduo.model.map.level.api.Level;
 
 public class GameStateImpl implements EventListener, GameState{
 
+    private final Level level;
     private boolean gameOver = false;
     private boolean won = false;
     private int gemsCollected = 0;
 
-    public GameStateImpl(final EventManager eventManager) {
+    public GameStateImpl(final EventManager eventManager,final Level level) {
         Objects.requireNonNull(eventManager);
+        Objects.requireNonNull(level);
+        this.level=level;
+
+        eventManager.subscribe(PlayerDiedEvent.class, this);
+        eventManager.subscribe(GemCollectedEvent.class, this);
+        eventManager.subscribe(EnemyDiedEvent.class, this);
     }
 
     @Override
@@ -35,18 +43,17 @@ public class GameStateImpl implements EventListener, GameState{
     }
 
     private void handleEnemyDied(EnemyDiedEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleEnemyDied'");
+        e.getEnemy().die();
     }
 
     private void handleGemCollected(GemCollectedEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleGemCollected'");
+        e.getGem().collect();
+        this.gemsCollected++;
     }
 
     private void handlePlayerDied(PlayerDiedEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handlePlayerDied'");
+        this.gameOver = true;
+        this.won = false;
     }
 
     @Override
