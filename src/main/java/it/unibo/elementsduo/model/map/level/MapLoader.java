@@ -10,6 +10,9 @@ import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
@@ -22,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -116,7 +120,32 @@ public class MapLoader {
         } catch (IOException e) {
             throw new RuntimeException("Errore nella lettura del file: " + filePath, e);
         }
-
+        linkInteractiveObjects(interactiveObstacles);
         return new LevelImpl(obstacles, enemies, players, interactiveObstacles);
+    }
+
+    private void linkInteractiveObjects(Set<InteractiveObstacle> interObjs) {
+        List<Lever> levers = interObjs.stream()
+                .filter(Lever.class::isInstance)
+                .map(Lever.class::cast)
+                .toList();
+
+        List<button> buttons = interObjs.stream()
+                .filter(button.class::isInstance)
+                .map(button.class::cast)
+                .toList();
+
+        List<PlatformImpl> platforms = interObjs.stream()
+                .filter(PlatformImpl.class::isInstance)
+                .map(PlatformImpl.class::cast)
+                .toList();
+
+        for (int i = 0; i < Math.min(levers.size(), platforms.size()); i++) {
+            levers.get(i).addLinkedObject(platforms.get(i));
+        }
+
+        for (int i = 0; i < Math.min(buttons.size(), platforms.size()); i++) {
+            buttons.get(i).linkTo(platforms.get(i));
+        }
     }
 }
