@@ -192,6 +192,7 @@ public class LevelPanel extends JPanel {
         final double projHalfHeight = projectileHeight / 2.0;
 
         this.level.getAllProjectiles().stream().forEach(projectile -> {
+            g.setColor(Color.BLACK);
 
             final double cx = projectile.getX();
             final double cy = projectile.getY();
@@ -204,6 +205,7 @@ public class LevelPanel extends JPanel {
             final int h = toPx(projectileHeight);
 
             g.fillOval(pixelX, pixelY, w, h);
+            
         });
     }
 

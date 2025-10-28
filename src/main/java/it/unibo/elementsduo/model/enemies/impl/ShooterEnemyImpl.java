@@ -8,6 +8,7 @@ import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.events.api.Event;
+import it.unibo.elementsduo.model.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -155,8 +156,10 @@ public final class ShooterEnemyImpl implements Enemy {
 
        @Override
        public void onEvent(Event event) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onEvent'");
+        if (event instanceof EnemyDiedEvent) {
+            this.die();
+            System.out.println("morto");
+        }
        }
 
        @Override
