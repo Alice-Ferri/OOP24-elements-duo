@@ -7,6 +7,7 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
+import it.unibo.elementsduo.model.events.api.Event;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -151,6 +152,17 @@ public final class ShooterEnemyImpl implements Enemy {
     public void setMoveManager(final EnemiesMoveManager manager) {
         this.moveManager = manager;
     }
+
+       @Override
+       public void onEvent(Event event) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onEvent'");
+       }
+
+       @Override
+       public void die() {
+        this.alive=false;
+       }
     
 }
 

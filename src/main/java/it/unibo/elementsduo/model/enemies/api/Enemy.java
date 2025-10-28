@@ -1,16 +1,18 @@
 package it.unibo.elementsduo.model.enemies.api;
 
+
 import java.util.Optional;
 
 import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.events.api.EventListener;
 
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable,ManagerInjectable,Collidable { 
+public interface Enemy extends Movable,ManagerInjectable,Collidable, EventListener { 
 
     /**
      * @return an {@link Optional} containing a {@link Projectiles} instance if an attack occurs, 
@@ -53,5 +55,7 @@ public interface Enemy extends Movable,ManagerInjectable,Collidable {
     HitBox getHitBox(); 
 
     void setMoveManager(EnemiesMoveManager manager);
+
+    void die();
 
 }
