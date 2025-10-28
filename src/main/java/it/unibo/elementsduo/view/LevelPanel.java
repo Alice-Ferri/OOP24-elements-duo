@@ -1,17 +1,23 @@
 package it.unibo.elementsduo.view;
 
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
-import it.unibo.elementsduo.resources.Position;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -26,18 +32,22 @@ public class LevelPanel extends JPanel {
     private final Level level;
 
     private final Map<Class<? extends StaticObstacle>, Color> staticObstacleColorMap = Map.of(
-        Wall.class, Color.DARK_GRAY,
-        Floor.class, Color.LIGHT_GRAY,
-        fireSpawn.class, Color.ORANGE,
-        waterSpawn.class, Color.BLUE,
-        fireExit.class, Color.RED,
-        waterExit.class, new Color(0, 191, 255)
-    );
+            Wall.class, Color.DARK_GRAY,
+            Floor.class, Color.LIGHT_GRAY,
+            fireSpawn.class, Color.ORANGE,
+            waterSpawn.class, Color.BLUE,
+            fireExit.class, Color.RED,
+            waterExit.class, new Color(0, 191, 255));
+
+    private final Map<Class<? extends InteractiveObstacle>, Color> interactiveColorMap = Map.of(Lever.class,
+            Color.YELLOW,
+            PlatformImpl.class, Color.CYAN,
+            PushBox.class, Color.RED,
+            button.class, Color.GREEN);
 
     private final Map<Class<? extends Enemy>, Color> enemyColorMap = Map.of(
-        ClassicEnemiesImpl.class, new Color(139, 0, 0),
-        ShooterEnemyImpl.class, new Color(75, 0, 130)
-    );
+            ClassicEnemiesImpl.class, new Color(139, 0, 0),
+            ShooterEnemyImpl.class, new Color(75, 0, 130));
 
     public LevelPanel(final Level level) {
         this.level = Objects.requireNonNull(level);
@@ -47,8 +57,8 @@ public class LevelPanel extends JPanel {
 
     private Dimension calculateStaticLayoutSize() {
         var staticObstacles = level.getAllObstacles().stream()
-                                    .filter(StaticObstacle.class::isInstance)
-                                    .toList();
+                .filter(StaticObstacle.class::isInstance)
+                .toList();
 
         if (staticObstacles.isEmpty()) {
             return new Dimension(0, 0);
@@ -75,28 +85,61 @@ public class LevelPanel extends JPanel {
         final int offsetY = (getHeight() - staticLayoutSize.height) / 2;
 
         drawStaticObstacles(g, offsetX, offsetY);
+        drawInteractiveObstacles(g, offsetX, offsetY);
         drawEnemies(g, offsetX, offsetY);
     }
 
     private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY) {
         this.level.getAllObstacles().stream()
-            .filter(StaticObstacle.class::isInstance)
-            .map(StaticObstacle.class::cast)
-            .forEach(obs -> {
-                final int gridX = (int) obs.getHitBox().getCenter().x();
-                final int gridY = (int) obs.getHitBox().getCenter().y();
+                .filter(StaticObstacle.class::isInstance)
+                .map(StaticObstacle.class::cast)
+                .forEach(obs -> {
+                    final int gridX = (int) obs.getHitBox().getCenter().x();
+                    final int gridY = (int) obs.getHitBox().getCenter().y();
 
-                final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
-                g.setColor(tileColor);
+                    final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
+                    g.setColor(tileColor);
 
-                final int pixelX = gridX * elementSize + offsetX;
-                final int pixelY = gridY * elementSize + offsetY;
+                    final int pixelX = gridX * elementSize + offsetX;
+                    final int pixelY = gridY * elementSize + offsetY;
 
-                g.fillRect(pixelX, pixelY, elementSize, elementSize);
+                    g.fillRect(pixelX, pixelY, elementSize, elementSize);
 
-                g.setColor(Color.BLACK);
-                g.drawRect(pixelX, pixelY, elementSize, elementSize);
-            });
+                    g.setColor(Color.BLACK);
+                    g.drawRect(pixelX, pixelY, elementSize, elementSize);
+                });
+    }
+
+    private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY) {
+        level.getInteractiveObsByClass(InteractiveObstacle.class).forEach(obj -> {
+            final HitBox hb = obj.getHitBox();
+            final double cx = hb.getCenter().x();
+            final double cy = hb.getCenter().y();
+
+            final double hw = hb.getHalfWidth();
+            final double hh = hb.getHalfHeight();
+
+            final int x = toPx(cx - hw) + offsetX;
+            final int y = toPx(cy - hh) + offsetY;
+            final int w = toPx(hw * 2.0);
+            final int h = toPx(hh * 2.0);
+
+            Color base = interactiveColorMap.getOrDefault(obj.getClass(), Color.PINK);
+            g.setColor(base);
+
+            if (obj instanceof Triggerable triggerable) {
+                if (triggerable.isActive()) {
+                    g.setColor(base.brighter());
+                } else {
+                    g.setColor(base.darker());
+                }
+            }
+
+            g.fillRect(x, y, w, h);
+            g.setColor(Color.BLACK);
+            g.drawRect(x, y, w, h);
+
+        });
     }
 
     private void drawEnemies(final Graphics g, final int offsetX, final int offsetY) {
@@ -116,5 +159,9 @@ public class LevelPanel extends JPanel {
                 g.fillOval(pixelX + detailOffset, pixelY + detailOffset, detailSize, detailSize);
             }
         });
+    }
+
+    private int toPx(final double worldCoord) {
+        return (int) Math.round(worldCoord * this.elementSize);
     }
 }
