@@ -1,6 +1,8 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
@@ -11,7 +13,8 @@ import it.unibo.elementsduo.model.player.api.Player;
 
 public class LeverActivationHandler implements CollisionHandler {
 
-    private Set<Lever> activeLevers = new HashSet<>();
+    private List<Lever> leversThisFrame = new ArrayList<>();
+    private List<Lever> leversLastFrame = new ArrayList<>();
 
     @Override
     public boolean canHandle(Collidable a, Collidable b) {
@@ -36,14 +39,21 @@ public class LeverActivationHandler implements CollisionHandler {
         if (player == null || trigger == null)
             return;
 
-        if (!this.activeLevers.contains(trigger)) {
+        leversThisFrame.add(trigger);
+        /* if it isn't in the levers before so it is a new lever colliding */
+        if (!leversLastFrame.contains(trigger)) {
             trigger.toggle();
-            activeLevers.add(trigger);
         }
     }
 
-    public void atEndCollision(Lever l) {
-        this.activeLevers.remove(l);
+    public void onUpdateStart() {
+        leversThisFrame.clear();
+    }
+
+    public void onUpdateEnd() {
+        /* the levers of this cicle become the old levers */
+        leversLastFrame.clear();
+        leversLastFrame.addAll(leversLastFrame);
     }
 
 }

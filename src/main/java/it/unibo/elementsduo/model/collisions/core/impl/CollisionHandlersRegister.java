@@ -33,4 +33,17 @@ public class CollisionHandlersRegister {
             }
         }
     }
+
+    /* notify handlers the beginning and the end */
+    public void notifyUpdateStart() {
+        for (var handler : register) {
+            handler.onUpdateStart();
+        }
+    }
+
+    public void notifyUpdateEnd() {
+        for (var handler : register) {
+            handler.onUpdateEnd();
+        }
+    }
 }

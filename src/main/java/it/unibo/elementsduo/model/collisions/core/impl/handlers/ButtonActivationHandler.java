@@ -1,6 +1,8 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
@@ -11,7 +13,8 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 
 public class ButtonActivationHandler implements CollisionHandler {
 
-    private Set<button> pressedButtons = new HashSet<>();
+    private List<button> buttonsThisFrame = new ArrayList<>();
+    private List<button> buttonsLastFrame = new ArrayList<>();
 
     @Override
     public boolean canHandle(Collidable a, Collidable b) {
@@ -25,15 +28,28 @@ public class ButtonActivationHandler implements CollisionHandler {
             b = (button) c.getObjectA();
         else
             b = (button) c.getObjectB();
-        if (!pressedButtons.contains(b)) {
+
+        buttonsThisFrame.add(b);
+
+        if (!buttonsLastFrame.contains(b)) {
             b.activate();
-            pressedButtons.add(b);
         }
     }
 
-    public void atEndCollision(button b) {
-        b.deactivate();
-        pressedButtons.remove(b);
+    public void onUpdateStart() {
+        buttonsThisFrame.clear();
+    }
+
+    public void onUpdateEnd() {
+        List<button> releasedButtons = new ArrayList<>(buttonsLastFrame);
+        releasedButtons.removeAll(buttonsThisFrame);
+
+        for (button b : releasedButtons) {
+            b.deactivate();
+        }
+
+        buttonsLastFrame.clear();
+        buttonsLastFrame.addAll(buttonsThisFrame);
     }
 
 }
