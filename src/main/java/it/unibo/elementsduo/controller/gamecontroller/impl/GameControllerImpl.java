@@ -3,7 +3,9 @@ package it.unibo.elementsduo.controller.gamecontroller.impl;
 import javax.swing.JPanel;
 
 import it.unibo.elementsduo.controller.GameLoop;
+import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
+import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.view.LevelPanel;
@@ -13,6 +15,7 @@ public class GameControllerImpl implements GameController {
     private final Level level;
     private final LevelPanel view;
     private final GameLoop gameLoop;
+    private final EnemiesMoveManager moveManager;
     private final GameNavigation controller; //lo utilizzerò quando sarà gestito lo stop al gameloop
 
     public GameControllerImpl(final Level level, final GameNavigation controller){
@@ -21,6 +24,7 @@ public class GameControllerImpl implements GameController {
         this.controller = controller;
         this.view = new LevelPanel(this.level); 
         this.gameLoop = new GameLoop(this);
+        this.moveManager=new EnemiesMoveManagerImpl(level.getAllObstacles());
     }
 
     @Override
@@ -35,6 +39,7 @@ public class GameControllerImpl implements GameController {
 
     public void start(){
         this.view.setVisible(true);
+        level.setEnemiesMoveManager(moveManager);
         this.gameLoop.start();
     }
 
