@@ -77,9 +77,6 @@ public class EntityFactoryImpl implements EntityFactory{
                 created.add(enemyFactory.createEnemy(symbol, pos));
                 break;
             case SPAWN_POINT: 
-                obstacleType.type spawnObstacleType = (symbol == 'B') ? obstacleType.type.FIRE_SPAWN : obstacleType.type.WATER_SPAWN;
-                created.add(obstacleFactory.createObstacle(spawnObstacleType, defaultHitbox));
-
                 created.add((symbol == 'B') ? new Watergirl(pos) : new Fireboy(pos));
                 break;
             case LEVER:
