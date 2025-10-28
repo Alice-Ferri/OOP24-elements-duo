@@ -7,6 +7,7 @@ import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
+import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.view.LevelPanel;
 
@@ -29,7 +30,14 @@ public class GameControllerImpl implements GameController {
 
     @Override
     public void update(double deltaTime) {
-        this.level.getAllEnemies().forEach(obj -> obj.update(deltaTime));
+        this.level.getAllEnemies().forEach(obj -> {
+            obj.update(deltaTime);
+            if (obj instanceof ShooterEnemyImpl) {
+                ((ShooterEnemyImpl) obj).attack().ifPresent(level::addProjectile);
+            }
+        });
+        this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
+        this.level.cleanProjectiles();
     }
 
     @Override

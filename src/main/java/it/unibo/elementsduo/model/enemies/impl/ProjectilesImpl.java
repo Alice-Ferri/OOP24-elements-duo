@@ -12,7 +12,8 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 public final class ProjectilesImpl implements Projectiles {
 
-    private static final double SPEED = 0.08;
+    private static final double SPEED = 5.0;
+    private static final double PROJECTILE_SIZE = 0.25;
     private double x;
     private double y;
     private final int direction;
@@ -91,7 +92,7 @@ public final class ProjectilesImpl implements Projectiles {
 
     @Override
     public HitBox getHitBox() {
-        return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
+        return new HitBoxImpl(new Position(this.x, this.y), PROJECTILE_SIZE, PROJECTILE_SIZE);
     }
 }
 

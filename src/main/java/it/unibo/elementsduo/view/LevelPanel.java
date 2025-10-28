@@ -11,7 +11,6 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
-import it.unibo.elementsduo.resources.Position;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -76,6 +75,7 @@ public class LevelPanel extends JPanel {
 
         drawStaticObstacles(g, offsetX, offsetY);
         drawEnemies(g, offsetX, offsetY);
+        drawProjectiles(g, offsetX, offsetY);
     }
 
     private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY) {
@@ -115,6 +115,19 @@ public class LevelPanel extends JPanel {
                 final int detailOffset = elementSize / 4;
                 g.fillOval(pixelX + detailOffset, pixelY + detailOffset, detailSize, detailSize);
             }
+        });
+    }
+    private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY) {
+        g.setColor(Color.YELLOW); 
+
+        final int projectileSize = elementSize / 4; 
+        final int centerOffset = -projectileSize / 2;
+        
+        this.level.getAllProjectiles().stream().forEach(projectile -> {
+            final int pixelX = (int) Math.round(projectile.getX() * elementSize) + offsetX;
+            final int pixelY = (int) Math.round(projectile.getY() * elementSize) + offsetY;
+            g.fillOval(pixelX + centerOffset, pixelY + centerOffset, 
+                       projectileSize, projectileSize);
         });
     }
 }
