@@ -16,15 +16,15 @@ public class GameControllerImpl implements GameController {
     private final LevelPanel view;
     private final GameLoop gameLoop;
     private final EnemiesMoveManager moveManager;
-    private final GameNavigation controller; //lo utilizzerò quando sarà gestito lo stop al gameloop
+    private final GameNavigation controller; // lo utilizzerò quando sarà gestito lo stop al gameloop
 
-    public GameControllerImpl(final Level level, final GameNavigation controller){
+    public GameControllerImpl(final Level level, final GameNavigation controller) {
 
         this.level = level;
         this.controller = controller;
-        this.view = new LevelPanel(this.level); 
+        this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
-        this.moveManager=new EnemiesMoveManagerImpl(level.getAllObstacles());
+        this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
     }
 
     @Override
@@ -37,7 +37,7 @@ public class GameControllerImpl implements GameController {
         this.view.repaint();
     }
 
-    public void start(){
+    public void start() {
         this.view.setVisible(true);
         level.setEnemiesMoveManager(moveManager);
         this.gameLoop.start();
@@ -58,5 +58,4 @@ public class GameControllerImpl implements GameController {
         return this.view;
     }
 
-    
 }

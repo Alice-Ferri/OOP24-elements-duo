@@ -11,7 +11,7 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ButtonActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.GemCollisionsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
-import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHanlder;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
@@ -24,9 +24,6 @@ public class CollisionManager {
     private CollisionChecker ck = new CollisionCheckerImpl();
     private CollisionHandlersRegister register = new CollisionHandlersRegister();
 
-    private Set<Lever> LeversColliding = new HashSet<>();
-    private Set<Lever> LeverLast = new HashSet<>();
-
     private final EventManager eventManager;
 
     public CollisionManager(final EventManager eventManager) {
@@ -36,38 +33,20 @@ public class CollisionManager {
         register.registerHandler(new PushBoxHandler());
         register.registerHandler(new PlayerEnemyHandler(this.eventManager));
         register.registerHandler(new GemCollisionsHandler(this.eventManager));
-        register.registerHandler(new PhysicsHanlder());
+        register.registerHandler(new PhysicsHandler());
     }
 
     public void manageCollisions(List<Collidable> entities) {
-        List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
 
-        LeversColliding.clear();
+        register.notifyUpdateStart();
+
+        List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
 
         for (CollisionInformations c : collisionsInfo) {
             register.handle(c);
-
-            Collidable a = c.getObjectA();
-            Collidable b = c.getObjectB();
-            if ((a instanceof Player && b instanceof Lever) || (b instanceof Player && a instanceof Lever)) {
-                Lever l = (Lever) (a instanceof Lever ? a : b);
-                LeversColliding.add(l);
-            }
         }
 
-        Optional<LeverActivationHandler> leverHandlerOptional = register.getHandler(LeverActivationHandler.class);
-        LeverActivationHandler leverhandler = null;
-        if (leverHandlerOptional.isPresent())
-            leverhandler = leverHandlerOptional.get();
-
-        for (Lever l : LeverLast) {
-            if (!LeversColliding.contains(l)) {
-                leverhandler.atEndCollision(l);
-            }
-        }
-
-        LeverLast.clear();
-        LeverLast.addAll(LeversColliding);
+        register.notifyUpdateEnd();
 
     }
 

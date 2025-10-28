@@ -13,4 +13,6 @@ bin/
 .settings/
 .classpath
 
+
 .DS_Store
+>>>>>>> collisions-events

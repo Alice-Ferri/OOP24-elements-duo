@@ -7,7 +7,7 @@ import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionInformationsImpl;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class PhysicsHanlder implements CollisionHandler {
+public class PhysicsHandler implements CollisionHandler {
 
     CollisionInformationsImpl c;
     Movable entity;

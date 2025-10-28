@@ -4,4 +4,10 @@ public interface CollisionHandler {
     boolean canHandle(Collidable a, Collidable b);
 
     void handle(CollisionInformations c);
+
+    default void onUpdateStart() {
+    }
+
+    default void onUpdateEnd() {
+    }
 }

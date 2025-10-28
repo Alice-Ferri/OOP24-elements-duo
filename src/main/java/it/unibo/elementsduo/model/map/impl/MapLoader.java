@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.map.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Obstacle;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleType;
@@ -59,7 +59,7 @@ public class MapLoader {
     }
 
     private Level loadLevelFromFile(final String filePath) {
-        final Set<Obstacle> obstacles = new HashSet<>();
+        final Set<obstacle> obstacles = new HashSet<>();
         final Set<Enemy> enemies = new HashSet<>();
         final Set<Player> players = new HashSet<>();
         final Set<InteractiveObstacle> interactiveObstacles = new HashSet<>();
