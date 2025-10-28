@@ -18,6 +18,8 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
+import it.unibo.elementsduo.model.player.impl.Fireboy;
+import it.unibo.elementsduo.model.player.impl.Watergirl;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -88,6 +90,7 @@ public class LevelPanel extends JPanel {
         drawInteractiveObstacles(g, offsetX, offsetY);
         drawEnemies(g, offsetX, offsetY);
         drawProjectiles(g, offsetX, offsetY);
+        drawPlayers(g, offsetX, offsetY);
     }
 
     private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY) {
@@ -149,39 +152,89 @@ public class LevelPanel extends JPanel {
     }
 
     private void drawEnemies(final Graphics g, final int offsetX, final int offsetY) {
+        final double enemyHalfWidth = 0.5;
+        final double enemyHalfHeight = 0.5;
+
         this.level.getAllEnemies().stream().forEach(enemy -> {
             final Color enemyColor = this.enemyColorMap.getOrDefault(enemy.getClass(), Color.PINK);
             g.setColor(enemyColor);
 
-            final int pixelX = (int) Math.round(enemy.getX() * elementSize) + offsetX;
-            final int pixelY = (int) Math.round(enemy.getY() * elementSize) + offsetY;
+            final double cx = enemy.getX(); 
+            final double cy = enemy.getY(); 
+            final double tlx = cx - enemyHalfWidth;  
+            final double tly = cy - enemyHalfHeight;
 
-            g.fillOval(pixelX, pixelY, elementSize, elementSize);
+            final int pixelX = toPx(tlx) + offsetX;
+            final int pixelY = toPx(tly) + offsetY; 
+            final int w = toPx(enemyHalfWidth * 2.0);
+            final int h = toPx(enemyHalfHeight * 2.0);
+
+            g.fillOval(pixelX, pixelY, w, h);
 
             if (enemy instanceof ShooterEnemyImpl) {
                 g.setColor(Color.WHITE);
-                final int detailSize = elementSize / 2;
-                final int detailOffset = elementSize / 4;
+                final int detailSize = w / 2;
+                final int detailOffset = w / 4;
                 g.fillOval(pixelX + detailOffset, pixelY + detailOffset, detailSize, detailSize);
             }
         });
     }
-
     private int toPx(final double worldCoord) {
         return (int) Math.round(worldCoord * this.elementSize);
     }
 
     private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY) {
-        g.setColor(Color.YELLOW);
-
-        final int projectileSize = elementSize / 4;
-        final int centerOffset = -projectileSize / 2;
+     
+        final double projectileWidth = 0.25;
+        final double projectileHeight = 0.25;
+        final double projHalfWidth = projectileWidth / 2.0;
+        final double projHalfHeight = projectileHeight / 2.0;
 
         this.level.getAllProjectiles().stream().forEach(projectile -> {
-            final int pixelX = (int) Math.round(projectile.getX() * elementSize) + offsetX;
-            final int pixelY = (int) Math.round(projectile.getY() * elementSize) + offsetY;
-            g.fillOval(pixelX + centerOffset, pixelY + centerOffset,
-                    projectileSize, projectileSize);
+
+            final double cx = projectile.getX();
+            final double cy = projectile.getY();
+            final double tlx = cx - projHalfWidth;  
+            final double tly = cy - projHalfHeight; 
+
+            final int pixelX = toPx(tlx) + offsetX;
+            final int pixelY = toPx(tly) + offsetY;
+            final int w = toPx(projectileWidth); 
+            final int h = toPx(projectileHeight);
+            
+            
+            g.fillOval(pixelX, pixelY, w, h);
         });
     }
+
+    private void drawPlayers(final Graphics g, final int offsetX, final int offsetY) {
+
+        this.level.getAllPlayers().stream().forEach(player -> {
+
+            final HitBox hb = player.getHitBox();
+            final double cx = hb.getCenter().x();
+            final double cy = hb.getCenter().y();
+            final double hw = hb.getHalfWidth();
+            final double hh = hb.getHalfHeight();
+
+            final int x = toPx(cx - hw) + offsetX;
+            final int y = toPx(cy - hh) + offsetY;
+            final int w = toPx(hw * 2.0);
+            final int h = toPx(hh * 2.0);
+
+            if (player instanceof Fireboy) {
+                g.setColor(Color.BLACK);
+            } else if (player instanceof Watergirl) {
+                g.setColor(Color.BLUE);
+            } else {
+                g.setColor(Color.BLACK);
+            }
+
+            g.fillRect(x, y, w, h);
+
+            g.setColor(Color.BLACK);
+            g.drawRect(x, y, w, h);
+        });
+    }
+
 }
