@@ -27,7 +27,7 @@ public class GameControllerImpl implements GameController {
     private final LevelPanel view;
     private final GameLoop gameLoop;
     private final EnemiesMoveManager moveManager;
-    private final GameNavigation controller; // lo utilizzerò quando sarà gestito lo stop al gameloop
+    private final GameNavigation controller;
     private final CollisionManager collisionManager;
     private final InputController inputController = new InputController();
     private final EventManager eventManager = new EventManager();
@@ -50,6 +50,12 @@ public class GameControllerImpl implements GameController {
 
     @Override
     public void update(double deltaTime) {
+
+        if (gameState.isGameOver()) {
+            handleGameOver();
+            return;
+        }
+
         this.level.getLivingEnemies().forEach(obj -> {
             obj.update(deltaTime);
             if (obj instanceof ShooterEnemyImpl) {
@@ -97,11 +103,20 @@ public class GameControllerImpl implements GameController {
     @Override
     public void deactivate() {
         this.gameLoop.stop();
+        this.inputController.uninstall();
     }
 
     @Override
     public JPanel getPanel() {
         return this.view;
+    }
+
+    private void handleGameOver() {
+        if (gameState.didWin()) {
+            this.controller.goToLevelSelection();
+        } else {
+            this.controller.restartCurrentLevel();
+        }
     }
 
 }

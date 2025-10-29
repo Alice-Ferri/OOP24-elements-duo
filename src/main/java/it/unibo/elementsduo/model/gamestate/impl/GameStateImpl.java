@@ -53,7 +53,6 @@ public class GameStateImpl implements EventListener, GameState{
     }
 
     private void handlePlayerDied(PlayerDiedEvent e) {
-        System.out.println("c");
         this.gameOver = true;
         this.won = false;
     }

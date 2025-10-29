@@ -5,4 +5,6 @@ public interface GameNavigation {
     void goToMenu();
 
     void goToLevelSelection();
+
+    void restartCurrentLevel();
 }

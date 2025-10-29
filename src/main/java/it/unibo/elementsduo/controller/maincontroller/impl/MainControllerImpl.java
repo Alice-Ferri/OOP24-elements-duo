@@ -25,6 +25,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     private final GameFrame mainFrame;
     private Controller currentController;
     private final MapLoader mapLoader;
+    private int currentLevelNumber = -1;
 
 
     private static final String menuKey = "menu";
@@ -38,13 +39,14 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     @Override
     public void startGame(int levelNumber) {
+        currentLevelNumber = levelNumber;
         this.checkController();
 
         final Level level;
-        level = this.mapLoader.loadLevel(levelNumber);
+        level = this.mapLoader.loadLevel(currentLevelNumber);
         final Controller gameController = new GameControllerImpl(level, this);
         gameController.activate();
-        final String currentGameKey = gameKey + levelNumber;
+        final String currentGameKey = gameKey + currentLevelNumber;
         mainFrame.addView(gameController.getPanel(), currentGameKey);
         mainFrame.showView(currentGameKey);
         currentController = gameController;
@@ -58,7 +60,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     @Override
     public void goToMenu() {
-        //controlla se il gioco è in esecuzione e controlla
+        currentLevelNumber=-1;
         this.checkController();
         final MenuPanel view = new MenuPanel();
         final Controller controller = new HomeController(view,this);
@@ -71,6 +73,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     @Override
     public void goToLevelSelection() {
+        currentLevelNumber=-1;
         this.checkController();
         final LevelSelectionPanel view = new LevelSelectionPanel();
         final Controller controller = new LevelSelectionController(view,this);
@@ -90,6 +93,18 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     private void checkController(){
         if(currentController!=null){
             currentController.deactivate();
+            currentController=null;
+        }
+    }
+
+    @Override
+    public void restartCurrentLevel() {
+        
+        checkController();
+        if (this.currentLevelNumber != -1) {
+            this.startGame(this.currentLevelNumber);
+        } else {
+            this.goToMenu();
         }
     }
     
