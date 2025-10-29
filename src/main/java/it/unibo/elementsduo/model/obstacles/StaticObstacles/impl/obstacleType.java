@@ -10,6 +10,7 @@ public class obstacleType {
                 WATER_SPAWN,
                 FIRE_SPAWN,
                 FIRE_EXIT,
-                WATER_EXIT;
+                WATER_EXIT,
+                GEM;
         }
 }

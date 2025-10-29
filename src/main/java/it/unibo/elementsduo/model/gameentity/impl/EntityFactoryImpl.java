@@ -32,7 +32,11 @@ public class EntityFactoryImpl implements EntityFactory{
             'A', obstacleType.type.WATER_EXIT,
             'F', obstacleType.type.FIRE_EXIT,
             'B', obstacleType.type.FIRE_SPAWN,
-            'W', obstacleType.type.WATER_SPAWN);
+            'G', obstacleType.type.GEM,
+            'Q', obstacleType.type.LAVA_POOL,
+            'K', obstacleType.type.GREEN_POOL,
+            'E', obstacleType.type.WATER_POOL);
+            
 
     private static Map<Character, EntityType> buildSymbolRegistry() {
         Map<Character, EntityType> map = new HashMap<>();
@@ -41,6 +45,9 @@ public class EntityFactoryImpl implements EntityFactory{
         map.put('#', EntityType.STATIC_OBSTACLE);
         map.put('A', EntityType.STATIC_OBSTACLE);
         map.put('F', EntityType.STATIC_OBSTACLE);
+        map.put('Q', EntityType.STATIC_OBSTACLE);
+        map.put('E', EntityType.STATIC_OBSTACLE);
+        map.put('K', EntityType.STATIC_OBSTACLE);
         map.put('B', EntityType.SPAWN_POINT);
         map.put('W', EntityType.SPAWN_POINT);
         map.put('C', EntityType.ENEMY);
@@ -48,6 +55,7 @@ public class EntityFactoryImpl implements EntityFactory{
         map.put('L', EntityType.LEVER);
         map.put('H', EntityType.PUSH_BOX);
         map.put('M', EntityType.MOVING_PLATFORM);
+        map.put('R', EntityType.BUTTON);
 
         return Collections.unmodifiableMap(map);
     }
@@ -88,6 +96,8 @@ public class EntityFactoryImpl implements EntityFactory{
             case MOVING_PLATFORM:
                 created.add(interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
                 break;
+            case BUTTON:
+                created.add(interactiveObsFactory.createButton(pos));
             default:
                 System.err.println("Warning: Unhandled EntityType in factory for symbol '" + symbol + "'");
                 break;

@@ -10,4 +10,9 @@ public class waterSpawn extends StaticObstacle {
     public waterSpawn(HitBox hitbox) {
         super(hitbox);
     }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 }

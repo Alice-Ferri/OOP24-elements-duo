@@ -10,4 +10,9 @@ public class fireSpawn extends StaticObstacle {
     public fireSpawn(HitBox hitbox) {
         super(hitbox);
     }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 }

@@ -14,6 +14,9 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformIm
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.waterPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
@@ -39,6 +42,9 @@ public class LevelPanel extends JPanel {
             fireSpawn.class, Color.ORANGE,
             waterSpawn.class, Color.BLUE,
             fireExit.class, Color.RED,
+            lavaPool.class, Color.ORANGE,
+            waterPool.class, Color.CYAN,
+            greenPool.class, Color.GREEN,
             waterExit.class, new Color(0, 191, 255));
 
     private final Map<Class<? extends InteractiveObstacle>, Color> interactiveColorMap = Map.of(Lever.class,
