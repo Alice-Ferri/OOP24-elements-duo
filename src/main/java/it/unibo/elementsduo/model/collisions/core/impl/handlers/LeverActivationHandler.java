@@ -53,7 +53,7 @@ public class LeverActivationHandler implements CollisionHandler {
     public void onUpdateEnd() {
         /* the levers of this cicle become the old levers */
         leversLastFrame.clear();
-        leversLastFrame.addAll(leversLastFrame);
+        leversLastFrame.addAll(leversThisFrame);
     }
 
 }

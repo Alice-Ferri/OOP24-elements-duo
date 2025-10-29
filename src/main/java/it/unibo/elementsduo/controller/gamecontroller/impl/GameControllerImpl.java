@@ -9,8 +9,11 @@ import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
+import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+import it.unibo.elementsduo.model.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.events.impl.EventManager;
+import it.unibo.elementsduo.model.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
@@ -25,6 +28,7 @@ public class GameControllerImpl implements GameController {
     private final GameNavigation controller; // lo utilizzerò quando sarà gestito lo stop al gameloop
     private final CollisionManager collisionManager;
     private final InputController inputController = new InputController();
+    private final EventManager eventManager = new EventManager();
 
     public GameControllerImpl(final Level level, final GameNavigation controller) {
 
@@ -33,8 +37,11 @@ public class GameControllerImpl implements GameController {
         this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
-        this.collisionManager = new CollisionManager(new EventManager());
+        this.collisionManager = new CollisionManager(this.eventManager);
         this.inputController.install();
+        for (Enemy e : this.level.getAllEnemies()) {
+            this.eventManager.subscribe(EnemyDiedEvent.class, e);
+        }
     }
 
     @Override
@@ -42,22 +49,29 @@ public class GameControllerImpl implements GameController {
         this.level.getAllEnemies().forEach(obj -> {
             obj.update(deltaTime);
             if (obj instanceof ShooterEnemyImpl) {
-                ((ShooterEnemyImpl) obj).attack().ifPresent(level::addProjectile);
+                ((ShooterEnemyImpl) obj).attack().ifPresent(projectile -> {
+
+                    level.addProjectile(projectile);
+
+                    this.eventManager.subscribe(
+                            ProjectileSolidEvent.class,
+                            projectile);
+                });
             }
         });
         this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
-        this.level.cleanProjectiles();
         this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
-        this.level.getInteractiveObstacles().stream()
+        this.level.getAllInteractiveObstacles().stream()
                 .filter(PushBox.class::isInstance)
                 .map(PushBox.class::cast)
                 .forEach(box -> box.update(deltaTime));
 
-        level.getInteractiveObstacles().stream()
+        level.getAllInteractiveObstacles().stream()
                 .filter(PlatformImpl.class::isInstance)
                 .map(PlatformImpl.class::cast)
                 .forEach(p -> p.update(deltaTime));
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
+        this.level.cleanProjectiles();
     }
 
     @Override
