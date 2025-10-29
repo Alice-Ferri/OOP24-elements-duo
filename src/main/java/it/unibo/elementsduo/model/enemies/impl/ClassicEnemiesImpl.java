@@ -140,7 +140,6 @@ public final class ClassicEnemiesImpl implements Enemy {
        public void onEvent(Event event) {
         if (event instanceof EnemyDiedEvent) {
             
-            System.out.println("morto");
         }
         
        }

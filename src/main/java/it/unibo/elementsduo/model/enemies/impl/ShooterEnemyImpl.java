@@ -158,7 +158,6 @@ public final class ShooterEnemyImpl implements Enemy {
        public void onEvent(Event event) {
         if (event instanceof EnemyDiedEvent) {
     
-            System.out.println("morto");
         }
        }
 

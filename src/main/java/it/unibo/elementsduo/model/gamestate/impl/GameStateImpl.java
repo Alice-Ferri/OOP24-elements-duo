@@ -31,7 +31,7 @@ public class GameStateImpl implements EventListener, GameState{
 
     @Override
     public void onEvent(Event event) {
-        if (gameOver) return;
+        
 
         if (event instanceof PlayerDiedEvent e) {
             handlePlayerDied(e); 
@@ -45,7 +45,6 @@ public class GameStateImpl implements EventListener, GameState{
 
     private void handleEnemyDied(EnemyDiedEvent e) {
         e.getEnemy().die();
-        System.out.println("prova");
         this.deadEnemies++;
     }
 
@@ -54,6 +53,7 @@ public class GameStateImpl implements EventListener, GameState{
     }
 
     private void handlePlayerDied(PlayerDiedEvent e) {
+        System.out.println("c");
         this.gameOver = true;
         this.won = false;
     }
