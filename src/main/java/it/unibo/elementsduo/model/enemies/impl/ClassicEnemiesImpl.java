@@ -13,12 +13,12 @@ import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Standard enemy that moves laterally in the level and inflicts damage when the player touches it.
+ * Standard enemy that moves laterally in the level and inflicts damage when the
+ * player touches it.
  */
 public final class ClassicEnemiesImpl implements Enemy {
 
     private static final double SPEED = 0.8;
-
 
     private boolean alive;
     private double x;
@@ -30,14 +30,15 @@ public final class ClassicEnemiesImpl implements Enemy {
 
     /**
      * Constructor for the classic enemy.
+     * 
      * @param pos the starting position.
      */
     public ClassicEnemiesImpl(final Position pos) {
         this.x = pos.x();
         this.y = pos.y();
         this.alive = true;
-        this.velocity = new Vector2D(this.direction * SPEED, 0); 
-        
+        this.velocity = new Vector2D(this.direction * SPEED, 0);
+
     }
 
     /**
@@ -61,7 +62,7 @@ public final class ClassicEnemiesImpl implements Enemy {
      * {@inheritDoc}
      */
     @Override
-    public double getX() { 
+    public double getX() {
         return this.x;
     }
 
@@ -84,19 +85,20 @@ public final class ClassicEnemiesImpl implements Enemy {
     /**
      * {@inheritDoc}
      */
-   @Override
+    @Override
     public void setDirection() {
         this.direction *= -1;
         this.velocity = new Vector2D(this.direction * SPEED, this.velocity.y());
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void update(double deltaTime) { 
-        
+    public void update(double deltaTime) {
+
         this.moveManager.handleEdgeDetection(this);
-        
+
         this.velocity = new Vector2D(this.direction * SPEED, 0);
         this.x += this.velocity.x() * deltaTime;
 
@@ -121,33 +123,34 @@ public final class ClassicEnemiesImpl implements Enemy {
         }
 
         final double normalX = normal.x();
-        if (Math.abs(normalX) > 0.5) { 
-            this.setDirection(); 
+        if (Math.abs(normalX) > 0.5) {
+            this.setDirection();
         }
 
     }
+
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
     }
 
-       @Override
+    @Override
     public void setMoveManager(final EnemiesMoveManager manager) {
         this.moveManager = manager;
     }
 
-       @Override
-       public void onEvent(Event event) {
+    @Override
+    public void onEvent(Event event) {
         if (event instanceof EnemyDiedEvent) {
             this.die();
             System.out.println("morto");
         }
-        
-       }
 
-       @Override
-       public void die() {
-        this.alive=false;
-       }
-    
+    }
+
+    @Override
+    public void die() {
+        this.alive = false;
+    }
+
 }

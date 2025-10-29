@@ -14,7 +14,8 @@ public interface Projectiles extends Movable, EventListener {
     /**
      * Updates the projectile's state, including movement.
      *
-     * @param obstacles the set of obstacles in the game, used for any required logic.
+     * @param obstacles the set of obstacles in the game, used for any required
+     *                  logic.
      * @param deltaTime the time elapsed since the last frame.
      */
     void update(double deltaTime);
@@ -23,12 +24,13 @@ public interface Projectiles extends Movable, EventListener {
      * Executes physics correction in case of a collision.
      *
      * @param penetration the depth of penetration into the colliding object.
-     * @param normal the normal vector of the collision point.
+     * @param normal      the normal vector of the collision point.
      */
     void correctPhysicsCollision(double penetration, Vector2D normal);
 
     /**
-     * Indicates whether the projectile is still active and should be rendered/updated.
+     * Indicates whether the projectile is still active and should be
+     * rendered/updated.
      *
      * @return true if the projectile is active, false otherwise.
      */
