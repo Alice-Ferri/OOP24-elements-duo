@@ -59,6 +59,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         gameController.activate();
         final String currentGameKey = gameKey + currentLevelNumber;
         mainFrame.addView(gameController.getPanel(), currentGameKey);
+        this.progressionManager.getCurrentState().setCurrentLevel(levelNumber);
         mainFrame.showView(currentGameKey);
         currentController = gameController;
         

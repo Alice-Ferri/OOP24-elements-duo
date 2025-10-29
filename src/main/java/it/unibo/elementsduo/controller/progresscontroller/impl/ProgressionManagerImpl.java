@@ -21,7 +21,6 @@ public class ProgressionManagerImpl {
         
         currentState.addLevelCompletionTime(completedLevel, timeMillis);
         currentState.setCollectedGems(currentState.getCollectedGems() + gemsCollected);
-        currentState.setCurrentLevel(completedLevel + 1);
         
         saveLoadManager.saveGame(currentState);
     }

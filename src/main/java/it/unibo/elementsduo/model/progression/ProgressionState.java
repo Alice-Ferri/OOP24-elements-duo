@@ -18,9 +18,19 @@ public class ProgressionState {
     }
 
     public void addLevelCompletionTime(int levelNumber, long timeMillis) {
-        this.levelCompletionTimes.put(levelNumber, timeMillis);
+        
+        if (this.levelCompletionTimes.containsKey(levelNumber)) {
+            
+            final long oldTime = this.levelCompletionTimes.get(levelNumber);
+            if (timeMillis < oldTime) {
+                this.levelCompletionTimes.put(levelNumber, timeMillis);
+            }     
+        } else {
+            this.levelCompletionTimes.put(levelNumber, timeMillis);
+            System.out.println("Primo completamento del Livello " + levelNumber + " registrato.");
+        }
     }
-    
+       
     public int getCurrentLevel() { 
         return currentLevel; 
     }
