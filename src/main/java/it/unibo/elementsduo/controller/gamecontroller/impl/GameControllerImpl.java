@@ -10,14 +10,16 @@ import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
+import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
+import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
+import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
-import it.unibo.elementsduo.model.events.impl.EnemyDiedEvent;
-import it.unibo.elementsduo.model.events.impl.EventManager;
-import it.unibo.elementsduo.model.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.view.LevelPanel;
 
 public class GameControllerImpl implements GameController {
@@ -42,6 +44,7 @@ public class GameControllerImpl implements GameController {
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.collisionManager = new CollisionManager(this.eventManager);
         this.inputController.install();
+        initEventManager();
         for (Enemy e : this.level.getAllEnemies()) {
             this.eventManager.subscribe(EnemyDiedEvent.class, e);
         }
@@ -101,6 +104,12 @@ public class GameControllerImpl implements GameController {
     @Override
     public JPanel getPanel() {
         return this.view;
+    }
+
+    private void initEventManager() {
+        for (Enemy e : this.level.getAllEnemies()) {
+            this.eventManager.subscribe(EnemyDiedEvent.class, e);
+        }
     }
 
 }

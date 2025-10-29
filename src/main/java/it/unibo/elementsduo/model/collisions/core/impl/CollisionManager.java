@@ -13,11 +13,12 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.GemCollisionsHan
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerHazardHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
+import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /* class to manage collisions */
@@ -36,6 +37,7 @@ public class CollisionManager {
         register.registerHandler(new PlayerEnemyHandler(this.eventManager));
         register.registerHandler(new GemCollisionsHandler(this.eventManager));
         register.registerHandler(new ProjectileSolidHandler(this.eventManager));
+        register.registerHandler(new PlayerHazardHandler(this.eventManager));
         register.registerHandler(new PhysicsHandler());
     }
 
@@ -44,6 +46,8 @@ public class CollisionManager {
         register.notifyUpdateStart();
 
         List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
+
+        CollisionResponse collisionResponse = new CollisionResponse();
 
         for (Collidable c : entities) {
             if (c instanceof Player p) {
@@ -54,10 +58,12 @@ public class CollisionManager {
         }
 
         for (CollisionInformations c : collisionsInfo) {
-            register.handle(c);
+            register.handle(c, collisionResponse);
         }
 
         register.notifyUpdateEnd();
+
+        collisionResponse.execute();
 
     }
 

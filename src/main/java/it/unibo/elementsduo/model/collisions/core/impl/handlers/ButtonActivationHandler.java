@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.unibo.elementsduo.model.collisions.commands.impl.ButtonActivationCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 
@@ -22,7 +24,7 @@ public class ButtonActivationHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c) {
+    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
         button b;
         if (c.getObjectA() instanceof button)
             b = (button) c.getObjectA();
@@ -32,7 +34,7 @@ public class ButtonActivationHandler implements CollisionHandler {
         buttonsThisFrame.add(b);
 
         if (!buttonsLastFrame.contains(b)) {
-            b.activate();
+            collisionResponse.addLogicCommand(new ButtonActivationCommand(b));
         }
     }
 

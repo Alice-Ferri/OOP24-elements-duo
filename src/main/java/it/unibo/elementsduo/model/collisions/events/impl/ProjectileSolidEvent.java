@@ -1,12 +1,12 @@
-package it.unibo.elementsduo.model.events.impl;
+package it.unibo.elementsduo.model.collisions.events.impl;
 
+import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.events.api.Event;
 
 public class ProjectileSolidEvent implements Event {
     private final Projectiles projectile;
 
-    public ProjectileSolidEvent(Projectiles projectile) {
+    public ProjectileSolidEvent(final Projectiles projectile) {
         this.projectile = projectile;
     }
 

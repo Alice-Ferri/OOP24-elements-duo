@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.unibo.elementsduo.model.collisions.commands.impl.LeverActivationCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -22,7 +24,7 @@ public class LeverActivationHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c) {
+    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
         Player player = null;
         Lever trigger = null;
         Collidable a = c.getObjectA();
@@ -42,7 +44,7 @@ public class LeverActivationHandler implements CollisionHandler {
         leversThisFrame.add(trigger);
         /* if it isn't in the levers before so it is a new lever colliding */
         if (!leversLastFrame.contains(trigger)) {
-            trigger.toggle();
+            collisionResponse.addLogicCommand(new LeverActivationCommand(trigger));
         }
     }
 
