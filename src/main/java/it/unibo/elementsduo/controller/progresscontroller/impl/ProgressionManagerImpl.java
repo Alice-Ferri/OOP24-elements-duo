@@ -1,10 +1,15 @@
 package it.unibo.elementsduo.controller.progresscontroller.impl;
 
-private ProgressionState currentState;
-    private final SaveLoadManager saveLoadManager;
+import it.unibo.elementsduo.datasave.SaveManager;
+import it.unibo.elementsduo.model.progression.ProgressionState;
+
+public class ProgressionManagerImpl {
+
+    private ProgressionState currentState;
+    private final SaveManager saveLoadManager;
     
-    public ProgressionManagerImpl(SaveLoadManager SaveLoadManagermanager, ProgressionState initialState) {
-        this.saveLoadManager = manager;
+    public ProgressionManagerImpl(SaveManager saveLoadManager, ProgressionState initialState) {
+        this.saveLoadManager = saveLoadManager; 
         this.currentState = initialState;
     }
 

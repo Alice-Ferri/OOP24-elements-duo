@@ -27,14 +27,12 @@ public class SaveManager {
 
     public Optional<ProgressionState> loadGame() {
         if (!savePath.toFile().exists()) {
-            return Optional.empty(); // File non trovato
+            return Optional.empty(); 
         }
 
         try (FileReader reader = new FileReader(savePath.toFile())) {
-            // Legge il file e lo riconverte nell'oggetto ProgressionState.
             return Optional.of(gson.fromJson(reader, ProgressionState.class));
         } catch (IOException | JsonSyntaxException e) {
-            // Cattura errori di lettura del file o di formato JSON non valido.
             System.err.println("Errore durante il caricamento o la lettura del file.");
             return Optional.empty(); 
         }

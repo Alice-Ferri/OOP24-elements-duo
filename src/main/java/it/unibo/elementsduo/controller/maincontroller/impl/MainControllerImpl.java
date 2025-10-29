@@ -23,7 +23,8 @@ import it.unibo.elementsduo.view.LevelSelectionPanel;
 import it.unibo.elementsduo.view.MenuPanel;
 import it.unibo.elementsduo.datasave.SaveManager; 
 import it.unibo.elementsduo.model.progression.ProgressionState; 
-import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager; 
+import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
+
 
 public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSelectionNavigation,MainController{
 
@@ -31,13 +32,13 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     private Controller currentController;
     private final MapLoader mapLoader;
     private final SaveManager saveManager;
-    private it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager progressionManager;
+    private ProgressionManagerImpl progressionManager;
 
 
     private static final String menuKey = "menu";
     private static final String gameKey = "game";
     private static final String levelKey = "level";
-    private static final String SAVE_DIR = "saves";
+    private static final String SAVE_DIR = "save";
 
     public MainControllerImpl(){
         this.mainFrame = new GameFrame();
@@ -51,7 +52,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
         final Level level;
         level = this.mapLoader.loadLevel(levelNumber);
-        final Controller gameController = new GameControllerImpl(level, this.progressionManager);
+        final Controller gameController = new GameControllerImpl(level, this, this.progressionManager);
         gameController.activate();
         final String currentGameKey = gameKey + levelNumber;
         mainFrame.addView(gameController.getPanel(), currentGameKey);
@@ -60,11 +61,10 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         
     }
 
-    public void startNewGame() {
-        // Livello 1, 0 gemme, tempo vuoto
+   public void startNewGame() {
         final ProgressionState defaultState = new ProgressionState(1, 0); 
+        System.out.println("starta nuovo caricamento");
         this.progressionManager = new ProgressionManagerImpl(saveManager, defaultState);
-        // Avvia il livello specificato nello stato (che è 1)
         this.startGame(defaultState.getCurrentLevel()); 
     }
 
@@ -87,7 +87,6 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     @Override
     public void goToMenu() {
-        //controlla se il gioco è in esecuzione e controlla
         this.checkController();
         final MenuPanel view = new MenuPanel();
         final Controller controller = new HomeController(view, this, this::startNewGame, this::loadSavedGame);
