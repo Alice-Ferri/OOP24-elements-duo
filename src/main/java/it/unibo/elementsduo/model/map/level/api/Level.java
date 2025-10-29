@@ -20,6 +20,7 @@ public interface Level {
     <T extends GameEntity> Set<T> getEntitiesByClass(final Class<T> type);
     Set<obstacle> getAllObstacles();
     Set<Enemy> getAllEnemies();
+    Set<Enemy> getLivingEnemies();
     Set<Player> getAllPlayers();
     Set<InteractiveObstacle> getAllInteractiveObstacles();
 

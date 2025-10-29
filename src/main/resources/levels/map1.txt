@@ -11,7 +11,7 @@
 #..PPPPPPPPPPPPPPPPP#
 #M..................#
 #PPPPPPP............#
-#.W.....PPPPPP......#
+#.W.....PPPPPP....S.#
 #PPPP...........PPPP#
 #.B......L.....PPPPP#
 #PPPPPPPPPPPPPPPPPPP#

@@ -17,6 +17,7 @@ public class GameStateImpl implements EventListener, GameState{
     private boolean gameOver = false;
     private boolean won = false;
     private int gemsCollected = 0;
+    private int deadEnemies = 0;
 
     public GameStateImpl(final EventManager eventManager,final Level level) {
         Objects.requireNonNull(eventManager);
@@ -44,10 +45,11 @@ public class GameStateImpl implements EventListener, GameState{
 
     private void handleEnemyDied(EnemyDiedEvent e) {
         e.getEnemy().die();
+        System.out.println("prova");
+        this.deadEnemies++;
     }
 
     private void handleGemCollected(GemCollectedEvent e) {
-        e.getGem().collect();
         this.gemsCollected++;
     }
 

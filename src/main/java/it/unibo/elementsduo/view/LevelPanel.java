@@ -155,7 +155,7 @@ public class LevelPanel extends JPanel {
         final double enemyHalfWidth = 0.5;
         final double enemyHalfHeight = 0.5;
 
-        this.level.getAllEnemies().stream().forEach(enemy -> {
+        this.level.getLivingEnemies().stream().forEach(enemy -> {
             final Color enemyColor = this.enemyColorMap.getOrDefault(enemy.getClass(), Color.PINK);
             g.setColor(enemyColor);
 

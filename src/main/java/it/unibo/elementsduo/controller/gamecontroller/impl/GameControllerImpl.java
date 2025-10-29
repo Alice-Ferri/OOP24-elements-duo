@@ -14,6 +14,8 @@ import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.events.impl.ProjectileSolidEvent;
+import it.unibo.elementsduo.model.gamestate.api.GameState;
+import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
@@ -29,6 +31,7 @@ public class GameControllerImpl implements GameController {
     private final CollisionManager collisionManager;
     private final InputController inputController = new InputController();
     private final EventManager eventManager = new EventManager();
+    private final GameState gameState;
 
     public GameControllerImpl(final Level level, final GameNavigation controller) {
 
@@ -42,11 +45,12 @@ public class GameControllerImpl implements GameController {
         for (Enemy e : this.level.getAllEnemies()) {
             this.eventManager.subscribe(EnemyDiedEvent.class, e);
         }
+        gameState = new GameStateImpl(eventManager, level);
     }
 
     @Override
     public void update(double deltaTime) {
-        this.level.getAllEnemies().forEach(obj -> {
+        this.level.getLivingEnemies().forEach(obj -> {
             obj.update(deltaTime);
             if (obj instanceof ShooterEnemyImpl) {
                 ((ShooterEnemyImpl) obj).attack().ifPresent(projectile -> {
