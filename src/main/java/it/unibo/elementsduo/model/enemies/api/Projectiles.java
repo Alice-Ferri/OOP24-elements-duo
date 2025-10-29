@@ -11,8 +11,7 @@ import it.unibo.elementsduo.model.events.api.EventListener;
  * Represents a projectile, a mobile and short-lived entity that
  * is spawned by an enemy.
  */
-public interface Projectiles extends Movable, EventListener,GameEntity {
-
+public interface Projectiles extends Movable, EventListener, GameEntity, Collidable {
 
     /**
      * Updates the projectile's state, including movement.
