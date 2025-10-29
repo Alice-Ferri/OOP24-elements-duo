@@ -100,9 +100,7 @@ public final class ProjectilesImpl implements Projectiles {
     @Override
     public void onEvent(Event event) {
         if (event instanceof ProjectileSolidEvent) {
-            
-        
-            
+
         }
     }
 

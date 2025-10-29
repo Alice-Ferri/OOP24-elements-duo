@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.collisions.core.impl.handlers; 
+package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.collisions.commands.impl.PlayerProjectileCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
@@ -9,35 +9,18 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.player.api.Player;
 
-public class PlayerProjectileHandler implements CollisionHandler {
+public class PlayerProjectileHandler extends AbstractCollisionHandler<Player, Projectiles> {
 
     private final EventManager eventManager;
 
     public PlayerProjectileHandler(final EventManager eventManager) {
+        super(Player.class, Projectiles.class);
         this.eventManager = eventManager;
     }
 
     @Override
-    public boolean canHandle(final Collidable a, final Collidable b) {
-        return (a instanceof Player && b instanceof Projectiles)
-                || (b instanceof Player && a instanceof Projectiles);
-    }
-
-    @Override
-    public void handle(final CollisionInformations c, final CollisionResponse response) {
-        final Player player;
-        final Projectiles projectile;
-
-        if (c.getObjectA() instanceof Player) {
-            player = (Player) c.getObjectA();
-            projectile = (Projectiles) c.getObjectB();
-        } else {
-            player = (Player) c.getObjectB();
-            projectile = (Projectiles) c.getObjectA();
-        }
-
-        projectile.deactivate();
-
+    public void handleCollision(Player player, Projectiles projectile, final CollisionInformations c,
+            final CollisionResponse response) {
         response.addLogicCommand(
                 new PlayerProjectileCommand(player, projectile, this.eventManager));
 

@@ -8,27 +8,17 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class PushBoxHandler implements CollisionHandler {
+public class PushBoxHandler extends AbstractCollisionHandler<Player, PushBox> {
 
     private final static double PUSH_FORCE = 15;
 
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof PushBox) || (a instanceof PushBox && b instanceof Player);
+    public PushBoxHandler() {
+        super(Player.class, PushBox.class);
     }
 
     @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        Collidable a = c.getObjectA();
-        Collidable b = c.getObjectB();
-
-        PushBox box = null;
-
-        if (a instanceof PushBox) {
-            box = (PushBox) a;
-        } else {
-            box = (PushBox) b;
-        }
-
+    public void handleCollision(Player player, PushBox box, CollisionInformations c,
+            CollisionResponse collisionResponse) {
         if (Math.abs(c.getNormal().x()) > Math.abs(c.getNormal().y())) {
             int sign = 1;
             if (c.getNormal().x() > 0)
@@ -36,7 +26,7 @@ public class PushBoxHandler implements CollisionHandler {
             else
                 sign = -1;
             double push = c.getPenetration() * PUSH_FORCE * sign;
-            if (a instanceof PushBox)
+            if (c.getObjectA() instanceof PushBox)
                 push = -push;
             box.push(new Vector2D(push, 0));
         }

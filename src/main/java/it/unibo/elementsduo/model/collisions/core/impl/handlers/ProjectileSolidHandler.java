@@ -11,29 +11,18 @@ import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
-public class ProjectileSolidHandler implements CollisionHandler {
+public class ProjectileSolidHandler extends AbstractCollisionHandler<Projectiles, obstacle> {
 
     EventManager eventManager;
 
     public ProjectileSolidHandler(EventManager eventManager) {
+        super(Projectiles.class, obstacle.class);
         this.eventManager = eventManager;
     }
 
     @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Projectiles && b instanceof obstacle)
-                || (b instanceof Projectiles && a instanceof obstacle);
-    }
-
-    @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        Projectiles projectile;
-        if (c.getObjectA() instanceof Projectiles) {
-            projectile = (Projectiles) c.getObjectA();
-        } else {
-            projectile = (Projectiles) c.getObjectB();
-        }
-
+    public void handleCollision(Projectiles projectile, obstacle ob, CollisionInformations c,
+            CollisionResponse collisionResponse) {
         collisionResponse.addLogicCommand(new ProjectileSolidCommand(projectile, eventManager));
     }
 
