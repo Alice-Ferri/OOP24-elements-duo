@@ -45,7 +45,7 @@ public class CollisionManager {
 
         List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
 
-        CollisionRespinse collisionResponse = new CollisionRespinse();
+        CollisionResponse collisionResponse = new CollisionResponse();
 
         for (Collidable c : entities) {
             if (c instanceof Player p) {

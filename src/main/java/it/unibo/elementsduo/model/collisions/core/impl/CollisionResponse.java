@@ -5,7 +5,7 @@ import java.util.List;
 
 import it.unibo.elementsduo.model.collisions.commands.api.CollisionCommand;
 
-public class CollisionRespinse {
+public class CollisionResponse {
     // colleziono i comandi generati dagli handler in una lista
     private List<CollisionCommand> commands = new ArrayList<>();
 

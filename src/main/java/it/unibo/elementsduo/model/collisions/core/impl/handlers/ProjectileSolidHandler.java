@@ -4,7 +4,7 @@ import it.unibo.elementsduo.model.collisions.commands.impl.ProjectileSolidComman
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionRespinse;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -26,7 +26,7 @@ public class ProjectileSolidHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c, CollisionRespinse collisionResponse) {
+    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
         Projectiles projectile;
         if (c.getObjectA() instanceof Projectiles) {
             projectile = (Projectiles) c.getObjectA();

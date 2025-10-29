@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.collisions.commands.impl.LeverActivationComman
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionRespinse;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -24,7 +24,7 @@ public class LeverActivationHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c, CollisionRespinse collisionResponse) {
+    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
         Player player = null;
         Lever trigger = null;
         Collidable a = c.getObjectA();

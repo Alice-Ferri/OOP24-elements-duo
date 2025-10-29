@@ -5,7 +5,7 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionInformationsImpl;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionRespinse;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -16,7 +16,7 @@ public class PhysicsHandler implements CollisionHandler {
     Movable entity;
 
     @Override
-    public void handle(CollisionInformations c, CollisionRespinse collisionResponse) {
+    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
         Movable movable = null;
         Vector2D normal = c.getNormal();
         if (c.getObjectA() instanceof ShooterEnemyImpl && c.getObjectB() instanceof Projectiles ||

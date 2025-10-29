@@ -4,7 +4,7 @@ import it.unibo.elementsduo.model.collisions.commands.impl.PlayerHazardCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionRespinse;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
@@ -29,7 +29,7 @@ public class PlayerHazardHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c, CollisionRespinse collisionResponse) {
+    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
         Player player = null;
         Hazard hazard = null;
         if (c.getObjectA() instanceof Player && c.getObjectB() instanceof Hazard) {

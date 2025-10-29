@@ -26,7 +26,7 @@ public class CollisionHandlersRegister {
         return Optional.ofNullable((T) handlersMap.get(type));
     }
 
-    public void handle(CollisionInformations info, CollisionRespinse collisionResponse) {
+    public void handle(CollisionInformations info, CollisionResponse collisionResponse) {
         for (var handler : register) {
             if (handler.canHandle(info.getObjectA(), info.getObjectB())) {
                 handler.handle(info, collisionResponse);

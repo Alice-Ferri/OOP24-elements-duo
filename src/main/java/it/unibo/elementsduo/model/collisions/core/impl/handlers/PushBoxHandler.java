@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionRespinse;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -17,7 +17,7 @@ public class PushBoxHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c, CollisionRespinse collisionResponse) {
+    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
         Collidable a = c.getObjectA();
         Collidable b = c.getObjectB();
 
