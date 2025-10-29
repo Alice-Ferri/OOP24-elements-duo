@@ -18,6 +18,7 @@ public abstract class AbstractPlayer implements Player {
     private double y;
     private Vector2D velocity = new Vector2D(0, 0);
     private boolean onGround = true;
+    private boolean onExit = false;
 
     protected AbstractPlayer(final Position startPos) {
         this.x = startPos.x();
@@ -26,6 +27,10 @@ public abstract class AbstractPlayer implements Player {
 
     @Override public double getX() {
         return this.x; 
+    }
+
+    @Override public boolean isOnExit() {
+        return this.onExit; 
     }
 
     @Override public double getY() {
@@ -39,6 +44,7 @@ public abstract class AbstractPlayer implements Player {
     @Override public boolean isOnGround() {
         return this.onGround;
     }
+
 
     @Override
     public void move(final double dx) {
@@ -82,6 +88,12 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setVelocityX(final double vx) {
         this.velocity = new Vector2D(vx, this.velocity.y());
+    }
+
+    
+    @Override
+    public void setOnExit(boolean cond) {
+        this.onExit=cond;
     }
 
     @Override

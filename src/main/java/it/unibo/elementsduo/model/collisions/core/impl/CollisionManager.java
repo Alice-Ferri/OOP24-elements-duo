@@ -13,6 +13,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.GemCollisionsHan
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerExitHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
@@ -37,6 +38,7 @@ public class CollisionManager {
         register.registerHandler(new GemCollisionsHandler(this.eventManager));
         register.registerHandler(new ProjectileSolidHandler(this.eventManager));
         register.registerHandler(new PhysicsHandler());
+        register.registerHandler(new PlayerExitHandler(this.eventManager));
     }
 
     public void manageCollisions(List<Collidable> entities) {
