@@ -8,6 +8,7 @@ import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
+import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
@@ -29,11 +30,13 @@ public class GameControllerImpl implements GameController {
     private final CollisionManager collisionManager;
     private final InputController inputController = new InputController();
     private final EventManager eventManager = new EventManager();
+    private ProgressionManager progressionManager; // lo chiamerò quando verrà gestito il levelcompleted
 
-    public GameControllerImpl(final Level level, final GameNavigation controller) {
+   public GameControllerImpl(final Level level, final ProgressionManager progressionManager) { 
+        this.level = level;
+        this.progressionManager = progressionManager;
 
         this.level = level;
-        this.controller = controller;
         this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());

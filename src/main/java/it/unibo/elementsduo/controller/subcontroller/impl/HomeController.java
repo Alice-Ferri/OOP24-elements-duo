@@ -11,8 +11,10 @@ public class HomeController implements Controller{
 
     private final MenuPanel view;
     private final HomeNavigation controller;
+    
 
-    public HomeController(MenuPanel panel,HomeNavigation controller){
+    public HomeController(final MenuPanel panel, final HomeNavigation controller, 
+                      final Runnable startNewGameAction, final Runnable loadGameAction){
         this.view=panel;
         this.controller=controller;
     }
