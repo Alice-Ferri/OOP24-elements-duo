@@ -49,7 +49,7 @@ public class GameControllerImpl implements GameController {
         this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
-        this.controller = null;
+        this.controller = controller;
         this.collisionManager = new CollisionManager(this.eventManager);
         this.inputController.install();
         for (Enemy e : this.level.getAllEnemies()) {

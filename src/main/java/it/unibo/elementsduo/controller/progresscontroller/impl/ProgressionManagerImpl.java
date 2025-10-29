@@ -1,15 +1,15 @@
 package it.unibo.elementsduo.controller.progresscontroller.impl;
 
-import it.unibo.elementsduo.datasave.SaveManager;
+import it.unibo.elementsduo.datasave.SaveManager; 
 import it.unibo.elementsduo.model.progression.ProgressionState;
 
-public class ProgressionManagerImpl {
+public class ProgressionManagerImpl { 
 
     private ProgressionState currentState;
-    private final SaveManager saveLoadManager;
-    
-    public ProgressionManagerImpl(SaveManager saveLoadManager, ProgressionState initialState) {
-        this.saveLoadManager = saveLoadManager; 
+    private final SaveManager saveLoadManager; 
+
+    public ProgressionManagerImpl(SaveManager manager, ProgressionState initialState) {
+        this.saveLoadManager = manager;
         this.currentState = initialState;
     }
 
@@ -25,9 +25,8 @@ public class ProgressionManagerImpl {
         
         saveLoadManager.saveGame(currentState);
     }
-
+    
     public void saveGame() {
         this.saveLoadManager.saveGame(currentState);
-        System.out.println("Progression saved. Current Level: " + currentState.getCurrentLevel());
     }
 }
