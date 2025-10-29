@@ -9,6 +9,7 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.FireExitEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.GemCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
+import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent; 
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.map.level.api.Level;
@@ -33,6 +34,7 @@ public class GameStateImpl implements EventListener, GameState {
         eventManager.subscribe(EnemyDiedEvent.class, this);
         eventManager.subscribe(FireExitEvent.class, this);
         eventManager.subscribe(WaterExitEvent.class, this);
+        eventManager.subscribe(ProjectileSolidEvent.class, this);
     }
 
     @Override
@@ -56,10 +58,18 @@ public class GameStateImpl implements EventListener, GameState {
             handleWaterReachedExit(e);
             checkWin = true;
         }
+        else if (event instanceof ProjectileSolidEvent e) {
+            handleProj(e);
+            checkWin = true;
+        }
 
         if (checkWin) {
             checkGameWinCondition();
         }
+    }
+
+    private void handleProj(ProjectileSolidEvent e) {
+        e.getProjectile().deactivate();
     }
 
     private void handleEnemyDied(EnemyDiedEvent e) {
@@ -81,7 +91,7 @@ public class GameStateImpl implements EventListener, GameState {
     }
 
     private void handleWaterReachedExit(WaterExitEvent e) {
-        System.out.println("acua uscito");
+        System.out.println("acqua uscito");
         this.watergirlReachedExit = true;
     }
 

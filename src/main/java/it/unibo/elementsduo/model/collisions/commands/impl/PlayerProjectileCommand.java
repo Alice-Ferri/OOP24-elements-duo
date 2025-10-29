@@ -22,6 +22,6 @@ public class PlayerProjectileCommand implements CollisionCommand {
 
     @Override
     public void execute() {
-        this.eventManager.notify(new PlayerProjectilesEvent(this.player, this.projectile));
+        this.eventManager.notify(new PlayerDiedEvent(player));
     }
 }

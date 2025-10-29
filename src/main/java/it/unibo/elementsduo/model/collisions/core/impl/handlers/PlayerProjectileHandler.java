@@ -1,6 +1,6 @@
-package it.unibo.elementsduo.model.collisions.core.impl.handlers; // O il tuo package handlers
+package it.unibo.elementsduo.model.collisions.core.impl.handlers; 
 
-import it.unibo.elementsduo.model.collisions.commands.impl.PlayerProjectileCommand; // Importa il nuovo comando
+import it.unibo.elementsduo.model.collisions.commands.impl.PlayerProjectileCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
@@ -35,6 +35,8 @@ public class PlayerProjectileHandler implements CollisionHandler {
             player = (Player) c.getObjectB();
             projectile = (Projectiles) c.getObjectA();
         }
+
+        projectile.deactivate();
 
         response.addLogicCommand(
                 new PlayerProjectileCommand(player, projectile, this.eventManager));

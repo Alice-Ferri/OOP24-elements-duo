@@ -8,7 +8,7 @@
 #.......PPPPPPPPPP..#
 #...................#
 #......S............#
-#..PPPPPPPPPPPPPPPPP#
+#..PPPPPPPPPPEEEEEPP#
 #M..................#
 #PPPPPPP............#
 #.......PPPPPP....S.#
