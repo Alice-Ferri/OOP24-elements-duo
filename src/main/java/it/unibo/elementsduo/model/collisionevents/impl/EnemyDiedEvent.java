@@ -1,7 +1,7 @@
-package it.unibo.elementsduo.model.events.impl;
+package it.unibo.elementsduo.model.collisionevents.impl;
 
+import it.unibo.elementsduo.model.collisionevents.api.Event;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.events.api.Event;
 
 public class EnemyDiedEvent implements Event {
 
