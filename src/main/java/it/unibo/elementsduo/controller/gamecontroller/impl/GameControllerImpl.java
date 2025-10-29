@@ -9,11 +9,11 @@ import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
+import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
+import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
-import it.unibo.elementsduo.model.events.impl.EnemyDiedEvent;
-import it.unibo.elementsduo.model.events.impl.EventManager;
-import it.unibo.elementsduo.model.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
@@ -61,12 +61,12 @@ public class GameControllerImpl implements GameController {
         });
         this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
         this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
-        this.level.getInteractiveObstacles().stream()
+        this.level.getAllInteractiveObstacles().stream()
                 .filter(PushBox.class::isInstance)
                 .map(PushBox.class::cast)
                 .forEach(box -> box.update(deltaTime));
 
-        level.getInteractiveObstacles().stream()
+        level.getAllInteractiveObstacles().stream()
                 .filter(PlatformImpl.class::isInstance)
                 .map(PlatformImpl.class::cast)
                 .forEach(p -> p.update(deltaTime));

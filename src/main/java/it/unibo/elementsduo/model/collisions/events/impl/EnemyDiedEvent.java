@@ -1,11 +1,11 @@
-package it.unibo.elementsduo.model.events.impl;
+package it.unibo.elementsduo.model.collisions.events.impl;
 
+import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.events.api.Event;
 
 public class EnemyDiedEvent implements Event {
 
-    Enemy enemy;
+    private final Enemy enemy;
 
     public EnemyDiedEvent(final Enemy enemy) {
         this.enemy = enemy;

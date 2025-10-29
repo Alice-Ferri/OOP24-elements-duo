@@ -15,9 +15,9 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
+import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /* class to manage collisions */

@@ -1,22 +1,23 @@
 package it.unibo.elementsduo.model.enemies.api;
 
-
 import java.util.Optional;
 
 import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.collisions.events.api.EventListener;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.events.api.EventListener;
+import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable,ManagerInjectable,Collidable, EventListener { 
+public interface Enemy extends Movable, ManagerInjectable, Collidable, EventListener, GameEntity {
 
     /**
-     * @return an {@link Optional} containing a {@link Projectiles} instance if an attack occurs, 
-     * or an empty {@link Optional} otherwise.
+     * @return an {@link Optional} containing a {@link Projectiles} instance if an
+     *         attack occurs,
+     *         or an empty {@link Optional} otherwise.
      */
     Optional<Projectiles> attack();
 
@@ -28,7 +29,8 @@ public interface Enemy extends Movable,ManagerInjectable,Collidable, EventListen
      */
     void update(double deltaTime);
 
-    /** * @return true if the enemy is alive, false otherwise.
+    /**
+     * * @return true if the enemy is alive, false otherwise.
      */
     boolean isAlive();
 
@@ -52,7 +54,7 @@ public interface Enemy extends Movable,ManagerInjectable,Collidable, EventListen
      */
     double getDirection();
 
-    HitBox getHitBox(); 
+    HitBox getHitBox();
 
     void setMoveManager(EnemiesMoveManager manager);
 
