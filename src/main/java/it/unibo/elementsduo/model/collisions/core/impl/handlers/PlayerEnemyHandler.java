@@ -50,9 +50,9 @@ public class PlayerEnemyHandler implements CollisionHandler {
             isOn = false;
 
         if (isOn) {
-            collisionResponse.addCommand(new PlayerEnemyCommand(player, enemy, eventManager, true));
+            collisionResponse.addLogicCommand(new PlayerEnemyCommand(player, enemy, eventManager, true));
         } else {
-            collisionResponse.addCommand(new PlayerEnemyCommand(player, enemy, eventManager, false));
+            collisionResponse.addLogicCommand(new PlayerEnemyCommand(player, enemy, eventManager, false));
         }
     }
 

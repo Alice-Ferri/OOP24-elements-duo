@@ -35,7 +35,7 @@ public class GemCollisionsHandler implements CollisionHandler {
             gem = (Gem) c.getObjectA();
         }
 
-        collisionResponse.addCommand(new GemCollectedCommand(player, gem, eventManager));
+        collisionResponse.addLogicCommand(new GemCollectedCommand(player, gem, eventManager));
     }
 
 }

@@ -34,7 +34,7 @@ public class ProjectileSolidHandler implements CollisionHandler {
             projectile = (Projectiles) c.getObjectB();
         }
 
-        collisionResponse.addCommand(new ProjectileSolidCommand(projectile, eventManager));
+        collisionResponse.addLogicCommand(new ProjectileSolidCommand(projectile, eventManager));
     }
 
 }

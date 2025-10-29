@@ -34,7 +34,7 @@ public class ButtonActivationHandler implements CollisionHandler {
         buttonsThisFrame.add(b);
 
         if (!buttonsLastFrame.contains(b)) {
-            collisionResponse.addCommand(new ButtonActivationCommand(b));
+            collisionResponse.addLogicCommand(new ButtonActivationCommand(b));
         }
     }
 

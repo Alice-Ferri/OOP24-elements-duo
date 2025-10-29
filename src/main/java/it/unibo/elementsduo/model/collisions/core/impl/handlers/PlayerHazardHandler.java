@@ -44,11 +44,11 @@ public class PlayerHazardHandler implements CollisionHandler {
             return;
 
         if (player instanceof Fireboy && hazard instanceof waterPool) {
-            collisionResponse.addCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
         } else if (player instanceof Watergirl && hazard instanceof lavaPool) {
-            collisionResponse.addCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
         } else if (hazard instanceof greenPool) {
-            collisionResponse.addCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
         }
     }
 
