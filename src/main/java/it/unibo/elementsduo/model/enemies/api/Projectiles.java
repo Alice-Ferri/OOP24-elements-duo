@@ -2,10 +2,10 @@ package it.unibo.elementsduo.model.enemies.api;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.collisions.events.api.EventListener;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.resources.Vector2D;
-import it.unibo.elementsduo.model.events.api.EventListener;
 
 /**
  * Represents a projectile, a mobile and short-lived entity that

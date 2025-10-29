@@ -1,10 +1,10 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
+import it.unibo.elementsduo.model.collisions.events.api.Event;
+import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.events.api.Event;
-import it.unibo.elementsduo.model.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 

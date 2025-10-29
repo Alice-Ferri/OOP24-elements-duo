@@ -1,8 +1,8 @@
-package it.unibo.elementsduo.model.collisionevents.impl;
+package it.unibo.elementsduo.model.collisions.events.impl;
 
 import java.util.EventListener;
 
-import it.unibo.elementsduo.model.collisionevents.api.Event;
+import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.player.api.Player;
 
 public class PlayerDiedEvent implements Event {

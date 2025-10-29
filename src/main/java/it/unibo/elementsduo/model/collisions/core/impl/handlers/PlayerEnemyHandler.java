@@ -4,11 +4,11 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
+import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
-import it.unibo.elementsduo.model.events.impl.EnemyDiedEvent;
-import it.unibo.elementsduo.model.events.impl.EventManager;
-import it.unibo.elementsduo.model.events.impl.PlayerDiedEvent;
 
 public class PlayerEnemyHandler implements CollisionHandler {
 
