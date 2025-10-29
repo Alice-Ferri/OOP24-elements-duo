@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.unibo.elementsduo.model.collisions.commands.impl.LeverActivationCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
@@ -43,7 +44,7 @@ public class LeverActivationHandler implements CollisionHandler {
         leversThisFrame.add(trigger);
         /* if it isn't in the levers before so it is a new lever colliding */
         if (!leversLastFrame.contains(trigger)) {
-            trigger.toggle();
+            collisionResponse.addCommand(new LeverActivationCommand(trigger));
         }
     }
 

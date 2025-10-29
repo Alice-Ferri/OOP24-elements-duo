@@ -1,6 +1,7 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.collisions.commands.impl.PlayerEnemyCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
@@ -49,9 +50,9 @@ public class PlayerEnemyHandler implements CollisionHandler {
             isOn = false;
 
         if (isOn) {
-            this.eventManager.notify(new EnemyDiedEvent(enemy));
+            collisionResponse.addCommand(new PlayerEnemyCommand(player, enemy, eventManager, true));
         } else {
-            this.eventManager.notify(new PlayerDiedEvent(player));
+            collisionResponse.addCommand(new PlayerEnemyCommand(player, enemy, eventManager, false));
         }
     }
 

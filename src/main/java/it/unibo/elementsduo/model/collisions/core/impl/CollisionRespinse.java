@@ -1,9 +1,9 @@
 package it.unibo.elementsduo.model.collisions.core.impl;
 
-import it.unibo.elementsduo.model.collisions.commands.CollisionCommand;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import it.unibo.elementsduo.model.collisions.commands.api.CollisionCommand;
 
 public class CollisionRespinse {
     // colleziono i comandi generati dagli handler in una lista

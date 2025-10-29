@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
+import it.unibo.elementsduo.model.collisions.commands.impl.ProjectileSolidCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
@@ -33,7 +34,7 @@ public class ProjectileSolidHandler implements CollisionHandler {
             projectile = (Projectiles) c.getObjectB();
         }
 
-        this.eventManager.notify(new ProjectileSolidEvent(projectile));
+        collisionResponse.addCommand(new ProjectileSolidCommand(projectile, eventManager));
     }
 
 }

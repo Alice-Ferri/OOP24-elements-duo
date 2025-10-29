@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
+import it.unibo.elementsduo.model.collisions.commands.impl.GemCollectedCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
@@ -34,10 +35,7 @@ public class GemCollisionsHandler implements CollisionHandler {
             gem = (Gem) c.getObjectA();
         }
 
-        if (gem.isActive()) {
-            gem.collect();
-            this.eventManager.notify(new GemCollectedEvent(player, gem));
-        }
+        collisionResponse.addCommand(new GemCollectedCommand(player, gem, eventManager));
     }
 
 }

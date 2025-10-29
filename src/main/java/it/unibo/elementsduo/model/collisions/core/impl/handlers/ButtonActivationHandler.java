@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.unibo.elementsduo.model.collisions.commands.impl.ButtonActivationCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
@@ -33,7 +34,7 @@ public class ButtonActivationHandler implements CollisionHandler {
         buttonsThisFrame.add(b);
 
         if (!buttonsLastFrame.contains(b)) {
-            b.activate();
+            collisionResponse.addCommand(new ButtonActivationCommand(b));
         }
     }
 
