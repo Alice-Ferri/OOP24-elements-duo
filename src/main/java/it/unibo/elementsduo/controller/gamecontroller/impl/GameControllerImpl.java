@@ -108,6 +108,12 @@ public class GameControllerImpl implements GameController {
     @Override
     public void activate() {
         this.start();
+        this.view.getHomeButton().addActionListener(e -> {
+            controller.goToMenu();
+        });
+        this.view.getLevelSelectButton().addActionListener(e -> {
+            controller.goToLevelSelection();
+        });
     }
 
     @Override
