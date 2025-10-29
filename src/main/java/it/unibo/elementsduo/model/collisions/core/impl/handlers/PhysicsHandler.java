@@ -9,6 +9,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionInformationsImpl
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
 public class PhysicsHandler implements CollisionHandler {
@@ -23,6 +24,9 @@ public class PhysicsHandler implements CollisionHandler {
         if (c.getObjectA() instanceof ShooterEnemyImpl && c.getObjectB() instanceof Projectiles ||
                 c.getObjectA() instanceof ShooterEnemyImpl && c.getObjectB() instanceof Projectiles) {
             return;
+        } else if (c.getObjectA() instanceof Projectiles && c.getObjectB() instanceof Player ||
+                c.getObjectA() instanceof Player && c.getObjectB() instanceof Projectiles) {
+            return;
         }
         if (c.getObjectA() instanceof Movable m)
             movable = m;
@@ -32,7 +36,6 @@ public class PhysicsHandler implements CollisionHandler {
         }
 
         if (movable != null) {
-            // movable.correctPhysicsCollision(c.getPenetration(), normal);
             collisionResponse
                     .addPhysicsCommand(new PhysicsCorrectionCommand(movable, c.getPenetration(), normal));
         }

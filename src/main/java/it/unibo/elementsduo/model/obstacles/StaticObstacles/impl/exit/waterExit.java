@@ -9,4 +9,9 @@ public class waterExit extends StaticObstacle implements ExitZone {
     public waterExit(HitBox hitbox) {
         super(hitbox);
     }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 }

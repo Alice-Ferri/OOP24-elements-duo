@@ -9,4 +9,9 @@ public class fireExit extends StaticObstacle implements ExitZone {
     public fireExit(HitBox hitBox) {
         super(hitBox);
     }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 }
