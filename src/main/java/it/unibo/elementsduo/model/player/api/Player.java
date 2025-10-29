@@ -44,6 +44,13 @@ public interface Player extends Collidable, Movable, GameEntity {
     boolean isOnGround();
 
     /**
+     * Returns whether the player is currently on the exit.
+     *
+     * @return {@code true} if the player is on the exit, {@code false} otherwise
+     */
+    boolean isOnExit();
+
+    /**
      * Moves the player horizontally by the given delta value.
      *
      * @param dx the horizontal movement delta
@@ -84,6 +91,8 @@ public interface Player extends Collidable, Movable, GameEntity {
     void setAirborne();
 
     void setVelocityX(double vx);
+
+    void setOnExit(boolean condition);
 
     void update(double deltaTime, InputController input);
 

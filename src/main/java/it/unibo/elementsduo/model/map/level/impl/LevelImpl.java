@@ -52,6 +52,13 @@ public class LevelImpl implements Level {
     }
 
     @Override
+    public Set<Enemy> getLivingEnemies() {
+        return getAllEnemies().stream()      
+                .filter(Enemy::isAlive)      
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @Override
     public Set<Player> getAllPlayers() {
         return getEntitiesByClass(Player.class);
     }
@@ -88,13 +95,15 @@ public class LevelImpl implements Level {
 
     @Override
     public List<Collidable> getAllCollidables() {
-        Stream<GameEntity> entityStream = this.gameEntities.stream();
-        Stream<Projectiles> projectileStream = this.projectiles.stream();
+        Stream<? extends GameEntity> entityStream = this.gameEntities.stream();
+        Stream<? extends Projectiles> projectileStream = this.projectiles.stream()
+                                                                .filter(Projectiles::isActive);
 
         return Stream.concat(entityStream, projectileStream)
                      .filter(Collidable.class::isInstance)
+                     .filter(collidable -> !(collidable instanceof Enemy) || ((Enemy) collidable).isAlive())
                      .map(Collidable.class::cast)
-                     .collect(Collectors.toList());        
+                     .collect(Collectors.toList());
     }
 
 }

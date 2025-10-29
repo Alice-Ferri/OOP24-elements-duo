@@ -30,10 +30,8 @@ public class GameLoop implements Runnable {
             return;
         }
         running = false;
-        try {
-            gameThread.join();
-        } catch (final InterruptedException e) {
-            Thread.currentThread().interrupt();
+        if (gameThread != null) {
+            gameThread.interrupt(); 
         }
     }
 
