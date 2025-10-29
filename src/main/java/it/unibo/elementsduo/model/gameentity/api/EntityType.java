@@ -6,5 +6,6 @@ public enum EntityType {
     SPAWN_POINT,    
     LEVER,
     PUSH_BOX,
-    MOVING_PLATFORM
+    MOVING_PLATFORM,
+    BUTTON;
 }
