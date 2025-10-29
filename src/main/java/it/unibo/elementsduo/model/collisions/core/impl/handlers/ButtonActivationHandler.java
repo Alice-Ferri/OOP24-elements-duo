@@ -13,24 +13,17 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 
-public class ButtonActivationHandler implements CollisionHandler {
+public class ButtonActivationHandler extends AbstractCollisionHandler<Player, button> {
 
     private List<button> buttonsThisFrame = new ArrayList<>();
     private List<button> buttonsLastFrame = new ArrayList<>();
 
-    @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof button) || (b instanceof Player && a instanceof button);
+    public ButtonActivationHandler() {
+        super(Player.class, button.class);
     }
 
     @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        button b;
-        if (c.getObjectA() instanceof button)
-            b = (button) c.getObjectA();
-        else
-            b = (button) c.getObjectB();
-
+    public void handleCollision(Player player, button b, CollisionInformations c, CollisionResponse collisionResponse) {
         buttonsThisFrame.add(b);
 
         if (!buttonsLastFrame.contains(b)) {

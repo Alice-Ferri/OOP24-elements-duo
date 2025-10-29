@@ -13,33 +13,18 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.player.api.Player;
 
-public class LeverActivationHandler implements CollisionHandler {
+public class LeverActivationHandler extends AbstractCollisionHandler<Player, Lever> {
 
     private List<Lever> leversThisFrame = new ArrayList<>();
     private List<Lever> leversLastFrame = new ArrayList<>();
 
-    @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof Lever) || (b instanceof Player && a instanceof Lever);
+    public LeverActivationHandler() {
+        super(Player.class, Lever.class);
     }
 
     @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        Player player = null;
-        Lever trigger = null;
-        Collidable a = c.getObjectA();
-        Collidable b = c.getObjectB();
-
-        if (a instanceof Player) {
-            player = (Player) a;
-            trigger = (Lever) b;
-        } else if (b instanceof Player) {
-            player = (Player) b;
-            trigger = (Lever) a;
-        }
-
-        if (player == null || trigger == null)
-            return;
+    public void handleCollision(Player player, Lever trigger, CollisionInformations c,
+            CollisionResponse collisionResponse) {
 
         leversThisFrame.add(trigger);
         /* if it isn't in the levers before so it is a new lever colliding */

@@ -13,43 +13,25 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
-public class PlayerExitHandler implements CollisionHandler {
+public class PlayerExitHandler extends AbstractCollisionHandler<Player, ExitZone> {
 
     private final EventManager eventManager;
 
     public PlayerExitHandler(EventManager eventManager) {
+        super(Player.class, ExitZone.class);
         this.eventManager = eventManager;
     }
 
-    @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof ExitZone) || (a instanceof ExitZone && b instanceof Player);
-    }
+    public void handleCollision(Player player, ExitZone exitZone, CollisionInformations collisionInfo,
+            CollisionResponse c) {
 
-    @Override
-    public void handle(CollisionInformations collisionInfo,CollisionResponse c) {
-        Player player = null;
-        ExitZone exit = null;
-
-        if (collisionInfo.getObjectA() instanceof Player && collisionInfo.getObjectB() instanceof ExitZone) {
-            player = (Player) collisionInfo.getObjectA();
-            exit = (ExitZone) collisionInfo.getObjectB();
-        } else if (collisionInfo.getObjectA() instanceof ExitZone && collisionInfo.getObjectB() instanceof Player) {
-            exit = (ExitZone) collisionInfo.getObjectA();
-            player = (Player) collisionInfo.getObjectB();
-        }
-
-        if (player == null || exit == null ) {
-            return;
-        }
-
-        boolean correctExit = (player.getPlayerType() == PlayerType.FIREBOY && exit instanceof fireExit) ||
-                              (player.getPlayerType() == PlayerType.WATERGIRL && exit instanceof waterExit);
+        boolean correctExit = (player.getPlayerType() == PlayerType.FIREBOY && exitZone instanceof fireExit) ||
+                (player.getPlayerType() == PlayerType.WATERGIRL && exitZone instanceof waterExit);
 
         if (correctExit) {
             if (!player.isOnExit()) {
-                player.setOnExit(true); 
-                exit.activate();
+                player.setOnExit(true);
+                exitZone.activate();
 
                 if (player.getPlayerType() == PlayerType.FIREBOY) {
                     this.eventManager.notify(new FireExitEvent(player));
@@ -57,7 +39,6 @@ public class PlayerExitHandler implements CollisionHandler {
                     this.eventManager.notify(new WaterExitEvent(player));
                 }
             }
-            
         }
     }
 }
