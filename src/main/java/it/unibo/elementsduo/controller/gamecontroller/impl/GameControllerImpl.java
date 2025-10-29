@@ -8,6 +8,8 @@ import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
+import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;
+import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
@@ -39,14 +41,15 @@ public class GameControllerImpl implements GameController {
     private final InputController inputController = new InputController();
     private final EventManager eventManager = new EventManager();
     private final GameState gameState;
+    private ProgressionManagerImpl progressionManager; // lo chiamerò quando verrà gestito il levelcompleted
 
-    public GameControllerImpl(final Level level, final GameNavigation controller) {
-
+   public GameControllerImpl(final Level level, final GameNavigation controller, final ProgressionManagerImpl progressionManager) { 
         this.level = level;
-        this.controller = controller;
+        this.progressionManager = progressionManager;
         this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
+        this.controller = null;
         this.collisionManager = new CollisionManager(this.eventManager);
         this.inputController.install();
         for (Enemy e : this.level.getAllEnemies()) {
@@ -122,6 +125,7 @@ public class GameControllerImpl implements GameController {
         if (gameState.didWin()) {
             System.out.println("Gioco Terminato");
             this.controller.goToLevelSelection();
+            this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),50,500);
         } else {
             this.controller.restartCurrentLevel();
         }

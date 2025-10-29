@@ -7,4 +7,5 @@ public interface GameNavigation {
     void goToLevelSelection();
 
     void restartCurrentLevel();
+
 }
