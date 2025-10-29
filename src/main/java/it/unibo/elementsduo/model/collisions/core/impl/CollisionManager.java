@@ -45,6 +45,8 @@ public class CollisionManager {
 
         List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
 
+        CollisionRespinse collisionResponse = new CollisionRespinse();
+
         for (Collidable c : entities) {
             if (c instanceof Player p) {
                 p.setAirborne();
@@ -54,7 +56,7 @@ public class CollisionManager {
         }
 
         for (CollisionInformations c : collisionsInfo) {
-            register.handle(c);
+            register.handle(c, collisionResponse);
         }
 
         register.notifyUpdateEnd();

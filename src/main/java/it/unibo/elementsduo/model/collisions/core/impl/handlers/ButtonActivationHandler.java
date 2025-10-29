@@ -8,6 +8,7 @@ import java.util.Set;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionRespinse;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 
@@ -22,7 +23,7 @@ public class ButtonActivationHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c) {
+    public void handle(CollisionInformations c, CollisionRespinse collisionResponse) {
         button b;
         if (c.getObjectA() instanceof button)
             b = (button) c.getObjectA();

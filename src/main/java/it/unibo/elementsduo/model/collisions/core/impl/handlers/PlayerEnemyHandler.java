@@ -4,6 +4,7 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionRespinse;
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
@@ -24,7 +25,7 @@ public class PlayerEnemyHandler implements CollisionHandler {
     }
 
     @Override
-    public void handle(CollisionInformations c) {
+    public void handle(CollisionInformations c, CollisionRespinse collisionResponse) {
         final Player player;
         final Enemy enemy;
         Vector2D normal = c.getNormal();
