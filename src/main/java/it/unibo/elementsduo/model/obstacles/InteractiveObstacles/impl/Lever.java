@@ -46,6 +46,11 @@ public class Lever extends InteractiveObstacle implements Triggerable {
         }
     }
 
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
+
     public void addLinkedObject(TriggerListener t) {
         linkedObjects.add(t);
     }

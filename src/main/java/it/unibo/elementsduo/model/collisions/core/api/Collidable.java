@@ -6,4 +6,8 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
 public interface Collidable {
     HitBox getHitBox();
+
+    default boolean isSolid() {
+        return true;
+    }
 }

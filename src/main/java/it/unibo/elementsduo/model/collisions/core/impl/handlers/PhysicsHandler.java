@@ -40,6 +40,8 @@ public class PhysicsHandler implements CollisionHandler {
 
     @Override
     public boolean canHandle(Collidable a, Collidable b) {
+        if (!a.isSolid() || !b.isSolid())
+            return false;
         return a instanceof Movable || b instanceof Movable;
     }
 
