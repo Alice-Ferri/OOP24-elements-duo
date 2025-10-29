@@ -14,13 +14,10 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationH
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerHazardHandler;
-<<<<<<< HEAD
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerProjectileHandler;
-=======
 
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerExitHandler;
 
->>>>>>> e45e65b248549db1bca64aab0f2ce09f7ec33972
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;

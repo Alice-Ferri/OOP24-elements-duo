@@ -13,17 +13,16 @@ public class waterExit extends StaticObstacle implements ExitZone {
     }
 
     @Override
-<<<<<<< HEAD
     public boolean isSolid() {
         return false;
-=======
+    }
+
     public void activate() {
-        this.active=true;
+        this.active = true;
     }
 
     @Override
     public boolean isActive() {
         return this.active;
->>>>>>> e45e65b248549db1bca64aab0f2ce09f7ec33972
     }
 }
