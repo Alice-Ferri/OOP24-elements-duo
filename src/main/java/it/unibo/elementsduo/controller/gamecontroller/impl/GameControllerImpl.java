@@ -15,6 +15,13 @@ import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+
+import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
+import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
+import it.unibo.elementsduo.model.gamestate.api.GameState;
+import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
+
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
@@ -27,10 +34,11 @@ public class GameControllerImpl implements GameController {
     private final LevelPanel view;
     private final GameLoop gameLoop;
     private final EnemiesMoveManager moveManager;
-    private final GameNavigation controller; // lo utilizzerò quando sarà gestito lo stop al gameloop
+    private final GameNavigation controller;
     private final CollisionManager collisionManager;
     private final InputController inputController = new InputController();
     private final EventManager eventManager = new EventManager();
+    private final GameState gameState;
 
     public GameControllerImpl(final Level level, final GameNavigation controller) {
 
@@ -41,15 +49,21 @@ public class GameControllerImpl implements GameController {
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.collisionManager = new CollisionManager(this.eventManager);
         this.inputController.install();
-        initEventManager();
         for (Enemy e : this.level.getAllEnemies()) {
             this.eventManager.subscribe(EnemyDiedEvent.class, e);
         }
+        gameState = new GameStateImpl(eventManager, level);
     }
 
     @Override
     public void update(double deltaTime) {
-        this.level.getAllEnemies().forEach(obj -> {
+
+        if (gameState.isGameOver()) {
+            handleGameOver();
+            return;
+        }
+
+        this.level.getLivingEnemies().forEach(obj -> {
             obj.update(deltaTime);
             if (obj instanceof ShooterEnemyImpl) {
                 ((ShooterEnemyImpl) obj).attack().ifPresent(projectile -> {
@@ -96,6 +110,7 @@ public class GameControllerImpl implements GameController {
     @Override
     public void deactivate() {
         this.gameLoop.stop();
+        this.inputController.uninstall();
     }
 
     @Override
@@ -103,9 +118,12 @@ public class GameControllerImpl implements GameController {
         return this.view;
     }
 
-    private void initEventManager() {
-        for (Enemy e : this.level.getAllEnemies()) {
-            this.eventManager.subscribe(EnemyDiedEvent.class, e);
+    private void handleGameOver() {
+        if (gameState.didWin()) {
+            System.out.println("Gioco Terminato");
+            this.controller.goToLevelSelection();
+        } else {
+            this.controller.restartCurrentLevel();
         }
     }
 
