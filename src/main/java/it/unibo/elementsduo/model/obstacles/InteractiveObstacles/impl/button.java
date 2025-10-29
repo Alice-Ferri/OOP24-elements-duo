@@ -10,8 +10,10 @@ public class button extends InteractiveObstacle implements Triggerable {
 
     private boolean active = false;
     private ArrayList<TriggerListener> linkedObjects = new ArrayList<>();
+    private final static double halfWidth = 0.5;
+    private final static double halfHeight = 0.5;
 
-    public button(Position center, double halfWidth, double halfHeight) {
+    public button(Position center) {
         super(center, halfWidth, halfHeight);
     }
 

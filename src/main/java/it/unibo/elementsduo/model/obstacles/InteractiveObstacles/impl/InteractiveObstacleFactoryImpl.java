@@ -20,4 +20,9 @@ public class InteractiveObstacleFactoryImpl implements InteractiveObstacleFactor
         return new PlatformImpl(pos, a, b);
     }
 
+    @Override
+    public button createButton(Position pos) {
+        return new button(pos);
+    }
+
 }
