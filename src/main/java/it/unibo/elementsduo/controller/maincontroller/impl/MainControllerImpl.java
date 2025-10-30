@@ -20,6 +20,7 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
+import it.unibo.elementsduo.view.GuidePanel;
 import it.unibo.elementsduo.view.LevelSelectionPanel;
 import it.unibo.elementsduo.view.MenuPanel;
 import it.unibo.elementsduo.datasave.SaveManager; 
@@ -93,6 +94,12 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         }
     }
     
+    public void showGuide() {
+        GuidePanel guidePanel = new GuidePanel(this::goToMenu);
+        final String guideKey = "GUIDE";
+        mainFrame.addView(guidePanel, guideKey);
+        mainFrame.showView(guideKey);
+    }
 
     @Override
     public void quitGame() {
@@ -104,12 +111,11 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         currentLevelNumber=-1;
         this.checkController();
         final MenuPanel view = new MenuPanel();
-        final Controller controller = new HomeController(view, this, this::startNewGame, this::loadSavedGame);
+        final Controller controller = new HomeController(view, this, this::startNewGame, this::loadSavedGame, this::showGuide);
         controller.activate();
         mainFrame.addView(view, menuKey);
         mainFrame.showView(menuKey);
         currentController = controller;
-
     }
 
     @Override

@@ -11,6 +11,7 @@ public class MenuPanel extends JPanel {
     
     private final JButton startButton;
     private final JButton loadButton;
+    private final JButton guideButton;
 
     public MenuPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -23,10 +24,16 @@ public class MenuPanel extends JPanel {
         this.loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.loadButton.setMaximumSize(new Dimension(300, 80));
 
+        this.guideButton = new JButton("Show Game Guide");
+        this.guideButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.guideButton.setMaximumSize(new Dimension(300, 80));
+
         add(Box.createVerticalGlue());
         add(startButton);
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(loadButton);
+        add(Box.createRigidArea(new Dimension(0, 20)));
+        add(guideButton);
         add(Box.createVerticalGlue());
     }
 
@@ -36,6 +43,10 @@ public class MenuPanel extends JPanel {
 
     public JButton getLoadButton() {
         return this.loadButton;
+    }
+
+    public JButton getGuideButton() {
+        return this.guideButton;
     }
 }
 
