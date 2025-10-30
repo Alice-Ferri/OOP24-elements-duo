@@ -266,11 +266,11 @@ public class LevelPanel extends JPanel {
                 final int h = toPx(hh * 2.0);
 
                 if (player instanceof Fireboy) {
-                    g.setColor(Color.BLACK);
+                    g.setColor(Color.RED);
                 } else if (player instanceof Watergirl) {
                     g.setColor(Color.BLUE);
                 } else {
-                    g.setColor(Color.BLACK);
+                    g.setColor(Color.RED);
                 }
 
                 g.fillOval(x, y, w, h);
