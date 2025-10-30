@@ -14,22 +14,6 @@ public final class ProgressionState {
     private final Map<Integer, Integer> levelGemsCollected = new HashMap<>();
 
     /**
-     * Default constructor for ProgressionState.
-     */
-    public ProgressionState() { 
-
-    }
-
-    /**
-     * Constructor for a new ProgressionState with initial values.
-     *
-     * @param currentLevel the starting level.
-     */
-    public ProgressionState(final int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
-
-    /**
      * Updates the progression data for a given level.
      * Saves the new time if it is a record (lower time).
      * Saves the new gem count if it is a new maximum for that level (higher count).

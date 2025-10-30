@@ -49,7 +49,7 @@ public class GameControllerImpl implements GameController {
         this.controller = Objects.requireNonNull(controller);
         this.view = Objects.requireNonNull(view);
         this.gameLoop = new GameLoop(this);
-        
+        this.progressionManager=progressionManager;
         this.eventManager = new EventManager();
         this.inputController = new InputControllerImpl();
         this.gameState = new GameStateImpl(eventManager);
@@ -67,6 +67,7 @@ public class GameControllerImpl implements GameController {
 
         this.setEnemiesMoveManager(moveManager);
         this.gameLoop.start();
+        this.gameTimer.start();
     }
 
     @Override

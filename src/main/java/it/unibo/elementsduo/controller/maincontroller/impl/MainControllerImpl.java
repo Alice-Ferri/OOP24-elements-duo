@@ -83,19 +83,24 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     }
 
     public void startNewGame() {
-    final ProgressionState defaultState = new ProgressionState(1); 
-    this.initializeProgressionAndStart(defaultState);
+        
+        initProgressionManager(new ProgressionState());
+        this.goToLevelSelection();
     }
 
     public void loadSavedGame() {
-        final ProgressionState defaultState = new ProgressionState(1);
+        
+        final ProgressionState defaultState = new ProgressionState();
         
         final ProgressionState state = saveManager.loadGame().orElseGet(() -> {
             System.err.println("Nessun salvataggio trovato o valido. Partita iniziata da capo.");
             return defaultState; 
         });
 
-        this.initializeProgressionAndStart(state);
+        initProgressionManager(state);
+
+        this.goToLevelSelection();
+
     }
     
 
@@ -154,11 +159,15 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         checkController();
 
         if (this.currentLevelNumber != -1) {
-            this.startGame(this.currentLevelNumber);
+            if (this.progressionManager == null) {
+                 this.initProgressionManager(new ProgressionState());
+            }
+            this.startGame(this.currentLevelNumber); 
         } else {
             this.goToMenu();
         }
     }
+
 
     private void handleException(String error){
         JOptionPane.showMessageDialog(
@@ -170,19 +179,8 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         this.goToLevelSelection();
     }
 
-    private void initializeProgressionAndStart(final ProgressionState state) {
-
-    this.progressionManager = new ProgressionManagerImpl(saveManager, state);
-    this.progressionManager.saveGame(); 
-    final int nextLevelToPlay = state.getCurrentLevel();
-
-    this.checkController();
-
-    if (nextLevelToPlay > MAX_LEVELS) {
-        this.goToLevelSelection();
-    } else {
-        this.startGame(nextLevelToPlay);
+    private void initProgressionManager(final ProgressionState state) {
+        this.progressionManager = new ProgressionManagerImpl(saveManager, state);
+        this.progressionManager.saveGame();
     }
-}
-    
 }
