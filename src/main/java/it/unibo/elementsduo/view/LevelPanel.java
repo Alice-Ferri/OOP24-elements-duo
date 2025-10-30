@@ -34,7 +34,8 @@ import java.awt.Graphics;
 import java.util.Map;
 import java.util.Objects;
 
-public class LevelPanel extends JPanel {
+public final class LevelPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 
     private final Level level;
     private final GameAreaPanel gameArea;
@@ -67,7 +68,8 @@ public class LevelPanel extends JPanel {
         return this.levelSelectButton;
     }
 
-    private class GameAreaPanel extends JPanel {
+    private final class GameAreaPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
 
         private final Dimension gridDimensions;
 
@@ -98,7 +100,7 @@ public class LevelPanel extends JPanel {
         }
 
         private Dimension calculateGridDimensions() {
-            var staticObstacles = level.getAllObstacles().stream()
+            final var staticObstacles = level.getAllObstacles().stream()
             .filter(StaticObstacle.class::isInstance)
             .toList();
 
@@ -122,12 +124,13 @@ public class LevelPanel extends JPanel {
         protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
 
-            final int panelWidth = getWidth();
-            final int panelHeight = getHeight();
-
             if (gridDimensions.width == 0 || gridDimensions.height == 0) {
                 return;
             }
+            
+            final int panelWidth = getWidth();
+            final int panelHeight = getHeight();
+
             final int sizeBasedOnWidth = panelWidth / gridDimensions.width;
             final int sizeBasedOnHeight = panelHeight / gridDimensions.height;
             final int elementSize = Math.min(sizeBasedOnWidth, sizeBasedOnHeight);
@@ -184,7 +187,7 @@ public class LevelPanel extends JPanel {
                 final int w = toPx(hw * 2.0,elementSize);
                 final int h = toPx(hh * 2.0,elementSize);
 
-                Color base = interactiveColorMap.getOrDefault(obj.getClass(), Color.PINK);
+                final Color base = interactiveColorMap.getOrDefault(obj.getClass(), Color.PINK);
                 g.setColor(base);
 
                 if (obj instanceof Triggerable triggerable) {

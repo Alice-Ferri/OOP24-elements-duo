@@ -15,19 +15,20 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-public class LevelSelectionPanel extends JPanel {
-    private static Box Box; 
+public final class LevelSelectionPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
     private static final int NUM_LEVELS = 3;
     private final Map<JButton, Integer> levelButtons;
     private final JButton backButton;
     private final Map<Integer, LevelDataPanel> levelDataPanels;
 
     private static final class LevelDataPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
         private final JButton levelButton;
         private final JLabel timeLabel;
         private final JLabel gemsLabel;
 
-        LevelDataPanel(final int levelNumber, final JButton button) {
+        LevelDataPanel(final JButton button) {
             this.levelButton = button;
             
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
@@ -74,7 +75,7 @@ public class LevelSelectionPanel extends JPanel {
 
         IntStream.rangeClosed(1, NUM_LEVELS).forEach(i -> {
             final JButton button = new JButton("Livello " + i);
-            final LevelDataPanel dataPanel = new LevelDataPanel(i, button);
+            final LevelDataPanel dataPanel = new LevelDataPanel(button);
             
             this.levelButtons.put(button, i);
             this.levelDataPanels.put(i, dataPanel);
