@@ -4,24 +4,23 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class GameTimer implements Runnable {
 
-    private static final double MS_PER_SECOND = 1000;
+    private static final double MS_PER_SECOND = 1000.0;
 
     private volatile boolean running = false;
-    private final AtomicLong elapsedTime = new AtomicLong(0);
+    private long elapsedTime = 0;
     private Thread timerThread;
     private long lastUpdate;
 
-
     @Override
     public void run() {
-        lastUpdate = System.currentTimeMillis();
         while (running) {
             long now = System.currentTimeMillis();
             long delta = now - lastUpdate;
-            elapsedTime.addAndGet(delta);
+            elapsedTime += delta;
             lastUpdate = now;
+
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 running = false;
@@ -30,10 +29,11 @@ public class GameTimer implements Runnable {
     }
 
     public synchronized void start() {
-        if (running) {
-            return;
-        }
+        if (running) return;
+
         running = true;
+        lastUpdate = System.currentTimeMillis();
+
         timerThread = new Thread(this);
         timerThread.start();
     }
@@ -49,13 +49,12 @@ public class GameTimer implements Runnable {
         }
     }
 
-    public double getElapsedSeconds() {
-        return elapsedTime.get() / MS_PER_SECOND;
+    public synchronized void reset() {
+        elapsedTime = 0;
+        lastUpdate = 0;
     }
 
-
-    public synchronized void reset() {
-        elapsedTime.set(0);
-        lastUpdate = System.currentTimeMillis();
+    public synchronized double getElapsedSeconds() {
+        return elapsedTime / MS_PER_SECOND;
     }
 }
