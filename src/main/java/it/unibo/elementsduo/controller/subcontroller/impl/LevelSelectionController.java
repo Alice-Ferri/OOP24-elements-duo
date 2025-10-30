@@ -44,7 +44,7 @@ public class LevelSelectionController implements Controller{
         
         final ProgressionState state = this.progressionManager.getCurrentState();
         
-        final Map<Integer, Long> bestTimes = state.getLevelCompletionTimes();
+        final Map<Integer, Double> bestTimes = state.getLevelCompletionTimes();
         final Map<Integer, Integer> levelGems = state.getLevelGemsCollected();
 
         this.view.setBestTimes(bestTimes);

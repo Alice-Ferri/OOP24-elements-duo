@@ -137,7 +137,7 @@ public class GameControllerImpl implements GameController {
     private void handleGameOver() {
         if (gameState.didWin()) {
             System.out.println("Gioco Terminato");
-            this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),50,500);
+            this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),this.gameTimer.getElapsedSeconds(),500);
             this.controller.goToLevelSelection();    
         } else {
             this.controller.restartCurrentLevel();

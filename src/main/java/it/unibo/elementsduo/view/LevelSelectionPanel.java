@@ -90,10 +90,10 @@ public class LevelSelectionPanel extends JPanel {
         add(southPanel, BorderLayout.SOUTH);
     }
     
-    public void setBestTimes(final Map<Integer, Long> bestTimes) {
-        bestTimes.forEach((levelNum, timeMillis) -> {
+    public void setBestTimes(final Map<Integer, Double> bestTimes) {
+        bestTimes.forEach((levelNum, timeSeconds) -> {
             Optional.ofNullable(this.levelDataPanels.get(levelNum)).ifPresent(panel -> {
-                panel.getTimeLabel().setText("Record: " + formatTime(timeMillis));
+                panel.getTimeLabel().setText("Record: " + formatTime(timeSeconds));
             });
         });
     }
@@ -106,11 +106,14 @@ public class LevelSelectionPanel extends JPanel {
          });
     }
 
-    private String formatTime(final long timeMillis) {
-        final long minutes = TimeUnit.MILLISECONDS.toMinutes(timeMillis);
-        final long seconds = TimeUnit.MILLISECONDS.toSeconds(timeMillis) - 
+    private String formatTime(final double timeSeconds) {
+ 
+        final long totalMillis = (long) (timeSeconds * 1000);
+
+        final long minutes = TimeUnit.MILLISECONDS.toMinutes(totalMillis);
+        final long seconds = TimeUnit.MILLISECONDS.toSeconds(totalMillis) - 
                              TimeUnit.MINUTES.toSeconds(minutes);
-        final long millis = timeMillis % 1000;
+        final long millis = totalMillis % 1000;
         
         return String.format("%02d:%02d.%03d", minutes, seconds, millis);
     }

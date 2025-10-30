@@ -36,14 +36,14 @@ public final class ProgressionManagerImpl {
      * Updates the progression state after a level is completed and saves the game.
      *
      * @param completedLevel the number of the level completed.
-     * @param timeMillis the time taken to complete the level.
+     * @param timeSeconds the time taken to complete the level.
      * @param gemsCollected the number of gems collected in the level.
      */
-    public void levelCompleted(final int completedLevel, final long timeMillis, final int gemsCollected) { 
+    public void levelCompleted(final int completedLevel, final double timeSeconds, final int gemsCollected) { 
 
         final int nextLevel = completedLevel + 1; 
 
-        this.currentState.addLevelCompletionTime(completedLevel, timeMillis,gemsCollected);
+        this.currentState.addLevelCompletionTime(completedLevel, timeSeconds,gemsCollected);
         this.currentState.setCurrentLevel(nextLevel);
 
         this.saveLoadManager.saveGame(this.currentState);

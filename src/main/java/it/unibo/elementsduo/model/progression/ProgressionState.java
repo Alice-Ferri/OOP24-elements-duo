@@ -10,7 +10,7 @@ import java.util.Map;
 public final class ProgressionState {
 
     private int currentLevel; 
-    private final Map<Integer, Long> levelCompletionTimes = new HashMap<>(); 
+    private final Map<Integer, Double> levelCompletionTimes = new HashMap<>(); 
     private final Map<Integer, Integer> levelGemsCollected = new HashMap<>();
 
     /**
@@ -35,16 +35,16 @@ public final class ProgressionState {
      * Saves the new gem count if it is a new maximum for that level (higher count).
      *
      * @param levelNumber the number of the level completed.
-     * @param timeMillis the time taken to complete the level, in milliseconds.
+     * @param timeSeconds the time taken to complete the level, in milliseconds.
      * @param gemsCollected the number of gems collected in the level.
      */
-    public void addLevelCompletionTime(final int levelNumber, final long timeMillis, final int gemsCollected) {
+    public void addLevelCompletionTime(final int levelNumber, final double timeSeconds, final int gemsCollected) {
 
         final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) 
-                                   || timeMillis < this.levelCompletionTimes.get(levelNumber);
+                                   || timeSeconds < this.levelCompletionTimes.get(levelNumber);
         
         if (isNewBestTime) {
-            this.levelCompletionTimes.put(levelNumber, timeMillis);
+            this.levelCompletionTimes.put(levelNumber, timeSeconds);
         }
 
         final boolean isNewMaxGems = !this.levelGemsCollected.containsKey(levelNumber) 
@@ -78,7 +78,7 @@ public final class ProgressionState {
      *
      * @return a map of best completion times.
      */
-    public Map<Integer, Long> getLevelCompletionTimes() { 
+    public Map<Integer, Double> getLevelCompletionTimes() { 
         return this.levelCompletionTimes; 
     }
     
