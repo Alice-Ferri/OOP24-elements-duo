@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.player.api;
 
-import it.unibo.elementsduo.controller.impl.InputController;
+import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
@@ -90,15 +90,23 @@ public interface Player extends Collidable, Movable, GameEntity {
      */
     void setAirborne();
 
+    /*
+     *  Set velocity on x.
+     */
     void setVelocityX(double vx);
 
+    /*
+     * Set the condition on exit.
+     */
     void setOnExit(boolean condition);
 
-    void update(double deltaTime, InputController input);
+    /*
+     * Updating the state of the player.
+     */
+    void update(double deltaTime, InputController inputController);
 
     /**
-     * Returns the specific player type (e.g. {@link PlayerType#FIREBOY} or
-     * {@link PlayerType#WATERGIRL}).
+     * Returns the specific player type.
      *
      * @return the type of this player
      */

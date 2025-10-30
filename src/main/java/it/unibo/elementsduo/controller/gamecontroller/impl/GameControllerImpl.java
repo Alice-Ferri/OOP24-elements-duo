@@ -6,7 +6,7 @@ import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
-import it.unibo.elementsduo.controller.impl.InputController;
+import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
@@ -17,6 +17,7 @@ import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+import it.unibo.elementsduo.controller.inputController.api.InputController;
 
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
@@ -38,7 +39,7 @@ public class GameControllerImpl implements GameController {
     private final EnemiesMoveManager moveManager;
     private final GameNavigation controller;
     private final CollisionManager collisionManager;
-    private final InputController inputController = new InputController();
+    private final InputController inputController;
     private final EventManager eventManager = new EventManager();
     private final GameState gameState;
     private ProgressionManagerImpl progressionManager; // lo chiamerò quando verrà gestito il levelcompleted
@@ -51,6 +52,7 @@ public class GameControllerImpl implements GameController {
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.controller = controller;
         this.collisionManager = new CollisionManager(this.eventManager);
+        this.inputController = new InputControllerImpl();
         this.inputController.install();
         for (Enemy e : this.level.getAllEnemies()) {
             this.eventManager.subscribe(EnemyDiedEvent.class, e);
