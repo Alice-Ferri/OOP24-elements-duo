@@ -69,7 +69,6 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
    public void startNewGame() {
         final ProgressionState defaultState = new ProgressionState(1, 0); 
-        System.out.println("starta nuovo caricamento");
         this.progressionManager = new ProgressionManagerImpl(saveManager, defaultState);
         this.progressionManager.saveGame();
         this.startGame(defaultState.getCurrentLevel()); 
@@ -78,7 +77,6 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     public void loadSavedGame() {
 
         final Optional<ProgressionState> loadedState = saveManager.loadGame();
-        System.out.println("carica dati");
         final ProgressionState state = loadedState.orElseGet(() -> {
             System.err.println("Nessun salvataggio trovato o valido. Partita iniziata da capo.");
             return new ProgressionState(1, 0); 
