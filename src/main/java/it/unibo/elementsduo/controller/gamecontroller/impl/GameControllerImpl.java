@@ -94,6 +94,7 @@ public class GameControllerImpl implements GameController {
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
         
         this.level.cleanInactiveEntities();
+        this.level.cleanProjectiles();
 
     }
 
@@ -122,11 +123,11 @@ public class GameControllerImpl implements GameController {
     }
 
     private void updateInteractiveObstacles(double deltaTime) {
-         this.level.getAllInteractiveObstacles().stream()
+        this.level.getAllInteractiveObstacles().stream()
                 .filter(PushBox.class::isInstance)
                 .map(PushBox.class::cast)
                 .forEach(box -> box.update(deltaTime));
-        level.getAllInteractiveObstacles().stream()
+        this.level.getAllInteractiveObstacles().stream()
                 .filter(PlatformImpl.class::isInstance)
                 .map(PlatformImpl.class::cast)
                 .forEach(p -> p.update(deltaTime));

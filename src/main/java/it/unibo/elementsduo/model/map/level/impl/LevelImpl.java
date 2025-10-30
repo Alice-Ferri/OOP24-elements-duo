@@ -102,7 +102,7 @@ public class LevelImpl implements Level {
     @Override
     public List<Collidable> getAllCollidables() {
         return this.gameEntities.stream()
-                .filter(Collidable.class::isInstance)
+                .filter(Collidable.class::isInstance) 
                 .map(Collidable.class::cast)
                 .collect(Collectors.toList());
     }
@@ -114,5 +114,6 @@ public class LevelImpl implements Level {
                 .map(Updatable.class::cast)
                 .collect(Collectors.toSet());
     }
+
 
 }
