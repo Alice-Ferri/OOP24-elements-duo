@@ -15,34 +15,18 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 
-public class PlayerHazardHandler implements CollisionHandler {
+public class PlayerHazardHandler extends AbstractCollisionHandler<Player, Hazard> {
 
     EventManager eventManager;
 
     public PlayerHazardHandler(EventManager eventManager) {
+        super(Player.class, Hazard.class);
         this.eventManager = eventManager;
     }
 
     @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof Hazard) || (b instanceof Player && a instanceof Hazard);
-    }
-
-    @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        Player player = null;
-        Hazard hazard = null;
-        if (c.getObjectA() instanceof Player && c.getObjectB() instanceof Hazard) {
-            player = (Player) c.getObjectA();
-            hazard = (Hazard) c.getObjectB();
-        } else if (c.getObjectA() instanceof Hazard && c.getObjectB() instanceof Player) {
-            player = (Player) c.getObjectB();
-            hazard = (Hazard) c.getObjectA();
-        }
-
-        if (player == null || hazard == null)
-            return;
-
+    public void handleCollision(Player player, Hazard hazard, CollisionInformations c,
+            CollisionResponse collisionResponse) {
         if (player instanceof Fireboy && hazard instanceof waterPool) {
             collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
         } else if (player instanceof Watergirl && hazard instanceof lavaPool) {

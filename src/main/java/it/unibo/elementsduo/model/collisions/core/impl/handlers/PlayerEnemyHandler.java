@@ -12,39 +12,28 @@ import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class PlayerEnemyHandler implements CollisionHandler {
+public class PlayerEnemyHandler extends AbstractCollisionHandler<Player, Enemy> {
 
     private final EventManager eventManager;
 
     public PlayerEnemyHandler(EventManager em) {
+        super(Player.class, Enemy.class);
         this.eventManager = em;
     }
 
     @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof Enemy) || (b instanceof Player && a instanceof Enemy);
-    }
-
-    @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        final Player player;
-        final Enemy enemy;
+    public void handleCollision(Player player, Enemy enemy, CollisionInformations c,
+            CollisionResponse collisionResponse) {
+        Vector2D normalEnemyPlayer;
         Vector2D normal = c.getNormal();
         if (c.getObjectA() instanceof Player) {
-            player = (Player) c.getObjectA();
-            enemy = (Enemy) c.getObjectB();
+            normalEnemyPlayer = c.getNormal();
         } else {
-            player = (Player) c.getObjectB();
-            enemy = (Enemy) c.getObjectA();
-            normal = normal.multiply(-1);
-        }
-
-        if (player == null) {
-            return;
+            normalEnemyPlayer = c.getNormal().multiply(-1);
         }
 
         boolean isOn;
-        if (normal.y() < -0.5)
+        if (normalEnemyPlayer.y() < -0.5)
             isOn = true;
         else
             isOn = false;
