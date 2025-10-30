@@ -45,13 +45,13 @@ public class PhysicsHandler implements CollisionHandler {
         if (a) {
             final double correction = b ? penetration / 2.0 : penetration;
             collisionResponse.addPhysicsCommand(
-                    new PhysicsCorrectionCommand((Movable) objectA, correction, normal));
+                    new PhysicsCorrectionCommand((Movable) objectA, objectB, correction, normal));
         }
 
         if (b) {
             final double correction = a ? penetration / 2.0 : penetration;
             collisionResponse.addPhysicsCommand(
-                    new PhysicsCorrectionCommand((Movable) objectB, correction, normal.multiply(-1)));
+                    new PhysicsCorrectionCommand((Movable) objectB, objectA, correction, normal.multiply(-1)));
         }
     }
 
