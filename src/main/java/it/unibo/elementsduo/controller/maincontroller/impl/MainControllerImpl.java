@@ -28,6 +28,8 @@ import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManage
 
 
 public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSelectionNavigation,MainController{
+    
+    private final static int MAX_LEVELS=3;
 
     private final GameFrame mainFrame;
     private Controller currentController;
@@ -74,6 +76,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     }
 
     public void loadSavedGame() {
+
         final Optional<ProgressionState> loadedState = saveManager.loadGame();
         System.out.println("carica dati");
         final ProgressionState state = loadedState.orElseGet(() -> {
@@ -82,8 +85,16 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         });
 
         this.progressionManager = new ProgressionManagerImpl(saveManager, state);
-        this.startGame(state.getCurrentLevel()); 
+        this.checkController();
+        final int nextLevelToPlay = state.getCurrentLevel();
+
+        if (nextLevelToPlay > MAX_LEVELS) {
+            this.goToLevelSelection();
+        } else {
+            this.startGame(nextLevelToPlay);
+        }
     }
+    
 
     @Override
     public void quitGame() {
@@ -108,7 +119,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         currentLevelNumber=-1;
         this.checkController();
         final LevelSelectionPanel view = new LevelSelectionPanel();
-        final Controller controller = new LevelSelectionController(view,this);
+        final Controller controller = new LevelSelectionController(view,this,this.progressionManager);
         controller.activate();
         mainFrame.addView(view, levelKey);
         mainFrame.showView(levelKey);

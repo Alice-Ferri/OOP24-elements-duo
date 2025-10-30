@@ -5,12 +5,11 @@ import java.util.Map;
 
 /**
  * Represents the player's progression state in the game, including unlocked levels,
- * collected gems, and completion times.
+ * best times, and maximum gems collected per level.
  */
 public final class ProgressionState {
 
     private int currentLevel; 
-    private int collectedGems; 
     private final Map<Integer, Long> levelCompletionTimes = new HashMap<>(); 
     private final Map<Integer, Integer> levelGemsCollected = new HashMap<>();
 
@@ -25,31 +24,35 @@ public final class ProgressionState {
      * Constructor for a new ProgressionState with initial values.
      *
      * @param currentLevel the starting level.
-     * @param collectedGems the initial count of collected gems.
      */
     public ProgressionState(final int currentLevel, final int collectedGems) {
         this.currentLevel = currentLevel;
-        this.collectedGems = collectedGems;
     }
 
     /**
-     * Adds a completion time for a given level, only updating it if the new time is a record (lower).
+     * Updates the progression data for a given level.
+     * Saves the new time if it is a record (lower time).
+     * Saves the new gem count if it is a new maximum for that level (higher count).
      *
      * @param levelNumber the number of the level completed.
      * @param timeMillis the time taken to complete the level, in milliseconds.
+     * @param gemsCollected the number of gems collected in the level.
      */
     public void addLevelCompletionTime(final int levelNumber, final long timeMillis, final int gemsCollected) {
 
-        if (this.levelCompletionTimes.containsKey(levelNumber)) {
-
-        if (!this.levelCompletionTimes.containsKey(levelNumber) || timeMillis < this.levelCompletionTimes.get(levelNumber)) {
+        final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) 
+                                   || timeMillis < this.levelCompletionTimes.get(levelNumber);
+        
+        if (isNewBestTime) {
             this.levelCompletionTimes.put(levelNumber, timeMillis);
         }
-        
-        if (!this.levelGemsCollected.containsKey(levelNumber) || gemsCollected > this.levelGemsCollected.get(levelNumber)) {
+
+        final boolean isNewMaxGems = !this.levelGemsCollected.containsKey(levelNumber) 
+                                  || gemsCollected > this.levelGemsCollected.get(levelNumber);
+
+        if (isNewMaxGems) {
             this.levelGemsCollected.put(levelNumber, gemsCollected);
         }
-    }
     }
 
     /**
@@ -71,29 +74,20 @@ public final class ProgressionState {
     }
 
     /**
-     * Gets the total number of gems collected across all played levels.
+     * Gets the map of the best completion times. Keys are level numbers, values are best times in milliseconds.
      *
-     * @return the total collected gems.
-     */
-    public int getCollectedGems() { 
-        return this.collectedGems; 
-    }
-
-    /**
-     * Sets the total number of gems collected.
-     *
-     * @param collectedGems the new total collected gems.
-     */
-    public void setCollectedGems(final int collectedGems) { 
-        this.collectedGems = collectedGems; 
-    }
-
-    /**
-     * Gets the map of completion times. Keys are level numbers, values are best times in milliseconds.
-     *
-     * @return an unmodifiable map of best completion times.
+     * @return a map of best completion times.
      */
     public Map<Integer, Long> getLevelCompletionTimes() { 
         return this.levelCompletionTimes; 
+    }
+    
+    /**
+     * Gets the map of the maximum gems collected for each level.
+     *
+     * @return a map where keys are level numbers and values are the maximum gems collected.
+     */
+    public Map<Integer, Integer> getLevelGemsCollected() { 
+        return this.levelGemsCollected; 
     }
 }

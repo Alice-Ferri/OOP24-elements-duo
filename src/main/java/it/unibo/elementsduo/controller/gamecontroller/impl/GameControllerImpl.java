@@ -41,7 +41,7 @@ public class GameControllerImpl implements GameController {
     private final InputController inputController = new InputController();
     private final EventManager eventManager = new EventManager();
     private final GameState gameState;
-    private ProgressionManagerImpl progressionManager; // lo chiamerò quando verrà gestito il levelcompleted
+    private ProgressionManagerImpl progressionManager; 
 
    public GameControllerImpl(final Level level, final GameNavigation controller, final ProgressionManagerImpl progressionManager) { 
         this.level = level;
@@ -130,8 +130,8 @@ public class GameControllerImpl implements GameController {
     private void handleGameOver() {
         if (gameState.didWin()) {
             System.out.println("Gioco Terminato");
-            this.controller.goToLevelSelection();
             this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),50,500);
+            this.controller.goToLevelSelection();    
         } else {
             this.controller.restartCurrentLevel();
         }
