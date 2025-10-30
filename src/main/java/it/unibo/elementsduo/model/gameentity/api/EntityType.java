@@ -7,5 +7,6 @@ public enum EntityType {
     LEVER,
     PUSH_BOX,
     MOVING_PLATFORM,
+    GEM,
     BUTTON;
 }
