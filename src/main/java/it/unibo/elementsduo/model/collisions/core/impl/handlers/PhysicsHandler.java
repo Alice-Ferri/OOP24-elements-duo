@@ -22,16 +22,6 @@ public class PhysicsHandler implements CollisionHandler {
         final Collidable objectA = c.getObjectA();
         final Collidable objectB = c.getObjectB();
 
-        if (objectA instanceof ShooterEnemyImpl && objectB instanceof Projectiles ||
-                objectA instanceof Projectiles && objectB instanceof ShooterEnemyImpl) {
-            return;
-        }
-
-        if (objectA instanceof Projectiles && objectB instanceof Player ||
-                objectA instanceof Player && objectB instanceof Projectiles) {
-            return;
-        }
-
         final boolean a = objectA instanceof Movable;
         final boolean b = objectB instanceof Movable;
 
@@ -59,6 +49,14 @@ public class PhysicsHandler implements CollisionHandler {
     public boolean canHandle(Collidable a, Collidable b) {
         if (!a.isSolid() || !b.isSolid())
             return false;
+        if (a instanceof ShooterEnemyImpl && b instanceof Projectiles ||
+                a instanceof Projectiles && b instanceof ShooterEnemyImpl) {
+            return false;
+        }
+        if (a instanceof Projectiles && b instanceof Player ||
+                a instanceof Player && b instanceof Projectiles) {
+            return false;
+        }
         return a instanceof Movable || b instanceof Movable;
     }
 
