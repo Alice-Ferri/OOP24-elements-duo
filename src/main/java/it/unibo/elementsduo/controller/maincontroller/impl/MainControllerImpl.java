@@ -83,29 +83,19 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     }
 
     public void startNewGame() {
-        final ProgressionState defaultState = new ProgressionState(0, 0); 
-        this.progressionManager = new ProgressionManagerImpl(saveManager, defaultState);
-        this.progressionManager.saveGame(); 
-        this.goToLevelSelection();          
+    final ProgressionState defaultState = new ProgressionState(1); 
+    this.initializeProgressionAndStart(defaultState);
     }
 
     public void loadSavedGame() {
-
-        final Optional<ProgressionState> loadedState = saveManager.loadGame();
-        final ProgressionState state = loadedState.orElseGet(() -> {
+        final ProgressionState defaultState = new ProgressionState(1);
+        
+        final ProgressionState state = saveManager.loadGame().orElseGet(() -> {
             System.err.println("Nessun salvataggio trovato o valido. Partita iniziata da capo.");
-            return new ProgressionState(1, 0); 
+            return defaultState; 
         });
 
-        this.progressionManager = new ProgressionManagerImpl(saveManager, state);
-        this.checkController();
-        final int nextLevelToPlay = state.getCurrentLevel();
-
-        if (nextLevelToPlay > MAX_LEVELS) {
-            this.goToLevelSelection();
-        } else {
-            this.startGame(nextLevelToPlay);
-        }
+        this.initializeProgressionAndStart(state);
     }
     
 
@@ -179,5 +169,20 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         );
         this.goToLevelSelection();
     }
+
+    private void initializeProgressionAndStart(final ProgressionState state) {
+
+    this.progressionManager = new ProgressionManagerImpl(saveManager, state);
+    this.progressionManager.saveGame(); 
+    final int nextLevelToPlay = state.getCurrentLevel();
+
+    this.checkController();
+
+    if (nextLevelToPlay > MAX_LEVELS) {
+        this.goToLevelSelection();
+    } else {
+        this.startGame(nextLevelToPlay);
+    }
+}
     
 }
