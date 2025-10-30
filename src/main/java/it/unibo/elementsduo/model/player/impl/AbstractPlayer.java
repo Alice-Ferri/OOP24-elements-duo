@@ -12,7 +12,7 @@ import it.unibo.elementsduo.resources.Vector2D;
 public abstract class AbstractPlayer implements Player {
 
     private static final double RUN_SPEED = 8.0;
-    private static final double JUMP_STRENGTH = 6.0; 
+    private static final double JUMP_STRENGTH = 6.5; 
     private static final double GRAVITY = 9.8;
 
     private double x;
@@ -89,6 +89,11 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setVelocityX(final double vx) {
         this.velocity = new Vector2D(vx, this.velocity.y());
+    }
+
+    @Override
+    public void setVelocityY(final double vy) {
+        this.velocity = new Vector2D(this.velocity.x(), vy);
     }
 
     

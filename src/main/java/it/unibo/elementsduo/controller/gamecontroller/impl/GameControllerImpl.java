@@ -1,22 +1,24 @@
 package it.unibo.elementsduo.controller.gamecontroller.impl;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
-import it.unibo.elementsduo.controller.gameTimer.GameTimer;
+import it.unibo.elementsduo.controller.gamecontroller.impl.GameTimer;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
-import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
-import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
-import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.controller.inputController.api.InputController;
 
@@ -25,108 +27,63 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
-
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.view.LevelPanel;
 
 public class GameControllerImpl implements GameController {
 
     private final Level level;
     private final LevelPanel view;
+    private final GameNavigation controller; 
     private final GameLoop gameLoop;
-    private final GameTimer gameTimer;
-    private final EnemiesMoveManager moveManager;
-    private final GameNavigation controller;
-    private final CollisionManager collisionManager;
-    private final InputController inputController;
-    private final EventManager eventManager = new EventManager();
+    private final EventManager eventManager;
     private final GameState gameState;
+    private final InputController inputController;
+    private final CollisionManager collisionManager;
+    private final EnemiesMoveManager moveManager;
+    private final GameTimer gameTimer;
     private ProgressionManagerImpl progressionManager; 
 
-   public GameControllerImpl(final Level level, final GameNavigation controller, final ProgressionManagerImpl progressionManager) { 
-        this.level = level;
-        this.progressionManager = progressionManager;
-        this.view = new LevelPanel(this.level);
+    public GameControllerImpl(final Level level, final GameNavigation controller, LevelPanel view,final ProgressionManagerImpl progressionManager) {
+        this.level = Objects.requireNonNull(level);
+        this.controller = Objects.requireNonNull(controller);
+        this.view = Objects.requireNonNull(view);
         this.gameLoop = new GameLoop(this);
-        this.gameTimer = new GameTimer();
-        this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
-        this.controller = controller;
-        this.collisionManager = new CollisionManager(this.eventManager);
+        
+        this.eventManager = new EventManager();
         this.inputController = new InputControllerImpl();
-        this.inputController.install();
-        for (Enemy e : this.level.getAllEnemies()) {
-            this.eventManager.subscribe(EnemyDiedEvent.class, e);
-        }
-        gameState = new GameStateImpl(eventManager, level);
-    }
-
-    @Override
-    public void update(double deltaTime) {
-
-        if (gameState.isGameOver()) {
-            handleGameOver();
-            return;
-        }
-
-        this.level.getLivingEnemies().forEach(obj -> {
-            obj.update(deltaTime);
-            if (obj instanceof ShooterEnemyImpl) {
-                ((ShooterEnemyImpl) obj).attack().ifPresent(projectile -> {
-
-                    level.addProjectile(projectile);
-
-                    this.eventManager.subscribe(
-                            ProjectileSolidEvent.class,
-                            projectile);
-                });
-            }
-        });
-        this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
-        this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
-        this.level.getAllInteractiveObstacles().stream()
-                .filter(PushBox.class::isInstance)
-                .map(PushBox.class::cast)
-                .forEach(box -> box.update(deltaTime));
-
-        level.getAllInteractiveObstacles().stream()
-                .filter(PlatformImpl.class::isInstance)
-                .map(PlatformImpl.class::cast)
-                .forEach(p -> p.update(deltaTime));
-        this.collisionManager.manageCollisions(this.level.getAllCollidables());
-        this.level.cleanProjectiles();
-    }
-
-    @Override
-    public void render() {
-        this.view.repaint();
-    }
-
-    public void start() {
-        this.view.setVisible(true);
-        level.setEnemiesMoveManager(moveManager);
-        this.gameLoop.start();
-        this.gameTimer.start();
+        this.gameState = new GameStateImpl(eventManager);
+        this.collisionManager = new CollisionManager(this.eventManager);
+        this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
+        this.gameTimer = new GameTimer();
     }
 
     @Override
     public void activate() {
-        this.start();
-        this.view.getHomeButton().addActionListener(e -> {
-            controller.goToMenu();
-        });
-        this.view.getLevelSelectButton().addActionListener(e -> {
-            controller.goToLevelSelection();
-        });
+        this.inputController.install();
+
+        this.view.getHomeButton().addActionListener(e -> controller.goToMenu());
+        this.view.getLevelSelectButton().addActionListener(e -> controller.goToLevelSelection());
+
+        this.setEnemiesMoveManager(moveManager);
+        this.gameLoop.start();
     }
 
     @Override
     public void deactivate() {
+        
         this.gameLoop.stop();
         this.gameTimer.stop();
         this.inputController.uninstall();
+
+        for (var listener : this.view.getHomeButton().getActionListeners()) {
+            this.view.getHomeButton().removeActionListener(listener);
+        }
+        for (var listener : this.view.getLevelSelectButton().getActionListeners()) {
+            this.view.getLevelSelectButton().removeActionListener(listener);
+        }
     }
 
     @Override
@@ -134,15 +91,82 @@ public class GameControllerImpl implements GameController {
         return this.view;
     }
 
+    @Override
+    public void update(double deltaTime) {
+        if (gameState.isGameOver()) {
+            handleGameOver();
+            return;
+        }
+
+        updateEnemies(deltaTime);
+        updateProjectiles(deltaTime);
+        updatePlayers(deltaTime);
+        updateInteractiveObstacles(deltaTime);
+
+        this.collisionManager.manageCollisions(this.level.getAllCollidables());
+        
+        this.level.cleanInactiveEntities();
+        this.level.cleanProjectiles();
+
+    }
+
+    @Override
+    public void render() {
+        this.view.repaint();
+    }
+
+    private void updateEnemies(double deltaTime) {
+        this.level.getLivingEnemies().forEach(enemy -> {
+            enemy.update(deltaTime);
+            if (enemy instanceof ShooterEnemyImpl shooter) {
+                shooter.attack().ifPresent(projectile -> {
+                    level.addProjectile(projectile);
+                });
+            }
+        });
+    }
+
+    private void updateProjectiles(double deltaTime) {
+        this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
+    }
+
+    private void updatePlayers(double deltaTime) {
+        this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
+    }
+
+    private void updateInteractiveObstacles(double deltaTime) {
+        this.level.getAllInteractiveObstacles().stream()
+                .filter(PushBox.class::isInstance)
+                .map(PushBox.class::cast)
+                .forEach(box -> box.update(deltaTime));
+        this.level.getAllInteractiveObstacles().stream()
+                .filter(PlatformImpl.class::isInstance)
+                .map(PlatformImpl.class::cast)
+                .forEach(p -> p.update(deltaTime));
+    }
+
     private void handleGameOver() {
+        this.gameLoop.stop();
+        SwingUtilities.invokeLater(() -> {
         if (gameState.didWin()) {
-            System.err.println(this.gameTimer.getElapsedSeconds());
-            System.out.println("Gioco Terminato");
+            JOptionPane.showMessageDialog(
+                    this.view, 
+                    "Livello completato!", 
+                    "Vittoria!", 
+                    JOptionPane.INFORMATION_MESSAGE
+                );
             this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),this.gameTimer.getElapsedSeconds(),500);
-            this.controller.goToLevelSelection();    
+            this.controller.goToLevelSelection();
         } else {
             this.controller.restartCurrentLevel();
         }
+    });
     }
 
+    private void setEnemiesMoveManager(final EnemiesMoveManager manager) {
+        this.level.getEntitiesByClass(Enemy.class).stream()
+                .filter(ManagerInjectable.class::isInstance)
+                .map(ManagerInjectable.class::cast)
+                .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));
+    }
 }

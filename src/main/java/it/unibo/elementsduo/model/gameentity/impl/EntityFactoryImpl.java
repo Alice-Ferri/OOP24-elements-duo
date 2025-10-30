@@ -45,6 +45,7 @@ public class EntityFactoryImpl implements EntityFactory{
         map.put('#', EntityType.STATIC_OBSTACLE);
         map.put('A', EntityType.STATIC_OBSTACLE);
         map.put('F', EntityType.STATIC_OBSTACLE);
+        map.put('G', EntityType.STATIC_OBSTACLE);
         map.put('Q', EntityType.STATIC_OBSTACLE);
         map.put('E', EntityType.STATIC_OBSTACLE);
         map.put('K', EntityType.STATIC_OBSTACLE);
@@ -98,8 +99,9 @@ public class EntityFactoryImpl implements EntityFactory{
                 break;
             case BUTTON:
                 created.add(interactiveObsFactory.createButton(pos));
+                break;
             default:
-                System.err.println("Warning: Unhandled EntityType in factory for symbol '" + symbol + "'");
+                System.err.println("Unhandled EntityType in factory for symbol '" + symbol + "'");
                 break;
         }
         return created; 

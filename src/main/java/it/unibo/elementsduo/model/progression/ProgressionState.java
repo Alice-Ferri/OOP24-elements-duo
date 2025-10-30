@@ -25,7 +25,7 @@ public final class ProgressionState {
      *
      * @param currentLevel the starting level.
      */
-    public ProgressionState(final int currentLevel, final int collectedGems) {
+    public ProgressionState(final int currentLevel) {
         this.currentLevel = currentLevel;
     }
 
@@ -40,17 +40,15 @@ public final class ProgressionState {
      */
     public void addLevelCompletionTime(final int levelNumber, final double timeSeconds, final int gemsCollected) {
 
-        final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) 
-                                   || timeSeconds < this.levelCompletionTimes.get(levelNumber);
-        
+        final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) || timeSeconds < this.levelCompletionTimes.get(levelNumber);
+    
         if (isNewBestTime) {
             this.levelCompletionTimes.put(levelNumber, timeSeconds);
         }
+        
+        final int currentMaxGems = this.levelGemsCollected.getOrDefault(levelNumber, 0);
 
-        final boolean isNewMaxGems = !this.levelGemsCollected.containsKey(levelNumber) 
-                                  || gemsCollected > this.levelGemsCollected.get(levelNumber);
-
-        if (isNewMaxGems) {
+        if (gemsCollected > currentMaxGems) {
             this.levelGemsCollected.put(levelNumber, gemsCollected);
         }
     }

@@ -25,6 +25,7 @@ public class PlayerEnemyCommand implements CollisionCommand {
     @Override
     public void execute() {
         if (isOn) {
+            enemy.die();
             this.eventManager.notify(new EnemyDiedEvent(enemy));
         } else {
             this.eventManager.notify(new PlayerDiedEvent(player));

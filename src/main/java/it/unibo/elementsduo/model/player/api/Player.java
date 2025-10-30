@@ -51,7 +51,7 @@ public interface Player extends Collidable, Movable, GameEntity {
     boolean isOnExit();
 
     /**
-     * Moves the player horizontally by the given delta value.
+     * Moves the player horizontally by the delta value.
      *
      * @param dx the horizontal movement delta
      */
@@ -94,6 +94,11 @@ public interface Player extends Collidable, Movable, GameEntity {
      *  Set velocity on x.
      */
     void setVelocityX(double vx);
+
+    /*
+     *  Set velocity on y.
+     */
+    void setVelocityY(double vy);
 
     /*
      * Set the condition on exit.
