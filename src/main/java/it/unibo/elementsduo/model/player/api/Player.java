@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.player.api;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.controller.impl.InputController;
 
 /**
  * Represents a player entity in the game.
@@ -81,21 +82,34 @@ public interface Player extends Collidable, Movable {
      */
     void setAirborne();
 
+    /**
+     * Sets the X component of the velocity.
+     *
+     * @param vx the velocity value along the X axis
+     */
     void setVelocityX(double vx);
-    void setVelocityY(double vy);
-
-    void update (double deltaTime, InputController input);
 
     /**
-     * Returns the specific player type (e.g. {@link PlayerType#FIREBOY} or
-     * {@link PlayerType#WATERGIRL}).
+     * Sets the Y component of the velocity.
+     *
+     * @param vy the velocity value along the Y axis
+     */
+    void setVelocityY(double vy);
+
+    /**
+     * Updates the object's state based on the elapsed time and player input.
+     *
+     * @param deltaTime the time elapsed since the last update, in seconds
+     * @param input     the object containing the player's input state
+     */
+    void update(double deltaTime, InputController input);
+
+    /**
+     * Returns the specific player type FIREBOY or WATERGIRL
      *
      * @return the type of this player
      */
     PlayerType getPlayerType();
-
-
-    
 
     /**
      * Returns the width of the player's bounding box.
