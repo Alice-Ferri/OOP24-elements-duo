@@ -43,8 +43,7 @@ public final class ProgressionManagerImpl {
 
         final int nextLevel = completedLevel + 1; 
 
-        this.currentState.addLevelCompletionTime(completedLevel, timeMillis);
-        this.currentState.setCollectedGems(this.currentState.getCollectedGems() + gemsCollected);
+        this.currentState.addLevelCompletionTime(completedLevel, timeMillis,gemsCollected);
         this.currentState.setCurrentLevel(nextLevel);
 
         this.saveLoadManager.saveGame(this.currentState);

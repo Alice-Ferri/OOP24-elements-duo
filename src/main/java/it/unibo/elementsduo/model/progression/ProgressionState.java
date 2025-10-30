@@ -12,6 +12,7 @@ public final class ProgressionState {
     private int currentLevel; 
     private int collectedGems; 
     private final Map<Integer, Long> levelCompletionTimes = new HashMap<>(); 
+    private final Map<Integer, Integer> levelGemsCollected = new HashMap<>();
 
     /**
      * Default constructor for ProgressionState.
@@ -37,18 +38,18 @@ public final class ProgressionState {
      * @param levelNumber the number of the level completed.
      * @param timeMillis the time taken to complete the level, in milliseconds.
      */
-    public void addLevelCompletionTime(final int levelNumber, final long timeMillis) {
+    public void addLevelCompletionTime(final int levelNumber, final long timeMillis, final int gemsCollected) {
 
         if (this.levelCompletionTimes.containsKey(levelNumber)) {
 
-            final long oldTime = this.levelCompletionTimes.get(levelNumber);
-            if (timeMillis < oldTime) {
-                this.levelCompletionTimes.put(levelNumber, timeMillis);
-        }
-        } else {
+        if (!this.levelCompletionTimes.containsKey(levelNumber) || timeMillis < this.levelCompletionTimes.get(levelNumber)) {
             this.levelCompletionTimes.put(levelNumber, timeMillis);
-            System.out.println("Primo completamento del Livello " + levelNumber + " registrato.");
         }
+        
+        if (!this.levelGemsCollected.containsKey(levelNumber) || gemsCollected > this.levelGemsCollected.get(levelNumber)) {
+            this.levelGemsCollected.put(levelNumber, gemsCollected);
+        }
+    }
     }
 
     /**
