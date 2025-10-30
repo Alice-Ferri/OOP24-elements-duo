@@ -5,10 +5,10 @@ import javax.swing.JPanel;
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
+import it.unibo.elementsduo.controller.gamecontroller.impl.GameTimer;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
-import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
@@ -135,9 +135,8 @@ public class GameControllerImpl implements GameController {
 
     private void handleGameOver() {
         if (gameState.didWin()) {
-            System.err.println(this.gameTimer.getElapsedSeconds());
             System.out.println("Gioco Terminato");
-            this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),this.gameTimer.getElapsedSeconds(),500);
+            this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),this.gameTimer.getElapsedSeconds(),this.gameState.getGemsCollected());
             this.controller.goToLevelSelection();    
         } else {
             this.controller.restartCurrentLevel();

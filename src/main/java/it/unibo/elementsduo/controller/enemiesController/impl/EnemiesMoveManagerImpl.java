@@ -16,9 +16,9 @@ import it.unibo.elementsduo.resources.Position;
  */
 public final class EnemiesMoveManagerImpl implements EnemiesMoveManager { 
 
-    private static final double EDGE_CHECK_VERTICAL_DISTANCE = 0.05; 
-    private static final double EDGE_CHECK_HORIZONTAL_OFFSET = 0.51; 
-    private static final double EDGE_CHECK_HALF_WIDTH = 0.1; 
+    private static final double CHECK_DROP_DISTANCE = 0.05;
+    private static final double CHECK_FORWARD_OFFSET = 0.51;
+    private static final double CHECK_HITBOX_WIDTH = 0.2;
 
     private final Set<obstacle> obstacles;
 
@@ -33,14 +33,11 @@ public final class EnemiesMoveManagerImpl implements EnemiesMoveManager {
 
     /**
      * {@inheritDoc}
-     * Handles edge detection for the given enemy. If the enemy is at the edge 
-     * of a platform or near a gap, its direction is reversed.
-     *
-     * @param enemy the enemy instance to check.
+     * If the enemy is at the edge of a platform or near a gap, its direction is reversed.
      */
     @Override
     public void handleEdgeDetection(final Enemy enemy) {
-        final HitBox edgeCheckHitBox = getNextStepHitBox(enemy.getHitBox(), enemy.getX(), enemy.getY(), enemy.getDirection());
+        final HitBox edgeCheckHitBox = createEdgeCheckHitBox(enemy);
 
         final boolean isEdge = this.obstacles.stream()
             .noneMatch(obstacle -> obstacle.getHitBox().intersects(edgeCheckHitBox));
@@ -52,28 +49,24 @@ public final class EnemiesMoveManagerImpl implements EnemiesMoveManager {
 
     /**
      * Calculates the HitBox for checking the edge of a platform.
-     * This HitBox extends slightly forward and drops slightly below the enemy's feet.
+     * The box is created slightly forward (in the direction of travel) and 
+     * slightly below the enemy's expected foot position.
      *
-     * @param hitbox the enemy's current HitBox.
-     * @param x the enemy's current X position.
-     * @param y the enemy's current Y position.
-     * @param direction the enemy's current movement direction (-1 or 1).
-     *
+     * @param enemy the enemy instance.
      * @return the HitBox used for edge detection.
      */
-    private HitBox getNextStepHitBox(final HitBox hitbox, final double x, final double y, final double direction) {
+    private HitBox createEdgeCheckHitBox(final Enemy enemy) {
+        final double x = enemy.getX();
+        final double y = enemy.getY();
+        final double direction = enemy.getDirection();
+        final double enemyHeight = enemy.getHitBox().getHalfHeight()*2;
 
-        final double checkVerticalDistance = EDGE_CHECK_VERTICAL_DISTANCE; 
-        final double checkHorizontalOffset = EDGE_CHECK_HORIZONTAL_OFFSET; 
+        final double checkBoxCenterX = x + direction * CHECK_FORWARD_OFFSET;
+
+        final double yCenterPosition = y + enemyHeight + CHECK_DROP_DISTANCE;
 
         return new HitBoxImpl(
-            new Position(
-               x + direction * checkHorizontalOffset, 
-                y + hitbox.getHalfHeight() * 2 + checkVerticalDistance
-            ),
-            EDGE_CHECK_HALF_WIDTH, 
-            checkVerticalDistance
-        );
-    }
+            new Position(checkBoxCenterX, yCenterPosition), CHECK_HITBOX_WIDTH, CHECK_DROP_DISTANCE);
+        }
 }
 
