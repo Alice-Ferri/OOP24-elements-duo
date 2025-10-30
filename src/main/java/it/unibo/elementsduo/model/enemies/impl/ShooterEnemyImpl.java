@@ -170,7 +170,7 @@ public final class ShooterEnemyImpl implements Enemy {
     @Override
     public void onEvent(final Event event) { 
         if (event instanceof EnemyDiedEvent) {
-            this.die(); 
+
         }
     }
 
