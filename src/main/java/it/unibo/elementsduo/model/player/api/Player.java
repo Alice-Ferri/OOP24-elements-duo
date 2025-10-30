@@ -1,18 +1,20 @@
 package it.unibo.elementsduo.model.player.api;
 
+import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
-import it.unibo.elementsduo.controller.impl.InputController;
+import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 
 /**
  * Represents a player entity in the game.
- * 
- * A {@code Player} is both {@link Collidable} and {@link Movable}, and defines
- * basic physical behavior such as movement, jumping, and collision handling.
- * 
+ * A {@code Player} is both {@link Collidable} and {@link Movable}.
  */
 
-public interface Player extends Collidable, Movable {
+public interface Player extends Collidable, Movable, GameEntity {
+
+    /** Default player dimensions. */
+    final static double DEFAULT_WIDTH = 0.8;
+    final static double DEFAULT_HEIGHT = 1.0;
 
     /**
      * Returns the current horizontal position of the player.
@@ -43,7 +45,14 @@ public interface Player extends Collidable, Movable {
     boolean isOnGround();
 
     /**
-     * Moves the player horizontally by the given delta value.
+     * Returns whether the player is currently on the exit.
+     *
+     * @return {@code true} if the player is on the exit, {@code false} otherwise
+     */
+    boolean isOnExit();
+
+    /**
+     * Moves the player horizontally by the delta value.
      *
      * @param dx the horizontal movement delta
      */
@@ -83,29 +92,37 @@ public interface Player extends Collidable, Movable {
     void setAirborne();
 
     /**
-     * Sets the X component of the velocity.
-     *
-     * @param vx the velocity value along the X axis
+     *  Set velocity on x.
+     * 
+     *  @param vx velocity to set.
      */
     void setVelocityX(double vx);
 
     /**
-     * Sets the Y component of the velocity.
-     *
-     * @param vy the velocity value along the Y axis
+     *  Set velocity on y.
+     * 
+     *  @param vy velocity to set.
      */
     void setVelocityY(double vy);
 
     /**
-     * Updates the object's state based on the elapsed time and player input.
-     *
-     * @param deltaTime the time elapsed since the last update, in seconds
-     * @param input     the object containing the player's input state
+     * Set the condition on exit.
+     * 
+     * @param condition to set on exit.
      */
-    void update(double deltaTime, InputController input);
+    void setOnExit(boolean condition);
 
     /**
-     * Returns the specific player type FIREBOY or WATERGIRL
+     * Updating the state of the player.
+     * 
+     * @param deltaTime the time elapsed since the last update.
+     * 
+     * @param inputController the controller that provides the player's input.
+     */
+    void update(double deltaTime, InputController inputController);
+
+    /**
+     * Returns the specific player type.
      *
      * @return the type of this player
      */
@@ -117,7 +134,7 @@ public interface Player extends Collidable, Movable {
      * @return the player's width
      */
     default double getWidth() {
-        return 0.8;
+        return DEFAULT_WIDTH;
     }
 
     /**
@@ -126,6 +143,6 @@ public interface Player extends Collidable, Movable {
      * @return the player's height
      */
     default double getHeight() {
-        return 1.0;
+        return DEFAULT_HEIGHT;
     }
 }
