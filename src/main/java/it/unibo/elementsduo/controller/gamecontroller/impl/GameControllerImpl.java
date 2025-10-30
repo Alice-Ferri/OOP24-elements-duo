@@ -5,8 +5,9 @@ import javax.swing.JPanel;
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
+import it.unibo.elementsduo.controller.gameTimer.GameTimer;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
-import it.unibo.elementsduo.controller.impl.InputController;
+import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
@@ -17,6 +18,7 @@ import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+import it.unibo.elementsduo.controller.inputController.api.InputController;
 
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
@@ -35,10 +37,11 @@ public class GameControllerImpl implements GameController {
     private final Level level;
     private final LevelPanel view;
     private final GameLoop gameLoop;
+    private final GameTimer gameTimer;
     private final EnemiesMoveManager moveManager;
     private final GameNavigation controller;
     private final CollisionManager collisionManager;
-    private final InputController inputController = new InputController();
+    private final InputController inputController;
     private final EventManager eventManager = new EventManager();
     private final GameState gameState;
     private ProgressionManagerImpl progressionManager; 
@@ -48,9 +51,11 @@ public class GameControllerImpl implements GameController {
         this.progressionManager = progressionManager;
         this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
+        this.gameTimer = new GameTimer();
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.controller = controller;
         this.collisionManager = new CollisionManager(this.eventManager);
+        this.inputController = new InputControllerImpl();
         this.inputController.install();
         for (Enemy e : this.level.getAllEnemies()) {
             this.eventManager.subscribe(EnemyDiedEvent.class, e);
@@ -103,6 +108,7 @@ public class GameControllerImpl implements GameController {
         this.view.setVisible(true);
         level.setEnemiesMoveManager(moveManager);
         this.gameLoop.start();
+        this.gameTimer.start();
     }
 
     @Override
@@ -119,6 +125,7 @@ public class GameControllerImpl implements GameController {
     @Override
     public void deactivate() {
         this.gameLoop.stop();
+        this.gameTimer.stop();
         this.inputController.uninstall();
     }
 

@@ -1,18 +1,16 @@
-package it.unibo.elementsduo.controller.impl;
+package it.unibo.elementsduo.controller.inputController.impl;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
-public final class InputController implements KeyEventDispatcher {
+public final class InputControllerImpl implements KeyEventDispatcher, InputController {
 
     private final EnumMap<PlayerType, DirectionScheme> playerControls = new EnumMap<>(PlayerType.class);
 
@@ -23,7 +21,7 @@ public final class InputController implements KeyEventDispatcher {
     private boolean enabled = true;
     private boolean installed = false;
 
-    public InputController() {
+    public InputControllerImpl() {
         playerControls.put(PlayerType.FIREBOY, new DirectionScheme(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W));
         playerControls.put(PlayerType.WATERGIRL,
                 new DirectionScheme(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP));
@@ -100,5 +98,16 @@ public final class InputController implements KeyEventDispatcher {
             this.right = right;
             this.jump = jump;
         }
+    }
+
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }
