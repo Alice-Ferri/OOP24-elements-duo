@@ -17,6 +17,7 @@ public class ProjectileSolidCommand implements CollisionCommand {
 
     @Override
     public void execute() {
+        projectile.deactivate();
         this.eventManager.notify(new ProjectileSolidEvent(projectile));
     }
 
