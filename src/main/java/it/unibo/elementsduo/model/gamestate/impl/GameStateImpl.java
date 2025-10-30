@@ -9,14 +9,11 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.FireExitEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.GemCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent; 
 import it.unibo.elementsduo.model.gamestate.api.GameState;
-import it.unibo.elementsduo.model.map.level.api.Level;
 
 public class GameStateImpl implements EventListener, GameState {
 
-    private final Level level;
     private boolean gameOver = false;
     private boolean won = false;
     private int gemsCollected = 0;
@@ -24,17 +21,14 @@ public class GameStateImpl implements EventListener, GameState {
     private boolean fireboyReachedExit = false; 
     private boolean watergirlReachedExit = false; 
 
-    public GameStateImpl(final EventManager eventManager, final Level level) {
+    public GameStateImpl(final EventManager eventManager) {
         Objects.requireNonNull(eventManager);
-        Objects.requireNonNull(level);
-        this.level = level;
 
         eventManager.subscribe(PlayerDiedEvent.class, this);
         eventManager.subscribe(GemCollectedEvent.class, this);
         eventManager.subscribe(EnemyDiedEvent.class, this);
         eventManager.subscribe(FireExitEvent.class, this);
         eventManager.subscribe(WaterExitEvent.class, this);
-        eventManager.subscribe(ProjectileSolidEvent.class, this);
     }
 
     @Override
@@ -42,8 +36,6 @@ public class GameStateImpl implements EventListener, GameState {
         if (gameOver) {
             return;
         }
-
-        boolean checkWin = false;
 
         if (event instanceof PlayerDiedEvent e) {
             handlePlayerDied(e);
@@ -53,27 +45,16 @@ public class GameStateImpl implements EventListener, GameState {
             handleEnemyDied(e);
         } else if (event instanceof FireExitEvent e) { 
             handleFireReachedExit(e);
-            checkWin = true;
+            checkGameWinCondition();
         } else if (event instanceof WaterExitEvent e) {
             handleWaterReachedExit(e);
-            checkWin = true;
-        }
-        else if (event instanceof ProjectileSolidEvent e) {
-            handleProj(e);
-            checkWin = true;
-        }
-
-        if (checkWin) {
             checkGameWinCondition();
         }
+
     }
 
-    private void handleProj(ProjectileSolidEvent e) {
-        e.getProjectile().deactivate();
-    }
 
     private void handleEnemyDied(EnemyDiedEvent e) {
-        e.getEnemy().die();
         this.deadEnemies++;
     }
 
@@ -86,18 +67,15 @@ public class GameStateImpl implements EventListener, GameState {
     }
 
     private void handleFireReachedExit(FireExitEvent e) {
-        System.out.println("fire uscito");
         this.fireboyReachedExit = true;
     }
 
     private void handleWaterReachedExit(WaterExitEvent e) {
-        System.out.println("acqua uscito");
         this.watergirlReachedExit = true;
     }
 
     private void checkGameWinCondition() {
         if (!gameOver && this.fireboyReachedExit && this.watergirlReachedExit) {
-            System.out.println("Vinto");
             endGame(true);
         }
     }

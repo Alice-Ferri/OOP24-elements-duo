@@ -52,7 +52,7 @@ public class GameControllerImpl implements GameController {
         for (Enemy e : this.level.getAllEnemies()) {
             this.eventManager.subscribe(EnemyDiedEvent.class, e);
         }
-        gameState = new GameStateImpl(eventManager, level);
+        gameState = new GameStateImpl(eventManager);
     }
 
     @Override
