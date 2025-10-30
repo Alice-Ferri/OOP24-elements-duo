@@ -40,11 +40,11 @@ public class GameControllerImpl implements GameController {
     private final EventManager eventManager = new EventManager();
     private final GameState gameState;
 
-    public GameControllerImpl(final Level level, final GameNavigation controller) {
+    public GameControllerImpl(final Level level, final GameNavigation controller,final LevelPanel view) {
 
         this.level = level;
         this.controller = controller;
-        this.view = new LevelPanel(this.level);
+        this.view = view;
         this.gameLoop = new GameLoop(this);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.collisionManager = new CollisionManager(this.eventManager);

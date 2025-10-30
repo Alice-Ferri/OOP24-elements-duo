@@ -15,9 +15,9 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.player.impl.Fireboy;
+import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 
 public class MapValidatorImpl implements MapValidator{
@@ -40,10 +40,10 @@ public class MapValidatorImpl implements MapValidator{
     }
 
     private void checkSpawnsAndExits(final Level level) throws InvalidMapException{
-        if (level.getEntitiesByClass(fireSpawn.class).size() != 1) {
+        if (level.getEntitiesByClass(Fireboy.class).size() != 1) {
             throw new InvalidMapException("La mappa deve avere esattamente 1 fire spawn.");
         }
-        if (level.getEntitiesByClass(waterSpawn.class).size() != 1) {
+        if (level.getEntitiesByClass(Watergirl.class).size() != 1) {
             throw new InvalidMapException("La mappa deve avere esattamente 1 water spawn.");
         }
         if (level.getEntitiesByClass(fireExit.class).size() != 1) {
@@ -128,10 +128,10 @@ public class MapValidatorImpl implements MapValidator{
         
         final Set<Position> emptySpace = calculateEmptySpace(dims, blockedPositions);
 
-        final Position fireSpawnPos = getObstaclePos(level.getEntitiesByClass(fireSpawn.class).iterator().next());
-        final Position fireExitPos = getObstaclePos(level.getEntitiesByClass(fireExit.class).iterator().next());
-        final Position waterSpawnPos = getObstaclePos(level.getEntitiesByClass(waterSpawn.class).iterator().next());
-        final Position waterExitPos = getObstaclePos(level.getEntitiesByClass(waterExit.class).iterator().next());
+        final Position fireSpawnPos = level.getEntitiesByClass(Fireboy.class).iterator().next().getHitBox().getCenter();
+        final Position fireExitPos = level.getEntitiesByClass(fireExit.class).iterator().next().getHitBox().getCenter();
+        final Position waterSpawnPos = level.getEntitiesByClass(Watergirl.class).iterator().next().getHitBox().getCenter();
+        final Position waterExitPos = level.getEntitiesByClass(waterExit.class).iterator().next().getHitBox().getCenter();
 
         checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, emptySpace);
         checkPathForPlayer("Water", waterSpawnPos, waterExitPos, emptySpace);
