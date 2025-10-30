@@ -2,6 +2,7 @@ package it.unibo.elementsduo.controller;
 
 import java.util.Objects;
 
+import it.unibo.elementsduo.controller.gameTimer.GameTimer;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 
 public class GameLoop implements Runnable {
@@ -10,6 +11,7 @@ public class GameLoop implements Runnable {
     private volatile boolean running = false;
     private Thread gameThread;
     private final GameController engine;
+    private GameTimer gameTime;
 
     public GameLoop (final GameController engine) {
         this.engine = Objects.requireNonNull(engine);
@@ -22,6 +24,7 @@ public class GameLoop implements Runnable {
             running = true;
             gameThread = new Thread(this);
             gameThread.start();
+            gameTime.start();
         }
     }
 
@@ -29,6 +32,7 @@ public class GameLoop implements Runnable {
         if (!running) {
             return;
         }
+        gameTime.stop();
         running = false;
         if (gameThread != null) {
             gameThread.interrupt(); 
