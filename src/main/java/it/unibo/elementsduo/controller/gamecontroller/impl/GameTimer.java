@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller.gameTimer;
+package it.unibo.elementsduo.controller.gamecontroller.impl;
 
 
 public class GameTimer implements Runnable {
