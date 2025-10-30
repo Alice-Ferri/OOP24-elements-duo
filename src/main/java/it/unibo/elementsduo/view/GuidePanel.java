@@ -30,15 +30,19 @@ public class GuidePanel extends JPanel {
         centerPanel.add(createCenteredLabel("=== Obiettivo ===", true));
         centerPanel.add(createCenteredLabel("Raggiungi l'uscita del livello con entrambi i personaggi!", false));
         centerPanel.add(Box.createVerticalStrut(25));
-
+        
         centerPanel.add(createCenteredLabel("=== Comandi Fireboy ===", true));
-        centerPanel.add(createCenteredLabel("A / W / D : Muovi Fireboy (sinistra, salto, destra)", false));
+        centerPanel.add(createCenteredLabel("A : Muovi a sinistra", false));
+        centerPanel.add(createCenteredLabel("D : Muovi a destra", false));
+        centerPanel.add(createCenteredLabel("W : Salta", false));
         centerPanel.add(Box.createVerticalStrut(25));
 
         centerPanel.add(createCenteredLabel("=== Comandi Watergirl ===", true));
-        centerPanel.add(createCenteredLabel("Freccia sinistra/destra : Muovi Watergirl", false));
-        centerPanel.add(createCenteredLabel("Freccia su : Salto", false));
+        centerPanel.add(createCenteredLabel("Freccia sinistra : Muovi a sinistra", false));
+        centerPanel.add(createCenteredLabel("Freccia destra : Muovi a destra", false));
+        centerPanel.add(createCenteredLabel("Freccia su : Salta", false));
         centerPanel.add(Box.createVerticalStrut(25));
+
 
         centerPanel.add(createCenteredLabel("=== Punteggio ===", true));
         centerPanel.add(createCenteredLabel("- Tempo impiegato per completare il livello", false));
