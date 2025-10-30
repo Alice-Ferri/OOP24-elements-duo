@@ -13,6 +13,8 @@ import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
@@ -53,7 +55,7 @@ public class GameControllerImpl implements GameController {
         this.view.getHomeButton().addActionListener(e -> controller.goToMenu());
         this.view.getLevelSelectButton().addActionListener(e -> controller.goToLevelSelection());
 
-        level.setEnemiesMoveManager(moveManager);
+        this.setEnemiesMoveManager(moveManager);
         this.gameLoop.start();
     }
 
@@ -90,8 +92,9 @@ public class GameControllerImpl implements GameController {
 
         this.level.getAllPlayers().forEach(p -> p.setOnExit(false)); 
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
+        
+        this.level.cleanInactiveEntities();
 
-        this.level.cleanProjectiles();
     }
 
     @Override
@@ -144,5 +147,12 @@ public class GameControllerImpl implements GameController {
             this.controller.restartCurrentLevel();
         }
     });
+    }
+
+    private void setEnemiesMoveManager(final EnemiesMoveManager manager) {
+        this.level.getEntitiesByClass(Enemy.class).stream()
+                .filter(ManagerInjectable.class::isInstance)
+                .map(ManagerInjectable.class::cast)
+                .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));
     }
 }

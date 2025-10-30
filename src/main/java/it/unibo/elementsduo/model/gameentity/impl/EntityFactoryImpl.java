@@ -99,6 +99,7 @@ public class EntityFactoryImpl implements EntityFactory{
                 break;
             case BUTTON:
                 created.add(interactiveObsFactory.createButton(pos));
+                break;
             default:
                 System.err.println("Unhandled EntityType in factory for symbol '" + symbol + "'");
                 break;

@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
@@ -22,10 +19,9 @@ import it.unibo.elementsduo.model.player.api.Player;
 public class LevelImpl implements Level {
 
     private final Set<GameEntity> gameEntities;
-    private final Set<Projectiles> projectiles = new HashSet<>();
 
     public LevelImpl(final Set<GameEntity> gameEntities) {
-        this.gameEntities = Set.copyOf(Objects.requireNonNull(gameEntities));
+        this.gameEntities = new HashSet<>(Objects.requireNonNull(gameEntities));
     }
 
     @Override
@@ -70,40 +66,53 @@ public class LevelImpl implements Level {
 
     @Override
     public Set<Projectiles> getAllProjectiles() {
-        return Set.copyOf(this.projectiles);
+        return getEntitiesByClass(Projectiles.class);
     }
 
     @Override
     public void addProjectile(final Projectiles p) {
         if (p != null) {
-            this.projectiles.add(p);
+            this.gameEntities.add(p);
         }
     }
 
     @Override
     public void cleanProjectiles() {
-        this.projectiles.removeIf(proj -> !proj.isActive());
+        this.gameEntities.removeIf(e -> {
+            if (e instanceof Projectiles p) {
+                return !p.isActive(); 
+            }
+            return false;
+        });
     }
-
+    
     @Override
-    public void setEnemiesMoveManager(final EnemiesMoveManager manager) {
-        this.getEntitiesByClass(Enemy.class).stream()
-                .filter(ManagerInjectable.class::isInstance)
-                .map(ManagerInjectable.class::cast)
-                .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));
+    public void cleanInactiveEntities() {
+        this.gameEntities.removeIf(entity -> {
+            if (entity instanceof Projectiles p) {
+                return !p.isActive();
+            }
+            if (entity instanceof Enemy e) {
+                return !e.isAlive();
+            }
+            return false; 
+        });
     }
 
     @Override
     public List<Collidable> getAllCollidables() {
-        Stream<? extends GameEntity> entityStream = this.gameEntities.stream();
-        Stream<? extends Projectiles> projectileStream = this.projectiles.stream()
-                                                                .filter(Projectiles::isActive);
+        return this.gameEntities.stream()
+                .filter(Collidable.class::isInstance)
+                .map(Collidable.class::cast)
+                .collect(Collectors.toList());
+    }
 
-        return Stream.concat(entityStream, projectileStream)
-                     .filter(Collidable.class::isInstance)
-                     .filter(collidable -> !(collidable instanceof Enemy) || ((Enemy) collidable).isAlive())
-                     .map(Collidable.class::cast)
-                     .collect(Collectors.toList());
+    @Override
+    public Set<Updatable> getAllUpdatables() {
+        return this.gameEntities.stream()
+                .filter(Updatable.class::isInstance)
+                .map(Updatable.class::cast)
+                .collect(Collectors.toSet());
     }
 
 }
