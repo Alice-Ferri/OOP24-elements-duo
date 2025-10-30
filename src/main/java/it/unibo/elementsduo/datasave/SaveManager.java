@@ -44,7 +44,7 @@ public final class SaveManager {
             this.gson.toJson(state, writer);
 
         } catch (final IOException e) { 
-            System.err.println("Errore durante il salvataggio del gioco.");
+            e.printStackTrace();
         }
     }
 
@@ -65,7 +65,6 @@ public final class SaveManager {
             return Optional.of(this.gson.fromJson(reader, ProgressionState.class));
 
         } catch (final IOException | JsonSyntaxException e) { 
-            System.err.println("Errore durante il caricamento o la lettura del file.");
             return Optional.empty(); 
         }
     }

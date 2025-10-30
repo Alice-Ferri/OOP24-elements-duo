@@ -1,7 +1,5 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
-import it.unibo.elementsduo.model.collisions.events.api.Event;
-import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -75,12 +73,12 @@ public final class ProjectilesImpl implements Projectiles {
 
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-
-        final double positionSlop = 0.001;
-        final double correctionPerc = 0.8;
+        
         if (penetration <= 0) {
             return;
         }
+        final double correctionPerc = 0.8;
+        final double positionSlop = 0.001;
         final double depth = Math.max(penetration - positionSlop, 0.0);
         final Vector2D correction = normal.multiply(correctionPerc * depth);
         this.x += correction.x();
@@ -95,13 +93,6 @@ public final class ProjectilesImpl implements Projectiles {
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(new Position(this.x, this.y), PROJECTILE_SIZE, PROJECTILE_SIZE);
-    }
-
-    @Override
-    public void onEvent(final Event event) {
-        if (event instanceof ProjectileSolidEvent) {
-
-        }
     }
 
     @Override

@@ -30,7 +30,6 @@ import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManage
 
 public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSelectionNavigation,MainController{
     
-    private final static int MAX_LEVELS=3;
 
     private final GameFrame mainFrame;
     private Controller currentController;
@@ -44,7 +43,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     private static final String MENU_KEY = "menu";
     private static final String GAME_KEY = "game";
-    private static final String levelKey = "level";
+    private static final String levelkey = "level";
     private static final String SAVE_DIR = "save";
 
     public MainControllerImpl(){
@@ -81,18 +80,19 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         
     }
 
+    @Override
     public void startNewGame() {
         
         initProgressionManager(new ProgressionState());
         this.goToLevelSelection();
     }
 
+    @Override
     public void loadSavedGame() {
         
         final ProgressionState defaultState = new ProgressionState();
         
         final ProgressionState state = saveManager.loadGame().orElseGet(() -> {
-            System.err.println("Nessun salvataggio trovato o valido. Partita iniziata da capo.");
             return defaultState; 
         });
 
@@ -133,8 +133,8 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         final Controller controller = new LevelSelectionController(view,this,this.progressionManager);
         controller.activate();
 
-        mainFrame.addView(view, levelKey);
-        mainFrame.showView(levelKey);
+        mainFrame.addView(view, levelkey);
+        mainFrame.showView(levelkey);
 
         currentController = controller;
 

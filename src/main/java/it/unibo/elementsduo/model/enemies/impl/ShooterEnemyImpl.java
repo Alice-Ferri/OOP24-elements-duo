@@ -2,7 +2,7 @@ package it.unibo.elementsduo.model.enemies.impl;
 
 import java.util.Optional;
 
-import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
+import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
@@ -24,7 +24,7 @@ public final class ShooterEnemyImpl implements Enemy {
     private double y;
     private int direction = 1;
 
-    private Vector2D velocity = new Vector2D(0, 0);
+    private Vector2D velocity ;
     private EnemiesMoveManager moveManager;
     private double shootCooldown;
 
@@ -122,12 +122,12 @@ public final class ShooterEnemyImpl implements Enemy {
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-        final double positionSlop = 0.001; 
-        final double correctionPercent = 0.8;
-
+        
         if (penetration <= 0) {
             return;
         }
+        final double correctionPercent = 0.8;
+        final double positionSlop = 0.001; 
         final double depth = Math.max(penetration - positionSlop, 0.0);
         final Vector2D correction = normal.multiply(correctionPercent * depth);
 
@@ -145,10 +145,6 @@ public final class ShooterEnemyImpl implements Enemy {
         }
 
     }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
