@@ -1,19 +1,25 @@
 package it.unibo.elementsduo.controller.gameTimer;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class GameTimer implements Runnable {
 
-    private static final double CONSTANT_PER_SECONDS = 1000;
+    private static final double MS_PER_SECOND = 1000;
 
     private volatile boolean running = false;
-    private long elapsedTime;
+    private final AtomicLong elapsedTime = new AtomicLong(0);
     private Thread timerThread;
+    private long lastUpdate;
 
 
     @Override
     public void run() {
-        final long startTime = System.currentTimeMillis();
+        lastUpdate = System.currentTimeMillis();
         while (running) {
-            elapsedTime = System.currentTimeMillis() - startTime;
+            long now = System.currentTimeMillis();
+            long delta = now - lastUpdate;
+            elapsedTime.addAndGet(delta);
+            lastUpdate = now;
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -44,6 +50,12 @@ public class GameTimer implements Runnable {
     }
 
     public double getElapsedSeconds() {
-        return elapsedTime / CONSTANT_PER_SECONDS;
+        return elapsedTime.get() / MS_PER_SECOND;
+    }
+
+
+    public synchronized void reset() {
+        elapsedTime.set(0);
+        lastUpdate = System.currentTimeMillis();
     }
 }

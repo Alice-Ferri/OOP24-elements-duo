@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
+import it.unibo.elementsduo.controller.gameTimer.GameTimer;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
@@ -36,6 +37,7 @@ public class GameControllerImpl implements GameController {
     private final Level level;
     private final LevelPanel view;
     private final GameLoop gameLoop;
+    private final GameTimer gameTimer;
     private final EnemiesMoveManager moveManager;
     private final GameNavigation controller;
     private final CollisionManager collisionManager;
@@ -49,6 +51,7 @@ public class GameControllerImpl implements GameController {
         this.progressionManager = progressionManager;
         this.view = new LevelPanel(this.level);
         this.gameLoop = new GameLoop(this);
+        this.gameTimer = new GameTimer();
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.controller = controller;
         this.collisionManager = new CollisionManager(this.eventManager);
@@ -105,6 +108,7 @@ public class GameControllerImpl implements GameController {
         this.view.setVisible(true);
         level.setEnemiesMoveManager(moveManager);
         this.gameLoop.start();
+        this.gameTimer.start();
     }
 
     @Override
@@ -121,6 +125,7 @@ public class GameControllerImpl implements GameController {
     @Override
     public void deactivate() {
         this.gameLoop.stop();
+        this.gameTimer.stop();
         this.inputController.uninstall();
     }
 
