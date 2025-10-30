@@ -26,8 +26,8 @@ import java.util.Set;
 
 public class MapLoader {
 
-    private static final String levelFolder = "levels/";
-    private static final String levelFile = "map%d.txt";
+    private static final String LEVEL_FOLDER = "levels/";
+    private static final String LEVEL_FILE = "map%d.txt";
     private final EntityFactory entityFactory;
 
     public MapLoader(final ObstacleFactory obstacleFactory,
@@ -41,7 +41,7 @@ public class MapLoader {
     }
 
     public Level loadLevel(final int levelNumber) {
-        final String filePath = levelFolder + String.format(levelFile, levelNumber);
+        final String filePath = LEVEL_FOLDER + String.format(LEVEL_FILE, levelNumber);
         return loadLevelFromFile(filePath);
     }
 
@@ -54,9 +54,9 @@ public class MapLoader {
         }
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-            String line;
+            String line = br.readLine();
             int y = 0;
-            while ((line = br.readLine()) != null) {
+            while (line != null) {
                 for (int x = 0; x < line.length(); x++) {
                     final char symbol = line.charAt(x);
                     final Position pos = new Position(x, y);
@@ -65,27 +65,28 @@ public class MapLoader {
 
                 }
                 y++;
+                line = br.readLine();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Errore durante la lettura del file di mappa: " + filePath, e);
+            throw new MapLoadingException("Errore durante la lettura del file di mappa: " + filePath, e);
         }
 
         linkInteractiveObjects(gameEntities);
         return new LevelImpl(gameEntities);
     }
 
-    private void linkInteractiveObjects(Set<GameEntity> interObjs) {
-        List<Lever> levers = interObjs.stream()
+    private void linkInteractiveObjects(final Set<GameEntity> interObjs) {
+        final List<Lever> levers = interObjs.stream()
                 .filter(Lever.class::isInstance)
                 .map(Lever.class::cast)
                 .toList();
 
-        List<button> buttons = interObjs.stream()
+        final List<button> buttons = interObjs.stream()
                 .filter(button.class::isInstance)
                 .map(button.class::cast)
                 .toList();
 
-        List<PlatformImpl> platforms = interObjs.stream()
+        final List<PlatformImpl> platforms = interObjs.stream()
                 .filter(PlatformImpl.class::isInstance)
                 .map(PlatformImpl.class::cast)
                 .toList();

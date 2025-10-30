@@ -9,11 +9,9 @@ import java.util.stream.Collectors;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
@@ -30,17 +28,18 @@ import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 
 public class MapValidatorImpl implements MapValidator{
-
-    private record MapDimensions(int minX, int minY, int maxX, int maxY) { }
+    
     private static final Set<Class<? extends obstacle>> ENEMY_SURFACES = Set.of(
             Floor.class, lavaPool.class, waterPool.class, greenPool.class
     );
     private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
             Floor.class,lavaPool.class, waterPool.class, greenPool.class
     );
+    private record MapDimensions(int minX, int minY, int maxX, int maxY) { }
+    
 
     @Override
-    public void validate(Level level) throws InvalidMapException {
+    public void validate(final Level level) throws InvalidMapException {
         if (level.getAllObstacles().isEmpty()) {
             throw new InvalidMapException("La mappa è vuota.");
         }
