@@ -102,6 +102,7 @@ public class GameStateImpl implements EventListener, GameState {
         return this.gemsCollected;
     }
 
+    @Override
     public int getEnemiesDefeated() {
         return this.deadEnemies;
     }

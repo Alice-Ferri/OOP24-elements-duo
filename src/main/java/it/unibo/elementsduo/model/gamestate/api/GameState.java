@@ -8,4 +8,6 @@ public interface GameState {
     
     int getGemsCollected();
 
+    int getEnemiesDefeated();
+
 }
