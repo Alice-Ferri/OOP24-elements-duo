@@ -73,7 +73,7 @@ public final class ProjectilesImpl implements Projectiles {
 
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-        
+
         if (penetration <= 0) {
             return;
         }

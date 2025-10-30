@@ -24,7 +24,7 @@ public final class ShooterEnemyImpl implements Enemy {
     private double y;
     private int direction = 1;
 
-    private Vector2D velocity ;
+    private Vector2D velocity;
     private EnemiesMoveManager moveManager;
     private double shootCooldown;
 
@@ -122,7 +122,7 @@ public final class ShooterEnemyImpl implements Enemy {
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-        
+
         if (penetration <= 0) {
             return;
         }
@@ -145,6 +145,7 @@ public final class ShooterEnemyImpl implements Enemy {
         }
 
     }
+
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(new Position(this.x, this.y), 1, 1);

@@ -48,11 +48,10 @@ public final class SaveManager {
         }
     }
 
-    /**
-     * Loads the progression state from the JSON file. Uses UTF-8 encoding.
+   /**
+     * Loads the progression state from the JSON file, using UTF-8 encoding.
      *
-     * @return an Optional containing the loaded ProgressionState if successful, 
-     * *or an empty Optional if the file does not exist or an error occurs.
+     * @return an {@link Optional} containing the loaded {@link ProgressionState}, or empty otherwise.
      */
     public Optional<ProgressionState> loadGame() {
         if (!this.savePath.toFile().exists()) {
