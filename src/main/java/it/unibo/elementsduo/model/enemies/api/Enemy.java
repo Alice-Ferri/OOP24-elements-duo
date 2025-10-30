@@ -5,14 +5,13 @@ import java.util.Optional;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
-import it.unibo.elementsduo.model.collisions.events.api.EventListener;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable, ManagerInjectable, Collidable, EventListener, GameEntity {
+public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntity {
 
     /**
      * Attempts to perform an attack action.

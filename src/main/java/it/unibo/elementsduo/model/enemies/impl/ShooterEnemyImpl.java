@@ -3,8 +3,6 @@ package it.unibo.elementsduo.model.enemies.impl;
 import java.util.Optional;
 
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
-import it.unibo.elementsduo.model.collisions.events.api.Event;
-import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
@@ -162,16 +160,6 @@ public final class ShooterEnemyImpl implements Enemy {
     @Override
     public void setMoveManager(final EnemiesMoveManager manager) {
         this.moveManager = manager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onEvent(final Event event) { 
-        if (event instanceof EnemyDiedEvent) {
-
-        }
     }
 
     /**
