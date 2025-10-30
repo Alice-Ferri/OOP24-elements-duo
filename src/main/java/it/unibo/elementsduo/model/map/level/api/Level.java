@@ -33,6 +33,4 @@ public interface Level {
 
     Set<Updatable> getAllUpdatables();
     List<Collidable> getAllCollidables();
-
-    Set<GameEntity> getNonProjectileEntities();
 }
