@@ -3,9 +3,9 @@ package it.unibo.elementsduo.controller.gamecontroller.impl;
 import javax.swing.JPanel;
 
 import it.unibo.elementsduo.controller.GameLoop;
-import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
+import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
-import it.unibo.elementsduo.controller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.impl.InputController;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.api.ProgressionManager;

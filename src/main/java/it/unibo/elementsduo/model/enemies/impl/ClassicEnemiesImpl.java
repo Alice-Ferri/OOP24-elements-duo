@@ -2,7 +2,7 @@ package it.unibo.elementsduo.model.enemies.impl;
 
 import java.util.Optional;
 
-import it.unibo.elementsduo.controller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
@@ -30,7 +30,7 @@ public final class ClassicEnemiesImpl implements Enemy {
 
     /**
      * Constructor for the classic enemy.
-     * 
+     *
      * @param pos the starting position.
      */
     public ClassicEnemiesImpl(final Position pos) {
@@ -93,9 +93,10 @@ public final class ClassicEnemiesImpl implements Enemy {
 
     /**
      * {@inheritDoc}
+     * * @param deltaTime the time elapsed since the last update.
      */
     @Override
-    public void update(double deltaTime) {
+    public void update(final double deltaTime) { 
 
         this.moveManager.handleEdgeDetection(this);
 
@@ -104,15 +105,19 @@ public final class ClassicEnemiesImpl implements Enemy {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-        final double POSITION_SLOP = 0.001;
-        final double CORRECTION_PERCENT = 0.8;
+        final double positionSlop = 0.001; 
+        final double correctionPercent = 0.8;
+
         if (penetration <= 0) {
             return;
         }
-        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+        final double depth = Math.max(penetration - positionSlop, 0.0);
+        final Vector2D correction = normal.multiply(correctionPercent * depth);
 
         this.x += correction.x();
         this.y += correction.y();
@@ -129,24 +134,35 @@ public final class ClassicEnemiesImpl implements Enemy {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMoveManager(final EnemiesMoveManager manager) {
         this.moveManager = manager;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void onEvent(Event event) {
+    public void onEvent(final Event event) { 
         if (event instanceof EnemyDiedEvent) {
-            
+            this.die();
         }
-
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void die() {
         this.alive = false;

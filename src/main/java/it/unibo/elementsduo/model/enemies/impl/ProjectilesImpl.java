@@ -76,13 +76,13 @@ public final class ProjectilesImpl implements Projectiles {
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
 
-        final double POSITION_SLOP = 0.001;
-        final double CORRECTION_PERCENT = 0.8;
+        final double positionSlop = 0.001;
+        final double correctionPerc = 0.8;
         if (penetration <= 0) {
             return;
         }
-        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+        final double depth = Math.max(penetration - positionSlop, 0.0);
+        final Vector2D correction = normal.multiply(correctionPerc * depth);
         this.x += correction.x();
         this.y += correction.y();
 
@@ -98,7 +98,7 @@ public final class ProjectilesImpl implements Projectiles {
     }
 
     @Override
-    public void onEvent(Event event) {
+    public void onEvent(final Event event) {
         if (event instanceof ProjectileSolidEvent) {
 
         }

@@ -17,8 +17,6 @@ public interface Projectiles extends Movable, EventListener, GameEntity, Collida
     /**
      * Updates the projectile's state, including movement.
      *
-     * @param obstacles the set of obstacles in the game, used for any required
-     *                  logic.
      * @param deltaTime the time elapsed since the last frame.
      */
     void update(double deltaTime);
@@ -60,7 +58,15 @@ public interface Projectiles extends Movable, EventListener, GameEntity, Collida
      */
     double getDirection();
 
+    /**
+     * Gets the collision hitbox of the projectile.
+     *
+     * @return the HitBox instance.
+     */
     HitBox getHitBox();
 
-    void deactivate();
+    /**
+     * Sets the projectile to an inactive state, removing it from the game world.
+     */
+    void deactivate(); 
 }

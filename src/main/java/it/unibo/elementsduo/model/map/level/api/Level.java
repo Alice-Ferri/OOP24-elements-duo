@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.map.level.api;
 import java.util.List;
 import java.util.Set;
 
-import it.unibo.elementsduo.controller.api.EnemiesMoveManager; // Consider moving this responsibility
+import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
