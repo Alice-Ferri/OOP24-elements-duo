@@ -36,6 +36,7 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable, Tr
 
         if (pos.distanceBetween(target) < speed * delta) {
             forward = !forward;
+            this.velocity = Vector2D.ZERO;
         }
     }
 
@@ -52,6 +53,7 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable, Tr
     @Override
     public void deactivate() {
         this.active = false;
+        this.velocity = Vector2D.ZERO;
     }
 
     @Override
