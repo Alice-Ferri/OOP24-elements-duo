@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import java.util.Objects;
+import java.util.stream.Stream;
+
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
@@ -101,7 +103,6 @@ public class GameControllerImpl implements GameController {
         updatePlayers(deltaTime);
         updateInteractiveObstacles(deltaTime);
 
-        this.level.getAllPlayers().forEach(p -> p.setOnExit(false)); 
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
         
         this.level.cleanInactiveEntities();
