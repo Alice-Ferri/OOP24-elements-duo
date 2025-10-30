@@ -5,12 +5,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import java.util.Objects;
-import java.util.stream.Stream;
-
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
-import it.unibo.elementsduo.controller.gamecontroller.impl.GameTimer;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
@@ -21,10 +18,6 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.controller.inputController.api.InputController;
-
-import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
-import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
@@ -46,7 +39,7 @@ public class GameControllerImpl implements GameController {
     private final GameTimer gameTimer;
     private ProgressionManagerImpl progressionManager; 
 
-    public GameControllerImpl(final Level level, final GameNavigation controller, LevelPanel view,final ProgressionManagerImpl progressionManager) {
+    public GameControllerImpl(final Level level, final GameNavigation controller,final LevelPanel view,final ProgressionManagerImpl progressionManager) {
         this.level = Objects.requireNonNull(level);
         this.controller = Objects.requireNonNull(controller);
         this.view = Objects.requireNonNull(view);
@@ -58,6 +51,7 @@ public class GameControllerImpl implements GameController {
         this.collisionManager = new CollisionManager(this.eventManager);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.gameTimer = new GameTimer();
+        this.progressionManager=progressionManager;
     }
 
     @Override
@@ -92,7 +86,7 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public void update(double deltaTime) {
+    public void update(final double deltaTime) {
         if (gameState.isGameOver()) {
             handleGameOver();
             return;
@@ -115,7 +109,7 @@ public class GameControllerImpl implements GameController {
         this.view.repaint();
     }
 
-    private void updateEnemies(double deltaTime) {
+    private void updateEnemies(final double deltaTime) {
         this.level.getLivingEnemies().forEach(enemy -> {
             enemy.update(deltaTime);
             if (enemy instanceof ShooterEnemyImpl shooter) {
@@ -126,15 +120,15 @@ public class GameControllerImpl implements GameController {
         });
     }
 
-    private void updateProjectiles(double deltaTime) {
+    private void updateProjectiles(final double deltaTime) {
         this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
     }
 
-    private void updatePlayers(double deltaTime) {
+    private void updatePlayers(final double deltaTime) {
         this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
     }
 
-    private void updateInteractiveObstacles(double deltaTime) {
+    private void updateInteractiveObstacles(final double deltaTime) {
         this.level.getAllInteractiveObstacles().stream()
                 .filter(PushBox.class::isInstance)
                 .map(PushBox.class::cast)

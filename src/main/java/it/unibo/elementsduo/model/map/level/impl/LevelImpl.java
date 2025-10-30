@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -81,25 +78,12 @@ public class LevelImpl implements Level {
 
     @Override
     public void cleanProjectiles() {
-        this.gameEntities.removeIf(e -> {
-            if (e instanceof Projectiles p) {
-                return !p.isActive(); 
-            }
-            return false;
-        });
+        this.gameEntities.removeIf(e -> e instanceof Projectiles p && !p.isActive());
     }
     
     @Override
     public void cleanInactiveEntities() {
-        this.gameEntities.removeIf(entity -> {
-            if (entity instanceof Projectiles p) {
-                return !p.isActive();
-            }
-            if (entity instanceof Enemy e) {
-                return !e.isAlive();
-            }
-            return false; 
-        });
+        this.gameEntities.removeIf(entity -> (entity instanceof Projectiles p && !p.isActive()) || (entity instanceof Enemy e && !e.isAlive()));
     }
 
     @Override

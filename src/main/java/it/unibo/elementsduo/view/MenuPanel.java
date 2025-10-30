@@ -5,9 +5,9 @@ import javax.swing.JButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
-import java.awt.Component;
 
-public class MenuPanel extends JPanel {
+public final class MenuPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
     
     private final JButton startButton;
     private final JButton loadButton;
@@ -16,11 +16,11 @@ public class MenuPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.startButton = new JButton("Inizia a Giocare");
-        this.startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.startButton.setAlignmentX(CENTER_ALIGNMENT);
         this.startButton.setMaximumSize(new Dimension(300, 80));
 
         this.loadButton = new JButton("Carica Salvataggio");
-        this.loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.loadButton.setAlignmentX(CENTER_ALIGNMENT);
         this.loadButton.setMaximumSize(new Dimension(300, 80));
 
         add(Box.createVerticalGlue());

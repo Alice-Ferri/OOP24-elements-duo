@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.map.level.api;
 import java.util.List;
 import java.util.Set;
 
-import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -18,7 +17,7 @@ public interface Level {
 
     Set<GameEntity> getGameEntities();
 
-    <T extends GameEntity> Set<T> getEntitiesByClass(final Class<T> type);
+    <T extends GameEntity> Set<T> getEntitiesByClass(Class<T> type);
     Set<obstacle> getAllObstacles();
     Set<Enemy> getAllEnemies();
     Set<Enemy> getLivingEnemies();

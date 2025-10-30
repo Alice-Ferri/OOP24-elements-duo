@@ -39,7 +39,7 @@ public class EntityFactoryImpl implements EntityFactory{
             
 
     private static Map<Character, EntityType> buildSymbolRegistry() {
-        Map<Character, EntityType> map = new HashMap<>();
+        final Map<Character, EntityType> map = new HashMap<>();
 
         map.put('P', EntityType.STATIC_OBSTACLE);
         map.put('#', EntityType.STATIC_OBSTACLE);
@@ -68,6 +68,7 @@ public class EntityFactoryImpl implements EntityFactory{
         this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
     }
 
+    @Override
     public Set<GameEntity> createEntities(final char symbol, final Position pos) {
         final EntityType type = SYMBOL_REGISTRY.get(symbol);
 
@@ -101,8 +102,7 @@ public class EntityFactoryImpl implements EntityFactory{
                 created.add(interactiveObsFactory.createButton(pos));
                 break;
             default:
-                System.err.println("Unhandled EntityType in factory for symbol '" + symbol + "'");
-                break;
+                throw new IllegalArgumentException();
         }
         return created; 
     }
