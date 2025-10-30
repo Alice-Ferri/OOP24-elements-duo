@@ -46,17 +46,17 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     @Override
     public void startGame(int levelNumber) {
-        
+
         this.checkController();
         currentLevelNumber = levelNumber;
         
         final Level level = this.mapLoader.loadLevel(currentLevelNumber);
-        try{
+        /*try{
             mapValidator.validate(level);
         }catch (InvalidMapException e){
             handleException(e.getMessage());
             return ;
-        }
+        }*/
 
         final LevelPanel panel = new LevelPanel(level);
         final Controller gameController = new GameControllerImpl(level, this,panel);

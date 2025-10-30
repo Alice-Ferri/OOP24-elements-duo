@@ -11,7 +11,7 @@ import it.unibo.elementsduo.resources.Vector2D;
 public abstract class AbstractPlayer implements Player {
 
     private static final double RUN_SPEED = 8.0;
-    private static final double JUMP_STRENGTH = 6.0; 
+    private static final double JUMP_STRENGTH = 6.5; 
     private static final double GRAVITY = 9.8;
 
     private double x;
