@@ -82,6 +82,7 @@ public interface Player extends Collidable, Movable {
     void setAirborne();
 
     void setVelocityX(double vx);
+    void setVelocityY(double vy);
 
     void update (double deltaTime, InputController input);
 
