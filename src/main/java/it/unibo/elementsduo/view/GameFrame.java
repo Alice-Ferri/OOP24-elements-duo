@@ -5,14 +5,15 @@ import javax.swing.JPanel;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 
-public class GameFrame extends JFrame {
+public final class GameFrame extends JFrame {
+    private static final long serialVersionUID = 1L;
 
     private final CardLayout cardLayout;
     private final JPanel contentPanel;
 
     public GameFrame() {
         this.setTitle("Elements Duo");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(800, 600));
 
         this.cardLayout = new CardLayout();

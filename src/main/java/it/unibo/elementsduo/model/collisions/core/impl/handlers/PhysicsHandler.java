@@ -19,25 +19,39 @@ public class PhysicsHandler implements CollisionHandler {
 
     @Override
     public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        Movable movable = null;
-        Vector2D normal = c.getNormal();
-        if (c.getObjectA() instanceof ShooterEnemyImpl && c.getObjectB() instanceof Projectiles ||
-                c.getObjectA() instanceof ShooterEnemyImpl && c.getObjectB() instanceof Projectiles) {
+        final Collidable objectA = c.getObjectA();
+        final Collidable objectB = c.getObjectB();
+
+        if (objectA instanceof ShooterEnemyImpl && objectB instanceof Projectiles ||
+                objectA instanceof Projectiles && objectB instanceof ShooterEnemyImpl) {
             return;
-        } else if (c.getObjectA() instanceof Projectiles && c.getObjectB() instanceof Player ||
-                c.getObjectA() instanceof Player && c.getObjectB() instanceof Projectiles) {
-            return;
-        }
-        if (c.getObjectA() instanceof Movable m)
-            movable = m;
-        else if (c.getObjectB() instanceof Movable m) {
-            movable = m;
-            normal = normal.multiply(-1);
         }
 
-        if (movable != null) {
-            collisionResponse
-                    .addPhysicsCommand(new PhysicsCorrectionCommand(movable, c.getPenetration(), normal));
+        if (objectA instanceof Projectiles && objectB instanceof Player ||
+                objectA instanceof Player && objectB instanceof Projectiles) {
+            return;
+        }
+
+        final boolean a = objectA instanceof Movable;
+        final boolean b = objectB instanceof Movable;
+
+        if (!a && !b) {
+            return;
+        }
+
+        final Vector2D normal = c.getNormal();
+        final double penetration = c.getPenetration();
+
+        if (a) {
+            final double correction = b ? penetration / 2.0 : penetration;
+            collisionResponse.addPhysicsCommand(
+                    new PhysicsCorrectionCommand((Movable) objectA, objectB, correction, normal));
+        }
+
+        if (b) {
+            final double correction = a ? penetration / 2.0 : penetration;
+            collisionResponse.addPhysicsCommand(
+                    new PhysicsCorrectionCommand((Movable) objectB, objectA, correction, normal.multiply(-1)));
         }
     }
 

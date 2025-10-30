@@ -2,7 +2,6 @@ package it.unibo.elementsduo.controller.maincontroller.impl;
 
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
 import java.nio.file.Paths;
-import java.util.Optional;
 import javax.swing.JOptionPane;
 
 import it.unibo.elementsduo.controller.gamecontroller.impl.GameControllerImpl;
@@ -43,8 +42,8 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     private ProgressionManagerImpl progressionManager;
 
 
-    private static final String menuKey = "menu";
-    private static final String gameKey = "game";
+    private static final String MENU_KEY = "menu";
+    private static final String GAME_KEY = "game";
     private static final String levelKey = "level";
     private static final String SAVE_DIR = "save";
 
@@ -56,7 +55,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     }
 
     @Override
-    public void startGame(int levelNumber) {
+    public void startGame(final int levelNumber) {
 
         this.checkController();
         currentLevelNumber = levelNumber;
@@ -73,10 +72,10 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         final Controller gameController = new GameControllerImpl(level, this,panel,progressionManager);
         gameController.activate();
 
-        final String currentGameKey = gameKey + currentLevelNumber;
-        mainFrame.addView(gameController.getPanel(), currentGameKey);
+        final String currentkey = GAME_KEY + currentLevelNumber;
+        mainFrame.addView(gameController.getPanel(), currentkey);
         this.progressionManager.getCurrentState().setCurrentLevel(levelNumber);
-        mainFrame.showView(currentGameKey);
+        mainFrame.showView(currentkey);
 
         currentController = gameController;
         
@@ -115,11 +114,11 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         currentLevelNumber=-1;
         
         final MenuPanel view = new MenuPanel();
-        final Controller controller = new HomeController(view, this, this::startNewGame, this::loadSavedGame);
+        final Controller controller = new HomeController(view, this);
         controller.activate();
 
-        mainFrame.addView(view, menuKey);
-        mainFrame.showView(menuKey);
+        mainFrame.addView(view, MENU_KEY);
+        mainFrame.showView(MENU_KEY);
 
         currentController = controller;
 
@@ -168,8 +167,7 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         }
     }
 
-
-    private void handleException(String error){
+    private void handleException(final String error){
         JOptionPane.showMessageDialog(
                 this.mainFrame,        
                 error,                 

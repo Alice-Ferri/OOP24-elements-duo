@@ -5,5 +5,9 @@ public interface HomeNavigation {
     void goToLevelSelection();
 
     void quitGame();
+
+    void startNewGame();
+
+    void loadSavedGame();
     
 }
