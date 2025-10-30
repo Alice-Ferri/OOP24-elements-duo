@@ -74,7 +74,6 @@ public class GameControllerImpl implements GameController {
     public void deactivate() {
         
         this.gameLoop.stop();
-        this.gameTimer.stop();
         this.inputController.uninstall();
 
         for (var listener : this.view.getHomeButton().getActionListeners()) {
@@ -146,9 +145,12 @@ public class GameControllerImpl implements GameController {
     }
 
     private void handleGameOver() {
+        this.gameTimer.stop();
         this.gameLoop.stop();
+        
         SwingUtilities.invokeLater(() -> {
         if (gameState.didWin()) {
+            
             JOptionPane.showMessageDialog(
                     this.view, 
                     "Livello completato!", 
