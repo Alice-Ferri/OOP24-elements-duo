@@ -1,6 +1,5 @@
 package it.unibo.elementsduo.controller.gameTimer;
 
-import java.util.concurrent.atomic.AtomicLong;
 
 public class GameTimer implements Runnable {
 
@@ -47,11 +46,6 @@ public class GameTimer implements Runnable {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    public synchronized void reset() {
-        elapsedTime = 0;
-        lastUpdate = 0;
     }
 
     public synchronized double getElapsedSeconds() {
