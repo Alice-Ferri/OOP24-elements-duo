@@ -6,8 +6,8 @@ import javax.swing.SwingUtilities;
 
 import java.util.Objects;
 import it.unibo.elementsduo.controller.GameLoop;
-import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
-import it.unibo.elementsduo.controller.enemiesController.impl.EnemiesMoveManagerImpl;
+import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.controller.enemiescontroller.impl.EnemiesMoveManagerImpl;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
@@ -37,7 +37,7 @@ public class GameControllerImpl implements GameController {
     private final CollisionManager collisionManager;
     private final EnemiesMoveManager moveManager;
     private final GameTimer gameTimer;
-    private ProgressionManagerImpl progressionManager; 
+    private final ProgressionManagerImpl progressionManager; 
 
     public GameControllerImpl(final Level level, final GameNavigation controller,final LevelPanel view,final ProgressionManagerImpl progressionManager) {
         this.level = Objects.requireNonNull(level);
@@ -51,7 +51,6 @@ public class GameControllerImpl implements GameController {
         this.collisionManager = new CollisionManager(this.eventManager);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.gameTimer = new GameTimer();
-        this.progressionManager=progressionManager;
     }
 
     @Override
@@ -72,10 +71,10 @@ public class GameControllerImpl implements GameController {
         this.gameLoop.stop();
         this.inputController.uninstall();
 
-        for (var listener : this.view.getHomeButton().getActionListeners()) {
+        for (final var listener : this.view.getHomeButton().getActionListeners()) {
             this.view.getHomeButton().removeActionListener(listener);
         }
-        for (var listener : this.view.getLevelSelectButton().getActionListeners()) {
+        for (final var listener : this.view.getLevelSelectButton().getActionListeners()) {
             this.view.getLevelSelectButton().removeActionListener(listener);
         }
     }

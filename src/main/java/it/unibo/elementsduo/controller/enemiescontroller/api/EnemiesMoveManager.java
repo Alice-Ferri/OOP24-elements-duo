@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller.enemiesController.api;
+package it.unibo.elementsduo.controller.enemiescontroller.api;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 
@@ -6,6 +6,7 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
  * Defines the contract for classes responsible for managing enemy movement logic,
  * such as detecting edges of platforms or direction reversal due to obstacles.
  */
+@FunctionalInterface
 public interface EnemiesMoveManager {
 
     /**

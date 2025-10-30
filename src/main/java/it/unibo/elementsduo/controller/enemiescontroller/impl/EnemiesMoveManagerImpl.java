@@ -1,8 +1,8 @@
-package it.unibo.elementsduo.controller.enemiesController.impl;
+package it.unibo.elementsduo.controller.enemiescontroller.impl;
 
 import java.util.Set;
 
-import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
+import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;

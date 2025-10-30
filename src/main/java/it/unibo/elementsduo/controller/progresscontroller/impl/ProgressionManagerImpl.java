@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.progression.ProgressionState;
  */
 public final class ProgressionManagerImpl { 
 
-    private ProgressionState currentState;
+    private final ProgressionState currentState;
     private final SaveManager saveLoadManager; 
 
     /**
