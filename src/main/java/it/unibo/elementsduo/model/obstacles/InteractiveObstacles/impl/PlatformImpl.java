@@ -82,6 +82,7 @@ public class PlatformImpl extends AbstractInteractiveObstacle implements Trigger
 
         if (pos.distanceBetween(target) < speed * delta) {
             forward = !forward;
+            this.velocity = Vector2D.ZERO;
         }
     }
 
@@ -101,6 +102,7 @@ public class PlatformImpl extends AbstractInteractiveObstacle implements Trigger
     @Override
     public void deactivate() {
         this.active = false;
+        this.velocity = Vector2D.ZERO;
     }
 
     /** {@inheritDoc} */
