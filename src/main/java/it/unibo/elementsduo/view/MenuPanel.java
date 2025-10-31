@@ -14,10 +14,14 @@ import java.awt.Font;
  * It provides buttons to start a new game or load an existing one.
  */
 public final class MenuPanel extends JPanel {
+
     private static final long serialVersionUID = 1L;
+    private static final int TITLE_FONT_SIZE = 36;
+    private static final String TITLE_FONT_FAMILY = "Arial";
     private static final int BUTTON_MAX_WIDTH = 300;
     private static final int BUTTON_MAX_HEIGHT = 80;
     private static final int VERTICAL_SPACING = 20;
+
     private final JButton startButton;
     private final JButton loadButton;
     private final JButton guideButton;
@@ -30,29 +34,40 @@ public final class MenuPanel extends JPanel {
     public MenuPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JLabel titleLabel = new JLabel("Elements Duo");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        // === Title ===
+        final JLabel titleLabel = new JLabel("Elements Duo");
+        titleLabel.setFont(new Font(TITLE_FONT_FAMILY, Font.BOLD, TITLE_FONT_SIZE));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-        this.startButton = new JButton("Inizia a Giocare");
-        this.startButton.setAlignmentX(CENTER_ALIGNMENT);
-        this.startButton.setMaximumSize(new Dimension(BUTTON_MAX_WIDTH, BUTTON_MAX_HEIGHT));
+        // === Buttons ===
+        this.startButton = createButton("Inizia a Giocare");
+        this.loadButton = createButton("Carica Salvataggio");
+        this.guideButton = createButton("Guida del Gioco");
 
-        this.loadButton = new JButton("Carica Salvataggio");
-        this.loadButton.setAlignmentX(CENTER_ALIGNMENT);
-        this.loadButton.setMaximumSize(new Dimension(BUTTON_MAX_WIDTH, BUTTON_MAX_HEIGHT));
-
-        this.guideButton = new JButton("Guida del Gioco");
-        this.guideButton.setAlignmentX(CENTER_ALIGNMENT);
-        this.guideButton.setMaximumSize(new Dimension(300, 80));
-
+        // === Layout ===
         add(Box.createVerticalGlue());
+        add(titleLabel);
+        add(Box.createRigidArea(new Dimension(0, VERTICAL_SPACING)));
         add(startButton);
         add(Box.createRigidArea(new Dimension(0, VERTICAL_SPACING)));
         add(loadButton);
-        add(Box.createRigidArea(new Dimension(0, 20)));
+        add(Box.createRigidArea(new Dimension(0, VERTICAL_SPACING)));
         add(guideButton);
         add(Box.createVerticalGlue());
+    }
+
+    /**
+     * Utility method to create a button with consistent sizing and alignment.
+     * 
+     * @param text to write on the button
+     * 
+     * @return button created
+     */
+    private JButton createButton(final String text) {
+        final JButton button = new JButton(text);
+        button.setAlignmentX(CENTER_ALIGNMENT);
+        button.setMaximumSize(new Dimension(BUTTON_MAX_WIDTH, BUTTON_MAX_HEIGHT));
+        return button;
     }
 
     /**
@@ -73,6 +88,11 @@ public final class MenuPanel extends JPanel {
         return this.loadButton;
     }
 
+    /**
+     * Returns the instance of the guide game button.
+     *
+     * @return the JButton for guide the game.
+     */
     public JButton getGuideButton() {
         return this.guideButton;
     }
