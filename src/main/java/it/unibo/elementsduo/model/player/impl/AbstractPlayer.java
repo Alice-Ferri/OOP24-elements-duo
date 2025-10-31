@@ -1,8 +1,13 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import it.unibo.elementsduo.controller.inputController.api.InputController;
+import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
+import it.unibo.elementsduo.controller.inputController.impl.InputState;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.resources.Position;
@@ -199,25 +204,28 @@ public abstract class AbstractPlayer implements Player {
         this.y += this.velocity.y() * deltaTime;
     }
 
-    private void handleInput(final InputController input) {
-        final PlayerType type = this.getPlayerType(); 
+    private void handleInput(final InputController controller) {
+        final PlayerType type = this.getPlayerType();
 
-        final boolean left = input.isMoveLeftPressed(type);
-        final boolean right = input.isMoveRightPressed(type);
+        InputState state = controller.getInputState();
 
-        if (left == right) { 
+        final boolean left = state.isActionPressed(type, InputState.Action.LEFT);
+        final boolean right = state.isActionPressed(type, InputState.Action.RIGHT);
+
+        if (left == right) {
             this.setVelocityX(0);
         } else if (left) {
             this.setVelocityX(-RUN_SPEED);
-        } else { 
+        } else {
             this.setVelocityX(RUN_SPEED);
         }
 
-        if (input.isJumpPressed(type)) {
+        if (state.isActionPressed(type, InputState.Action.JUMP)) {
             this.jump(JUMP_STRENGTH);
+            controller.markJumpHandled(type);
         }
     }
-
+    
     /**
      * Returns the player's current hitbox used for collision detection.
      * The hitbox is centered on the player's position.
@@ -239,31 +247,71 @@ public abstract class AbstractPlayer implements Player {
      * @param penetration the overlap depth of the collision
      * @param normal the collision normal vector
      */
-
     @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-
-        if (penetration <= 0) {
-            return;
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
+        if (penetration <= 0) return;
+    
+        if (other instanceof Wall && normal.y() < -0.5) {
+            if (handleHorizontalOverlap((Wall) other)) {
+                return;
+            }
         }
 
-        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+        applyCorrection(normal, penetration);
+
+        handleVertical(normal, other);
+    }
+    
+    private boolean handleHorizontalOverlap(Wall wall) {
+        HitBox playerHitBox = this.getHitBox();
+        HitBox wallHitBox = wall.getHitBox();
+        double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
+        double overlapX = (playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth()) - Math.abs(dx);
+    
+        if (overlapX <= 0) {
+            return false;
+        }
+
+        Vector2D horizontalNormal = new Vector2D(dx > 0 ? 1 : -1, 0);
+        double depth = Math.max(overlapX - POSITION_SLOP, 0.0);
+        Vector2D correction = horizontalNormal.multiply(CORRECTION_PERCENT * depth);
+    
         this.x += correction.x();
         this.y += correction.y();
-
-        final double velocityNormal = this.velocity.dot(normal);
+    
+        double velocityNormal = this.velocity.dot(horizontalNormal);
+        if (velocityNormal < 0) {
+            this.velocity = this.velocity.subtract(horizontalNormal.multiply(velocityNormal));
+        }
+        return true;
+    }
+    
+    private void applyCorrection(Vector2D normal, double penetration) {
+        double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+        Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+    
+        this.x += correction.x();
+        this.y += correction.y();
+    
+        double velocityNormal = this.velocity.dot(normal);
         if (velocityNormal < 0) {
             this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
         }
-
-        final double normalY = normal.y();
+    }
+    
+    private void handleVertical(Vector2D normal, Collidable other) {
+        double normalY = normal.y();
+    
         if (normalY < -0.5) {
             this.onGround = true;
             this.velocity = new Vector2D(this.velocity.x(), 0);
-        } else if (normalY > 0.5) {
+    
+            if (other instanceof PlatformImpl platform) {
+                this.setVelocityY(platform.getVelocity().y());
+            }
+        } else if (normalY > 0.5) { // hitting ceiling
             this.velocity = new Vector2D(this.velocity.x(), 0);
         }
     }
-
 }
+
