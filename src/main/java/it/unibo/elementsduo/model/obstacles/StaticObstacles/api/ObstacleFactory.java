@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleType;
 
 /**
  * Factory for creating static obstacles within the game model.
@@ -16,5 +16,5 @@ public interface ObstacleFactory {
      * @param hitbox The HitBox that defines the obstacle's position and dimension.
      * @return The newly created StaticObstacle object.
      */
-    StaticObstacle createObstacle(obstacleType.type type, HitBox hitbox);
+    StaticObstacle createObstacle(ObstacleType.type type, HitBox hitbox);
 }

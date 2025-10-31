@@ -7,7 +7,7 @@ import it.unibo.elementsduo.model.gameentity.api.EntityType;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
@@ -19,24 +19,23 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class EntityFactoryImpl implements EntityFactory{
+public class EntityFactoryImpl implements EntityFactory {
 
     private final ObstacleFactory obstacleFactory;
     private final EnemyFactory enemyFactory;
     private final InteractiveObstacleFactory interactiveObsFactory;
 
     private static final Map<Character, EntityType> SYMBOL_REGISTRY = buildSymbolRegistry();
-    private static final Map<Character, obstacleType.type> STATIC_TYPE_MAP = Map.of(
-            'P', obstacleType.type.FLOOR,
-            '#', obstacleType.type.WALL,
-            'A', obstacleType.type.WATER_EXIT,
-            'F', obstacleType.type.FIRE_EXIT,
-            'B', obstacleType.type.FIRE_SPAWN,
-            'G', obstacleType.type.GEM,
-            'Q', obstacleType.type.LAVA_POOL,
-            'K', obstacleType.type.GREEN_POOL,
-            'E', obstacleType.type.WATER_POOL);
-            
+    private static final Map<Character, ObstacleType.type> STATIC_TYPE_MAP = Map.of(
+            'P', ObstacleType.type.FLOOR,
+            '#', ObstacleType.type.WALL,
+            'A', ObstacleType.type.WATER_EXIT,
+            'F', ObstacleType.type.FIRE_EXIT,
+            'B', ObstacleType.type.FIRE_SPAWN,
+            'G', ObstacleType.type.GEM,
+            'Q', ObstacleType.type.LAVA_POOL,
+            'K', ObstacleType.type.GREEN_POOL,
+            'E', ObstacleType.type.WATER_POOL);
 
     private static Map<Character, EntityType> buildSymbolRegistry() {
         final Map<Character, EntityType> map = new HashMap<>();
@@ -61,8 +60,8 @@ public class EntityFactoryImpl implements EntityFactory{
         return Collections.unmodifiableMap(map);
     }
 
-    public EntityFactoryImpl(final ObstacleFactory obstacleFactory,final EnemyFactory enemyFactory,final InteractiveObstacleFactory interactiveObsFactory) 
-    {
+    public EntityFactoryImpl(final ObstacleFactory obstacleFactory, final EnemyFactory enemyFactory,
+            final InteractiveObstacleFactory interactiveObsFactory) {
         this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
         this.enemyFactory = Objects.requireNonNull(enemyFactory);
         this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
@@ -77,7 +76,7 @@ public class EntityFactoryImpl implements EntityFactory{
         }
 
         final HitBoxImpl defaultHitbox = new HitBoxImpl(pos, 1, 1);
-        final Set<GameEntity> created = new HashSet<>(); 
+        final Set<GameEntity> created = new HashSet<>();
 
         switch (type) {
             case STATIC_OBSTACLE:
@@ -86,7 +85,7 @@ public class EntityFactoryImpl implements EntityFactory{
             case ENEMY:
                 created.add(enemyFactory.createEnemy(symbol, pos));
                 break;
-            case SPAWN_POINT: 
+            case SPAWN_POINT:
                 created.add((symbol == 'B') ? new Watergirl(pos) : new Fireboy(pos));
                 break;
             case LEVER:
@@ -104,6 +103,6 @@ public class EntityFactoryImpl implements EntityFactory{
             default:
                 throw new IllegalArgumentException();
         }
-        return created; 
+        return created;
     }
 }

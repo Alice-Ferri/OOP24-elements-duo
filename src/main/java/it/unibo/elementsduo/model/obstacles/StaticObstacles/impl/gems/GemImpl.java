@@ -5,30 +5,60 @@ import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Gem;
 import it.unibo.elementsduo.resources.Position;
 
-public class GemImpl implements Gem {
+/**
+ * Implementation of a collectible gem object.
+ * <p>
+ * Each {@code GemImpl} instance represents a collectible item that can be
+ * picked up by a player. Once collected, the gem becomes inactive.
+ */
+public final class GemImpl implements Gem {
 
-    private HitBox hitbox;
+    /** Default size of the gem hitbox. */
+    private static final double gemSize = 0.5;
+
+    /** The hitbox representing the gem's position and size. */
+    private final HitBox hitbox;
+
+    /** Whether the gem is still active (not yet collected). */
     private boolean active = true;
 
-    private static double GEM_SIZE = 0.5;
-
-    public GemImpl(Position pos) {
-        this.hitbox = new HitBoxImpl(pos, GEM_SIZE, GEM_SIZE);
+    /**
+     * Creates a new gem at the specified position.
+     *
+     * @param pos the position where the gem will be placed
+     */
+    public GemImpl(final Position pos) {
+        this.hitbox = new HitBoxImpl(pos, gemSize, gemSize);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return the {@link HitBox} representing the gem’s area
+     */
     @Override
     public HitBox getHitBox() {
         return this.hitbox;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@code true} if the gem is still active and can be collected,
+     *         {@code false} otherwise
+     */
     @Override
     public boolean isActive() {
         return this.active;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Marks the gem as collected, making it inactive.
+     */
     @Override
     public void collect() {
         this.active = false;
     }
-
 }

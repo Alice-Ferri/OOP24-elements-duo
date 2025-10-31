@@ -18,18 +18,16 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
 import it.unibo.elementsduo.view.LevelPanel;
 import it.unibo.elementsduo.view.LevelSelectionPanel;
 import it.unibo.elementsduo.view.MenuPanel;
-import it.unibo.elementsduo.datasave.SaveManager; 
-import it.unibo.elementsduo.model.progression.ProgressionState; 
+import it.unibo.elementsduo.datasave.SaveManager;
+import it.unibo.elementsduo.model.progression.ProgressionState;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 
-
-public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSelectionNavigation,MainController{
-    
+public class MainControllerImpl implements GameNavigation, HomeNavigation, LevelSelectionNavigation, MainController {
 
     private final GameFrame mainFrame;
     private Controller currentController;
@@ -40,16 +38,16 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     private final SaveManager saveManager;
     private ProgressionManagerImpl progressionManager;
 
-
     private static final String MENU_KEY = "menu";
     private static final String GAME_KEY = "game";
     private static final String levelkey = "level";
     private static final String SAVE_DIR = "save";
 
-    public MainControllerImpl(){
+    public MainControllerImpl() {
         this.mainFrame = new GameFrame();
         this.mapValidator = new MapValidatorImpl();
-        mapLoader= new MapLoader(new obstacleFactoryImpl(), new EnemyFactoryImpl(),new InteractiveObstacleFactoryImpl());
+        mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
+                new InteractiveObstacleFactoryImpl());
         this.saveManager = new SaveManager(Paths.get(SAVE_DIR));
     }
 
@@ -58,17 +56,17 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
         this.checkController();
         currentLevelNumber = levelNumber;
-        
+
         final Level level = this.mapLoader.loadLevel(currentLevelNumber);
-        try{
+        try {
             mapValidator.validate(level);
-        }catch (InvalidMapException e){
+        } catch (InvalidMapException e) {
             handleException(e.getMessage());
-            return ;
+            return;
         }
 
         final LevelPanel panel = new LevelPanel(level);
-        final Controller gameController = new GameControllerImpl(level, this,panel,progressionManager);
+        final Controller gameController = new GameControllerImpl(level, this, panel, progressionManager);
         gameController.activate();
 
         final String currentkey = GAME_KEY + currentLevelNumber;
@@ -77,23 +75,23 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         mainFrame.showView(currentkey);
 
         currentController = gameController;
-        
+
     }
 
     @Override
     public void startNewGame() {
-        
+
         initProgressionManager(new ProgressionState());
         this.goToLevelSelection();
     }
 
     @Override
     public void loadSavedGame() {
-        
+
         final ProgressionState defaultState = new ProgressionState();
-        
+
         final ProgressionState state = saveManager.loadGame().orElseGet(() -> {
-            return defaultState; 
+            return defaultState;
         });
 
         initProgressionManager(state);
@@ -101,7 +99,6 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         this.goToLevelSelection();
 
     }
-    
 
     @Override
     public void quitGame() {
@@ -111,8 +108,8 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     @Override
     public void goToMenu() {
         this.checkController();
-        currentLevelNumber=-1;
-        
+        currentLevelNumber = -1;
+
         final MenuPanel view = new MenuPanel();
         final Controller controller = new HomeController(view, this);
         controller.activate();
@@ -127,10 +124,10 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     @Override
     public void goToLevelSelection() {
         this.checkController();
-        currentLevelNumber=-1;
-        
+        currentLevelNumber = -1;
+
         final LevelSelectionPanel view = new LevelSelectionPanel();
-        final Controller controller = new LevelSelectionController(view,this,this.progressionManager);
+        final Controller controller = new LevelSelectionController(view, this, this.progressionManager);
         controller.activate();
 
         mainFrame.addView(view, levelkey);
@@ -146,10 +143,10 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         this.mainFrame.setVisible(true);
     }
 
-    private void checkController(){
-        if(currentController!=null){
+    private void checkController() {
+        if (currentController != null) {
             currentController.deactivate();
-            currentController=null;
+            currentController = null;
         }
     }
 
@@ -159,21 +156,20 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
         if (this.currentLevelNumber != -1) {
             if (this.progressionManager == null) {
-                 this.initProgressionManager(new ProgressionState());
+                this.initProgressionManager(new ProgressionState());
             }
-            this.startGame(this.currentLevelNumber); 
+            this.startGame(this.currentLevelNumber);
         } else {
             this.goToMenu();
         }
     }
 
-    private void handleException(final String error){
+    private void handleException(final String error) {
         JOptionPane.showMessageDialog(
-                this.mainFrame,        
-                error,                 
-                "Errore Mappa",       
-                JOptionPane.ERROR_MESSAGE 
-        );
+                this.mainFrame,
+                error,
+                "Errore Mappa",
+                JOptionPane.ERROR_MESSAGE);
         this.goToLevelSelection();
     }
 

@@ -5,9 +5,9 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.waterPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.GreenPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
@@ -51,11 +51,11 @@ public final class PlayerHazardHandler extends AbstractCollisionHandler<Player, 
     @Override
     public void handleCollision(final Player player, final Hazard hazard, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
-        if (player instanceof Fireboy && hazard instanceof waterPool) {
+        if (player instanceof Fireboy && hazard instanceof WaterPool) {
             builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
-        } else if (player instanceof Watergirl && hazard instanceof lavaPool) {
+        } else if (player instanceof Watergirl && hazard instanceof LavaPool) {
             builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
-        } else if (hazard instanceof greenPool) {
+        } else if (hazard instanceof GreenPool) {
             builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         }
     }

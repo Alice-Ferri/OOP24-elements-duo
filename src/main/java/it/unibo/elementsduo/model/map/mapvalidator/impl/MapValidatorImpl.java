@@ -15,9 +15,9 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.waterPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.GreenPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
@@ -30,9 +30,9 @@ import it.unibo.elementsduo.resources.Position;
 public class MapValidatorImpl implements MapValidator {
 
     private static final Set<Class<? extends obstacle>> ENEMY_SURFACES = Set.of(
-            Floor.class, lavaPool.class, waterPool.class, greenPool.class);
+            Floor.class, LavaPool.class, WaterPool.class, GreenPool.class);
     private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
-            Floor.class, lavaPool.class, waterPool.class, greenPool.class);
+            Floor.class, LavaPool.class, WaterPool.class, GreenPool.class);
 
     private record MapDimensions(int minX, int minY, int maxX, int maxY) {
     }

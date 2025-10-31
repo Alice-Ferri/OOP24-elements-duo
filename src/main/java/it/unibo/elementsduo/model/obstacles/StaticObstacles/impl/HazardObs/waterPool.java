@@ -4,9 +4,9 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
 
-public class waterPool extends StaticObstacle implements Hazard {
+public class WaterPool extends StaticObstacle implements Hazard {
 
-    public waterPool(HitBox hitBox) {
+    public WaterPool(HitBox hitBox) {
         super(hitBox);
     }
 
