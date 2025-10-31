@@ -5,9 +5,8 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
 import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.player.api.PlayerType;
@@ -44,34 +43,6 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
         handledPress.clear();
     }
 
-    private boolean isMovePressed(PlayerType type, Function<DirectionScheme, Integer> keySelector) {
-        return Optional.ofNullable(playerControls.get(type))
-                       .map(keySelector)
-                       .map(pressed::contains)
-                       .orElse(false);
-    }
-
-    public boolean isMoveLeftPressed(PlayerType type) {
-        return isMovePressed(type, ds -> ds.left);
-    }
-
-    public boolean isMoveRightPressed(PlayerType type) {
-        return isMovePressed(type, ds -> ds.right);
-    }
-
-    public boolean isJumpPressed(PlayerType type) {
-        return Optional.ofNullable(playerControls.get(type))
-                       .map(ds -> ds.jump)
-                       .map(key -> {
-                           if (pressed.contains(key) && !handledPress.contains(key)) {
-                               handledPress.add(key);
-                               return true;
-                           }
-                           return false;
-                       })
-                       .orElse(false);
-    }
-
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         if (!enabled) {
@@ -96,6 +67,30 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public InputState getInputState() {
+        EnumMap<PlayerType, Map<InputState.Action, Boolean>> map = new EnumMap<>(PlayerType.class);
+        playerControls.forEach((player, scheme) -> map.put(player, Map.of(
+                InputState.Action.LEFT, isPressed(scheme.left),
+                InputState.Action.RIGHT, isPressed(scheme.right),
+                InputState.Action.JUMP, isJumpPressed(scheme.jump)
+        )));
+        return new InputState(map);
+    }
+
+    private boolean isPressed(int keyScheme) {
+        return pressed.contains(keyScheme);
+    }
+    
+    private boolean isJumpPressed(int keyScheme) {
+        return pressed.contains(keyScheme) && !handledPress.contains(keyScheme);
+    }
+
+    public void markJumpHandled(PlayerType player) {
+        DirectionScheme scheme = playerControls.get(player);
+        if(scheme != null) handledPress.add(scheme.jump);
     }
 
     private record DirectionScheme(int left, int right, int jump) {
