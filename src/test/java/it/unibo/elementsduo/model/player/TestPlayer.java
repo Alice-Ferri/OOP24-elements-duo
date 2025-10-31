@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import it.unibo.elementsduo.controller.inputController.api.InputController;
+import it.unibo.elementsduo.controller.testDoubles.DoubleInputController;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.resources.Position;
@@ -26,42 +26,6 @@ final class TestPlayer {
 
     private Fireboy fireboy;
 
-    private static class TestInputController implements InputController {
-        private boolean moveLeft, moveRight, jump;
-
-        @Override public boolean isMoveLeftPressed(PlayerType type) {
-            return moveLeft;
-        }
-
-        @Override public boolean isMoveRightPressed(PlayerType type) {
-            return moveRight;
-        }
-
-        @Override public boolean isJumpPressed(PlayerType type) {
-            return jump;
-        }
-
-        @Override
-        public void install() {
-            
-        }
-
-        @Override
-        public void uninstall() {
-
-        }
-
-        @Override
-        public void setEnabled(boolean enabled) {
-
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return true;
-        }
-
-    }
 
     @BeforeEach
     void setUp() {
@@ -75,7 +39,7 @@ final class TestPlayer {
 
     @Test
     void testMoveRight() {
-        TestInputController input = new TestInputController();
+        DoubleInputController input = new DoubleInputController();
         input.moveRight = true;
 
         fireboy.update(DELTA_TIME, input);
@@ -87,7 +51,7 @@ final class TestPlayer {
 
     @Test
     void testMoveLeft() {
-        TestInputController input = new TestInputController();
+        DoubleInputController input = new DoubleInputController();
         input.moveLeft = true;
 
         fireboy.update(DELTA_TIME, input);
@@ -99,7 +63,7 @@ final class TestPlayer {
 
     @Test
     void testNoMovement() {
-        TestInputController input = new TestInputController();
+        DoubleInputController input = new DoubleInputController();
 
         fireboy.update(DELTA_TIME, input);
 
@@ -109,7 +73,7 @@ final class TestPlayer {
 
     @Test
     void testJump() {
-        TestInputController input = new TestInputController();
+        DoubleInputController input = new DoubleInputController();
         input.jump = true;
 
         fireboy.update(DELTA_TIME, input);

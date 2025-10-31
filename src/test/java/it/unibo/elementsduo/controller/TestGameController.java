@@ -1,48 +1,46 @@
 package it.unibo.elementsduo.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.elementsduo.controller.gamecontroller.impl.GameControllerImpl;
-import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
-import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
-import it.unibo.elementsduo.model.gamestate.api.GameState;
+import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.view.LevelPanel;
+import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
+import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
+import it.unibo.elementsduo.testDoubles.DoubleInputController;
+import it.unibo.elementsduo.testDoubles.TestDoubleLevel;
+import it.unibo.elementsduo.testDoubles.TestDoubleLevelPanel;
+import it.unibo.elementsduo.testDoubles.TestDoubleNavigation;
+import it.unibo.elementsduo.testDoubles.TestDoubleProgressionManager;
 
 /**
- * Unit tests for {@link GameControllerImpl}.
- * 
- * Tests the behavior of game controller methods using mocks/fakes for dependencies.
+ * Unit tests for {@link GameControllerImpl} using DoubleInputController and other test doubles.
  */
-class GameControllerImplTest {
-
+class GameControllerImplTest
+{
     private Level level;
     private LevelPanel view;
     private GameNavigation navigation;
     private ProgressionManagerImpl progressionManager;
     private GameControllerImpl controller;
+    private InputController inputController;
 
     /**
-     * Sets up mocks and the game controller before each test.
+     * Sets up test doubles and the game controller before each test.
      */
     @BeforeEach
-    void setUp() {
-        level = mock(Level.class);
-        view = mock(LevelPanel.class);
-        navigation = mock(GameNavigation.class);
-        progressionManager = mock(ProgressionManagerImpl.class);
-
-        JButton homeButton = new JButton();
-        JButton levelSelectButton = new JButton();
-        when(view.getHomeButton()).thenReturn(homeButton);
-        when(view.getLevelSelectButton()).thenReturn(levelSelectButton);
+    void setUp()
+    {
+        level = new DoubleLevel();
+        view = new DoubleLevelPanel();
+        navigation = new DoubleNavigation();
+        progressionManager = new DoubleProgressionManager();
+        inputController = new DoubleInputController();
 
         controller = new GameControllerImpl(level, navigation, view, progressionManager);
     }
@@ -51,7 +49,8 @@ class GameControllerImplTest {
      * Tests that getPanel() returns the correct panel.
      */
     @Test
-    void testGetPanel() {
+    void testGetPanel()
+    {
         assertEquals(view, controller.getPanel(), "getPanel should return the LevelPanel instance");
     }
 
@@ -59,22 +58,25 @@ class GameControllerImplTest {
      * Tests that activate installs input controller and attaches button listeners.
      */
     @Test
-    void testActivateAddsListeners() {
+    void testActivateAddsListeners()
+    {
         controller.activate();
 
-        // Simulate button click → should call navigation methods
+        // Simulate button clicks → should call navigation methods
         view.getHomeButton().doClick();
         view.getLevelSelectButton().doClick();
 
-        verify(navigation).goToMenu();
-        verify(navigation).goToLevelSelection();
+        DoubleNavigation nav = (DoubleNavigation) navigation;
+        assertEquals(true, nav.goToMenuCalled, "goToMenu should be called on home button click");
+        assertEquals(true, nav.goToLevelSelectionCalled, "goToLevelSelection should be called on level select button click");
     }
 
     /**
      * Tests that deactivate stops game loop and removes listeners.
      */
     @Test
-    void testDeactivateRemovesListeners() {
+    void testDeactivateRemovesListeners()
+    {
         controller.activate();
         controller.deactivate();
 
@@ -82,20 +84,17 @@ class GameControllerImplTest {
         view.getHomeButton().doClick();
         view.getLevelSelectButton().doClick();
 
-        verifyNoMoreInteractions(navigation);
+        DoubleNavigation nav = (DoubleNavigation) navigation;
+        assertEquals(false, nav.goToMenuCalled, "goToMenu should not be called after deactivate");
+        assertEquals(false, nav.goToLevelSelectionCalled, "goToLevelSelection should not be called after deactivate");
     }
 
     /**
-     * Tests that update does not throw exception even if level or entities are empty.
+     * Tests update does not throw exception even if level or entities are empty.
      */
     @Test
-    void testUpdateWithEmptyLevel() {
-        when(level.getAllPlayers()).thenReturn(java.util.Collections.emptyList());
-        when(level.getAllProjectiles()).thenReturn(java.util.Collections.emptyList());
-        when(level.getLivingEnemies()).thenReturn(java.util.Collections.emptyList());
-        when(level.getAllInteractiveObstacles()).thenReturn(java.util.Collections.emptyList());
-        when(level.getAllCollidables()).thenReturn(java.util.Collections.emptyList());
-
+    void testUpdateWithEmptyLevel()
+    {
         assertDoesNotThrow(() -> controller.update(0.1), "update should run even if level is empty");
     }
 
@@ -103,8 +102,10 @@ class GameControllerImplTest {
      * Tests render just calls repaint on the panel.
      */
     @Test
-    void testRender() {
+    void testRender()
+    {
         controller.render();
-        verify(view).repaint();
+        DoubleLevelPanel panel = (DoubleLevelPanel) view;
+        assertEquals(true, panel.repaintCalled, "repaint should be called");
     }
 }
