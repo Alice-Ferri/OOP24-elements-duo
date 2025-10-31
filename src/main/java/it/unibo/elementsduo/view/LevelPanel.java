@@ -147,7 +147,7 @@ public final class LevelPanel extends JPanel {
             drawPlayers(g, offsetX, offsetY,elementSize);
         }
 
-        private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
             level.getAllObstacles().stream()
                     .filter(StaticObstacle.class::isInstance)
                     .map(StaticObstacle.class::cast)
@@ -173,7 +173,7 @@ public final class LevelPanel extends JPanel {
                     });
         }
 
-        private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
             level.getEntitiesByClass(InteractiveObstacle.class).forEach(obj -> {
                 final HitBox hb = obj.getHitBox();
                 final double cx = hb.getCenter().x();
@@ -205,7 +205,7 @@ public final class LevelPanel extends JPanel {
             });
         }
 
-        private void drawEnemies(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawEnemies(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
             final double enemyHalfWidth = 0.5;
             final double enemyHalfHeight = 0.5;
 
@@ -238,7 +238,7 @@ public final class LevelPanel extends JPanel {
             return (int) Math.round(worldCoord * elementSize);
         }
 
-        private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
 
             final double projectileWidth = 0.25;
             final double projectileHeight = 0.25;
@@ -253,17 +253,17 @@ public final class LevelPanel extends JPanel {
                 final double tlx = cx - projHalfWidth;
                 final double tly = cy - projHalfHeight;
 
-                final int pixelX = toPx(tlx,elementSize) + offsetX;
-                final int pixelY = toPx(tly,elementSize) + offsetY;
-                final int w = toPx(projectileWidth,elementSize);
-                final int h = toPx(projectileHeight,elementSize);
+                final int pixelX = toPx(tlx, elementSize) + offsetX;
+                final int pixelY = toPx(tly, elementSize) + offsetY;
+                final int w = toPx(projectileWidth, elementSize);
+                final int h = toPx(projectileHeight, elementSize);
 
                 g.fillOval(pixelX, pixelY, w, h);
 
             });
         }
 
-        private void drawPlayers(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawPlayers(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
 
             level.getAllPlayers().stream().forEach(player -> {
 

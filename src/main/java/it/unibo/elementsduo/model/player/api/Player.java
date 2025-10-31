@@ -7,13 +7,15 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 
 /**
  * Represents a player entity in the game.
- * 
- * A {@code Player} is both {@link Collidable} and {@link Movable}, and defines
- * basic physical behavior such as movement, jumping, and collision handling.
- * 
+ * A {@code Player} is both {@link Collidable} and {@link Movable}.
  */
-
 public interface Player extends Collidable, Movable, GameEntity {
+
+    /** Default player width. */
+    double DEFAULT_WIDTH = 0.8;
+
+    /** Default player height. */
+    double DEFAULT_HEIGHT = 1.0;
 
     /**
      * Returns the current horizontal position of the player.
@@ -51,7 +53,7 @@ public interface Player extends Collidable, Movable, GameEntity {
     boolean isOnExit();
 
     /**
-     * Moves the player horizontally by the delta value.
+     * Moves the player horizontally by the given delta value.
      *
      * @param dx the horizontal movement delta
      */
@@ -66,52 +68,61 @@ public interface Player extends Collidable, Movable, GameEntity {
 
     /**
      * Makes the player jump with the given strength.
-     * 
+     *
      * @param strength the upward jump force
      */
     void jump(double strength);
 
     /**
      * Lands the player on a solid surface.
-     * 
+     *
      * @param groundY the vertical coordinate of the ground surface
      */
     void landOn(double groundY);
 
     /**
      * Stops the player's upward movement due to a ceiling collision.
-     * 
+     *
      * @param ceilingY the vertical coordinate of the ceiling
      */
     void stopJump(double ceilingY);
 
     /**
-     * Marks the player as airborne.
+     * Marks the player as airborne (no longer touching the ground).
      */
     void setAirborne();
 
-    /*
-     *  Set velocity on x.
+    /**
+     * Sets the horizontal velocity of the player.
+     *
+     * @param vx the new horizontal velocity
      */
     void setVelocityX(double vx);
 
-    /*
-     *  Set velocity on y.
+    /**
+     * Sets the vertical velocity of the player.
+     *
+     * @param vy the new vertical velocity
      */
     void setVelocityY(double vy);
 
-    /*
-     * Set the condition on exit.
+    /**
+     * Sets whether the player is currently on the exit area.
+     *
+     * @param condition {@code true} if the player is on the exit, otherwise {@code false}
      */
     void setOnExit(boolean condition);
 
-    /*
-     * Updating the state of the player.
+    /**
+     * Updates the state of the player.
+     *
+     * @param deltaTime the time elapsed since the last update
+     * @param inputController the input controller managing player input
      */
     void update(double deltaTime, InputController inputController);
 
     /**
-     * Returns the specific player type.
+     * Returns the specific player type (Fireboy or Watergirl).
      *
      * @return the type of this player
      */
@@ -123,7 +134,7 @@ public interface Player extends Collidable, Movable, GameEntity {
      * @return the player's width
      */
     default double getWidth() {
-        return 0.8;
+        return DEFAULT_WIDTH;
     }
 
     /**
@@ -132,6 +143,6 @@ public interface Player extends Collidable, Movable, GameEntity {
      * @return the player's height
      */
     default double getHeight() {
-        return 1.0;
+        return DEFAULT_HEIGHT;
     }
 }
