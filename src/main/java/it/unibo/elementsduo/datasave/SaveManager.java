@@ -43,28 +43,28 @@ public final class SaveManager {
         }
     }
 
-   /**
+    /**
      * Loads the progression state from the JSON file.
      *
-     * @return an {@link Optional} containing the loaded {@link ProgressionState}, or empty otherwise.
+     * @return an {@link Optional} containing the loaded {@link ProgressionState}, 
      */
     public Optional<ProgressionState> loadGame() {
         final File saveFile = this.savePath.toFile();
         if (!saveFile.exists()) {
-            return Optional.empty(); 
+            return Optional.empty();
         }
 
         try {
-            
+
             final ProgressionState loadedState = 
                 this.objectMapper.readValue(saveFile, ProgressionState.class);
 
             return Optional.of(loadedState);
 
         } catch (final IOException e) { 
-            
+
             e.printStackTrace();
-            return Optional.empty(); 
+            return Optional.empty();
         }
     }
 }
