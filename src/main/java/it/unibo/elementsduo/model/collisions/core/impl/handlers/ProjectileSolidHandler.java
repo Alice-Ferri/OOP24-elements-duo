@@ -19,6 +19,7 @@ public class ProjectileSolidHandler extends AbstractCollisionHandler<Projectiles
     @Override
     public void handleCollision(Projectiles projectile, obstacle ob, CollisionInformations c,
             CollisionResponse.Builder builder) {
+        projectile.deactivate();
         builder.addLogicCommand(() -> this.eventManager.notify(new ProjectileSolidEvent(projectile)));
     }
 
