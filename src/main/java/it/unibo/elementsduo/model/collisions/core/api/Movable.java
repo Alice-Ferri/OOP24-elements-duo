@@ -20,5 +20,5 @@ public interface Movable {
      * @param normal      the collision normal indicating the direction of
      *                    correction
      */
-    void correctPhysicsCollision(double penetration, Vector2D normal);
+    void correctPhysicsCollision(double penetration, Vector2D normal, Collidable other);
 }

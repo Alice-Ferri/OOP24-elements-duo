@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pushable;
 import it.unibo.elementsduo.resources.Position;
@@ -160,7 +161,7 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      * @param normal      the collision normal vector
      */
     @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal, Collidable other) {
         final double depth = Math.max(penetration - COLLISION_TOLERANCE, 0);
         final Vector2D correction = normal.multiply(depth * COLLISION_CORRECTION_FACTOR);
 

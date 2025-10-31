@@ -1,6 +1,7 @@
 package it.unibo.elementsduo.model.collisions.commands.impl;
 
 import it.unibo.elementsduo.model.collisions.commands.api.CollisionCommand;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -17,6 +18,7 @@ public final class PushBoxCommand implements CollisionCommand {
     private final double penetration;
     private final Vector2D normal;
     private final boolean playerFirst;
+    private final Collidable other;
 
     /**
      * Constructs a new push command for a box.
@@ -28,11 +30,12 @@ public final class PushBoxCommand implements CollisionCommand {
      *                    false otherwise
      */
     public PushBoxCommand(final PushBox box, final double penetration, final Vector2D normal,
-            final boolean playerFirst) {
+            final boolean playerFirst, Collidable other) {
         this.box = box;
         this.penetration = penetration;
         this.normal = normal;
         this.playerFirst = playerFirst;
+        this.other = other;
     }
 
     @Override
@@ -57,6 +60,6 @@ public final class PushBoxCommand implements CollisionCommand {
         }
 
         final Vector2D normalBox = playerNormal.multiply(-1);
-        box.correctPhysicsCollision(0, normalBox);
+        box.correctPhysicsCollision(0, normalBox, other);
     }
 }

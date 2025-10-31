@@ -38,6 +38,6 @@ public final class PushBoxHandler extends AbstractCollisionHandler<Player, PushB
     public void handleCollision(final Player player, final PushBox box, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
         builder.addPhysicsCommand(
-                new PushBoxCommand(box, c.getPenetration(), c.getNormal(), c.getObjectA() instanceof Player));
+                new PushBoxCommand(box, c.getPenetration(), c.getNormal(), c.getObjectA() instanceof Player, player));
     }
 }

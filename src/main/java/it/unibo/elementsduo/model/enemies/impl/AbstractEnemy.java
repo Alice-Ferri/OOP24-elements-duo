@@ -3,6 +3,7 @@ package it.unibo.elementsduo.model.enemies.impl;
 import java.util.Optional;
 
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
@@ -11,7 +12,7 @@ import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Abstract class that implements the shared logic and state for all enemy 
+ * Abstract class that implements the shared logic and state for all enemy
  * entities.
  * It centralizes physics, life state, and movement management, delegating
  * specific behaviors (like attacking) to subclasses.
@@ -103,10 +104,10 @@ public abstract class AbstractEnemy implements Enemy {
      * @param deltaTime the time elapsed since the last update.
      */
     @Override
-    public final void update(final double deltaTime) { 
+    public final void update(final double deltaTime) {
         if (this.moveManager == null) {
-            throw new IllegalStateException("EnemiesMoveManager has not been injected in " 
-                + this.getClass().getSimpleName());
+            throw new IllegalStateException("EnemiesMoveManager has not been injected in "
+                    + this.getClass().getSimpleName());
         }
         this.moveManager.handleEdgeDetection(this);
         this.velocity = new Vector2D(this.direction * SPEED, 0);
@@ -129,14 +130,14 @@ public abstract class AbstractEnemy implements Enemy {
      * Common physics collision logic for all enemies.
      */
     @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal, Collidable other) {
 
         if (penetration <= 0) {
             return;
         }
 
         final double correctionPercent = 0.8;
-        final double positionSlop = 0.001; 
+        final double positionSlop = 0.001;
         final double depth = Math.max(penetration - positionSlop, 0.0);
         final Vector2D correction = normal.multiply(correctionPercent * depth);
 
@@ -153,7 +154,7 @@ public abstract class AbstractEnemy implements Enemy {
             this.setDirection();
         }
     }
- 
+
     /**
      * {@inheritDoc}
      * Common HitBox creation logic.
@@ -179,4 +180,3 @@ public abstract class AbstractEnemy implements Enemy {
         this.alive = false;
     }
 }
-

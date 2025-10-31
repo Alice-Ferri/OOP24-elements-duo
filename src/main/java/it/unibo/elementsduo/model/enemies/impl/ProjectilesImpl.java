@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -72,7 +73,7 @@ public final class ProjectilesImpl implements Projectiles {
     }
 
     @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal, Collidable other) {
 
         if (penetration <= 0) {
             return;

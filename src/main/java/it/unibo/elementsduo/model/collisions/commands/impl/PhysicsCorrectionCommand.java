@@ -25,19 +25,7 @@ public class PhysicsCorrectionCommand implements CollisionCommand {
 
     @Override
     public void execute() {
-        if (this.movable instanceof Player player && this.other instanceof Wall && normal.y() < -0.5) {
-            final HitBox playerHitBox = player.getHitBox();
-            final HitBox wallHitBox = this.other.getHitBox();
-            final double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
-            final double overlapX = (playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth()) - Math.abs(dx);
-            if (overlapX > 0) {
-                final Vector2D horizontalNormal = new Vector2D(dx > 0 ? 1 : -1, 0);
-                player.correctPhysicsCollision(overlapX, horizontalNormal);
-                return;
-            }
-        }
-
-        this.movable.correctPhysicsCollision(penetration, normal);
+        this.movable.correctPhysicsCollision(penetration, normal, other);
         if (this.movable instanceof Player player && this.other instanceof PlatformImpl platform && normal.y() < -0.5) {
             player.setVelocityY(platform.getVelocity().y());
         }
