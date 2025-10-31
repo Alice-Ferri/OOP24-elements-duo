@@ -5,7 +5,9 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.player.api.PlayerType;
@@ -13,18 +15,15 @@ import it.unibo.elementsduo.model.player.api.PlayerType;
 public final class InputControllerImpl implements KeyEventDispatcher, InputController {
 
     private final EnumMap<PlayerType, DirectionScheme> playerControls = new EnumMap<>(PlayerType.class);
-
     private final Set<Integer> pressed = new HashSet<>();
     private final Set<Integer> handledPress = new HashSet<>();
-
 
     private boolean enabled = true;
     private boolean installed = false;
 
     public InputControllerImpl() {
         playerControls.put(PlayerType.FIREBOY, new DirectionScheme(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W));
-        playerControls.put(PlayerType.WATERGIRL,
-                new DirectionScheme(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP));
+        playerControls.put(PlayerType.WATERGIRL, new DirectionScheme(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP));
     }
 
     public void install() {
@@ -32,7 +31,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
             return;
         }
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
-        this.installed = true;
+        installed = true;
     }
 
     public void uninstall() {
@@ -40,53 +39,53 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
             return;
         }
         KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
-        this.installed = false;
+        installed = false;
         pressed.clear();
         handledPress.clear();
     }
 
-    public boolean isMoveLeftPressed(final PlayerType type) {
-        final DirectionScheme controls = playerControls.get(type);
-        return controls != null && pressed.contains(controls.left);
+    private boolean isMovePressed(PlayerType type, Function<DirectionScheme, Integer> keySelector) {
+        return Optional.ofNullable(playerControls.get(type))
+                       .map(keySelector)
+                       .map(pressed::contains)
+                       .orElse(false);
     }
 
-    public boolean isMoveRightPressed(final PlayerType type) {
-        final DirectionScheme controls = playerControls.get(type);
-        return controls != null && pressed.contains(controls.right);
+    public boolean isMoveLeftPressed(PlayerType type) {
+        return isMovePressed(type, ds -> ds.left);
     }
 
-    public boolean isJumpPressed(final PlayerType type) {
-        final DirectionScheme controls = playerControls.get(type);
-        if (controls == null) {
-            return false;
-        }
-
-        final boolean jumpDown = pressed.contains(controls.jump);
-
-        if (jumpDown && !handledPress.contains(controls.jump)) {
-            handledPress.add(controls.jump); 
-            return true; 
-        }
-        return false; 
+    public boolean isMoveRightPressed(PlayerType type) {
+        return isMovePressed(type, ds -> ds.right);
     }
-    
+
+    public boolean isJumpPressed(PlayerType type) {
+        return Optional.ofNullable(playerControls.get(type))
+                       .map(ds -> ds.jump)
+                       .map(key -> {
+                           if (pressed.contains(key) && !handledPress.contains(key)) {
+                               handledPress.add(key);
+                               return true;
+                           }
+                           return false;
+                       })
+                       .orElse(false);
+    }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
-        if (!enabled)
+        if (!enabled) {
             return false;
+        }
 
         switch (e.getID()) {
-            case KeyEvent.KEY_PRESSED -> {
-                pressed.add(e.getKeyCode());
-            }
+            case KeyEvent.KEY_PRESSED -> pressed.add(e.getKeyCode());
             case KeyEvent.KEY_RELEASED -> {
                 pressed.remove(e.getKeyCode());
                 handledPress.remove(e.getKeyCode());
             }
-            default -> {
-            }
         }
-        return false; 
+        return false;
     }
 
     @Override
@@ -98,14 +97,16 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
     public boolean isEnabled() {
         return enabled;
     }
-    
+
     private static final class DirectionScheme {
         private final int left, right, jump;
 
-        DirectionScheme(final int left, final int right, final int jump) {
+        DirectionScheme(int left, int right, int jump) {
             this.left = left;
             this.right = right;
             this.jump = jump;
         }
     }
 }
+
+
