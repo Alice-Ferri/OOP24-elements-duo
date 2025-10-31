@@ -8,28 +8,56 @@ import it.unibo.elementsduo.resources.Vector2D;
 /**
  * Represents a dynamic, interactive box that can be pushed and reacts
  * to physics forces such as gravity and friction.
+ *
  * <p>
  * The {@code PushBox} moves horizontally when pushed and is affected by
  * ground or air friction. It also responds to collisions and corrects its
  * position to prevent penetration.
+ * </p>
  */
-public final class PushBox extends InteractiveObstacle implements Pushable, Movable {
+public final class PushBox extends AbstractInteractiveObstacle implements Pushable, Movable {
 
+    /** Friction applied when the box is on the ground. */
     private static final double GROUND_FRICTION = 0.75;
+
+    /** Friction applied when the box is in the air. */
     private static final double AIR_FRICTION = 0.98;
+
+    /** Gravity acceleration value. */
     private static final double GRAVITY = 9.8;
+
+    /** Minimum horizontal velocity threshold. */
     private static final double MIN_VELOCITY_X = 0.02;
+
+    /** Maximum downward fall speed. */
     private static final double MAX_FALL_SPEED = 15;
+
+    /** Box half-width. */
     private static final double HALF_WIDTH = 0.5;
+
+    /** Box half-height. */
     private static final double HALF_HEIGHT = 0.5;
+
+    /** Small correction tolerance for collisions. */
     private static final double COLLISION_TOLERANCE = 0.001;
+
+    /** Correction factor applied after collisions. */
     private static final double COLLISION_CORRECTION_FACTOR = 0.8;
+
+    /** Vertical direction threshold for detecting collisions from above/below. */
     private static final double VERTICAL_THRESHOLD = 0.5;
+
+    /** Horizontal direction threshold for detecting side collisions. */
     private static final double HORIZONTAL_THRESHOLD = 0.5;
 
+    /** Current velocity of the box. */
     private Vector2D velocity = Vector2D.ZERO;
+
+    /** The mass of the box. */
     private final double mass = 1;
-    private boolean onGround = false;
+
+    /** Whether the box is currently on the ground. */
+    private boolean onGround;
 
     /**
      * Creates a pushable box centered at the given position.
@@ -42,9 +70,11 @@ public final class PushBox extends InteractiveObstacle implements Pushable, Mova
 
     /**
      * Applies a horizontal push to this {@code PushBox}.
-     * 
+     *
+     * <p>
      * Only the X component of the given vector is used. The resulting
      * acceleration is divided by the object's mass and added to its velocity.
+     * </p>
      *
      * @param v the push vector to apply
      */
@@ -55,12 +85,10 @@ public final class PushBox extends InteractiveObstacle implements Pushable, Mova
         this.velocity = this.velocity.add(accel);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void move(final Vector2D delta) {
-        this.center = this.center.add(delta);
+        setCenter(getCenter().add(delta));
     }
 
     /**
@@ -75,6 +103,7 @@ public final class PushBox extends InteractiveObstacle implements Pushable, Mova
         }
 
         move(this.velocity.multiply(dt));
+
         if (this.onGround) {
             this.velocity = new Vector2D(this.velocity.x() * GROUND_FRICTION, this.velocity.y());
         } else {
@@ -120,10 +149,12 @@ public final class PushBox extends InteractiveObstacle implements Pushable, Mova
 
     /**
      * Corrects the box’s position and velocity in response to a collision.
+     *
      * <p>
      * Adjusts the box’s position based on the penetration depth and collision
      * normal, and modifies its velocity accordingly to prevent overlap and
      * simulate realistic collision response.
+     * </p>
      *
      * @param penetration the penetration depth between colliding bodies
      * @param normal      the collision normal vector
@@ -134,6 +165,7 @@ public final class PushBox extends InteractiveObstacle implements Pushable, Mova
         final Vector2D correction = normal.multiply(depth * COLLISION_CORRECTION_FACTOR);
 
         move(correction);
+
         final double vn = this.velocity.dot(normal);
         if (vn < 0) {
             this.velocity = this.velocity.subtract(normal.multiply(vn));
@@ -148,5 +180,4 @@ public final class PushBox extends InteractiveObstacle implements Pushable, Mova
             this.velocity = new Vector2D(0, this.velocity.y());
         }
     }
-
 }

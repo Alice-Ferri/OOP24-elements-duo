@@ -7,19 +7,25 @@ import it.unibo.elementsduo.resources.Position;
 
 /**
  * Base class for interactive obstacles in the game world.
+ *
  * <p>
  * Provides common properties such as position and dimensions, and a default
  * implementation for the obstacle's {@link HitBox}.
+ *
  * <p>
  * Specific interactive elements (e.g., buttons, levers) should extend this
- * class
- * and define their own behavior.
+ * class and define their own behavior.
  */
-public abstract class InteractiveObstacle implements obstacle {
+public abstract class AbstractInteractiveObstacle implements obstacle {
 
-    Position center;
-    final double halfHeight;
-    final double halfWidth;
+    /** The center position of the obstacle. */
+    private Position center;
+
+    /** The half height of the obstacle. */
+    private final double halfHeight;
+
+    /** The half width of the obstacle. */
+    private final double halfWidth;
 
     /**
      * Creates a new interactive obstacle.
@@ -28,7 +34,7 @@ public abstract class InteractiveObstacle implements obstacle {
      * @param halfW  the half-width of the obstacle
      * @param halfH  the half-height of the obstacle
      */
-    public InteractiveObstacle(Position center, double halfW, double halfH) {
+    public AbstractInteractiveObstacle(final Position center, final double halfW, final double halfH) {
         this.center = center;
         this.halfWidth = halfW;
         this.halfHeight = halfH;
@@ -51,4 +57,12 @@ public abstract class InteractiveObstacle implements obstacle {
         return this.center;
     }
 
+    /**
+     * Sets the center position of this obstacle.
+     *
+     * @param center the new center position
+     */
+    protected void setCenter(final Position center) {
+        this.center = center;
+    }
 }

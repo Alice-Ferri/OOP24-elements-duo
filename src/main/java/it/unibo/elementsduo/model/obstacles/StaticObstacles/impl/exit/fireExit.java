@@ -2,13 +2,13 @@ package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ExitZone;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 
 /**
  * Represents the exit point that must be
  * activated by one of the player before it can proceed to the next level.
  */
-public class FireExit extends StaticObstacle implements ExitZone {
+public class FireExit extends AbstractStaticObstacle implements ExitZone {
 
     private boolean active = false;
 

@@ -8,22 +8,41 @@ import it.unibo.elementsduo.resources.Vector2D;
 /**
  * Represents a moving platform that can be activated or deactivated
  * by triggers such as levers or buttons.
+ *
  * <p>
  * The platform moves back and forth between two points {@code a} and {@code b}
  * at a fixed speed while active. It also implements {@link TriggerListener},
  * allowing it to react to external trigger events.
+ * </p>
  */
-public class PlatformImpl extends InteractiveObstacle implements Triggerable, TriggerListener {
+public class PlatformImpl extends AbstractInteractiveObstacle implements Triggerable, TriggerListener {
 
-    private final static double HALF_WIDTH = 0.5;
-    private final static double HALF_HEIGHT = 0.5;
+    /** The platform's half width. */
+    private static final double HALF_WIDTH = 0.5;
 
-    private Position a, b;
+    /** The platform's half height. */
+    private static final double HALF_HEIGHT = 0.5;
+
+    /** The first target position. */
+    private final Position a;
+
+    /** The second target position. */
+    private final Position b;
+
+    /** The platform's movement speed. */
     private double speed = 1.0;
+
+    /** The platform's current position. */
     private Position pos;
+
+    /** The platform's velocity vector. */
     private Vector2D velocity = Vector2D.ZERO;
+
+    /** Whether the platform is currently moving forward. */
     private boolean forward = true;
-    private boolean active = false;
+
+    /** Whether the platform is currently active. */
+    private boolean active;
 
     /**
      * Creates a new moving platform between the given start and end positions.
@@ -32,7 +51,7 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable, Tr
      * @param a   the first target position
      * @param b   the second target position
      */
-    public PlatformImpl(Position pos, Position a, Position b) {
+    public PlatformImpl(final Position pos, final Position a, final Position b) {
         super(pos, HALF_WIDTH, HALF_HEIGHT);
         this.a = a;
         this.b = b;
@@ -42,53 +61,49 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable, Tr
     /**
      * Updates the platform's position based on its current direction,
      * speed, and activation state.
+     *
      * <p>
      * The platform oscillates between {@code a} and {@code b} while active.
+     * </p>
      *
      * @param delta the time step for the update, in seconds
      */
-    public void update(double delta) {
+    public void update(final double delta) {
         if (!this.active) {
             return;
         }
-        Position target = forward ? b : a;
-        Vector2D dir = pos.vectorTo(target).normalize();
+
+        final Position target = forward ? b : a;
+        final Vector2D dir = pos.vectorTo(target).normalize();
+
         velocity = dir.multiply(speed);
         pos = pos.add(velocity.multiply(delta));
-        this.center = pos;
+        setCenter(pos);
 
         if (pos.distanceBetween(target) < speed * delta) {
             forward = !forward;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean isActive() {
         return this.active;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void activate() {
         this.active = true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void deactivate() {
         this.active = false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void toggle() {
         this.active = !this.active;
@@ -105,19 +120,20 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable, Tr
 
     /**
      * Called when a linked trigger changes state.
+     *
      * <p>
      * Activates or deactivates the platform depending on the given state.
+     * </p>
      *
      * @param state {@code true} to activate the platform, {@code false} to
      *              deactivate it
      */
     @Override
-    public void onTriggered(boolean state) {
+    public void onTriggered(final boolean state) {
         if (state) {
             this.activate();
         } else {
             this.deactivate();
         }
     }
-
 }

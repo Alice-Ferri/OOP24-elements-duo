@@ -1,15 +1,17 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 
 /**
  * Represents a green toxic pool hazard in the game world.
  * <p>
- * This obstacle instantly kills both players upon contact and cannot be interacted with.
+ * This obstacle instantly kills both players upon contact and cannot be
+ * interacted with.
  */
-public final class GreenPool extends StaticObstacle implements Hazard {
+public final class GreenPool extends AbstractStaticObstacle implements Hazard {
 
     /** The hitbox defining the position and dimensions of the pool. */
     private final HitBox hitbox;

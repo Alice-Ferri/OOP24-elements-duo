@@ -8,12 +8,12 @@ import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.GreenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
@@ -73,7 +73,7 @@ public final class LevelPanel extends JPanel {
 
         private final Dimension gridDimensions;
 
-        private final Map<Class<? extends StaticObstacle>, Color> staticObstacleColorMap = Map.of(
+        private final Map<Class<? extends AbstractStaticObstacle>, Color> staticObstacleColorMap = Map.of(
                 Wall.class, Color.DARK_GRAY,
                 Floor.class, Color.LIGHT_GRAY,
                 fireSpawn.class, Color.ORANGE,
@@ -84,7 +84,7 @@ public final class LevelPanel extends JPanel {
                 GreenPool.class, Color.GREEN,
                 WaterExit.class, new Color(0, 191, 255));
 
-        private final Map<Class<? extends InteractiveObstacle>, Color> interactiveColorMap = Map.of(Lever.class,
+        private final Map<Class<? extends AbstractInteractiveObstacle>, Color> interactiveColorMap = Map.of(Lever.class,
                 Color.YELLOW,
                 PlatformImpl.class, Color.CYAN,
                 PushBox.class, Color.RED,
@@ -101,7 +101,7 @@ public final class LevelPanel extends JPanel {
 
         private Dimension calculateGridDimensions() {
             final var staticObstacles = level.getAllObstacles().stream()
-                    .filter(StaticObstacle.class::isInstance)
+                    .filter(AbstractStaticObstacle.class::isInstance)
                     .toList();
 
             if (staticObstacles.isEmpty()) {
@@ -150,8 +150,8 @@ public final class LevelPanel extends JPanel {
         private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY,
                 final int elementSize) {
             level.getAllObstacles().stream()
-                    .filter(StaticObstacle.class::isInstance)
-                    .map(StaticObstacle.class::cast)
+                    .filter(AbstractStaticObstacle.class::isInstance)
+                    .map(AbstractStaticObstacle.class::cast)
                     .forEach(obs -> {
                         final HitBox hb = obs.getHitBox();
                         final double cx = hb.getCenter().x();
@@ -176,7 +176,7 @@ public final class LevelPanel extends JPanel {
 
         private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,
                 final int elementSize) {
-            level.getEntitiesByClass(InteractiveObstacle.class).forEach(obj -> {
+            level.getEntitiesByClass(AbstractInteractiveObstacle.class).forEach(obj -> {
                 final HitBox hb = obj.getHitBox();
                 final double cx = hb.getCenter().x();
                 final double cy = hb.getCenter().y();

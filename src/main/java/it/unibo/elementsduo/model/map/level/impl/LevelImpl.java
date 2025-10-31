@@ -11,7 +11,7 @@ import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -59,8 +59,8 @@ public class LevelImpl implements Level {
     }
 
     @Override
-    public Set<InteractiveObstacle> getAllInteractiveObstacles() {
-        return getEntitiesByClass(InteractiveObstacle.class);
+    public Set<AbstractInteractiveObstacle> getAllInteractiveObstacles() {
+        return getEntitiesByClass(AbstractInteractiveObstacle.class);
     }
 
     @Override
