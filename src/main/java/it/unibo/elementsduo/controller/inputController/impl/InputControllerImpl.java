@@ -98,14 +98,8 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
         return enabled;
     }
 
-    private static final class DirectionScheme {
-        private final int left, right, jump;
-
-        DirectionScheme(int left, int right, int jump) {
-            this.left = left;
-            this.right = right;
-            this.jump = jump;
-        }
+    private record DirectionScheme(int left, int right, int jump) {
+        
     }
 }
 
