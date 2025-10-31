@@ -16,7 +16,7 @@ public class GuidePanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
         setBorder(new EmptyBorder(20, 40, 20, 40));
 
-        JLabel title = new JLabel("Game Guide", SwingConstants.CENTER);
+        JLabel title = new JLabel("Guida del gioco", SwingConstants.CENTER);
         title.setFont(TITLE_FONT);
         title.setForeground(TEXT_COLOR);
         add(title, BorderLayout.NORTH);
@@ -30,7 +30,7 @@ public class GuidePanel extends JPanel {
         centerPanel.add(createCenteredLabel("=== Obiettivo ===", true));
         centerPanel.add(createCenteredLabel("Raggiungi l'uscita del livello con entrambi i personaggi!", false));
         centerPanel.add(Box.createVerticalStrut(25));
-        
+
         centerPanel.add(createCenteredLabel("=== Comandi Fireboy ===", true));
         centerPanel.add(createCenteredLabel("A : Muovi a sinistra", false));
         centerPanel.add(createCenteredLabel("D : Muovi a destra", false));
@@ -38,15 +38,21 @@ public class GuidePanel extends JPanel {
         centerPanel.add(Box.createVerticalStrut(25));
 
         centerPanel.add(createCenteredLabel("=== Comandi Watergirl ===", true));
-        centerPanel.add(createCenteredLabel("Freccia sinistra : Muovi a sinistra", false));
-        centerPanel.add(createCenteredLabel("Freccia destra : Muovi a destra", false));
-        centerPanel.add(createCenteredLabel("Freccia su : Salta", false));
+        centerPanel.add(createCenteredLabel("\u2190 : Muovi a sinistra", false));
+        centerPanel.add(createCenteredLabel("\u2192 : Muovi a destra", false));
+        centerPanel.add(createCenteredLabel("\u2191 : Salta", false));
         centerPanel.add(Box.createVerticalStrut(25));
 
-
+        centerPanel.add(createCenteredLabel("=== Nemici e Ostacoli ===", true));
+        centerPanel.add(createCenteredLabel("Evita gli ostacoli pericolosi che ti possono far perdere la partita.", false));
+        centerPanel.add(createCenteredLabel("Salta sopra o evita i nemici che incontri.", false));
+        centerPanel.add(Box.createVerticalStrut(25));
+        
         centerPanel.add(createCenteredLabel("=== Punteggio ===", true));
         centerPanel.add(createCenteredLabel("- Tempo impiegato per completare il livello", false));
         centerPanel.add(createCenteredLabel("- Gemme raccolte durante il livello", false));
+        centerPanel.add(Box.createVerticalStrut(20));
+        centerPanel.add(Box.createVerticalStrut(20));
 
         JScrollPane scrollPane = new JScrollPane(centerPanel);
         scrollPane.setBorder(null);
@@ -54,7 +60,7 @@ public class GuidePanel extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         add(scrollPane, BorderLayout.CENTER);
 
-        JButton backButton = new JButton("Back to the menu");
+        JButton backButton = new JButton("Torna al menu");
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButton.setMaximumSize(new Dimension(300, 80));
         backButton.addActionListener(e -> backToMenuAction.run());
@@ -72,4 +78,5 @@ public class GuidePanel extends JPanel {
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         return label;
     }
+    
 }

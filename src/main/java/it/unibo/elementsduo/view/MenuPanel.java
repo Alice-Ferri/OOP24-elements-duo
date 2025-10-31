@@ -24,7 +24,7 @@ public class MenuPanel extends JPanel {
         this.loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.loadButton.setMaximumSize(new Dimension(300, 80));
 
-        this.guideButton = new JButton("Show Game Guide");
+        this.guideButton = new JButton("Guida del Gioco");
         this.guideButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.guideButton.setMaximumSize(new Dimension(300, 80));
 
