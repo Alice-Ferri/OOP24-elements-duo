@@ -22,7 +22,7 @@ public class ButtonActivationHandler extends AbstractCollisionHandler<Player, bu
         buttonsThisFrame.add(b);
 
         if (!buttonsLastFrame.contains(b)) {
-            builder.addLogicCommand(() -> b.activate());
+            builder.addLogicCommand(b::activate);
         }
     }
 
@@ -31,12 +31,9 @@ public class ButtonActivationHandler extends AbstractCollisionHandler<Player, bu
     }
 
     public void onUpdateEnd() {
-        List<button> releasedButtons = new ArrayList<>(buttonsLastFrame);
-        releasedButtons.removeAll(buttonsThisFrame);
-
-        for (button b : releasedButtons) {
-            b.deactivate();
-        }
+        buttonsLastFrame.stream()
+                .filter(b -> !buttonsThisFrame.contains(b))
+                .forEach(button::deactivate);
 
         buttonsLastFrame.clear();
         buttonsLastFrame.addAll(buttonsThisFrame);

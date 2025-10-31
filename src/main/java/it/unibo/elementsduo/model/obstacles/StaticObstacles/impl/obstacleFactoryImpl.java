@@ -1,5 +1,9 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
@@ -14,28 +18,20 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
 
 public class obstacleFactoryImpl implements ObstacleFactory {
+    private static final Map<obstacleType.type, Function<HitBox, StaticObstacle>> OBSTACLE_CREATORS = Map.of(
+            obstacleType.type.WATER_POOL, waterPool::new,
+            obstacleType.type.LAVA_POOL, lavaPool::new,
+            obstacleType.type.GREEN_POOL, greenPool::new,
+            obstacleType.type.WALL, Wall::new,
+            obstacleType.type.FLOOR, Floor::new,
+            obstacleType.type.WATER_SPAWN, waterSpawn::new,
+            obstacleType.type.WATER_EXIT, waterExit::new,
+            obstacleType.type.FIRE_SPAWN, fireSpawn::new,
+            obstacleType.type.FIRE_EXIT, fireExit::new);
+
     public StaticObstacle createObstacle(final obstacleType.type type, final HitBox hitbox) {
-        switch (type) {
-            case WATER_POOL:
-                return new waterPool(hitbox);
-            case LAVA_POOL:
-                return new lavaPool(hitbox);
-            case GREEN_POOL:
-                return new greenPool(hitbox);
-            case WALL:
-                return new Wall(hitbox);
-            case FLOOR:
-                return new Floor(hitbox);
-            case WATER_SPAWN:
-                return new waterSpawn(hitbox);
-            case WATER_EXIT:
-                return new waterExit(hitbox);
-            case FIRE_SPAWN:
-                return new fireSpawn(hitbox);
-            case FIRE_EXIT:
-                return new fireExit(hitbox);
-            default:
-                throw new IllegalArgumentException("no obstacle");
-        }
+        return Optional.ofNullable(OBSTACLE_CREATORS.get(type))
+                .map(creator -> creator.apply(hitbox))
+                .orElseThrow(() -> new IllegalArgumentException("no obstacle"));
     }
 }

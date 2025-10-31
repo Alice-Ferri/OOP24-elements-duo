@@ -34,9 +34,7 @@ public class button extends InteractiveObstacle implements Triggerable {
     public void deactivate() {
         if (this.active) {
             this.active = false;
-            for (TriggerListener t : linkedObjects) {
-                t.onTriggered(active);
-            }
+            this.linkedObjects.stream().forEach(t -> t.onTriggered(active));
         }
     }
 

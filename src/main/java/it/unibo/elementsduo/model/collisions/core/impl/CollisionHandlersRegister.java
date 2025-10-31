@@ -12,15 +12,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class CollisionHandlersRegister {
-    private List<CollisionHandler> register = new ArrayList<>();
-    private Map<Class<? extends CollisionHandler>, CollisionHandler> handlersMap = new HashMap<>();
+    private final List<CollisionHandler> register = new ArrayList<>();
+    private final Map<Class<? extends CollisionHandler>, CollisionHandler> handlersMap = new HashMap<>();
 
     public void registerHandler(CollisionHandler ch) {
         Objects.requireNonNull(ch);
-        if (!handlersMap.containsKey(ch.getClass())) {
-            handlersMap.put(ch.getClass(), ch);
+        handlersMap.computeIfAbsent(ch.getClass(), clazz -> {
             register.add(ch);
-        }
+            return ch;
+        });
     }
 
     public <T extends CollisionHandler> Optional<T> getHandler(Class<T> type) {
@@ -28,23 +28,17 @@ public class CollisionHandlersRegister {
     }
 
     public void handle(CollisionInformations info, CollisionResponse.Builder builder) {
-        for (var handler : register) {
-            if (handler.canHandle(info.getObjectA(), info.getObjectB())) {
-                handler.handle(info, builder);
-            }
-        }
+        register.stream()
+                .filter(handler -> handler.canHandle(info.getObjectA(), info.getObjectB()))
+                .forEach(handler -> handler.handle(info, builder));
     }
 
     /* notify handlers the beginning and the end */
     public void notifyUpdateStart() {
-        for (var handler : register) {
-            handler.onUpdateStart();
-        }
+        register.forEach(CollisionHandler::onUpdateStart);
     }
 
     public void notifyUpdateEnd() {
-        for (var handler : register) {
-            handler.onUpdateEnd();
-        }
+        register.forEach(CollisionHandler::onUpdateEnd);
     }
 }
