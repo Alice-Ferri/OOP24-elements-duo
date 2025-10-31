@@ -12,12 +12,11 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntity {
 
     /**
-     * Attempts to perform an attack action.
+     * Attempts to perform an attack action based on internal conditions (e.g., cooldown).
      *
-     * @return an {@link Optional} containing a {@link Projectiles} instance if an
-     * *attack occurs,
-     * *or an empty {@link Optional} otherwise.
+     * @return an {@link Optional} containing a new {@link Projectiles} instance if the attack is ok,else {@link Optional#empty}.
      */
+
     Optional<Projectiles> attack();
 
     /**
@@ -58,7 +57,7 @@ public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntit
      *
      * @return the current movement direction.
      */
-    double getDirection();
+    int getDirection();
 
     /**
      * Sets the enemy's state to dead.

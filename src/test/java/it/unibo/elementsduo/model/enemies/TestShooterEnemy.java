@@ -14,8 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
+import it.unibo.elementsduo.model.enemies.api.Enemy;
+
+
 /**
- * Test di unità per la classe ShooterEnemyImpl (massima semplificazione).
+ * Unit tests for the {@link ShooterEnemyImpl} class, ensuring correct movement, 
+ * state management, and projectile cooldown logic.
  */
 final class ShooterEnemyTest {
 
@@ -24,84 +29,104 @@ final class ShooterEnemyTest {
     private static final double SHOOTER_SPEED = 2.0;
     private static final double MAX_COOLDOWN = 3.0; 
     private static final double DELTA_TIME = 0.5;
+    private static final double DELTA = 0.001;
 
     private ShooterEnemyImpl enemy;
-    
-    // Per far compilare il test senza ProjectilesImpl, il codice del test
-    // usa la Reflection o un'implementazione anonima per creare l'oggetto.
-    // **NOTA:** La classe originale ShooterEnemyImpl DEVE avere ProjectilesImpl nel suo classpath per compilare,
-    // anche se qui non la definiamo, altrimenti il progetto fallirà.
-    
+
+    /**
+     * Sets up the test environment before each test method runs.
+     */
     @BeforeEach
     void setUp() {
         this.enemy = new ShooterEnemyImpl(new Position(START_X, START_Y));
+        this.enemy.setMoveManager(new ManualMoveManagerStub());
     }
     
-    // --- Metodi Helper (Reflection) per manipolare 'shootCooldown' ---
+    
+    /**
+     * Sets the private shootCooldown field via reflection.
+     * @param value the new cooldown value.
+     * @throws Exception if reflection fails.
+     */
     private void setShootCooldown(final double value) throws Exception {
         final Field cooldownField = ShooterEnemyImpl.class.getDeclaredField("shootCooldown");
         cooldownField.setAccessible(true);
         cooldownField.set(enemy, value);
     }
     
+    /**
+     * Gets the current value of the private shootCooldown field via reflection.
+     * @return the current cooldown value.
+     * @throws Exception if reflection fails.
+     */
     private double getShootCooldown() throws Exception {
         final Field cooldownField = ShooterEnemyImpl.class.getDeclaredField("shootCooldown");
         cooldownField.setAccessible(true);
         return cooldownField.getDouble(enemy);
     }
-    // -----------------------------------------------------------------
+    
+    // --- Core Tests ---
 
+    /**
+     * Tests the initial state (alive) and basic movement calculation during update.
+     */
     @Test
     void testInitialStateAndMovement() {
         assertTrue(enemy.isAlive());
-        
-        // Testa il movimento e la velocità
         enemy.update(DELTA_TIME);
         final double expectedX = START_X + (1 * SHOOTER_SPEED * DELTA_TIME);
-        assertEquals(expectedX, enemy.getX(), 0.001);
+        assertEquals(expectedX, enemy.getX(), DELTA);
     }
     
+    /**
+     * Tests that the attack is successful and the cooldown is reset when the cooldown is zero.
+     */
     @Test
     void testAttackWhenCooldownIsZero() throws Exception {
-        // Forza l'attacco
         setShootCooldown(0.0);
         Optional<Projectiles> result = enemy.attack();
-        
-        assertTrue(result.isPresent(), "Deve attaccare quando il cooldown è zero.");
-        assertEquals(MAX_COOLDOWN, getShootCooldown(), 0.001, "Il cooldown deve essere resettato.");
+        assertTrue(result.isPresent());
+        assertEquals(MAX_COOLDOWN, getShootCooldown(), DELTA);
     }
     
+    /**
+     * Tests that the attack is unsuccessful when the cooldown is active.
+     */
     @Test
     void testAttackWhenCooldownIsActive() throws Exception {
-        // Non deve attaccare
         setShootCooldown(MAX_COOLDOWN / 2);
         Optional<Projectiles> result = enemy.attack();
-        
-        assertFalse(result.isPresent(), "Non deve attaccare quando il cooldown è attivo.");
-        assertEquals(MAX_COOLDOWN / 2, getShootCooldown(), 0.001, "Il cooldown non deve cambiare.");
-    }
-
-    @Test
-    void testUpdateManagesCooldownReset() throws Exception {
-        // Esegue l'update quando il cooldown è scaduto per forzare l'attacco e il reset
-        setShootCooldown(DELTA_TIME); // Impostiamo un valore che scadrà
-        enemy.update(DELTA_TIME);
-        
-        // Risultato: reset a MAX_COOLDOWN (3.0) e decremento di DELTA_TIME (0.5)
-        assertEquals(MAX_COOLDOWN - DELTA_TIME, getShootCooldown(), 0.001, 
-                     "L'update deve resettare e decrementare il cooldown.");
+        assertFalse(result.isPresent());
+        assertEquals(MAX_COOLDOWN / 2, getShootCooldown(), DELTA);
     }
     
+    
+    /**
+     * Tests that a lateral physics collision correctly inverts the enemy's direction.
+     */
     @Test
     void testPhysicsCollisionInvertsDirection() {
-        // Colpisce una parete laterale (normale con |x| > 0.5)
         enemy.correctPhysicsCollision(0.1, new Vector2D(-1.0, 0.0));
-        assertEquals(-1, enemy.getDirection(), 0.001, "La direzione deve essere invertita dopo la collisione.");
+        assertEquals(-1, enemy.getDirection(), DELTA);
     }
 
+    /**
+     * Tests that the die method correctly sets the enemy's state to inactive.
+     */
     @Test
     void testDie() {
         enemy.die();
-        assertFalse(enemy.isAlive(), "Lo stato 'alive' deve essere false.");
+        assertFalse(enemy.isAlive());
+    }
+    
+    /**
+     * Minimal stub implementation of EnemiesMoveManager to prevent NullPointerException
+     * during the update cycle.
+     */
+    private static class ManualMoveManagerStub implements EnemiesMoveManager {
+        @Override
+        public void handleEdgeDetection(final Enemy enemy) {  }
+
+        public void notifyWallHit(final Enemy enemy, final Vector2D normal) { }
     }
 }

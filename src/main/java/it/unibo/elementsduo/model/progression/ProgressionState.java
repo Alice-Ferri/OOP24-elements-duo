@@ -24,12 +24,13 @@ public final class ProgressionState {
      */
     public void addLevelCompletionTime(final int levelNumber, final double timeSeconds, final int gemsCollected) {
 
-        final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) || timeSeconds < this.levelCompletionTimes.get(levelNumber);
-    
+        final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) 
+        || timeSeconds < this.levelCompletionTimes.get(levelNumber);
+
         if (isNewBestTime) {
             this.levelCompletionTimes.put(levelNumber, timeSeconds);
         }
-        
+
         final int currentMaxGems = this.levelGemsCollected.getOrDefault(levelNumber, 0);
 
         if (gemsCollected > currentMaxGems) {
@@ -63,7 +64,7 @@ public final class ProgressionState {
     public Map<Integer, Double> getLevelCompletionTimes() { 
         return this.levelCompletionTimes; 
     }
-    
+
     /**
      * Gets the map of the maximum gems collected for each level.
      *

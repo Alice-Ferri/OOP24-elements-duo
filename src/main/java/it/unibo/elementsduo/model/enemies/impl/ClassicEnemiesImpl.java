@@ -1,30 +1,14 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
-import java.util.Optional;
-
-import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.resources.Position;
-import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Standard enemy that moves laterally in the level and inflicts damage when the
- * player touches it.
+ * Implementation of the classic (patrol) enemy.
+ * Extends AbstractEnemy, inheriting all state, physics,
+ * and movement logic.
+ * Its only specialization is having no additional behaviors.
  */
-public final class ClassicEnemiesImpl implements Enemy {
-
-    private static final double SPEED = 0.8;
-
-    private boolean alive;
-    private double x;
-    private double y;
-    private int direction = 1;
-
-    private Vector2D velocity;
-    private EnemiesMoveManager moveManager;
+public final class ClassicEnemiesImpl extends AbstractEnemy {
 
     /**
      * Constructor for the classic enemy.
@@ -32,125 +16,25 @@ public final class ClassicEnemiesImpl implements Enemy {
      * @param pos the starting position.
      */
     public ClassicEnemiesImpl(final Position pos) {
-        this.x = pos.x();
-        this.y = pos.y();
-        this.alive = true;
-        this.velocity = new Vector2D(this.direction * SPEED, 0);
-
+        // Calls the abstract class constructor
+        super(pos);
     }
 
     /**
      * {@inheritDoc}
+     * Implementation of the Template Pattern's "hook" method.
+     * The classic enemy has no specific behaviors beyond the
+     * base movement (already handled by AbstractEnemy.update()).
      */
     @Override
-    public Optional<Projectiles> attack() {
-        // Classic enemy does not attack
-        return Optional.empty();
+    protected void updateSpecificBehavior(final double deltaTime) {
+        // Intentionally left empty.
     }
 
-    /**
-     * {@inheritDoc}
+    /*
+     * Note: It is not necessary to implement attack(), as the
+     * default implementation in AbstractEnemy (which returns
+     * Optional.empty()) is exactly the desired behavior.
      */
-    @Override
-    public boolean isAlive() {
-        return this.alive;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getX() {
-        return this.x;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getY() {
-        return this.y;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getDirection() {
-        return this.direction;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setDirection() {
-        this.direction *= -1;
-        this.velocity = new Vector2D(this.direction * SPEED, this.velocity.y());
-    }
-
-    /**
-     * {@inheritDoc}
-     * * @param deltaTime the time elapsed since the last update.
-     */
-    @Override
-    public void update(final double deltaTime) { 
-
-        this.moveManager.handleEdgeDetection(this);
-
-        this.velocity = new Vector2D(this.direction * SPEED, 0);
-        this.x += this.velocity.x() * deltaTime;
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
-        
-        if (penetration <= 0) {
-            return;
-        }
-
-        final double correctionPercent = 0.8;
-        final double positionSlop = 0.001; 
-        final double depth = Math.max(penetration - positionSlop, 0.0);
-        final Vector2D correction = normal.multiply(correctionPercent * depth);
-
-        this.x += correction.x();
-        this.y += correction.y();
-
-        final double velocityNormal = this.velocity.dot(normal);
-        if (velocityNormal < 0) {
-            this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
-        }
-
-        final double normalX = normal.x();
-        if (Math.abs(normalX) > 0.5) {
-            this.setDirection();
-        }
-
-    }
-    @Override
-    public HitBox getHitBox() {
-        return new HitBoxImpl(new Position(this.x, this.y), 1, 1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setMoveManager(final EnemiesMoveManager manager) {
-        this.moveManager = manager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void die() {
-        this.alive = false;
-    }
-
 }
+

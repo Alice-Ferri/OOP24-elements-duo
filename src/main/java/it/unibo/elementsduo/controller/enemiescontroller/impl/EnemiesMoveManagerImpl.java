@@ -59,7 +59,7 @@ public final class EnemiesMoveManagerImpl implements EnemiesMoveManager {
         final double x = enemy.getX();
         final double y = enemy.getY();
         final double direction = enemy.getDirection();
-        final double enemyHeight = enemy.getHitBox().getHalfHeight()*2;
+        final double enemyHeight = enemy.getHitBox().getHalfHeight() * 2;
 
         final double checkBoxCenterX = x + direction * CHECK_FORWARD_OFFSET;
 

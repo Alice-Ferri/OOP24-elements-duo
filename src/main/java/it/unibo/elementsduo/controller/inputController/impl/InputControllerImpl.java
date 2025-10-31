@@ -89,18 +89,6 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
         return false; 
     }
 
-
-    private static final class DirectionScheme {
-        private final int left, right, jump;
-
-        DirectionScheme(final int left, final int right, final int jump) {
-            this.left = left;
-            this.right = right;
-            this.jump = jump;
-        }
-    }
-
-
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -109,5 +97,15 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+    
+    private static final class DirectionScheme {
+        private final int left, right, jump;
+
+        DirectionScheme(final int left, final int right, final int jump) {
+            this.left = left;
+            this.right = right;
+            this.jump = jump;
+        }
     }
 }

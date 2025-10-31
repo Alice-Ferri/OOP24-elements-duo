@@ -25,11 +25,17 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformIm
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.view.LevelPanel;
 
-public class GameControllerImpl implements GameController {
+/**
+ * Manages the logic for a single game level.
+ * This class initializes all game systems (e.g, input, collisions, events...)
+ * and runs the main game loop, updating and rendering the level.
+ */
+public final class GameControllerImpl implements GameController {
+    private static final int GEMS_COLLECTED_PLACEHOLDER = 500;
 
     private final Level level;
     private final LevelPanel view;
-    private final GameNavigation controller; 
+    private final GameNavigation controller;
     private final GameLoop gameLoop;
     private final EventManager eventManager;
     private final GameState gameState;
@@ -37,20 +43,29 @@ public class GameControllerImpl implements GameController {
     private final CollisionManager collisionManager;
     private final EnemiesMoveManager moveManager;
     private final GameTimer gameTimer;
-    private final ProgressionManagerImpl progressionManager; 
+    private final ProgressionManagerImpl progressionManager;
 
-    public GameControllerImpl(final Level level, final GameNavigation controller,final LevelPanel view,final ProgressionManagerImpl progressionManager) {
+    /**
+     * Constructs a new GameController for a specific level.
+     *
+     * @param level              The game level model.
+     * @param controller         The main navigation controller.
+     * @param view               The level's view panel.
+     * @param progressionManager The manager for saving game progress.
+     */
+    public GameControllerImpl(final Level level, final GameNavigation controller,
+                              final LevelPanel view, final ProgressionManagerImpl progressionManager) {
         this.level = Objects.requireNonNull(level);
         this.controller = Objects.requireNonNull(controller);
         this.view = Objects.requireNonNull(view);
         this.gameLoop = new GameLoop(this);
-        this.progressionManager=progressionManager;
         this.eventManager = new EventManager();
         this.inputController = new InputControllerImpl();
         this.gameState = new GameStateImpl(eventManager);
         this.collisionManager = new CollisionManager(this.eventManager);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.gameTimer = new GameTimer();
+        this.progressionManager = progressionManager;
     }
 
     @Override
@@ -67,7 +82,6 @@ public class GameControllerImpl implements GameController {
 
     @Override
     public void deactivate() {
-        
         this.gameLoop.stop();
         this.inputController.uninstall();
 
@@ -97,7 +111,7 @@ public class GameControllerImpl implements GameController {
         updateInteractiveObstacles(deltaTime);
 
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
-        
+
         this.level.cleanInactiveEntities();
         this.level.cleanProjectiles();
 
@@ -141,22 +155,25 @@ public class GameControllerImpl implements GameController {
     private void handleGameOver() {
         this.gameTimer.stop();
         this.gameLoop.stop();
-        
+
         SwingUtilities.invokeLater(() -> {
-        if (gameState.didWin()) {
-            
-            JOptionPane.showMessageDialog(
-                    this.view, 
-                    "Livello completato!", 
-                    "Vittoria!", 
-                    JOptionPane.INFORMATION_MESSAGE
+            if (gameState.didWin()) {
+                JOptionPane.showMessageDialog(
+                        this.view,
+                        "Level Completed!",
+                        "WIN!",
+                        JOptionPane.INFORMATION_MESSAGE
                 );
-            this.progressionManager.levelCompleted(this.progressionManager.getCurrentState().getCurrentLevel(),this.gameTimer.getElapsedSeconds(),500);
-            this.controller.goToLevelSelection();
-        } else {
-            this.controller.restartCurrentLevel();
-        }
-    });
+                this.progressionManager.levelCompleted(
+                        this.progressionManager.getCurrentState().getCurrentLevel(),
+                        this.gameTimer.getElapsedSeconds(),
+                        GEMS_COLLECTED_PLACEHOLDER 
+                );
+                this.controller.goToLevelSelection();
+            } else {
+                this.controller.restartCurrentLevel();
+            }
+        });
     }
 
     private void setEnemiesMoveManager(final EnemiesMoveManager manager) {

@@ -26,16 +26,16 @@ public class EntityFactoryImpl implements EntityFactory {
     private final InteractiveObstacleFactory interactiveObsFactory;
 
     private static final Map<Character, EntityType> SYMBOL_REGISTRY = buildSymbolRegistry();
-    private static final Map<Character, ObstacleType.type> STATIC_TYPE_MAP = Map.of(
-            'P', ObstacleType.type.FLOOR,
-            '#', ObstacleType.type.WALL,
-            'A', ObstacleType.type.WATER_EXIT,
-            'F', ObstacleType.type.FIRE_EXIT,
-            'B', ObstacleType.type.FIRE_SPAWN,
-            'G', ObstacleType.type.GEM,
-            'Q', ObstacleType.type.LAVA_POOL,
-            'K', ObstacleType.type.GREEN_POOL,
-            'E', ObstacleType.type.WATER_POOL);
+    private static final Map<Character, ObstacleType.Type> STATIC_TYPE_MAP = Map.of(
+            'P', ObstacleType.Type.FLOOR,
+            '#', ObstacleType.Type.WALL,
+            'A', ObstacleType.Type.WATER_EXIT,
+            'F', ObstacleType.Type.FIRE_EXIT,
+            'B', ObstacleType.Type.FIRE_SPAWN,
+            'G', ObstacleType.Type.GEM,
+            'Q', ObstacleType.Type.LAVA_POOL,
+            'K', ObstacleType.Type.GREEN_POOL,
+            'E', ObstacleType.Type.WATER_POOL);
 
     private static Map<Character, EntityType> buildSymbolRegistry() {
         final Map<Character, EntityType> map = new HashMap<>();

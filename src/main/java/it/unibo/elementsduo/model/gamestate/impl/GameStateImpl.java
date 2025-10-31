@@ -9,18 +9,28 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.FireExitEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.GemCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent; 
+import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 
-public class GameStateImpl implements EventListener, GameState {
+/**
+ * Implementation of {@link GameState}.
+ * Listens to game events to track the game's progress,
+ * such as winning, losing, and collecting items.
+ */
+public final class GameStateImpl implements EventListener, GameState {
 
     private boolean gameOver;
     private boolean won;
     private int gemsCollected;
     private int deadEnemies;
-    private boolean fireboyReachedExit; 
-    private boolean watergirlReachedExit; 
+    private boolean fireboyReachedExit;
+    private boolean watergirlReachedExit;
 
+    /**
+     * Constructs a new GameState and subscribes it to relevant game events.
+     *
+     * @param eventManager The main {@link EventManager} to subscribe to.
+     */
     public GameStateImpl(final EventManager eventManager) {
         Objects.requireNonNull(eventManager);
 
@@ -43,16 +53,14 @@ public class GameStateImpl implements EventListener, GameState {
             handleGemCollected();
         } else if (event instanceof EnemyDiedEvent) {
             handleEnemyDied();
-        } else if (event instanceof FireExitEvent) { 
+        } else if (event instanceof FireExitEvent) {
             handleFireReachedExit();
             checkGameWinCondition();
         } else if (event instanceof WaterExitEvent) {
             handleWaterReachedExit();
             checkGameWinCondition();
         }
-
     }
-
 
     private void handleEnemyDied() {
         this.deadEnemies++;
@@ -80,10 +88,10 @@ public class GameStateImpl implements EventListener, GameState {
         }
     }
 
-    private void endGame(final boolean won) {
+    private void endGame(final boolean gameWon) {
         if (!gameOver) {
             this.gameOver = true;
-            this.won = won;
+            this.won = gameWon;
         }
     }
 
@@ -107,10 +115,20 @@ public class GameStateImpl implements EventListener, GameState {
         return this.deadEnemies;
     }
 
+    /**
+     * Checks if Fireboy has reached the exit door.
+     *
+     * @return true if Fireboy has reached the exit, false otherwise.
+     */
     public boolean hasFireboyReachedExit() {
         return this.fireboyReachedExit;
     }
 
+    /**
+     * Checks if Watergirl has reached the exit door.
+     *
+     * @return true if Watergirl has reached the exit, false otherwise.
+     */
     public boolean hasWatergirlReachedExit() {
         return this.watergirlReachedExit;
     }

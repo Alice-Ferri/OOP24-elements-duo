@@ -34,6 +34,11 @@ import java.awt.Graphics;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Main panel for the game level, combining the game area and a top control bar.
+ * This panel holds the {@link GameAreaPanel} (where the game is rendered)
+ * and navigation buttons.
+ */
 public final class LevelPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +47,11 @@ public final class LevelPanel extends JPanel {
     private final JButton homeButton;
     private final JButton levelSelectButton;
 
+    /**
+     * Constructs a new LevelPanel for the given level.
+     *
+     * @param level The game level model to be rendered.
+     */
     public LevelPanel(final Level level) {
         this.level = Objects.requireNonNull(level);
         this.setLayout(new BorderLayout());
@@ -60,14 +70,29 @@ public final class LevelPanel extends JPanel {
         this.add(gameArea, BorderLayout.CENTER);
     }
 
+    /**
+     * Gets the button that returns to the home menu.
+     *
+     * @return The "Home Menu" button.
+     */
     public JButton getHomeButton() {
         return this.homeButton;
     }
 
+    /**
+     * Gets the button that returns to the level selection menu.
+     *
+     * @return The "Level Selection" button.
+     */
     public JButton getLevelSelectButton() {
         return this.levelSelectButton;
     }
 
+    /**
+     * Inner class representing the canvas where the game state is actively
+     * rendered.
+     * It handles all custom painting of game entities.
+     */
     private final class GameAreaPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
@@ -127,7 +152,6 @@ public final class LevelPanel extends JPanel {
             if (gridDimensions.width == 0 || gridDimensions.height == 0) {
                 return;
             }
-
             final int panelWidth = getWidth();
             final int panelHeight = getHeight();
 
@@ -177,6 +201,7 @@ public final class LevelPanel extends JPanel {
         private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,
                 final int elementSize) {
             level.getEntitiesByClass(AbstractInteractiveObstacle.class).forEach(obj -> {
+
                 final HitBox hb = obj.getHitBox();
                 final double cx = hb.getCenter().x();
                 final double cy = hb.getCenter().y();
@@ -281,11 +306,11 @@ public final class LevelPanel extends JPanel {
                 final int h = toPx(hh * 2.0, elementSize);
 
                 if (player instanceof Fireboy) {
-                    g.setColor(Color.BLACK);
+                    g.setColor(Color.RED);
                 } else if (player instanceof Watergirl) {
                     g.setColor(Color.BLUE);
                 } else {
-                    g.setColor(Color.BLACK);
+                    g.setColor(Color.RED);
                 }
 
                 g.fillOval(x, y, w, h);
