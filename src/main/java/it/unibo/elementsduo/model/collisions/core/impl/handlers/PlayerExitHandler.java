@@ -32,9 +32,9 @@ public class PlayerExitHandler extends AbstractCollisionHandler<Player, ExitZone
                 exitZone.activate();
 
                 if (player.getPlayerType() == PlayerType.FIREBOY) {
-                    this.eventManager.notify(new FireExitEvent(player));
+                    builder.addLogicCommand(() -> this.eventManager.notify(new FireExitEvent(player)));
                 } else {
-                    this.eventManager.notify(new WaterExitEvent(player));
+                    builder.addLogicCommand(() -> this.eventManager.notify(new WaterExitEvent(player)));
                 }
             }
         }
