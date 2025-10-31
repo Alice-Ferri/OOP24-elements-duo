@@ -14,7 +14,7 @@ public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntit
     /**
      * Attempts to perform an attack action based on internal conditions (e.g., cooldown).
      *
-     * @return an {@link Optional} containing a new {@link Projectiles} instance if the attack is successful, otherwise {@link Optional.empty()}.
+     * @return an {@link Optional} containing a new {@link Projectiles} instance if the attack is ok,else {@link Optional#empty}.
      */
 
     Optional<Projectiles> attack();
@@ -57,7 +57,7 @@ public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntit
      *
      * @return the current movement direction.
      */
-    double getDirection();
+    int getDirection();
 
     /**
      * Sets the enemy's state to dead.
