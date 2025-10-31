@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import it.unibo.elementsduo.controller.inputController.api.InputController;
-import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.inputController.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
