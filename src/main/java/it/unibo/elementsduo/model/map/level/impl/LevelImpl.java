@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.map.level.impl;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -15,18 +16,27 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Interactiv
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 
-
-public class LevelImpl implements Level {
+/**
+ * Implementation of the {@link Level} interface.
+ * It holds the complete set of game entities for a level and provides
+ * methods to access and manage them.
+ */
+public final class LevelImpl implements Level {
 
     private final Set<GameEntity> gameEntities;
 
+    /**
+     * Constructs a new Level instance.
+     *
+     * @param gameEntities A non-null set of all game entities that compose this level.
+     */
     public LevelImpl(final Set<GameEntity> gameEntities) {
         this.gameEntities = new HashSet<>(Objects.requireNonNull(gameEntities));
     }
 
     @Override
     public Set<GameEntity> getGameEntities() {
-        return this.gameEntities; 
+        return Collections.unmodifiableSet(this.gameEntities);
     }
 
     @Override
@@ -49,8 +59,8 @@ public class LevelImpl implements Level {
 
     @Override
     public Set<Enemy> getLivingEnemies() {
-        return getAllEnemies().stream()      
-                .filter(Enemy::isAlive)      
+        return getAllEnemies().stream()
+                .filter(Enemy::isAlive)
                 .collect(Collectors.toUnmodifiableSet());
     }
 
@@ -80,16 +90,19 @@ public class LevelImpl implements Level {
     public void cleanProjectiles() {
         this.gameEntities.removeIf(e -> e instanceof Projectiles p && !p.isActive());
     }
-    
+
     @Override
     public void cleanInactiveEntities() {
-        this.gameEntities.removeIf(entity -> (entity instanceof Projectiles p && !p.isActive()) || (entity instanceof Enemy e && !e.isAlive()));
+        this.gameEntities.removeIf(entity ->
+                entity instanceof Projectiles p && !p.isActive()
+                || entity instanceof Enemy e && !e.isAlive()
+        );
     }
 
     @Override
     public List<Collidable> getAllCollidables() {
         return this.gameEntities.stream()
-                .filter(Collidable.class::isInstance) 
+                .filter(Collidable.class::isInstance)
                 .map(Collidable.class::cast)
                 .collect(Collectors.toList());
     }
@@ -101,6 +114,4 @@ public class LevelImpl implements Level {
                 .map(Updatable.class::cast)
                 .collect(Collectors.toSet());
     }
-
-
 }

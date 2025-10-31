@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class EntityFactoryImpl implements EntityFactory{
-
-    private final ObstacleFactory obstacleFactory;
-    private final EnemyFactory enemyFactory;
-    private final InteractiveObstacleFactory interactiveObsFactory;
+/**
+ * Concrete implementation of {@link EntityFactory}.
+ * Creates game entities based on map symbols.
+ */
+public final class EntityFactoryImpl implements EntityFactory {
 
     private static final Map<Character, EntityType> SYMBOL_REGISTRY = buildSymbolRegistry();
     private static final Map<Character, obstacleType.type> STATIC_TYPE_MAP = Map.of(
@@ -35,8 +35,27 @@ public class EntityFactoryImpl implements EntityFactory{
             'G', obstacleType.type.GEM,
             'Q', obstacleType.type.LAVA_POOL,
             'K', obstacleType.type.GREEN_POOL,
-            'E', obstacleType.type.WATER_POOL);
-            
+            'E', obstacleType.type.WATER_POOL
+    );
+
+    private final ObstacleFactory obstacleFactory;
+    private final EnemyFactory enemyFactory;
+    private final InteractiveObstacleFactory interactiveObsFactory;
+
+    /**
+     * Constructs a new EntityFactory with its required sub-factories.
+     *
+     * @param obstacleFactory       Factory for creating static obstacles.
+     * @param enemyFactory          Factory for creating enemies.
+     * @param interactiveObsFactory Factory for creating interactive obstacles.
+     */
+    public EntityFactoryImpl(final ObstacleFactory obstacleFactory,
+                             final EnemyFactory enemyFactory,
+                             final InteractiveObstacleFactory interactiveObsFactory) {
+        this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
+        this.enemyFactory = Objects.requireNonNull(enemyFactory);
+        this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
+    }
 
     private static Map<Character, EntityType> buildSymbolRegistry() {
         final Map<Character, EntityType> map = new HashMap<>();
@@ -61,13 +80,6 @@ public class EntityFactoryImpl implements EntityFactory{
         return Collections.unmodifiableMap(map);
     }
 
-    public EntityFactoryImpl(final ObstacleFactory obstacleFactory,final EnemyFactory enemyFactory,final InteractiveObstacleFactory interactiveObsFactory) 
-    {
-        this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
-        this.enemyFactory = Objects.requireNonNull(enemyFactory);
-        this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
-    }
-
     @Override
     public Set<GameEntity> createEntities(final char symbol, final Position pos) {
         final EntityType type = SYMBOL_REGISTRY.get(symbol);
@@ -77,7 +89,7 @@ public class EntityFactoryImpl implements EntityFactory{
         }
 
         final HitBoxImpl defaultHitbox = new HitBoxImpl(pos, 1, 1);
-        final Set<GameEntity> created = new HashSet<>(); 
+        final Set<GameEntity> created = new HashSet<>();
 
         switch (type) {
             case STATIC_OBSTACLE:
@@ -86,7 +98,7 @@ public class EntityFactoryImpl implements EntityFactory{
             case ENEMY:
                 created.add(enemyFactory.createEnemy(symbol, pos));
                 break;
-            case SPAWN_POINT: 
+            case SPAWN_POINT:
                 created.add((symbol == 'B') ? new Watergirl(pos) : new Fireboy(pos));
                 break;
             case LEVER:
@@ -104,6 +116,6 @@ public class EntityFactoryImpl implements EntityFactory{
             default:
                 throw new IllegalArgumentException();
         }
-        return created; 
+        return created;
     }
 }

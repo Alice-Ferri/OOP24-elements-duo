@@ -10,13 +10,27 @@ import it.unibo.elementsduo.controller.subcontroller.api.Controller;
 import it.unibo.elementsduo.model.progression.ProgressionState;
 import it.unibo.elementsduo.view.LevelSelectionPanel;
 
-public class LevelSelectionController implements Controller{
+/**
+ * Manages the logic for the level selection screen.
+ * It handles user input (selecting a level, going back) and populates
+ * the view with progression data (best times, gems).
+ */
+public final class LevelSelectionController implements Controller {
 
     private final LevelSelectionPanel view;
     private final LevelSelectionNavigation controller;
-    private final ProgressionManagerImpl progressionManager; 
+    private final ProgressionManagerImpl progressionManager;
 
-    public LevelSelectionController (final LevelSelectionPanel panel, final LevelSelectionNavigation controller,final ProgressionManagerImpl progressionManager){
+    /**
+     * Constructs a new LevelSelectionController.
+     *
+     * @param panel              The {@link LevelSelectionPanel} view.
+     * @param controller         The navigation controller.
+     * @param progressionManager The manager for loading player progress.
+     */
+    public LevelSelectionController(final LevelSelectionPanel panel,
+                                    final LevelSelectionNavigation controller,
+                                    final ProgressionManagerImpl progressionManager) {
         this.view = panel;
         this.controller = controller;
         this.progressionManager = progressionManager;
@@ -24,8 +38,8 @@ public class LevelSelectionController implements Controller{
 
     @Override
     public void activate() {
-        this.populateLevelData(); 
-        
+        this.populateLevelData();
+
         this.view.getLevelButtons().forEach((button, levelNumber) -> {
             button.addActionListener(e -> {
                 this.controller.startGame(levelNumber);
@@ -36,20 +50,20 @@ public class LevelSelectionController implements Controller{
             this.controller.goToMenu();
         });
     }
-    
+
     private void populateLevelData() {
         if (this.progressionManager == null) {
-            return; 
+            return;
         }
-        
+
         final ProgressionState state = this.progressionManager.getCurrentState();
-        
+
         final Map<Integer, Double> bestTimes = state.getLevelCompletionTimes();
         final Map<Integer, Integer> levelGems = state.getLevelGemsCollected();
 
         this.view.setBestTimes(bestTimes);
         this.view.setLevelGems(levelGems);
-        
+
         this.view.repaint();
     }
 
@@ -57,13 +71,12 @@ public class LevelSelectionController implements Controller{
     public void deactivate() {
          this.view.getLevelButtons().keySet().forEach(button -> button.removeActionListener(null));
 
-        this.view.getBackButton().removeActionListener(null); 
+        this.view.getBackButton().removeActionListener(null);
     }
-    
 
     @Override
     public JPanel getPanel() {
         return this.view;
     }
-    
+
 }

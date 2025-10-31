@@ -25,13 +25,21 @@ import it.unibo.elementsduo.view.LevelPanel;
 import it.unibo.elementsduo.view.GuidePanel;
 import it.unibo.elementsduo.view.LevelSelectionPanel;
 import it.unibo.elementsduo.view.MenuPanel;
-import it.unibo.elementsduo.datasave.SaveManager; 
-import it.unibo.elementsduo.model.progression.ProgressionState; 
+import it.unibo.elementsduo.datasave.SaveManager;
+import it.unibo.elementsduo.model.progression.ProgressionState;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 
+/**
+ * The main controller for the application.
+ * It manages the navigation between different sub-controllers (menu, level selection, game)
+ * and holds the main game frame.
+ */
+public final class MainControllerImpl implements GameNavigation, HomeNavigation, LevelSelectionNavigation, MainController {
 
-public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSelectionNavigation,MainController{
-    
+    private static final String MENU_KEY = "menu";
+    private static final String GAME_KEY = "game";
+    private static final String LEVEL_KEY = "level";
+    private static final String SAVE_DIR = "save";
 
     private final GameFrame mainFrame;
     private Controller currentController;
@@ -42,35 +50,31 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     private final SaveManager saveManager;
     private ProgressionManagerImpl progressionManager;
 
-
-    private static final String MENU_KEY = "menu";
-    private static final String GAME_KEY = "game";
-    private static final String levelkey = "level";
-    private static final String SAVE_DIR = "save";
-
-    public MainControllerImpl(){
+    /**
+     * Constructs the MainController, initializing the main frame and factories.
+     */
+    public MainControllerImpl() {
         this.mainFrame = new GameFrame();
         this.mapValidator = new MapValidatorImpl();
-        mapLoader= new MapLoader(new obstacleFactoryImpl(), new EnemyFactoryImpl(),new InteractiveObstacleFactoryImpl());
+        this.mapLoader = new MapLoader(new obstacleFactoryImpl(), new EnemyFactoryImpl(), new InteractiveObstacleFactoryImpl());
         this.saveManager = new SaveManager(Paths.get(SAVE_DIR));
     }
 
     @Override
     public void startGame(final int levelNumber) {
-
         this.checkController();
         currentLevelNumber = levelNumber;
-        
+
         final Level level = this.mapLoader.loadLevel(currentLevelNumber);
-        try{
+        try {
             mapValidator.validate(level);
-        }catch (InvalidMapException e){
+        } catch (final InvalidMapException e) {
             handleException(e.getMessage());
-            return ;
+            return;
         }
 
         final LevelPanel panel = new LevelPanel(level);
-        final Controller gameController = new GameControllerImpl(level, this,panel,progressionManager);
+        final Controller gameController = new GameControllerImpl(level, this, panel, progressionManager);
         gameController.activate();
 
         final String currentkey = GAME_KEY + currentLevelNumber;
@@ -79,29 +83,32 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         mainFrame.showView(currentkey);
 
         currentController = gameController;
-        
     }
 
+    /**
+     * Starts a new game by initializing a new progression state
+     * and navigating to the level selection screen.
+     */
     @Override
     public void startNewGame() {
-        
         initProgressionManager(new ProgressionState());
         this.goToLevelSelection();
     }
 
+    /**
+     * Loads a saved game. If no save is found, a new game is started.
+     * Navigates to the level selection screen.
+     */
     @Override
     public void loadSavedGame() {
-        
         final ProgressionState defaultState = new ProgressionState();
-        
+
         final ProgressionState state = saveManager.loadGame().orElseGet(() -> {
-            return defaultState; 
+            return defaultState;
         });
 
         initProgressionManager(state);
-
         this.goToLevelSelection();
-
     }
     
     @Override
@@ -120,8 +127,8 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     @Override
     public void goToMenu() {
         this.checkController();
-        currentLevelNumber=-1;
-        
+        currentLevelNumber = -1;
+
         final MenuPanel view = new MenuPanel();
         final Controller controller = new HomeController(view, this);
 
@@ -136,17 +143,16 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
     @Override
     public void goToLevelSelection() {
         this.checkController();
-        currentLevelNumber=-1;
-        
+        currentLevelNumber = -1;
+
         final LevelSelectionPanel view = new LevelSelectionPanel();
-        final Controller controller = new LevelSelectionController(view,this,this.progressionManager);
+        final Controller controller = new LevelSelectionController(view, this, this.progressionManager);
         controller.activate();
 
-        mainFrame.addView(view, levelkey);
-        mainFrame.showView(levelkey);
+        mainFrame.addView(view, LEVEL_KEY);
+        mainFrame.showView(LEVEL_KEY);
 
         currentController = controller;
-
     }
 
     @Override
@@ -155,10 +161,10 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         this.mainFrame.setVisible(true);
     }
 
-    private void checkController(){
-        if(currentController!=null){
+    private void checkController() {
+        if (currentController != null) {
             currentController.deactivate();
-            currentController=null;
+            currentController = null;
         }
     }
 
@@ -170,18 +176,18 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
             if (this.progressionManager == null) {
                  this.initProgressionManager(new ProgressionState());
             }
-            this.startGame(this.currentLevelNumber); 
+            this.startGame(this.currentLevelNumber);
         } else {
             this.goToMenu();
         }
     }
 
-    private void handleException(final String error){
+    private void handleException(final String error) {
         JOptionPane.showMessageDialog(
-                this.mainFrame,        
-                error,                 
-                "Errore Mappa",       
-                JOptionPane.ERROR_MESSAGE 
+                this.mainFrame,
+                error,
+                "Map Error",
+                JOptionPane.ERROR_MESSAGE
         );
         this.goToLevelSelection();
     }
