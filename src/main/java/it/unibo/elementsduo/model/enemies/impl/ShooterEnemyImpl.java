@@ -34,7 +34,7 @@ public final class ShooterEnemyImpl extends AbstractEnemy {
      * attack cooldown.
      */
     @Override
-    protected void updateSpecificBehavior(final double deltaTime) {
+    protected void updateAttack(final double deltaTime) {
         if (this.shootCooldown > 0) {
             this.shootCooldown -= deltaTime;
         } else {
