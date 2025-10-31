@@ -9,12 +9,10 @@ import it.unibo.elementsduo.model.player.api.Player;
 public class PlayerHazardCommand implements CollisionCommand {
 
     private final Player player;
-    private final Hazard hazard;
     private final EventManager eventManager;
 
     public PlayerHazardCommand(Player player, Hazard hazard, EventManager eventManager) {
         this.player = player;
-        this.hazard = hazard;
         this.eventManager = eventManager;
     }
 

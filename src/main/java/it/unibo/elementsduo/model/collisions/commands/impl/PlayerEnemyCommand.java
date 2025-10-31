@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.collisions.commands.impl;
 
 import it.unibo.elementsduo.model.collisions.commands.api.CollisionCommand;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
