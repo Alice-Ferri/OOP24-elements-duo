@@ -20,15 +20,15 @@ public abstract class AbstractCollisionHandler<T1 extends Collidable, T2 extends
         return (typeA.isInstance(a) && typeB.isInstance(b)) || (typeA.isInstance(b) && typeB.isInstance(a));
     }
 
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
+    public void handle(CollisionInformations c, CollisionResponse.Builder builder) {
         Collidable a = c.getObjectA();
         Collidable b = c.getObjectB();
         if (typeA.isInstance(a) && typeB.isInstance(b)) {
-            this.handleCollision(typeA.cast(a), typeB.cast(b), c, collisionResponse);
+            this.handleCollision(typeA.cast(a), typeB.cast(b), c, builder);
         } else if (typeA.isInstance(b) && typeB.isInstance(a)) {
-            this.handleCollision(typeA.cast(b), typeB.cast(a), c, collisionResponse);
+            this.handleCollision(typeA.cast(b), typeB.cast(a), c, builder);
         }
     }
 
-    protected abstract void handleCollision(T1 a, T2 b, CollisionInformations c, CollisionResponse collisionResponse);
+    protected abstract void handleCollision(T1 a, T2 b, CollisionInformations c, CollisionResponse.Builder builder);
 }

@@ -49,7 +49,7 @@ public class CollisionManager {
 
         List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
 
-        CollisionResponse collisionResponse = new CollisionResponse();
+        CollisionResponse.Builder builder = new CollisionResponse.Builder();
 
         for (Collidable c : entities) {
             if (c instanceof Player p) {
@@ -60,12 +60,13 @@ public class CollisionManager {
         }
 
         for (CollisionInformations c : collisionsInfo) {
-            register.handle(c, collisionResponse);
+            register.handle(c, builder);
         }
 
         register.notifyUpdateEnd();
 
-        collisionResponse.execute();
+        CollisionResponse response = builder.build();
+        response.execute();
 
     }
 

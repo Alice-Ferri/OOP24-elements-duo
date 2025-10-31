@@ -14,8 +14,8 @@ public class PushBoxHandler extends AbstractCollisionHandler<Player, PushBox> {
 
     @Override
     public void handleCollision(Player player, PushBox box, CollisionInformations c,
-            CollisionResponse collisionResponse) {
-        collisionResponse.addPhysicsCommand(
+            CollisionResponse.Builder builder) {
+        builder.addPhysicsCommand(
                 new PushBoxCommand(box, c.getPenetration(), c.getNormal(), c.getObjectA() instanceof Player));
     }
 

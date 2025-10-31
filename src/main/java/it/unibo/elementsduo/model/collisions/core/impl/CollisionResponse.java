@@ -10,12 +10,9 @@ public class CollisionResponse {
     private List<CollisionCommand> physicsCommands = new ArrayList<>();
     private List<CollisionCommand> logicCommands = new ArrayList<>();
 
-    public void addLogicCommand(CollisionCommand command) {
-        this.logicCommands.add(command);
-    }
-
-    public void addPhysicsCommand(CollisionCommand command) {
-        this.physicsCommands.add(command);
+    private CollisionResponse(List<CollisionCommand> physicsCommands, List<CollisionCommand> logicCommands) {
+        this.physicsCommands = List.copyOf(physicsCommands);
+        this.logicCommands = List.copyOf(logicCommands);
     }
 
     public void execute() {
@@ -25,6 +22,23 @@ public class CollisionResponse {
 
         for (CollisionCommand c : this.logicCommands) {
             c.execute();
+        }
+    }
+
+    public static class Builder {
+        private final List<CollisionCommand> physicsCommands = new ArrayList<>();
+        private final List<CollisionCommand> logicCommands = new ArrayList<>();
+
+        public void addLogicCommand(CollisionCommand command) {
+            this.logicCommands.add(command);
+        }
+
+        public void addPhysicsCommand(CollisionCommand command) {
+            this.physicsCommands.add(command);
+        }
+
+        public CollisionResponse build() {
+            return new CollisionResponse(this.physicsCommands, this.logicCommands);
         }
     }
 

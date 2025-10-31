@@ -23,13 +23,13 @@ public class PlayerHazardHandler extends AbstractCollisionHandler<Player, Hazard
 
     @Override
     public void handleCollision(Player player, Hazard hazard, CollisionInformations c,
-            CollisionResponse collisionResponse) {
+            CollisionResponse.Builder builder) {
         if (player instanceof Fireboy && hazard instanceof waterPool) {
-            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            builder.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
         } else if (player instanceof Watergirl && hazard instanceof lavaPool) {
-            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            builder.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
         } else if (hazard instanceof greenPool) {
-            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            builder.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
         }
     }
 

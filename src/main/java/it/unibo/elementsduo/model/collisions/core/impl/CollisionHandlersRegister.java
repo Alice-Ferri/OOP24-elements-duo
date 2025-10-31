@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.collisions.core.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse.Builder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,10 +27,10 @@ public class CollisionHandlersRegister {
         return Optional.ofNullable((T) handlersMap.get(type));
     }
 
-    public void handle(CollisionInformations info, CollisionResponse collisionResponse) {
+    public void handle(CollisionInformations info, CollisionResponse.Builder builder) {
         for (var handler : register) {
             if (handler.canHandle(info.getObjectA(), info.getObjectB())) {
-                handler.handle(info, collisionResponse);
+                handler.handle(info, builder);
             }
         }
     }

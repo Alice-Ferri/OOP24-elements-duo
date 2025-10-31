@@ -20,12 +20,12 @@ public class LeverActivationHandler extends AbstractCollisionHandler<Player, Lev
 
     @Override
     public void handleCollision(Player player, Lever trigger, CollisionInformations c,
-            CollisionResponse collisionResponse) {
+            CollisionResponse.Builder builder) {
 
         leversThisFrame.add(trigger);
         /* if it isn't in the levers before so it is a new lever colliding */
         if (!leversLastFrame.contains(trigger)) {
-            collisionResponse.addLogicCommand(new LeverActivationCommand(trigger));
+            builder.addLogicCommand(new LeverActivationCommand(trigger));
         }
     }
 

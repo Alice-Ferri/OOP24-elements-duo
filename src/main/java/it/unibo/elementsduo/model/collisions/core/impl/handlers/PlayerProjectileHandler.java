@@ -18,8 +18,8 @@ public class PlayerProjectileHandler extends AbstractCollisionHandler<Player, Pr
 
     @Override
     public void handleCollision(Player player, Projectiles projectile, final CollisionInformations c,
-            final CollisionResponse response) {
-        response.addLogicCommand(
+            final CollisionResponse.Builder builder) {
+        builder.addLogicCommand(
                 new PlayerProjectileCommand(player, projectile, this.eventManager));
 
     }

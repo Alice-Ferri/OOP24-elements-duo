@@ -10,6 +10,7 @@ import it.unibo.elementsduo.resources.Vector2D;
 
 public class PlayerEnemyHandler extends AbstractCollisionHandler<Player, Enemy> {
 
+    private static final double VERTICAL_THRESHOLD = -0.5;
     private final EventManager eventManager;
 
     public PlayerEnemyHandler(EventManager em) {
@@ -19,25 +20,18 @@ public class PlayerEnemyHandler extends AbstractCollisionHandler<Player, Enemy> 
 
     @Override
     public void handleCollision(Player player, Enemy enemy, CollisionInformations c,
-            CollisionResponse collisionResponse) {
-        Vector2D normalEnemyPlayer;
-        if (c.getObjectA() instanceof Player) {
-            normalEnemyPlayer = c.getNormal();
-        } else {
-            normalEnemyPlayer = c.getNormal().multiply(-1);
-        }
+            CollisionResponse.Builder builder) {
+        Vector2D normalEnemyPlayer = calculateNormalFromPlayerPerspective(c);
+        boolean isPlayerAboveEnemy = normalEnemyPlayer.y() < VERTICAL_THRESHOLD;
 
-        boolean isOn;
-        if (normalEnemyPlayer.y() < -0.5)
-            isOn = true;
-        else
-            isOn = false;
+        builder.addLogicCommand(
+                new PlayerEnemyCommand(player, enemy, eventManager, isPlayerAboveEnemy));
+    }
 
-        if (isOn) {
-            collisionResponse.addLogicCommand(new PlayerEnemyCommand(player, enemy, eventManager, true));
-        } else {
-            collisionResponse.addLogicCommand(new PlayerEnemyCommand(player, enemy, eventManager, false));
-        }
+    private Vector2D calculateNormalFromPlayerPerspective(CollisionInformations c) {
+        return (c.getObjectA() instanceof Player)
+                ? c.getNormal()
+                : c.getNormal().multiply(-1);
     }
 
 }

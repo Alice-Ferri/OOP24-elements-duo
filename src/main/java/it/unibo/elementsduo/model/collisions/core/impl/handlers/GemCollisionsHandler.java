@@ -17,8 +17,8 @@ public class GemCollisionsHandler extends AbstractCollisionHandler<Player, Gem> 
     }
 
     @Override
-    public void handleCollision(Player player, Gem gem, CollisionInformations c, CollisionResponse collisionResponse) {
-        collisionResponse.addLogicCommand(new GemCollectedCommand(player, gem, eventManager));
+    public void handleCollision(Player player, Gem gem, CollisionInformations c, CollisionResponse.Builder builder) {
+        builder.addLogicCommand(new GemCollectedCommand(player, gem, eventManager));
     }
 
 }

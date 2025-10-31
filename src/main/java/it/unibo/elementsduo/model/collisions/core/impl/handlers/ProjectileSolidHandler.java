@@ -18,8 +18,8 @@ public class ProjectileSolidHandler extends AbstractCollisionHandler<Projectiles
 
     @Override
     public void handleCollision(Projectiles projectile, obstacle ob, CollisionInformations c,
-            CollisionResponse collisionResponse) {
-        collisionResponse.addLogicCommand(new ProjectileSolidCommand(projectile, eventManager));
+            CollisionResponse.Builder builder) {
+        builder.addLogicCommand(new ProjectileSolidCommand(projectile, eventManager));
     }
 
 }

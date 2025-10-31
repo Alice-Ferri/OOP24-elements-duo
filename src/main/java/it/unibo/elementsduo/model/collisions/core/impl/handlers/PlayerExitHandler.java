@@ -21,7 +21,7 @@ public class PlayerExitHandler extends AbstractCollisionHandler<Player, ExitZone
     }
 
     public void handleCollision(Player player, ExitZone exitZone, CollisionInformations collisionInfo,
-            CollisionResponse c) {
+            CollisionResponse.Builder builder) {
 
         boolean correctExit = (player.getPlayerType() == PlayerType.FIREBOY && exitZone instanceof fireExit) ||
                 (player.getPlayerType() == PlayerType.WATERGIRL && exitZone instanceof waterExit);

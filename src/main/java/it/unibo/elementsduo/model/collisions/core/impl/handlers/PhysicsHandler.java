@@ -18,7 +18,7 @@ public class PhysicsHandler implements CollisionHandler {
     Movable entity;
 
     @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
+    public void handle(CollisionInformations c, CollisionResponse.Builder builder) {
         final Collidable objectA = c.getObjectA();
         final Collidable objectB = c.getObjectB();
 
@@ -34,13 +34,13 @@ public class PhysicsHandler implements CollisionHandler {
 
         if (a) {
             final double correction = b ? penetration / 2.0 : penetration;
-            collisionResponse.addPhysicsCommand(
+            builder.addPhysicsCommand(
                     new PhysicsCorrectionCommand((Movable) objectA, objectB, correction, normal));
         }
 
         if (b) {
             final double correction = a ? penetration / 2.0 : penetration;
-            collisionResponse.addPhysicsCommand(
+            builder.addPhysicsCommand(
                     new PhysicsCorrectionCommand((Movable) objectB, objectA, correction, normal.multiply(-1)));
         }
     }

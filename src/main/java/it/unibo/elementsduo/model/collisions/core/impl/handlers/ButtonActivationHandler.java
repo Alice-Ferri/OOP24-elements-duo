@@ -19,11 +19,11 @@ public class ButtonActivationHandler extends AbstractCollisionHandler<Player, bu
     }
 
     @Override
-    public void handleCollision(Player player, button b, CollisionInformations c, CollisionResponse collisionResponse) {
+    public void handleCollision(Player player, button b, CollisionInformations c, CollisionResponse.Builder builder) {
         buttonsThisFrame.add(b);
 
         if (!buttonsLastFrame.contains(b)) {
-            collisionResponse.addLogicCommand(new ButtonActivationCommand(b));
+            builder.addLogicCommand(new ButtonActivationCommand(b));
         }
     }
 
