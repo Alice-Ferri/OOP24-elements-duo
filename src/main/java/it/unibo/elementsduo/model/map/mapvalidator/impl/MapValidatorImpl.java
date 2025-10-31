@@ -41,6 +41,10 @@ public final class MapValidatorImpl implements MapValidator {
     private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
             Floor.class, lavaPool.class, waterPool.class, greenPool.class
     );
+    private static final Set<Class<? extends obstacle>> VISITABLE_SURFACES = Set.of(
+            PlatformImpl.class,
+            PushBox.class
+    );
 
 
     /**
@@ -147,17 +151,14 @@ public final class MapValidatorImpl implements MapValidator {
                 .collect(Collectors.toSet());
         final Set<Position> emptySpace = calculateEmptySpace(dims, blockedPositions);
 
-        final Set<Position> platformPositions = level.getEntitiesByClass(PlatformImpl.class).stream()
-                .map(this::getGridPosFromHitBox)
-                .collect(Collectors.toSet());
-
-        final Set<Position> pushBoxes = level.getEntitiesByClass(PushBox.class).stream()
+        final Set<Position> visitableObstacles = level.getAllObstacles().stream()
+                .filter(obs -> VISITABLE_SURFACES.stream()
+                .anyMatch(type -> type.isInstance(obs)))
                 .map(this::getGridPosFromHitBox)
                 .collect(Collectors.toSet());
 
         final Set<Position> walkableSpace = new HashSet<>(emptySpace);
-        walkableSpace.addAll(platformPositions);
-        walkableSpace.addAll(pushBoxes);
+        walkableSpace.addAll(visitableObstacles);
 
         final Position fireSpawnPos = getGridPosFromHitBox(level.getEntitiesByClass(Fireboy.class).iterator().next());
         final Position fireExitPos = getGridPosFromHitBox(level.getEntitiesByClass(fireExit.class).iterator().next());
