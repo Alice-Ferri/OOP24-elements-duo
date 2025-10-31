@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;

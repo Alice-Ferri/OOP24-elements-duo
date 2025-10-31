@@ -15,7 +15,6 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Interactiv
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 
-
 public class LevelImpl implements Level {
 
     private final Set<GameEntity> gameEntities;
@@ -26,7 +25,7 @@ public class LevelImpl implements Level {
 
     @Override
     public Set<GameEntity> getGameEntities() {
-        return this.gameEntities; 
+        return this.gameEntities;
     }
 
     @Override
@@ -49,8 +48,8 @@ public class LevelImpl implements Level {
 
     @Override
     public Set<Enemy> getLivingEnemies() {
-        return getAllEnemies().stream()      
-                .filter(Enemy::isAlive)      
+        return getAllEnemies().stream()
+                .filter(Enemy::isAlive)
                 .collect(Collectors.toUnmodifiableSet());
     }
 
@@ -80,16 +79,17 @@ public class LevelImpl implements Level {
     public void cleanProjectiles() {
         this.gameEntities.removeIf(e -> e instanceof Projectiles p && !p.isActive());
     }
-    
+
     @Override
     public void cleanInactiveEntities() {
-        this.gameEntities.removeIf(entity -> (entity instanceof Projectiles p && !p.isActive()) || (entity instanceof Enemy e && !e.isAlive()));
+        this.gameEntities.removeIf(entity -> (entity instanceof Projectiles p && !p.isActive())
+                || (entity instanceof Enemy e && !e.isAlive()));
     }
 
     @Override
     public List<Collidable> getAllCollidables() {
         return this.gameEntities.stream()
-                .filter(Collidable.class::isInstance) 
+                .filter(Collidable.class::isInstance)
                 .map(Collidable.class::cast)
                 .collect(Collectors.toList());
     }
@@ -101,6 +101,5 @@ public class LevelImpl implements Level {
                 .map(Updatable.class::cast)
                 .collect(Collectors.toSet());
     }
-
 
 }

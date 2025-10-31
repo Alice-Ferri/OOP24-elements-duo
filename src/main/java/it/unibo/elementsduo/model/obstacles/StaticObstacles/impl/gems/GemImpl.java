@@ -7,14 +7,12 @@ import it.unibo.elementsduo.resources.Position;
 
 public class GemImpl implements Gem {
 
-    private Position center;
     private HitBox hitbox;
     private boolean active = true;
 
     private static double GEM_SIZE = 0.5;
 
     public GemImpl(Position pos) {
-        this.center = pos;
         this.hitbox = new HitBoxImpl(pos, GEM_SIZE, GEM_SIZE);
     }
 

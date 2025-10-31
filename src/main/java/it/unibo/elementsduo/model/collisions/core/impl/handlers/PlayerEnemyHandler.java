@@ -2,13 +2,9 @@ package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.collisions.commands.impl.PlayerEnemyCommand;
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
-import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
-import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -25,7 +21,6 @@ public class PlayerEnemyHandler extends AbstractCollisionHandler<Player, Enemy> 
     public void handleCollision(Player player, Enemy enemy, CollisionInformations c,
             CollisionResponse collisionResponse) {
         Vector2D normalEnemyPlayer;
-        Vector2D normal = c.getNormal();
         if (c.getObjectA() instanceof Player) {
             normalEnemyPlayer = c.getNormal();
         } else {
