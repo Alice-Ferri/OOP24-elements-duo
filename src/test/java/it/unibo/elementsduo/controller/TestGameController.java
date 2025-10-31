@@ -19,7 +19,7 @@ import it.unibo.elementsduo.testDoubles.TestDoubleNavigation;
 import it.unibo.elementsduo.testDoubles.TestDoubleProgressionManager;
 
 /**
- * Unit tests for {@link GameControllerImpl} using DoubleInputController and other test doubles.
+ * Unit tests for {@link GameControllerImpl}.
  */
 class GameControllerImplTest
 {
@@ -62,7 +62,6 @@ class GameControllerImplTest
     {
         controller.activate();
 
-        // Simulate button clicks → should call navigation methods
         view.getHomeButton().doClick();
         view.getLevelSelectButton().doClick();
 
@@ -80,7 +79,6 @@ class GameControllerImplTest
         controller.activate();
         controller.deactivate();
 
-        // After deactivate, clicking buttons should not call navigation methods
         view.getHomeButton().doClick();
         view.getLevelSelectButton().doClick();
 
