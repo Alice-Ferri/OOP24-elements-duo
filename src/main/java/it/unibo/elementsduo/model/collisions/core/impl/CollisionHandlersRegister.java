@@ -10,11 +10,29 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-public class CollisionHandlersRegister {
+/**
+ * Manages the registration and execution of all {@link CollisionHandler}
+ * instances.
+ * 
+ * <p>
+ * The {@code CollisionHandlersRegister} stores all registered handlers,
+ * determines
+ * which handlers can process specific collisions, and notifies them at the
+ * start
+ * and end of each update cycle.
+ */
+public final class CollisionHandlersRegister {
+
     private final List<CollisionHandler> register = new ArrayList<>();
     private final Map<Class<? extends CollisionHandler>, CollisionHandler> handlersMap = new HashMap<>();
 
-    public void registerHandler(CollisionHandler ch) {
+    /**
+     * Registers a new {@link CollisionHandler} if it has not already been added.
+     *
+     * @param ch the collision handler to register
+     * @throws NullPointerException if the provided handler is {@code null}
+     */
+    public void registerHandler(final CollisionHandler ch) {
         Objects.requireNonNull(ch);
         handlersMap.computeIfAbsent(ch.getClass(), clazz -> {
             register.add(ch);
@@ -22,21 +40,49 @@ public class CollisionHandlersRegister {
         });
     }
 
-    public <T extends CollisionHandler> Optional<T> getHandler(Class<T> type) {
-        return Optional.ofNullable((T) handlersMap.get(type));
+    /**
+     * Retrieves a registered handler of the specified type.
+     *
+     * @param <T>  the type of the handler
+     * @param type the class object of the handler type
+     * @return an {@link Optional} containing the handler if found, otherwise empty
+     */
+    public <T extends CollisionHandler> Optional<T> getHandler(final Class<T> type) {
+        return Optional.ofNullable(type.cast(handlersMap.get(type)));
     }
 
-    public void handle(CollisionInformations info, CollisionResponse.Builder builder) {
+    /**
+     * Passes collision information to all compatible handlers.
+     * 
+     * <p>
+     * Each handler that supports the types of the involved objects will process
+     * the collision accordingly.
+     *
+     * @param info    the collision information
+     * @param builder the builder used to collect collision responses
+     */
+    public void handle(final CollisionInformations info, final CollisionResponse.Builder builder) {
         register.stream()
                 .filter(handler -> handler.canHandle(info.getObjectA(), info.getObjectB()))
                 .forEach(handler -> handler.handle(info, builder));
     }
 
-    /* notify handlers the beginning and the end */
+    /**
+     * Notifies all registered handlers that a new update cycle is starting.
+     * 
+     * <p>
+     * This is typically used to reset per-frame state within handlers.
+     */
     public void notifyUpdateStart() {
         register.forEach(CollisionHandler::onUpdateStart);
     }
 
+    /**
+     * Notifies all registered handlers that the update cycle has ended.
+     * 
+     * <p>
+     * This allows handlers to perform cleanup or finalize collision logic.
+     */
     public void notifyUpdateEnd() {
         register.forEach(CollisionHandler::onUpdateEnd);
     }

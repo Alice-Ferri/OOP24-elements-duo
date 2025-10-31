@@ -8,30 +8,65 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class PlayerEnemyHandler extends AbstractCollisionHandler<Player, Enemy> {
+/**
+ * Handles collisions between a {@link Player} and an {@link Enemy}.
+ * 
+ * <p>
+ * Determines whether the player hits the enemy from above or from another
+ * direction and triggers the appropriate response using a
+ * {@link PlayerEnemyCommand}.
+ */
+public final class PlayerEnemyHandler extends AbstractCollisionHandler<Player, Enemy> {
 
     private static final double VERTICAL_THRESHOLD = -0.5;
     private final EventManager eventManager;
 
-    public PlayerEnemyHandler(EventManager em) {
+    /**
+     * Creates a new {@code PlayerEnemyHandler} for managing player–enemy
+     * collisions.
+     *
+     * @param em the event manager used to notify game events
+     */
+    public PlayerEnemyHandler(final EventManager em) {
         super(Player.class, Enemy.class);
         this.eventManager = em;
     }
 
+    /**
+     * Handles the collision between a {@link Player} and an {@link Enemy}.
+     * 
+     * <p>
+     * Determines whether the player struck the enemy from above and issues
+     * a {@link PlayerEnemyCommand} to handle the interaction accordingly.
+     *
+     * @param player  the player involved in the collision
+     * @param enemy   the enemy involved in the collision
+     * @param c       the collision information
+     * @param builder the collision response builder used to queue logic commands
+     */
     @Override
-    public void handleCollision(Player player, Enemy enemy, CollisionInformations c,
-            CollisionResponse.Builder builder) {
-        Vector2D normalEnemyPlayer = calculateNormalFromPlayerPerspective(c);
-        boolean isPlayerAboveEnemy = normalEnemyPlayer.y() < VERTICAL_THRESHOLD;
+    public void handleCollision(final Player player, final Enemy enemy, final CollisionInformations c,
+            final CollisionResponse.Builder builder) {
+        final Vector2D normalEnemyPlayer = calculateNormalFromPlayerPerspective(c);
+        final boolean isPlayerAboveEnemy = normalEnemyPlayer.y() < VERTICAL_THRESHOLD;
 
         builder.addLogicCommand(
                 new PlayerEnemyCommand(player, enemy, eventManager, isPlayerAboveEnemy));
     }
 
-    private Vector2D calculateNormalFromPlayerPerspective(CollisionInformations c) {
+    /**
+     * Calculates the collision normal from the player's perspective.
+     * 
+     * <p>
+     * Ensures the normal vector always points away from the player, regardless
+     * of which object is listed first in the collision.
+     *
+     * @param c the collision information
+     * @return the normal vector from the player's perspective
+     */
+    private Vector2D calculateNormalFromPlayerPerspective(final CollisionInformations c) {
         return (c.getObjectA() instanceof Player)
                 ? c.getNormal()
                 : c.getNormal().multiply(-1);
     }
-
 }

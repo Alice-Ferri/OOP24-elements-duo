@@ -11,6 +11,7 @@ public interface Gem extends obstacle {
      * Checks if the gem is currently active and available for collection.
      * 
      * @return true if the gem has not been collected yet, false otherwise.
+     * 
      */
     boolean isActive();
 

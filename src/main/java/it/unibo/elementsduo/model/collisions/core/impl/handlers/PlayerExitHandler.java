@@ -11,34 +11,60 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
-public class PlayerExitHandler extends AbstractCollisionHandler<Player, ExitZone> {
+/**
+ * Handles collisions between a {@link Player} and an {@link ExitZone}.
+ * 
+ * <p>
+ * This handler determines whether the player has reached the correct exit
+ * based on their {@link PlayerType}, and triggers the appropriate exit event.
+ */
+public final class PlayerExitHandler extends AbstractCollisionHandler<Player, ExitZone> {
 
     private final EventManager eventManager;
 
-    public PlayerExitHandler(EventManager eventManager) {
+    /**
+     * Creates a new {@code PlayerExitHandler}.
+     *
+     * @param eventManager the event manager used to dispatch exit events
+     */
+    public PlayerExitHandler(final EventManager eventManager) {
         super(Player.class, ExitZone.class);
         this.eventManager = eventManager;
     }
 
-    public void handleCollision(Player player, ExitZone exitZone, CollisionInformations collisionInfo,
-            CollisionResponse.Builder builder) {
+    /**
+     * Handles a collision between a {@link Player} and an {@link ExitZone}.
+     * 
+     * <p>
+     * If the player reaches the correct exit (Fireboy → FireExit, Watergirl →
+     * WaterExit),
+     * the corresponding exit event is triggered. The event is only fired once per
+     * entry.
+     *
+     * @param player        the player involved in the collision
+     * @param exitZone      the exit zone involved in the collision
+     * @param collisionInfo the collision information
+     * @param builder       the collision response builder used to queue logic
+     *                      commands
+     */
+    @Override
+    public void handleCollision(final Player player, final ExitZone exitZone, final CollisionInformations collisionInfo,
+            final CollisionResponse.Builder builder) {
 
-        boolean correctExit = (player.getPlayerType() == PlayerType.FIREBOY && exitZone instanceof FireExit) ||
-                (player.getPlayerType() == PlayerType.WATERGIRL && exitZone instanceof WaterExit);
+        final boolean correctExit = player.getPlayerType() == PlayerType.FIREBOY && exitZone instanceof FireExit
+                || player.getPlayerType() == PlayerType.WATERGIRL && exitZone instanceof WaterExit;
 
-        if (correctExit) {
-            if (!player.isOnExit()) {
-                builder.addLogicCommand(() -> {
-                    player.setOnExit(true);
-                    exitZone.activate();
+        if (correctExit && !player.isOnExit()) {
+            builder.addLogicCommand(() -> {
+                player.setOnExit(true);
+                exitZone.activate();
 
-                    if (player.getPlayerType() == PlayerType.FIREBOY) {
-                        this.eventManager.notify(new FireExitEvent(player));
-                    } else {
-                        this.eventManager.notify(new WaterExitEvent(player));
-                    }
-                });
-            }
+                if (player.getPlayerType() == PlayerType.FIREBOY) {
+                    this.eventManager.notify(new FireExitEvent(player));
+                } else {
+                    this.eventManager.notify(new WaterExitEvent(player));
+                }
+            });
         }
     }
 }

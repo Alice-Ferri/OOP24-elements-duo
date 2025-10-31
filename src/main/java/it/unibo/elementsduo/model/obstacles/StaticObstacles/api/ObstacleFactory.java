@@ -16,5 +16,5 @@ public interface ObstacleFactory {
      * @param hitbox The HitBox that defines the obstacle's position and dimension.
      * @return The newly created StaticObstacle object.
      */
-    StaticObstacle createObstacle(final obstacleType.type type, final HitBox hitbox);
+    StaticObstacle createObstacle(obstacleType.type type, HitBox hitbox);
 }

@@ -12,18 +12,45 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 
-public class PlayerHazardHandler extends AbstractCollisionHandler<Player, Hazard> {
+/**
+ * Handles collisions between a {@link Player} and a {@link Hazard}.
+ * 
+ * <p>
+ * Determines whether the player should die based on their type and the
+ * type of hazard they collide with. For example, Fireboy dies in water pools,
+ * Watergirl dies in lava pools, and both die in green pools.
+ */
+public final class PlayerHazardHandler extends AbstractCollisionHandler<Player, Hazard> {
 
-    EventManager eventManager;
+    private final EventManager eventManager;
 
-    public PlayerHazardHandler(EventManager eventManager) {
+    /**
+     * Creates a new {@code PlayerHazardHandler} that uses the provided
+     * {@link EventManager}
+     * to notify player death events.
+     *
+     * @param eventManager the event manager used to dispatch player death events
+     */
+    public PlayerHazardHandler(final EventManager eventManager) {
         super(Player.class, Hazard.class);
         this.eventManager = eventManager;
     }
 
+    /**
+     * Handles collisions between players and hazards.
+     * 
+     * <p>
+     * Determines if the player should die based on the hazard type and triggers
+     * a {@link PlayerDiedEvent} when appropriate.
+     *
+     * @param player  the player involved in the collision
+     * @param hazard  the hazard the player collided with
+     * @param c       the collision information
+     * @param builder the collision response builder used to queue logic commands
+     */
     @Override
-    public void handleCollision(Player player, Hazard hazard, CollisionInformations c,
-            CollisionResponse.Builder builder) {
+    public void handleCollision(final Player player, final Hazard hazard, final CollisionInformations c,
+            final CollisionResponse.Builder builder) {
         if (player instanceof Fireboy && hazard instanceof waterPool) {
             builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         } else if (player instanceof Watergirl && hazard instanceof lavaPool) {
@@ -32,5 +59,4 @@ public class PlayerHazardHandler extends AbstractCollisionHandler<Player, Hazard
             builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         }
     }
-
 }

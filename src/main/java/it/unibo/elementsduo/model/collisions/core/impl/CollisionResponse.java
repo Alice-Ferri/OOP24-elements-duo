@@ -64,7 +64,7 @@ public final class CollisionResponse {
          *
          * @param command the logic command to add
          */
-        public final void addLogicCommand(final CollisionCommand command) {
+        public final void addLogicCommand(CollisionCommand command) {
             this.logicCommands.add(command);
         }
 
@@ -76,7 +76,7 @@ public final class CollisionResponse {
          *
          * @param command the physics command to add
          */
-        public final void addPhysicsCommand(final CollisionCommand command) {
+        public final void addPhysicsCommand(CollisionCommand command) {
             this.physicsCommands.add(command);
         }
 
@@ -86,7 +86,7 @@ public final class CollisionResponse {
          *
          * @return a new {@code CollisionResponse} instance
          */
-        public final CollisionResponse build() {
+        public CollisionResponse build() {
             return new CollisionResponse(this.physicsCommands, this.logicCommands);
         }
     }

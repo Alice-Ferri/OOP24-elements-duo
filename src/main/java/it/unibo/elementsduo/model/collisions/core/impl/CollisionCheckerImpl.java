@@ -9,41 +9,68 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class CollisionCheckerImpl implements CollisionChecker {
+/**
+ * Default implementation of the {@link CollisionChecker} interface.
+ * 
+ * <p>
+ * Detects collisions between pairs of {@link Collidable} entities using
+ * axis-aligned bounding box (AABB) intersection logic.
+ */
+public final class CollisionCheckerImpl implements CollisionChecker {
 
+    /**
+     * {@inheritDoc}
+     * 
+     * <p>
+     * Checks all pairs of collidable entities and returns a list of
+     * {@link CollisionInformations} representing the detected collisions.
+     *
+     * @param entities the list of collidable entities to check
+     * @return a list of detected collisions
+     */
     @Override
-    public List<CollisionInformations> checkCollisions(List<Collidable> entities) {
-        List<CollisionInformations> Informations = new ArrayList<>();
+    public List<CollisionInformations> checkCollisions(final List<Collidable> entities) {
+        final List<CollisionInformations> informations = new ArrayList<>();
         for (int i = 0; i < entities.size(); i++) {
             for (int k = i + 1; k < entities.size(); k++) {
-                Optional<CollisionInformations> tmp = checkCollisionBetweenTwoObjects(entities.get(i), entities.get(k));
-                if (tmp.isPresent())
-                    Informations.add((checkCollisionBetweenTwoObjects(entities.get(i), entities.get(k))).get());
+                final Optional<CollisionInformations> tmp = checkCollisionBetweenTwoObjects(entities.get(i),
+                        entities.get(k));
+                if (tmp.isPresent()) {
+                    informations.add(tmp.get());
+                }
             }
         }
-        return Informations;
+        return informations;
     }
 
-    private Optional<CollisionInformations> checkCollisionBetweenTwoObjects(Collidable objectA, Collidable objectB) {
+    /**
+     * Checks if two {@link Collidable} objects are colliding and, if so,
+     * computes the collision information between them.
+     *
+     * @param objectA the first collidable object
+     * @param objectB the second collidable object
+     * @return an {@link Optional} containing the collision information if a
+     *         collision is detected,
+     *         or an empty {@link Optional} otherwise
+     */
+    private Optional<CollisionInformations> checkCollisionBetweenTwoObjects(
+            final Collidable objectA, final Collidable objectB) {
 
-        if (!objectA.getHitBox().intersects(objectB.getHitBox()))
+        if (!objectA.getHitBox().intersects(objectB.getHitBox())) {
             return Optional.empty();
+        }
 
-        // calcolo la distanza tra i due centri degli oggetti coinvolti lungo i due assi
-        double dx = objectA.getHitBox().getCenter().x() - objectB.getHitBox().getCenter().x();
-        double dy = objectA.getHitBox().getCenter().y() - objectB.getHitBox().getCenter().y();
+        // Calculate distance between centers
+        final double dx = objectA.getHitBox().getCenter().x() - objectB.getHitBox().getCenter().x();
+        final double dy = objectA.getHitBox().getCenter().y() - objectB.getHitBox().getCenter().y();
 
-        // Calcolo la sovrapposizione dei due corpi sui 2 assi
-        double px = (objectA.getHitBox().getHalfWidth() + objectB.getHitBox().getHalfWidth()) - Math.abs(dx);
-        double py = (objectA.getHitBox().getHalfHeight() + objectB.getHitBox().getHalfHeight()) - Math.abs(dy);
+        // Calculate overlap on both axes
+        final double px = (objectA.getHitBox().getHalfWidth() + objectB.getHitBox().getHalfWidth()) - Math.abs(dx);
+        final double py = (objectA.getHitBox().getHalfHeight() + objectB.getHitBox().getHalfHeight()) - Math.abs(dy);
 
-        // campo che usiamo per indicare di quanto i due oggettti si sono intersecati,
-        // lungo l'asse in cui si sono intersecati di meno
-        // così sappiamo di quanto andrà riposizionato il corpo
-        double penetration;
-
-        // con questo campo indico la direzione da cui proviene l'impatto
-        Vector2D normal;
+        // Determine minimum penetration axis and normal direction
+        final double penetration;
+        final Vector2D normal;
 
         if (px < py) {
             penetration = px;
