@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import it.unibo.elementsduo.doubles.DoubleInputController;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
@@ -16,9 +15,8 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link Fireboy} and {@link Watergirl} classes.
- * Verifies movement, jumping, gravity, collision correction, and other basic player behavior.
  */
-final class TestPlayer {
+final class TestAllPlayer {
 
     private static final double START_X = 5.0;
     private static final double START_Y = 10.0;
@@ -48,6 +46,7 @@ final class TestPlayer {
     @Test
     void testGetPlayerType() {
         assertEquals(PlayerType.FIREBOY, fireboy.getPlayerType());
+        assertEquals(PlayerType.WATERGIRL, watergirl.getPlayerType());
     }
 
     /**
@@ -55,7 +54,7 @@ final class TestPlayer {
      */
     @Test
     void testMoveRight() {
-        DoubleInputController input = new DoubleInputController();
+        InputControllerTesting input = new InputControllerTesting();
         input.moveRight = true;
 
         fireboy.update(DELTA_TIME, input);
@@ -70,7 +69,7 @@ final class TestPlayer {
      */
     @Test
     void testMoveLeft() {
-        DoubleInputController input = new DoubleInputController();
+        InputControllerTesting input = new InputControllerTesting();
         input.moveLeft = true;
 
         fireboy.update(DELTA_TIME, input);
@@ -85,7 +84,7 @@ final class TestPlayer {
      */
     @Test
     void testNoMovement() {
-        DoubleInputController input = new DoubleInputController();
+        InputControllerTesting input = new InputControllerTesting();
 
         fireboy.update(DELTA_TIME, input);
 
@@ -98,7 +97,7 @@ final class TestPlayer {
      */
     @Test
     void testJump() {
-        DoubleInputController input = new DoubleInputController();
+        InputControllerTesting input = new InputControllerTesting();
         input.jump = true;
 
         fireboy.update(DELTA_TIME, input);
