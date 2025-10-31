@@ -27,7 +27,7 @@ public final class ClassicEnemiesImpl extends AbstractEnemy {
      * base movement (already handled by AbstractEnemy.update()).
      */
     @Override
-    protected void updateSpecificBehavior(final double deltaTime) {
+    protected void updateAttack(final double deltaTime) {
         // Intentionally left empty.
     }
 

@@ -113,7 +113,7 @@ public abstract class AbstractEnemy implements Enemy {
         this.velocity = new Vector2D(this.direction * SPEED, 0);
         this.x += this.velocity.x() * deltaTime;
 
-        this.updateSpecificBehavior(deltaTime);
+        this.updateAttack(deltaTime);
     }
 
     /**
@@ -123,7 +123,7 @@ public abstract class AbstractEnemy implements Enemy {
      *
      * @param deltaTime the time elapsed since the last update.
      */
-    protected abstract void updateSpecificBehavior(double deltaTime);
+    protected abstract void updateAttack(double deltaTime);
 
     /**
      * {@inheritDoc}
