@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import it.unibo.elementsduo.controller.inputController.api.InputController;
-import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.inputController.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
@@ -211,7 +210,7 @@ public abstract class AbstractPlayer implements Player {
     private void handleInput(final InputController controller) {
         final PlayerType type = this.getPlayerType();
 
-        InputState state = controller.getInputState();
+        final InputState state = controller.getInputState();
 
         final boolean left = state.isActionPressed(type, InputState.Action.LEFT);
         final boolean right = state.isActionPressed(type, InputState.Action.RIGHT);
@@ -252,8 +251,10 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
-        if (penetration <= 0)
+
+        if (penetration <= 0) {
             return;
+        }
 
         if (other instanceof Wall && normal.y() < -0.5) {
             if (handleHorizontalOverlap((Wall) other)) {
@@ -266,45 +267,45 @@ public abstract class AbstractPlayer implements Player {
         handleVertical(normal, other);
     }
 
-    private boolean handleHorizontalOverlap(Wall wall) {
-        HitBox playerHitBox = this.getHitBox();
-        HitBox wallHitBox = wall.getHitBox();
-        double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
-        double overlapX = (playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth()) - Math.abs(dx);
+    private boolean handleHorizontalOverlap(final Wall wall) {
+        final HitBox playerHitBox = this.getHitBox();
+        final HitBox wallHitBox = wall.getHitBox();
+        final double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
+        final double overlapX = (playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth()) - Math.abs(dx);
 
         if (overlapX <= 0) {
             return false;
         }
 
-        Vector2D horizontalNormal = new Vector2D(dx > 0 ? 1 : -1, 0);
-        double depth = Math.max(overlapX - POSITION_SLOP, 0.0);
-        Vector2D correction = horizontalNormal.multiply(CORRECTION_PERCENT * depth);
+        final Vector2D horizontalNormal = new Vector2D(dx > 0 ? 1 : -1, 0);
+        final double depth = Math.max(overlapX - POSITION_SLOP, 0.0);
+        final Vector2D correction = horizontalNormal.multiply(CORRECTION_PERCENT * depth);
 
         this.x += correction.x();
         this.y += correction.y();
 
-        double velocityNormal = this.velocity.dot(horizontalNormal);
+        final double velocityNormal = this.velocity.dot(horizontalNormal);
         if (velocityNormal < 0) {
             this.velocity = this.velocity.subtract(horizontalNormal.multiply(velocityNormal));
         }
         return true;
     }
 
-    private void applyCorrection(Vector2D normal, double penetration) {
-        double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-        Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
+    private void applyCorrection(final Vector2D normal, final double penetration) {
+        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
+        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
 
         this.x += correction.x();
         this.y += correction.y();
 
-        double velocityNormal = this.velocity.dot(normal);
+        final double velocityNormal = this.velocity.dot(normal);
         if (velocityNormal < 0) {
             this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
         }
     }
 
-    private void handleVertical(Vector2D normal, Collidable other) {
-        double normalY = normal.y();
+    private void handleVertical(final Vector2D normal, final Collidable other) {
+        final double normalY = normal.y();
 
         if (normalY < -0.5) {
             this.onGround = true;
