@@ -8,6 +8,7 @@ import it.unibo.elementsduo.resources.Position;
 
 /**
  * Factory interface for creating interactive obstacles within the game world.
+ * 
  * <p>
  * Provides methods to instantiate different types of interactive elements,
  * such as levers, buttons, pushable boxes, and moving platforms.

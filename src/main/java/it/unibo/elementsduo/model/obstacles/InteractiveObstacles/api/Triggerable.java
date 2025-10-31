@@ -12,11 +12,10 @@ public interface Triggerable {
 
     /**
      * Returns whether this trigger is currently active.
-     *
+     * 
      * <p>
-     * 
+     *
      * @return {@code true} if the trigger is active, {@code false} otherwise
-     * 
      */
     boolean isActive();
 

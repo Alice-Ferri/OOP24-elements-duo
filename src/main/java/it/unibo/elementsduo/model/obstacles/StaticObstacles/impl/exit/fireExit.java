@@ -6,26 +6,32 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticOb
 
 /**
  * Represents the exit point that must be
- * activated by one of the player before it can proceed to the next level.
+ * activated by one of the players before proceeding to the next level.
  */
 public class FireExit extends AbstractStaticObstacle implements ExitZone {
 
-    private boolean active = false;
+    /** Whether this exit has been activated. */
+    private boolean active;
 
     /**
-     * Creates a new FireExit object.
+     * Creates a new {@code FireExit} object.
      * 
-     * @param hitBox The HitBox defining the exit zone's position and boundaries.
+     * <p>
+     *
+     * @param hitBox the {@link HitBox} defining the exit zone's position and
+     *               boundaries
      */
-    public FireExit(HitBox hitBox) {
+    public FireExit(final HitBox hitBox) {
         super(hitBox);
     }
 
     /**
      * {@inheritDoc}
-     * Returns false, as the exit zone should not block player movement.
      * 
-     * @return Always returns false.
+     * <p>
+     * Returns {@code false}, as the exit zone should not block player movement.
+     *
+     * @return always {@code false}
      */
     @Override
     public boolean isSolid() {
@@ -33,9 +39,10 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
     }
 
     /**
-     * Activates the exit, allowing the player to complete the level if they collide
+     * Activates the exit, allowing the player to complete the level when colliding
      * with it.
      */
+    @Override
     public void activate() {
         this.active = true;
     }
@@ -43,7 +50,9 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
     /**
      * Checks if the exit zone is currently active.
      * 
-     * @return true if the exit is active, false otherwise.
+     * <p>
+     *
+     * @return {@code true} if the exit is active, {@code false} otherwise
      */
     @Override
     public boolean isActive() {

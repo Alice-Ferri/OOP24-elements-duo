@@ -10,6 +10,7 @@ import it.unibo.elementsduo.model.player.api.Player;
 /**
  * A {@link CollisionCommand} that defines the outcome of a collision
  * between a {@link Player} and an {@link Enemy}.
+ * 
  * <p>
  * If the player collides with an enemy from above, the enemy dies.
  * Otherwise, the player dies.
@@ -47,6 +48,7 @@ public final class PlayerEnemyCommand implements CollisionCommand {
 
     /**
      * Executes the command, applying the correct consequence of the collision.
+     * 
      * <p>
      * If the player is above the enemy, the enemy dies; otherwise, the player dies.
      */

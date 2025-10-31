@@ -7,14 +7,16 @@ import it.unibo.elementsduo.resources.Position;
 
 /**
  * Implementation of a collectible gem object.
+ *
  * <p>
  * Each {@code GemImpl} instance represents a collectible item that can be
  * picked up by a player. Once collected, the gem becomes inactive.
+ * </p>
  */
 public final class GemImpl implements Gem {
 
     /** Default size of the gem hitbox. */
-    private static final double gemSize = 0.5;
+    private static final double GEM_SIZE = 0.5;
 
     /** The hitbox representing the gem's position and size. */
     private final HitBox hitbox;
@@ -28,7 +30,7 @@ public final class GemImpl implements Gem {
      * @param pos the position where the gem will be placed
      */
     public GemImpl(final Position pos) {
-        this.hitbox = new HitBoxImpl(pos, gemSize, gemSize);
+        this.hitbox = new HitBoxImpl(pos, GEM_SIZE, GEM_SIZE);
     }
 
     /**
@@ -54,8 +56,10 @@ public final class GemImpl implements Gem {
 
     /**
      * {@inheritDoc}
+     *
      * <p>
      * Marks the gem as collected, making it inactive.
+     * </p>
      */
     @Override
     public void collect() {
