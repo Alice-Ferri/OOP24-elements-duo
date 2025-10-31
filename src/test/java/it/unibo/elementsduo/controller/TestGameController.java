@@ -12,11 +12,11 @@ import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.view.LevelPanel;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
-import it.unibo.elementsduo.testDoubles.DoubleInputController;
-import it.unibo.elementsduo.testDoubles.TestDoubleLevel;
-import it.unibo.elementsduo.testDoubles.TestDoubleLevelPanel;
-import it.unibo.elementsduo.testDoubles.TestDoubleNavigation;
-import it.unibo.elementsduo.testDoubles.TestDoubleProgressionManager;
+import it.unibo.elementsduo.doubles.DoubleInputController;
+import it.unibo.elementsduo.doubles.TestDoubleLevel;
+import it.unibo.elementsduo.doubles.TestDoubleLevelPanel;
+import it.unibo.elementsduo.doubles.TestDoubleNavigation;
+import it.unibo.elementsduo.doubles.TestDoubleProgressionManager;
 
 /**
  * Unit tests for {@link GameControllerImpl}.
