@@ -14,6 +14,7 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
@@ -150,8 +151,13 @@ public final class MapValidatorImpl implements MapValidator {
                 .map(this::getGridPosFromHitBox)
                 .collect(Collectors.toSet());
 
+        final Set<Position> pushBoxes = level.getEntitiesByClass(PushBox.class).stream()
+                .map(this::getGridPosFromHitBox)
+                .collect(Collectors.toSet());
+
         final Set<Position> walkableSpace = new HashSet<>(emptySpace);
         walkableSpace.addAll(platformPositions);
+        walkableSpace.addAll(pushBoxes);
 
         final Position fireSpawnPos = getGridPosFromHitBox(level.getEntitiesByClass(Fireboy.class).iterator().next());
         final Position fireExitPos = getGridPosFromHitBox(level.getEntitiesByClass(fireExit.class).iterator().next());
