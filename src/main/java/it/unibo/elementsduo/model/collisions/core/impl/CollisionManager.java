@@ -79,14 +79,6 @@ public final class CollisionManager {
         final List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
         final CollisionResponse.Builder builder = new CollisionResponse.Builder();
 
-        for (final Collidable c : entities) {
-            if (c instanceof Player p) {
-                p.setAirborne();
-            } else if (c instanceof PushBox b) {
-                b.setOnGround(false);
-            }
-        }
-
         collisionsInfo.forEach(c -> register.handle(c, builder));
 
         register.notifyUpdateEnd();

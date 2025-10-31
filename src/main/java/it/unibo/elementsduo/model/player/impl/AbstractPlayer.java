@@ -14,12 +14,13 @@ import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Abstract base class implementing common behavior for all {@link Player} types.
+ * Abstract base class implementing common behavior for all {@link Player}
+ * types.
  */
 public abstract class AbstractPlayer implements Player {
 
     private static final double RUN_SPEED = 8.0;
-    private static final double JUMP_STRENGTH = 6.5; 
+    private static final double JUMP_STRENGTH = 6.5;
     private static final double GRAVITY = 9.8;
     private static final double POSITION_SLOP = 0.001;
     private static final double CORRECTION_PERCENT = 0.8;
@@ -47,7 +48,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public double getX() {
-        return this.x; 
+        return this.x;
     }
 
     /**
@@ -57,7 +58,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public boolean isOnExit() {
-        return this.onExit; 
+        return this.onExit;
     }
 
     /**
@@ -179,7 +180,8 @@ public abstract class AbstractPlayer implements Player {
     /**
      * {@inheritDoc}
      *
-     * @param cond {@code true} if the player is on the exit, {@code false} otherwise
+     * @param cond {@code true} if the player is on the exit, {@code false}
+     *             otherwise
      */
     @Override
     public void setOnExit(final boolean cond) {
@@ -190,11 +192,13 @@ public abstract class AbstractPlayer implements Player {
      * Updates the player's state based on input and physics.
      *
      * @param deltaTime the time elapsed since the last update, in seconds
-     * @param input the current input controller providing player actions
+     * @param input     the current input controller providing player actions
      */
     @Override
     public void update(final double deltaTime, final InputController input) {
         handleInput(input);
+
+        this.onGround = false;
 
         if (!this.onGround) {
             this.velocity = this.velocity.add(new Vector2D(0, GRAVITY * deltaTime));
@@ -225,7 +229,7 @@ public abstract class AbstractPlayer implements Player {
             controller.markJumpHandled(type);
         }
     }
-    
+
     /**
      * Returns the player's current hitbox used for collision detection.
      * The hitbox is centered on the player's position.
@@ -235,22 +239,22 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public HitBox getHitBox() {
         return new HitBoxImpl(
-            new Position(this.x, this.y),
-            getHeight(),
-            getWidth()
-        );
+                new Position(this.x, this.y),
+                getHeight(),
+                getWidth());
     }
 
     /**
      * Corrects the player's position and velocity after a collision.
      *
      * @param penetration the overlap depth of the collision
-     * @param normal the collision normal vector
+     * @param normal      the collision normal vector
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
-        if (penetration <= 0) return;
-    
+        if (penetration <= 0)
+            return;
+
         if (other instanceof Wall && normal.y() < -0.5) {
             if (handleHorizontalOverlap((Wall) other)) {
                 return;
@@ -261,13 +265,13 @@ public abstract class AbstractPlayer implements Player {
 
         handleVertical(normal, other);
     }
-    
+
     private boolean handleHorizontalOverlap(Wall wall) {
         HitBox playerHitBox = this.getHitBox();
         HitBox wallHitBox = wall.getHitBox();
         double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
         double overlapX = (playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth()) - Math.abs(dx);
-    
+
         if (overlapX <= 0) {
             return false;
         }
@@ -275,37 +279,37 @@ public abstract class AbstractPlayer implements Player {
         Vector2D horizontalNormal = new Vector2D(dx > 0 ? 1 : -1, 0);
         double depth = Math.max(overlapX - POSITION_SLOP, 0.0);
         Vector2D correction = horizontalNormal.multiply(CORRECTION_PERCENT * depth);
-    
+
         this.x += correction.x();
         this.y += correction.y();
-    
+
         double velocityNormal = this.velocity.dot(horizontalNormal);
         if (velocityNormal < 0) {
             this.velocity = this.velocity.subtract(horizontalNormal.multiply(velocityNormal));
         }
         return true;
     }
-    
+
     private void applyCorrection(Vector2D normal, double penetration) {
         double depth = Math.max(penetration - POSITION_SLOP, 0.0);
         Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
-    
+
         this.x += correction.x();
         this.y += correction.y();
-    
+
         double velocityNormal = this.velocity.dot(normal);
         if (velocityNormal < 0) {
             this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
         }
     }
-    
+
     private void handleVertical(Vector2D normal, Collidable other) {
         double normalY = normal.y();
-    
+
         if (normalY < -0.5) {
             this.onGround = true;
             this.velocity = new Vector2D(this.velocity.x(), 0);
-    
+
             if (other instanceof PlatformImpl platform) {
                 this.setVelocityY(platform.getVelocity().y());
             }
@@ -314,4 +318,3 @@ public abstract class AbstractPlayer implements Player {
         }
     }
 }
-

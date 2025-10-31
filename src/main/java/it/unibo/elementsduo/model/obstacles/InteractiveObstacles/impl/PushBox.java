@@ -99,6 +99,8 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      * @param dt the time step in seconds
      */
     public void update(final double dt) {
+        this.onGround = false;
+
         if (!this.onGround) {
             this.velocity = this.velocity.add(new Vector2D(0, GRAVITY * dt));
         }
