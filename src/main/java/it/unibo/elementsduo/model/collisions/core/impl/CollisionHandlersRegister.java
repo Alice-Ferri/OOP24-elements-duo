@@ -2,7 +2,6 @@ package it.unibo.elementsduo.model.collisions.core.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse.Builder;
 
 import java.util.ArrayList;
 import java.util.HashMap;

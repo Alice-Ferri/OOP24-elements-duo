@@ -17,8 +17,8 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.waterPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.fireSpawn;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.waterSpawn;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
@@ -78,11 +78,11 @@ public final class LevelPanel extends JPanel {
                 Floor.class, Color.LIGHT_GRAY,
                 fireSpawn.class, Color.ORANGE,
                 waterSpawn.class, Color.BLUE,
-                fireExit.class, Color.RED,
+                FireExit.class, Color.RED,
                 lavaPool.class, Color.ORANGE,
                 waterPool.class, Color.CYAN,
                 greenPool.class, Color.GREEN,
-                waterExit.class, new Color(0, 191, 255));
+                WaterExit.class, new Color(0, 191, 255));
 
         private final Map<Class<? extends InteractiveObstacle>, Color> interactiveColorMap = Map.of(Lever.class,
                 Color.YELLOW,
@@ -101,8 +101,8 @@ public final class LevelPanel extends JPanel {
 
         private Dimension calculateGridDimensions() {
             final var staticObstacles = level.getAllObstacles().stream()
-            .filter(StaticObstacle.class::isInstance)
-            .toList();
+                    .filter(StaticObstacle.class::isInstance)
+                    .toList();
 
             if (staticObstacles.isEmpty()) {
                 return new Dimension(0, 0);
@@ -127,7 +127,7 @@ public final class LevelPanel extends JPanel {
             if (gridDimensions.width == 0 || gridDimensions.height == 0) {
                 return;
             }
-            
+
             final int panelWidth = getWidth();
             final int panelHeight = getHeight();
 
@@ -140,14 +140,15 @@ public final class LevelPanel extends JPanel {
             final int offsetX = (panelWidth - renderedWidth) / 2;
             final int offsetY = (panelHeight - renderedHeight) / 2;
 
-            drawStaticObstacles(g, offsetX, offsetY,elementSize);
-            drawInteractiveObstacles(g, offsetX, offsetY,elementSize);
-            drawEnemies(g, offsetX, offsetY,elementSize);
-            drawProjectiles(g, offsetX, offsetY,elementSize);
-            drawPlayers(g, offsetX, offsetY,elementSize);
+            drawStaticObstacles(g, offsetX, offsetY, elementSize);
+            drawInteractiveObstacles(g, offsetX, offsetY, elementSize);
+            drawEnemies(g, offsetX, offsetY, elementSize);
+            drawProjectiles(g, offsetX, offsetY, elementSize);
+            drawPlayers(g, offsetX, offsetY, elementSize);
         }
 
-        private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY,
+                final int elementSize) {
             level.getAllObstacles().stream()
                     .filter(StaticObstacle.class::isInstance)
                     .map(StaticObstacle.class::cast)
@@ -158,10 +159,10 @@ public final class LevelPanel extends JPanel {
                         final double hw = hb.getHalfWidth();
                         final double hh = hb.getHalfHeight();
 
-                        final int x = toPx(cx - hw,elementSize) + offsetX;
-                        final int y = toPx(cy - hh,elementSize) + offsetY;
-                        final int w = toPx(hw * 2.0,elementSize);
-                        final int h = toPx(hh * 2.0,elementSize);
+                        final int x = toPx(cx - hw, elementSize) + offsetX;
+                        final int y = toPx(cy - hh, elementSize) + offsetY;
+                        final int w = toPx(hw * 2.0, elementSize);
+                        final int h = toPx(hh * 2.0, elementSize);
 
                         final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
                         g.setColor(tileColor);
@@ -173,7 +174,8 @@ public final class LevelPanel extends JPanel {
                     });
         }
 
-        private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,
+                final int elementSize) {
             level.getEntitiesByClass(InteractiveObstacle.class).forEach(obj -> {
                 final HitBox hb = obj.getHitBox();
                 final double cx = hb.getCenter().x();
@@ -182,10 +184,10 @@ public final class LevelPanel extends JPanel {
                 final double hw = hb.getHalfWidth();
                 final double hh = hb.getHalfHeight();
 
-                final int x = toPx(cx - hw,elementSize) + offsetX;
-                final int y = toPx(cy - hh,elementSize) + offsetY;
-                final int w = toPx(hw * 2.0,elementSize);
-                final int h = toPx(hh * 2.0,elementSize);
+                final int x = toPx(cx - hw, elementSize) + offsetX;
+                final int y = toPx(cy - hh, elementSize) + offsetY;
+                final int w = toPx(hw * 2.0, elementSize);
+                final int h = toPx(hh * 2.0, elementSize);
 
                 final Color base = interactiveColorMap.getOrDefault(obj.getClass(), Color.PINK);
                 g.setColor(base);
@@ -205,7 +207,7 @@ public final class LevelPanel extends JPanel {
             });
         }
 
-        private void drawEnemies(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawEnemies(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
             final double enemyHalfWidth = 0.5;
             final double enemyHalfHeight = 0.5;
 
@@ -218,10 +220,10 @@ public final class LevelPanel extends JPanel {
                 final double tlx = cx - enemyHalfWidth;
                 final double tly = cy - enemyHalfHeight;
 
-                final int pixelX = toPx(tlx,elementSize) + offsetX;
-                final int pixelY = toPx(tly,elementSize) + offsetY;
-                final int w = toPx(enemyHalfWidth * 2.0,elementSize);
-                final int h = toPx(enemyHalfHeight * 2.0,elementSize);
+                final int pixelX = toPx(tlx, elementSize) + offsetX;
+                final int pixelY = toPx(tly, elementSize) + offsetY;
+                final int w = toPx(enemyHalfWidth * 2.0, elementSize);
+                final int h = toPx(enemyHalfHeight * 2.0, elementSize);
 
                 g.fillOval(pixelX, pixelY, w, h);
 
@@ -234,11 +236,11 @@ public final class LevelPanel extends JPanel {
             });
         }
 
-        private int toPx(final double worldCoord,final int elementSize) {
+        private int toPx(final double worldCoord, final int elementSize) {
             return (int) Math.round(worldCoord * elementSize);
         }
 
-        private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
 
             final double projectileWidth = 0.25;
             final double projectileHeight = 0.25;
@@ -253,17 +255,17 @@ public final class LevelPanel extends JPanel {
                 final double tlx = cx - projHalfWidth;
                 final double tly = cy - projHalfHeight;
 
-                final int pixelX = toPx(tlx,elementSize) + offsetX;
-                final int pixelY = toPx(tly,elementSize) + offsetY;
-                final int w = toPx(projectileWidth,elementSize);
-                final int h = toPx(projectileHeight,elementSize);
+                final int pixelX = toPx(tlx, elementSize) + offsetX;
+                final int pixelY = toPx(tly, elementSize) + offsetY;
+                final int w = toPx(projectileWidth, elementSize);
+                final int h = toPx(projectileHeight, elementSize);
 
                 g.fillOval(pixelX, pixelY, w, h);
 
             });
         }
 
-        private void drawPlayers(final Graphics g, final int offsetX, final int offsetY,final int elementSize) {
+        private void drawPlayers(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
 
             level.getAllPlayers().stream().forEach(player -> {
 
@@ -273,10 +275,10 @@ public final class LevelPanel extends JPanel {
                 final double hw = hb.getHalfWidth();
                 final double hh = hb.getHalfHeight();
 
-                final int x = toPx(cx - hw,elementSize) + offsetX;
-                final int y = toPx(cy - hh,elementSize) + offsetY;
-                final int w = toPx(hw * 2.0,elementSize);
-                final int h = toPx(hh * 2.0,elementSize);
+                final int x = toPx(cx - hw, elementSize) + offsetX;
+                final int y = toPx(cy - hh, elementSize) + offsetY;
+                final int w = toPx(hw * 2.0, elementSize);
+                final int h = toPx(hh * 2.0, elementSize);
 
                 if (player instanceof Fireboy) {
                     g.setColor(Color.BLACK);
