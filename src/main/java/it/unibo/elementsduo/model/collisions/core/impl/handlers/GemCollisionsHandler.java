@@ -1,9 +1,9 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.GemCollectedCommand;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.GemCollectedEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Gem;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -18,7 +18,12 @@ public class GemCollisionsHandler extends AbstractCollisionHandler<Player, Gem> 
 
     @Override
     public void handleCollision(Player player, Gem gem, CollisionInformations c, CollisionResponse.Builder builder) {
-        builder.addLogicCommand(new GemCollectedCommand(player, gem, eventManager));
+        builder.addLogicCommand(() -> {
+            if (gem.isActive()) {
+                gem.collect();
+                this.eventManager.notify(new GemCollectedEvent(player, gem));
+            }
+        });
     }
 
 }

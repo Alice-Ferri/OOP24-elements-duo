@@ -1,9 +1,9 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.PlayerProjectileCommand;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -19,8 +19,7 @@ public class PlayerProjectileHandler extends AbstractCollisionHandler<Player, Pr
     @Override
     public void handleCollision(Player player, Projectiles projectile, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
-        builder.addLogicCommand(
-                new PlayerProjectileCommand(player, projectile, this.eventManager));
+        builder.addLogicCommand(() -> this.eventManager.notify(new PlayerDiedEvent(player)));
 
     }
 

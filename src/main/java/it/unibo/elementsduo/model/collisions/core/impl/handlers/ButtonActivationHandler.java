@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.ButtonActivationCommand;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -23,7 +22,7 @@ public class ButtonActivationHandler extends AbstractCollisionHandler<Player, bu
         buttonsThisFrame.add(b);
 
         if (!buttonsLastFrame.contains(b)) {
-            builder.addLogicCommand(new ButtonActivationCommand(b));
+            builder.addLogicCommand(() -> b.activate());
         }
     }
 

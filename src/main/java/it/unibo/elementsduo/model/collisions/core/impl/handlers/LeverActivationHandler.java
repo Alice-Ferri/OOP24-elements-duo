@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.LeverActivationCommand;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
@@ -25,7 +24,7 @@ public class LeverActivationHandler extends AbstractCollisionHandler<Player, Lev
         leversThisFrame.add(trigger);
         /* if it isn't in the levers before so it is a new lever colliding */
         if (!leversLastFrame.contains(trigger)) {
-            builder.addLogicCommand(new LeverActivationCommand(trigger));
+            builder.addLogicCommand(() -> trigger.toggle());
         }
     }
 

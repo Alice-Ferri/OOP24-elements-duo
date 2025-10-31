@@ -1,9 +1,9 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.PlayerHazardCommand;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
@@ -25,11 +25,11 @@ public class PlayerHazardHandler extends AbstractCollisionHandler<Player, Hazard
     public void handleCollision(Player player, Hazard hazard, CollisionInformations c,
             CollisionResponse.Builder builder) {
         if (player instanceof Fireboy && hazard instanceof waterPool) {
-            builder.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         } else if (player instanceof Watergirl && hazard instanceof lavaPool) {
-            builder.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         } else if (hazard instanceof greenPool) {
-            builder.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
+            builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         }
     }
 
