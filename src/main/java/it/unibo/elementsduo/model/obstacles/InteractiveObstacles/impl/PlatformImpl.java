@@ -15,8 +15,8 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 public class PlatformImpl extends InteractiveObstacle implements Triggerable, TriggerListener {
 
-    private static double halfWidth = 0.5;
-    private static double halfHeight = 0.5;
+    private final static double HALF_WIDTH = 0.5;
+    private final static double HALF_HEIGHT = 0.5;
 
     private Position a, b;
     private double speed = 1.0;
@@ -33,7 +33,7 @@ public class PlatformImpl extends InteractiveObstacle implements Triggerable, Tr
      * @param b   the second target position
      */
     public PlatformImpl(Position pos, Position a, Position b) {
-        super(pos, halfWidth, halfHeight);
+        super(pos, HALF_WIDTH, HALF_HEIGHT);
         this.a = a;
         this.b = b;
         this.pos = pos;

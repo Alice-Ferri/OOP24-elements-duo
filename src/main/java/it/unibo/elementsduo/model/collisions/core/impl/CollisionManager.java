@@ -12,23 +12,36 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerHazardHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerProjectileHandler;
-
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerExitHandler;
-
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 
-/* class to manage collisions */
+/**
+ * Manages all collision checks and responses between collidable entities in the
+ * game world.
+ * 
+ * <p>
+ * The {@code CollisionManager} uses a {@link CollisionChecker} to detect
+ * collisions,
+ * delegates handling to registered collision handlers, and executes the
+ * resulting
+ * collision responses.
+ */
+public final class CollisionManager {
 
-public class CollisionManager {
-    private CollisionChecker ck = new CollisionCheckerImpl();
-    private CollisionHandlersRegister register = new CollisionHandlersRegister();
-
+    private final CollisionChecker ck = new CollisionCheckerImpl();
+    private final CollisionHandlersRegister register = new CollisionHandlersRegister();
     private final EventManager eventManager;
 
+    /**
+     * Creates a new {@code CollisionManager} and registers all collision handlers.
+     *
+     * @param eventManager the event manager used to trigger game events on
+     *                     collisions
+     */
     public CollisionManager(final EventManager eventManager) {
         this.eventManager = eventManager;
         register.registerHandler(new LeverActivationHandler());
@@ -43,15 +56,30 @@ public class CollisionManager {
         register.registerHandler(new PlayerExitHandler(this.eventManager));
     }
 
-    public void manageCollisions(List<Collidable> entities) {
-
+    /**
+     * Performs collision detection and handling for all given collidable entities.
+     * 
+     * <p>
+     * The method checks for collisions, resets entity states (e.g., airborne
+     * players),
+     * delegates collision handling to the registered handlers, and executes the
+     * final
+     * collision responses.
+     * 
+     * <p>
+     * This method is not designed for overriding. If customization is required,
+     * prefer
+     * extending {@link CollisionHandlersRegister} or individual handlers.
+     *
+     * @param entities the list of collidable entities to check for collisions
+     */
+    public void manageCollisions(final List<Collidable> entities) {
         register.notifyUpdateStart();
 
-        List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
+        final List<CollisionInformations> collisionsInfo = ck.checkCollisions(entities);
+        final CollisionResponse.Builder builder = new CollisionResponse.Builder();
 
-        CollisionResponse.Builder builder = new CollisionResponse.Builder();
-
-        for (Collidable c : entities) {
+        for (final Collidable c : entities) {
             if (c instanceof Player p) {
                 p.setAirborne();
             } else if (c instanceof PushBox b) {
@@ -59,13 +87,11 @@ public class CollisionManager {
             }
         }
 
-        collisionsInfo.stream().forEach(c -> register.handle(c, builder));
+        collisionsInfo.forEach(c -> register.handle(c, builder));
 
         register.notifyUpdateEnd();
 
-        CollisionResponse response = builder.build();
+        final CollisionResponse response = builder.build();
         response.execute();
-
     }
-
 }
