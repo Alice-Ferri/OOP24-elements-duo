@@ -16,13 +16,9 @@ public class CollisionResponse {
     }
 
     public void execute() {
-        for (CollisionCommand c : this.physicsCommands) {
-            c.execute();
-        }
+        this.physicsCommands.stream().forEach(c -> c.execute());
 
-        for (CollisionCommand c : this.logicCommands) {
-            c.execute();
-        }
+        this.logicCommands.stream().forEach(c -> c.execute());
     }
 
     public static class Builder {

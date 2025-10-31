@@ -59,9 +59,7 @@ public class CollisionManager {
             }
         }
 
-        for (CollisionInformations c : collisionsInfo) {
-            register.handle(c, builder);
-        }
+        collisionsInfo.stream().forEach(c -> register.handle(c, builder));
 
         register.notifyUpdateEnd();
 

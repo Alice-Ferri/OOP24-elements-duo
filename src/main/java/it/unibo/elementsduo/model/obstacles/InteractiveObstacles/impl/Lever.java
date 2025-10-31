@@ -41,9 +41,7 @@ public class Lever extends InteractiveObstacle implements Triggerable {
     @Override
     public void toggle() {
         this.active = !this.active;
-        for (TriggerListener t : linkedObjects) {
-            t.onTriggered(active);
-        }
+        this.linkedObjects.stream().forEach(t -> t.onTriggered(active));
     }
 
     @Override
