@@ -8,6 +8,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 /**
  * Abstract base class for handling collisions between two {@link Collidable}
  * types.
+ * 
  * <p>
  * This class provides generic collision dispatch logic that identifies whether
  * a
@@ -15,6 +16,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
  * actual collision handling to subclasses via the
  * {@link #handleCollision(Object, Object, CollisionInformations, CollisionResponse.Builder)}
  * method.
+ * 
  * <p>
  * Subclasses should implement
  * {@link #handleCollision(Object, Object, CollisionInformations, CollisionResponse.Builder)}
@@ -46,6 +48,7 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
     /**
      * Checks whether this handler can process a collision between the given
      * objects.
+     * 
      * <p>
      * The handler can handle the collision if the pair of objects matches either
      * {@code (typeA, typeB)} or {@code (typeB, typeA)}.
@@ -64,6 +67,7 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
      * Handles a collision between two collidable objects if their types are
      * supported
      * by this handler.
+     * 
      * <p>
      * The method determines the correct type order and delegates the handling to
      * {@link #handleCollision(Object, Object, CollisionInformations, CollisionResponse.Builder)}.
@@ -84,6 +88,7 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
 
     /**
      * Handles a specific collision between two objects of the supported types.
+     * 
      * <p>
      * Subclasses must implement this method to define collision behavior between
      * the specified types.

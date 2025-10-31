@@ -58,25 +58,19 @@ public final class CollisionResponse {
 
         /**
          * Adds a logic-related command to the response.
-         * 
-         * <p>
-         * This method is final to ensure consistent builder behavior.
          *
          * @param command the logic command to add
          */
-        public final void addLogicCommand(CollisionCommand command) {
+        public void addLogicCommand(final CollisionCommand command) {
             this.logicCommands.add(command);
         }
 
         /**
          * Adds a physics-related command to the response.
-         * 
-         * <p>
-         * This method is final to ensure consistent builder behavior.
          *
          * @param command the physics command to add
          */
-        public final void addPhysicsCommand(CollisionCommand command) {
+        public void addPhysicsCommand(final CollisionCommand command) {
             this.physicsCommands.add(command);
         }
 
