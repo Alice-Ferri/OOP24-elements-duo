@@ -14,10 +14,8 @@ import it.unibo.elementsduo.resources.Position;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Concrete implementation of {@link EntityFactory}.
@@ -32,6 +30,7 @@ public final class EntityFactoryImpl implements EntityFactory {
             'A', obstacleType.type.WATER_EXIT,
             'F', obstacleType.type.FIRE_EXIT,
             'B', obstacleType.type.FIRE_SPAWN,
+            'W', obstacleType.type.WATER_SPAWN,
             'G', obstacleType.type.GEM,
             'Q', obstacleType.type.LAVA_POOL,
             'K', obstacleType.type.GREEN_POOL,
@@ -81,37 +80,37 @@ public final class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public Set<GameEntity> createEntities(final char symbol, final Position pos) {
+    public GameEntity createEntity(final char symbol, final Position pos) {
         final EntityType type = SYMBOL_REGISTRY.get(symbol);
 
         if (type == null) {
-            return Collections.emptySet();
+            return null;
         }
 
         final HitBoxImpl defaultHitbox = new HitBoxImpl(pos, 1, 1);
-        final Set<GameEntity> created = new HashSet<>();
+        final GameEntity created;
 
         switch (type) {
             case STATIC_OBSTACLE:
-                created.add(obstacleFactory.createObstacle(STATIC_TYPE_MAP.get(symbol), defaultHitbox));
+                created = obstacleFactory.createObstacle(STATIC_TYPE_MAP.get(symbol), defaultHitbox);
                 break;
             case ENEMY:
-                created.add(enemyFactory.createEnemy(symbol, pos));
+                created = enemyFactory.createEnemy(symbol, pos);
                 break;
             case SPAWN_POINT:
-                created.add((symbol == 'B') ? new Watergirl(pos) : new Fireboy(pos));
+                created = (symbol == 'B') ? new Fireboy(pos) : new Watergirl(pos);
                 break;
             case LEVER:
-                created.add(interactiveObsFactory.createLever(pos));
+                created = interactiveObsFactory.createLever(pos);
                 break;
             case PUSH_BOX:
-                created.add(interactiveObsFactory.createPushBox(pos));
+                created = interactiveObsFactory.createPushBox(pos);
                 break;
             case MOVING_PLATFORM:
-                created.add(interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
+                created = interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3));
                 break;
             case BUTTON:
-                created.add(interactiveObsFactory.createButton(pos));
+                created = interactiveObsFactory.createButton(pos);
                 break;
             default:
                 throw new IllegalArgumentException();

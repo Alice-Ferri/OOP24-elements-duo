@@ -13,6 +13,7 @@ import it.unibo.elementsduo.controller.subcontroller.impl.HomeController;
 import it.unibo.elementsduo.controller.subcontroller.impl.LevelSelectionController;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
@@ -65,7 +66,7 @@ public final class MainControllerImpl implements GameNavigation, HomeNavigation,
         this.checkController();
         currentLevelNumber = levelNumber;
 
-        final Level level = this.mapLoader.loadLevel(currentLevelNumber);
+        final Level level = new LevelImpl(this.mapLoader.loadLevel(currentLevelNumber));
         try {
             mapValidator.validate(level);
         } catch (final InvalidMapException e) {
@@ -78,7 +79,7 @@ public final class MainControllerImpl implements GameNavigation, HomeNavigation,
         gameController.activate();
 
         final String currentkey = GAME_KEY + currentLevelNumber;
-        mainFrame.addView(gameController.getPanel(), currentkey);
+        mainFrame.addView(panel, currentkey);
         this.progressionManager.getCurrentState().setCurrentLevel(levelNumber);
         mainFrame.showView(currentkey);
 

@@ -39,7 +39,7 @@ public final class MapValidatorImpl implements MapValidator {
             Floor.class, lavaPool.class, waterPool.class, greenPool.class
     );
     private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
-            Floor.class, lavaPool.class, waterPool.class, greenPool.class
+            Floor.class, lavaPool.class, waterPool.class
     );
     private static final Set<Class<? extends obstacle>> VISITABLE_SURFACES = Set.of(
             PlatformImpl.class,
@@ -121,25 +121,6 @@ public final class MapValidatorImpl implements MapValidator {
     private void checkWallExistsAt(final Position pos, final Set<Position> wallPositions) throws InvalidMapException {
         if (!wallPositions.contains(pos)) {
             throw new InvalidMapException("Boundary not closed: Missing wall at " + pos);
-        }
-    }
-
-    private void checkEnemyFloors(final Level level) throws InvalidMapException {
-        final Set<Position> validSurfaces = level.getAllObstacles().stream()
-                .filter(obs -> ENEMY_SURFACES.stream().anyMatch(type -> type.isInstance(obs)))
-                .map(this::getGridPosFromHitBox)
-                .collect(Collectors.toSet());
-
-        for (final Enemy enemy : level.getAllEnemies()) {
-            final Position enemyPos = getGridPosFromEnemy(enemy);
-            final Position posBelow = new Position(enemyPos.x(), enemyPos.y() + 1);
-
-            if (!validSurfaces.contains(posBelow)) {
-                throw new InvalidMapException(
-                        "Positioning Error: Enemy at " + enemyPos
-                        + " is floating. Missing a valid surface at " + posBelow + "."
-                );
-            }
         }
     }
 
@@ -249,6 +230,25 @@ public final class MapValidatorImpl implements MapValidator {
                 throw new InvalidMapException(
                         "Positioning Error: The object " + interactive.getClass().getSimpleName()
                         + " at " + interactivePos + " is floating. Missing a floor at " + posBelow + "."
+                );
+            }
+        }
+    }
+
+    private void checkEnemyFloors(final Level level) throws InvalidMapException {
+        final Set<Position> validSurfaces = level.getAllObstacles().stream()
+                .filter(obs -> ENEMY_SURFACES.stream().anyMatch(type -> type.isInstance(obs)))
+                .map(this::getGridPosFromHitBox)
+                .collect(Collectors.toSet());
+
+        for (final Enemy enemy : level.getAllEnemies()) {
+            final Position enemyPos = getGridPosFromEnemy(enemy);
+            final Position posBelow = new Position(enemyPos.x(), enemyPos.y() + 1);
+
+            if (!validSurfaces.contains(posBelow)) {
+                throw new InvalidMapException(
+                        "Positioning Error: Enemy at " + enemyPos
+                        + " is floating. Missing a valid surface at " + posBelow + "."
                 );
             }
         }

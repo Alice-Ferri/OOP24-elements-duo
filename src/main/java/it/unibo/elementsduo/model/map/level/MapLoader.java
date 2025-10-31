@@ -10,8 +10,6 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 
-import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.resources.Position;
 
 import java.io.BufferedReader;
@@ -61,12 +59,12 @@ public final class MapLoader {
      * @throws MapLoadingException      If an I/O error occurs during file reading.
      * @throws IllegalArgumentException If the map file is not found.
      */
-    public Level loadLevel(final int levelNumber) {
+    public Set<GameEntity> loadLevel(final int levelNumber) {
         final String filePath = LEVEL_FOLDER + String.format(LEVEL_FILE, levelNumber);
         return loadLevelFromFile(filePath);
     }
 
-    private Level loadLevelFromFile(final String filePath) {
+    public Set<GameEntity> loadLevelFromFile(final String filePath) {
         final Set<GameEntity> gameEntities = new HashSet<>();
         final InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
 
@@ -82,7 +80,7 @@ public final class MapLoader {
                     final char symbol = line.charAt(x);
                     final Position pos = new Position(x, y);
 
-                    gameEntities.addAll(entityFactory.createEntities(symbol, pos));
+                    gameEntities.add(entityFactory.createEntity(symbol, pos));
 
                 }
                 y++;
@@ -93,7 +91,7 @@ public final class MapLoader {
         }
 
         linkInteractiveObjects(gameEntities);
-        return new LevelImpl(gameEntities);
+        return gameEntities;
     }
 
     private void linkInteractiveObjects(final Set<GameEntity> interObjs) {
