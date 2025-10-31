@@ -13,12 +13,15 @@ public abstract class AbstractPlayer implements Player {
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5; 
     private static final double GRAVITY = 9.8;
+    private static final double POSITION_SLOP = 0.001;
+    private static final double CORRECTION_PERCENT = 0.8;
+
 
     private double x;
     private double y;
     private Vector2D velocity = new Vector2D(0, 0);
     private boolean onGround = true;
-    private boolean onExit = false;
+    private boolean onExit;
 
     protected AbstractPlayer(final Position startPos) {
         this.x = startPos.x();
@@ -94,7 +97,6 @@ public abstract class AbstractPlayer implements Player {
     public void setVelocityY(final double vy) {
         this.velocity = new Vector2D(this.velocity.x(), vy);
     }
-
     
     @Override
     public void setOnExit(boolean cond) {
@@ -145,9 +147,6 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal) {
 
-        final double POSITION_SLOP = 0.001;
-        final double CORRECTION_PERCENT = 0.8;
-    
         if (penetration <= 0) {
             return;
         }

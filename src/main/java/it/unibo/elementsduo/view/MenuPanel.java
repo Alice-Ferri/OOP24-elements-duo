@@ -5,7 +5,6 @@ import javax.swing.JButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
-import java.awt.Component;
 import java.awt.Dimension;
 
 public final class MenuPanel extends JPanel {
@@ -27,7 +26,7 @@ public final class MenuPanel extends JPanel {
         this.loadButton.setMaximumSize(new Dimension(300, 80));
 
         this.guideButton = new JButton("Guida del Gioco");
-        this.guideButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.guideButton.setAlignmentX(CENTER_ALIGNMENT);
         this.guideButton.setMaximumSize(new Dimension(300, 80));
 
         add(Box.createVerticalGlue());
