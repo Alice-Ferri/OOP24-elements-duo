@@ -2,10 +2,12 @@ package it.unibo.elementsduo.view;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
 import java.awt.Dimension;
+import java.awt.Font;
 
 /**
  * Represents the initial menu panel of the game.
@@ -27,6 +29,10 @@ public final class MenuPanel extends JPanel {
      */
     public MenuPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        JLabel titleLabel = new JLabel("Elements Duo");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         this.startButton = new JButton("Inizia a Giocare");
         this.startButton.setAlignmentX(CENTER_ALIGNMENT);
