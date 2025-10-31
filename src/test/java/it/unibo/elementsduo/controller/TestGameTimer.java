@@ -10,8 +10,8 @@ import it.unibo.elementsduo.controller.gamecontroller.impl.GameTimer;
 /**
  * Unit tests for {@link GameTimer}.
  */
-final class GameTimerTest {
-    private static final double DELTA = 0.05; // 50ms tolerance
+final class TestGameTimer {
+    private static final double DELTA = 0.05;
 
     /**
      * Tests that the timer counts elapsed time correctly.
@@ -21,7 +21,7 @@ final class GameTimerTest {
         GameTimer timer = new GameTimer();
 
         timer.start();
-        Thread.sleep(200); // sleep 200ms
+        Thread.sleep(200);
         timer.stop();
 
         double elapsed = timer.getElapsedSeconds();

@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller.testDoubles;
+package it.unibo.elementsduo.doubles;
 
 
 import it.unibo.elementsduo.controller.inputController.api.InputController;

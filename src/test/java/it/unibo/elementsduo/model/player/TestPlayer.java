@@ -4,14 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import it.unibo.elementsduo.controller.testDoubles.DoubleInputController;
+import it.unibo.elementsduo.doubles.DoubleInputController;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
+import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Unit tests for {@link Fireboy} and {@link Watergirl} classes.
+ * Verifies movement, jumping, gravity, collision correction, and other basic player behavior.
+ */
 final class TestPlayer {
 
     private static final double START_X = 5.0;
@@ -25,18 +31,28 @@ final class TestPlayer {
     private static final double CORRECTION_PERCENT = 0.8;
 
     private Fireboy fireboy;
+    private Watergirl watergirl;
 
-
+    /**
+     * Sets up player instances before each test.
+     */
     @BeforeEach
     void setUp() {
         fireboy = new Fireboy(new Position(START_X, START_Y));
+        watergirl = new Watergirl(new Position(START_X, START_Y));
     }
 
+    /**
+     * Tests that Fireboy returns the correct player type.
+     */
     @Test
     void testGetPlayerType() {
         assertEquals(PlayerType.FIREBOY, fireboy.getPlayerType());
     }
 
+    /**
+     * Tests horizontal movement to the right.
+     */
     @Test
     void testMoveRight() {
         DoubleInputController input = new DoubleInputController();
@@ -49,6 +65,9 @@ final class TestPlayer {
         assertEquals(START_Y, fireboy.getY(), DELTA);
     }
 
+    /**
+     * Tests horizontal movement to the left.
+     */
     @Test
     void testMoveLeft() {
         DoubleInputController input = new DoubleInputController();
@@ -61,6 +80,9 @@ final class TestPlayer {
         assertEquals(START_Y, fireboy.getY(), DELTA);
     }
 
+    /**
+     * Tests that no input results in no horizontal movement.
+     */
     @Test
     void testNoMovement() {
         DoubleInputController input = new DoubleInputController();
@@ -71,6 +93,9 @@ final class TestPlayer {
         assertEquals(START_Y, fireboy.getY(), DELTA);
     }
 
+    /**
+     * Tests jumping behavior, including vertical velocity and position change.
+     */
     @Test
     void testJump() {
         DoubleInputController input = new DoubleInputController();
@@ -86,6 +111,9 @@ final class TestPlayer {
         assertEquals(expectedY, fireboy.getY(), 1e-3);
     }
 
+    /**
+     * Tests gravity application when player is airborne.
+     */
     @Test
     void testApplyGravityWhenAirborne() {
         fireboy.setAirborne();
@@ -101,6 +129,9 @@ final class TestPlayer {
         assertEquals(expectedY, fireboy.getY(), DELTA);
     }
 
+    /**
+     * Tests landing on ground resets vertical velocity and sets onGround to true.
+     */
     @Test
     void testLandOnGround() {
         fireboy.setAirborne();
@@ -114,6 +145,9 @@ final class TestPlayer {
         assertEquals(0.0, fireboy.getVelocityY(), DELTA);
     }
 
+    /**
+     * Tests stopping jump resets vertical velocity.
+     */
     @Test
     void testStopJump() {
         fireboy.setAirborne();
@@ -125,14 +159,19 @@ final class TestPlayer {
         assertEquals(ceilingY, fireboy.getY(), DELTA);
         assertEquals(0.0, fireboy.getVelocityY(), DELTA);
     }
-    
 
+    /**
+     * Tests setting vertical velocity directly.
+     */
     @Test
     void testSetVelocityY() {
         fireboy.setVelocityY(4.2);
         assertEquals(4.2, fireboy.getVelocityY(), DELTA);
     }
 
+    /**
+     * Tests setting the onExit flag.
+     */
     @Test
     void testOnExit() {
         assertFalse(fireboy.isOnExit());
@@ -140,6 +179,9 @@ final class TestPlayer {
         assertTrue(fireboy.isOnExit());
     }
 
+    /**
+     * Tests physics collision correction with positive penetration.
+     */
     @Test
     void testCorrectPhysicsCollisionPositivePenetration() {
         double penetration = 0.5;
@@ -153,6 +195,9 @@ final class TestPlayer {
         assertEquals(expectedY, fireboy.getY(), DELTA);
     }
 
+    /**
+     * Tests that collision correction with zero penetration does nothing.
+     */
     @Test
     void testCorrectPhysicsCollisionNoPenetration() {
         double penetration = 0.0;
@@ -162,5 +207,16 @@ final class TestPlayer {
 
         assertEquals(START_X, fireboy.getX(), DELTA);
         assertEquals(START_Y, fireboy.getY(), DELTA);
+    }
+
+    /**
+     * Test for Watergirl to verify type and initial position.
+     */
+    @Test
+    void testWatergirlBasic() {
+        assertEquals(PlayerType.WATERGIRL, watergirl.getPlayerType());
+
+        assertEquals(START_X, watergirl.getX(), DELTA);
+        assertEquals(START_Y, watergirl.getY(), DELTA);
     }
 }
