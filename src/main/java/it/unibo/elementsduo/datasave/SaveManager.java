@@ -28,7 +28,7 @@ public final class SaveManager {
 
     /**
      * Saves the current progression state to the designated JSON file, 
-     * overwriting any existing data. Uses UTF-8 encoding.
+     * overwriting any existing data.
      *
      * @param state the ProgressionState object to be saved.
      */
@@ -44,7 +44,7 @@ public final class SaveManager {
     }
 
    /**
-     * Loads the progression state from the JSON file, using UTF-8 encoding.
+     * Loads the progression state from the JSON file.
      *
      * @return an {@link Optional} containing the loaded {@link ProgressionState}, or empty otherwise.
      */
