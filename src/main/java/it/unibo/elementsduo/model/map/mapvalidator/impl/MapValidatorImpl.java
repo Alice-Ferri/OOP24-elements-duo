@@ -27,23 +27,33 @@ import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 
-public class MapValidatorImpl implements MapValidator{
-    
+/**
+ * Implementation of {@link MapValidator}.
+ * Validates a map by checking for spawn/exit points, boundaries,
+ * and the reachability of exits by players.
+ */
+public final class MapValidatorImpl implements MapValidator {
+
     private static final Set<Class<? extends obstacle>> ENEMY_SURFACES = Set.of(
             Floor.class, lavaPool.class, waterPool.class, greenPool.class
     );
     private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
-            Floor.class,lavaPool.class, waterPool.class, greenPool.class
+            Floor.class, lavaPool.class, waterPool.class, greenPool.class
     );
-    private record MapDimensions(int minX, int minY, int maxX, int maxY) { }
-    
 
+
+    /**
+     * {@inheritDoc}
+     * Performs a series of checks to validate the map's structure and logic.
+     *
+     * @throws InvalidMapException if the map fails any of the validation checks.
+     */
     @Override
     public void validate(final Level level) throws InvalidMapException {
         if (level.getAllObstacles().isEmpty()) {
-            throw new InvalidMapException("La mappa è vuota.");
+            throw new InvalidMapException("The map is empty.");
         }
-        
+
         checkSpawnsAndExits(level);
         checkBoundaries(level);
         checkReachability(level);
@@ -51,27 +61,27 @@ public class MapValidatorImpl implements MapValidator{
         checkFloatingInteractives(level);
     }
 
-    private void checkSpawnsAndExits(final Level level) throws InvalidMapException{
+    private void checkSpawnsAndExits(final Level level) throws InvalidMapException {
         if (level.getEntitiesByClass(Fireboy.class).size() != 1) {
-            throw new InvalidMapException("La mappa deve avere esattamente 1 fire spawn.");
+            throw new InvalidMapException("Map must have exactly 1 fire spawn.");
         }
         if (level.getEntitiesByClass(Watergirl.class).size() != 1) {
-            throw new InvalidMapException("La mappa deve avere esattamente 1 water spawn.");
+            throw new InvalidMapException("Map must have exactly 1 water spawn.");
         }
         if (level.getEntitiesByClass(fireExit.class).size() != 1) {
-            throw new InvalidMapException("La mappa deve avere esattamente 1 fire exit.");
+            throw new InvalidMapException("Map must have exactly 1 fire exit.");
         }
         if (level.getEntitiesByClass(waterExit.class).size() != 1) {
-            throw new InvalidMapException("La mappa deve avere esattamente 1 water exit.");
+            throw new InvalidMapException("Map must have exactly 1 water exit.");
         }
     }
 
-    private void checkBoundaries(final Level level) throws InvalidMapException{
+    private void checkBoundaries(final Level level) throws InvalidMapException {
         final MapDimensions dims = getMapDimensions(level);
         final Set<Position> wallPositions = getWallPositions(level);
 
         for (int x = dims.minX; x <= dims.maxX; x++) {
-            checkWallExistsAt(new Position(x, dims.minY), wallPositions); 
+            checkWallExistsAt(new Position(x, dims.minY), wallPositions);
             checkWallExistsAt(new Position(x, dims.maxY), wallPositions);
         }
 
@@ -105,12 +115,11 @@ public class MapValidatorImpl implements MapValidator{
 
     private void checkWallExistsAt(final Position pos, final Set<Position> wallPositions) throws InvalidMapException {
         if (!wallPositions.contains(pos)) {
-            throw new InvalidMapException("Bordo non chiuso: Muro mancante a " + pos);
+            throw new InvalidMapException("Boundary not closed: Missing wall at " + pos);
         }
     }
 
-    private void checkEnemyFloors(final Level level) throws InvalidMapException{
-        // 1. Crea un Set di tutte le superfici valide (Floor E Hazard)
+    private void checkEnemyFloors(final Level level) throws InvalidMapException {
         final Set<Position> validSurfaces = level.getAllObstacles().stream()
                 .filter(obs -> ENEMY_SURFACES.stream().anyMatch(type -> type.isInstance(obs)))
                 .map(this::getGridPosFromHitBox)
@@ -119,18 +128,17 @@ public class MapValidatorImpl implements MapValidator{
         for (final Enemy enemy : level.getAllEnemies()) {
             final Position enemyPos = getGridPosFromEnemy(enemy);
             final Position posBelow = new Position(enemyPos.x(), enemyPos.y() + 1);
-            
+
             if (!validSurfaces.contains(posBelow)) {
                 throw new InvalidMapException(
-                        "Errore di posizionamento: Il nemico a " + enemyPos 
-                        + " sta fluttuando. Manca una superficie valida (Floor/Hazard) a " + posBelow + "."
+                        "Positioning Error: Enemy at " + enemyPos
+                        + " is floating. Missing a valid surface at " + posBelow + "."
                 );
             }
         }
     }
 
-    
-    private void checkReachability(final Level level) throws InvalidMapException{
+    private void checkReachability(final Level level) throws InvalidMapException {
         final MapDimensions dims = getMapDimensions(level);
 
         final Set<Position> blockedPositions = level.getAllObstacles().stream()
@@ -141,7 +149,7 @@ public class MapValidatorImpl implements MapValidator{
         final Set<Position> platformPositions = level.getEntitiesByClass(PlatformImpl.class).stream()
                 .map(this::getGridPosFromHitBox)
                 .collect(Collectors.toSet());
-        
+
         final Set<Position> walkableSpace = new HashSet<>(emptySpace);
         walkableSpace.addAll(platformPositions);
 
@@ -150,33 +158,33 @@ public class MapValidatorImpl implements MapValidator{
         final Position waterSpawnPos = getGridPosFromHitBox(level.getEntitiesByClass(Watergirl.class).iterator().next());
         final Position waterExitPos = getGridPosFromHitBox(level.getEntitiesByClass(waterExit.class).iterator().next());
 
-        // 5. Esegui BFS sul nuovo 'walkableSpace'
         checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, walkableSpace, emptySpace);
         checkPathForPlayer("Water", waterSpawnPos, waterExitPos, walkableSpace, emptySpace);
     }
 
-    private void checkPathForPlayer(final String playerName, final Position spawn, final Position exit, 
-                                    final Set<Position> walkableSpace, final Set<Position> emptySpace) 
-                                    throws InvalidMapException {
-        
+    private void checkPathForPlayer(final String playerName, final Position spawn, final Position exit,
+            final Set<Position> walkableSpace, final Set<Position> emptySpace)
+            throws InvalidMapException {
+
         final Set<Position> startPoints = getNeighbors(spawn).stream()
                 .filter(emptySpace::contains)
                 .collect(Collectors.toSet());
-        
+
         if (startPoints.isEmpty()) {
-            throw new InvalidMapException("Lo spawn di " + playerName + " a " + spawn + " non è adiacente a nessuno spazio vuoto.");
+            throw new InvalidMapException(playerName + " spawn at " + spawn
+                    + " is not adjacent to any empty space.");
         }
 
         final Set<Position> endPoints = getNeighbors(exit).stream()
                 .filter(emptySpace::contains)
                 .collect(Collectors.toSet());
-        
+
         if (endPoints.isEmpty()) {
-            throw new InvalidMapException("L'uscita di " + playerName + " a " + exit + " non è adiacente a nessuno spazio vuoto.");
+            throw new InvalidMapException(playerName + " exit at " + exit + " is not adjacent to any empty space.");
         }
 
         if (!isPathPossible(startPoints, endPoints, walkableSpace)) {
-            throw new InvalidMapException(playerName + " non può raggiungere l'uscita.");
+            throw new InvalidMapException(playerName + " cannot reach the exit.");
         }
     }
 
@@ -193,8 +201,9 @@ public class MapValidatorImpl implements MapValidator{
         return empty;
     }
 
-    private boolean isPathPossible(final Set<Position> startPoints, final Set<Position> endPoints,final Set<Position> walkableSpace) {
-        
+    private boolean isPathPossible(final Set<Position> startPoints, final Set<Position> endPoints,
+            final Set<Position> walkableSpace) {
+
         final Queue<Position> queue = new LinkedList<>(startPoints);
         final Set<Position> visited = new HashSet<>(startPoints);
 
@@ -202,10 +211,10 @@ public class MapValidatorImpl implements MapValidator{
             final Position current = queue.poll();
 
             if (endPoints.contains(current)) {
-                return true; 
+                return true;
             }
             for (final Position neighbor : getNeighbors(current)) {
-               
+
                 if (walkableSpace.contains(neighbor) && !visited.contains(neighbor)) {
                     visited.add(neighbor);
                     queue.add(neighbor);
@@ -231,8 +240,8 @@ public class MapValidatorImpl implements MapValidator{
 
             if (!validSurfaces.contains(posBelow)) {
                 throw new InvalidMapException(
-                        "Errore di posizionamento: L'oggetto " + interactive.getClass().getSimpleName() 
-                        + " a " + interactivePos + " sta fluttuando. Manca un pavimento a " + posBelow + "."
+                        "Positioning Error: The object " + interactive.getClass().getSimpleName()
+                        + " at " + interactivePos + " is floating. Missing a floor at " + posBelow + "."
                 );
             }
         }
@@ -240,25 +249,34 @@ public class MapValidatorImpl implements MapValidator{
 
     private List<Position> getNeighbors(final Position pos) {
         return List.of(
-            new Position(pos.x() + 1, pos.y()),
-            new Position(pos.x() - 1, pos.y()),
-            new Position(pos.x(), pos.y() + 1),
-            new Position(pos.x(), pos.y() - 1)
+                new Position(pos.x() + 1, pos.y()),
+                new Position(pos.x() - 1, pos.y()),
+                new Position(pos.x(), pos.y() + 1),
+                new Position(pos.x(), pos.y() - 1)
         );
     }
 
     private Position getGridPosFromEnemy(final Enemy enemy) {
         return new Position(
-            (int) enemy.getX(),
-            (int) enemy.getY()
+                (int) enemy.getX(),
+                (int) enemy.getY()
         );
     }
 
     private Position getGridPosFromHitBox(final Collidable entity) {
-         return new Position(
-            (int) entity.getHitBox().getCenter().x(),
-            (int) entity.getHitBox().getCenter().y()
+        return new Position(
+                (int) entity.getHitBox().getCenter().x(),
+                (int) entity.getHitBox().getCenter().y()
         );
     }
-    
+
+    /**
+     * Record to store the minimum and maximum dimensions of the map grid.
+     *
+     * @param minX minimum X coordinate
+     * @param minY minimum Y coordinate
+     * @param maxX maximum X coordinate
+     * @param maxY maximum Y coordinate
+     */
+    private record MapDimensions(int minX, int minY, int maxX, int maxY) { }
 }
