@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
+import java.awt.Component;
 import java.awt.Dimension;
 
 public final class MenuPanel extends JPanel {
@@ -11,6 +13,7 @@ public final class MenuPanel extends JPanel {
     
     private final JButton startButton;
     private final JButton loadButton;
+    private final JButton guideButton;
 
     public MenuPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -23,10 +26,16 @@ public final class MenuPanel extends JPanel {
         this.loadButton.setAlignmentX(CENTER_ALIGNMENT);
         this.loadButton.setMaximumSize(new Dimension(300, 80));
 
+        this.guideButton = new JButton("Guida del Gioco");
+        this.guideButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.guideButton.setMaximumSize(new Dimension(300, 80));
+
         add(Box.createVerticalGlue());
         add(startButton);
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(loadButton);
+        add(Box.createRigidArea(new Dimension(0, 20)));
+        add(guideButton);
         add(Box.createVerticalGlue());
     }
 
@@ -36,6 +45,10 @@ public final class MenuPanel extends JPanel {
 
     public JButton getLoadButton() {
         return this.loadButton;
+    }
+
+    public JButton getGuideButton() {
+        return this.guideButton;
     }
 }
 

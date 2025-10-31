@@ -20,7 +20,9 @@ import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
+
 import it.unibo.elementsduo.view.LevelPanel;
+import it.unibo.elementsduo.view.GuidePanel;
 import it.unibo.elementsduo.view.LevelSelectionPanel;
 import it.unibo.elementsduo.view.MenuPanel;
 import it.unibo.elementsduo.datasave.SaveManager; 
@@ -102,6 +104,13 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
 
     }
     
+    @Override
+    public void gameGuide() {
+        GuidePanel guidePanel = new GuidePanel(this::goToMenu);
+        final String guideKey = "GUIDE";
+        mainFrame.addView(guidePanel, guideKey);
+        mainFrame.showView(guideKey);
+    }
 
     @Override
     public void quitGame() {
@@ -115,13 +124,13 @@ public class MainControllerImpl implements GameNavigation,HomeNavigation,LevelSe
         
         final MenuPanel view = new MenuPanel();
         final Controller controller = new HomeController(view, this);
+
         controller.activate();
 
         mainFrame.addView(view, MENU_KEY);
         mainFrame.showView(MENU_KEY);
 
         currentController = controller;
-
     }
 
     @Override

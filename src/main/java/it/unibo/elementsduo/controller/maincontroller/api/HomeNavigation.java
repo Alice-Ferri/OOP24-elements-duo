@@ -9,5 +9,7 @@ public interface HomeNavigation {
     void startNewGame();
 
     void loadSavedGame();
+
+    void gameGuide();
     
 }

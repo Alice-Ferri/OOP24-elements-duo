@@ -6,7 +6,7 @@ import it.unibo.elementsduo.controller.maincontroller.api.HomeNavigation;
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
 import it.unibo.elementsduo.view.MenuPanel;
 
-public class HomeController implements Controller{
+public class HomeController implements Controller {
 
     private final MenuPanel view;
     private final HomeNavigation controller;
@@ -21,6 +21,8 @@ public class HomeController implements Controller{
         this.view.getStartButton().addActionListener(e -> controller.startNewGame());
 
         this.view.getLoadButton().addActionListener(e -> controller.loadSavedGame());
+
+        this.view.getGuideButton().addActionListener(e -> controller.gameGuide());
     }
 
     @Override
@@ -29,6 +31,8 @@ public class HomeController implements Controller{
         this.view.getStartButton().removeActionListener(null);
         
         this.view.getLoadButton().removeActionListener(null);
+
+        this.view.getGuideButton().removeActionListener(null);
         
     }
 
