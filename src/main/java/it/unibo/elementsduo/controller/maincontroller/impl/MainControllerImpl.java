@@ -175,7 +175,7 @@ public final class MainControllerImpl implements GameNavigation, HomeNavigation,
         JOptionPane.showMessageDialog(
                 this.mainFrame,
                 error,
-                "Errore Mappa",
+                "Map Error",
                 JOptionPane.ERROR_MESSAGE
         );
         this.goToLevelSelection();
