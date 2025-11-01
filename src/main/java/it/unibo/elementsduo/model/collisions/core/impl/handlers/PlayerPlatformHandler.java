@@ -8,6 +8,8 @@ import it.unibo.elementsduo.resources.Vector2D;
 
 public final class PlayerPlatformHandler extends AbstractCollisionHandler<Player, PlatformImpl> {
 
+    private static final double VERTICAL_THRESHOLD = -0.5;
+
     public PlayerPlatformHandler() {
         super(Player.class, PlatformImpl.class);
     }
@@ -16,11 +18,9 @@ public final class PlayerPlatformHandler extends AbstractCollisionHandler<Player
     public void handleCollision(final Player player, final PlatformImpl platform,
             final CollisionInformations c, final CollisionResponse.Builder builder) {
 
-        final Vector2D playerNormal = (c.getObjectA() == player)
-                ? c.getNormal()
-                : c.getNormal().multiply(-1);
+        final Vector2D playerNormal = getNormalFromPerspective(player, c);
 
-        if (playerNormal.y() < -0.5) {
+        if (playerNormal.y() < VERTICAL_THRESHOLD) {
             builder.addLogicCommand(() -> {
                 player.setVelocityY(platform.getVelocity().y());
             });

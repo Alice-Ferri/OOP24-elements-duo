@@ -47,26 +47,10 @@ public final class PlayerEnemyHandler extends AbstractCollisionHandler<Player, E
     @Override
     public void handleCollision(final Player player, final Enemy enemy, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
-        final Vector2D normalEnemyPlayer = calculateNormalFromPlayerPerspective(c);
+        final Vector2D normalEnemyPlayer = getNormalFromPerspective(player, c);
         final boolean isPlayerAboveEnemy = normalEnemyPlayer.y() < VERTICAL_THRESHOLD;
 
         builder.addLogicCommand(
                 new PlayerEnemyCommand(player, enemy, eventManager, isPlayerAboveEnemy));
-    }
-
-    /**
-     * Calculates the collision normal from the player's perspective.
-     * 
-     * <p>
-     * Ensures the normal vector always points away from the player, regardless
-     * of which object is listed first in the collision.
-     *
-     * @param c the collision information
-     * @return the normal vector from the player's perspective
-     */
-    private Vector2D calculateNormalFromPlayerPerspective(final CollisionInformations c) {
-        return (c.getObjectA() instanceof Player)
-                ? c.getNormal()
-                : c.getNormal().multiply(-1);
     }
 }
