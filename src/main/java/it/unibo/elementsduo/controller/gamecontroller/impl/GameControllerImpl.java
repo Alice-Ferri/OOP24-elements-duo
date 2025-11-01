@@ -143,11 +143,9 @@ public final class GameControllerImpl implements EventListener, GameController {
     private void updateEnemies(final double deltaTime) {
         this.level.getLivingEnemies().forEach(enemy -> {
             enemy.update(deltaTime);
-            if (enemy instanceof ShooterEnemyImpl shooter) {
-                shooter.attack().ifPresent(projectile -> {
+                enemy.attack().ifPresent(projectile -> {
                     level.addProjectile(projectile);
                 });
-            }
         });
     }
 
