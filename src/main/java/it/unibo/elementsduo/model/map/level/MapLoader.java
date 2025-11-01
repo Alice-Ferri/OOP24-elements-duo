@@ -80,7 +80,10 @@ public final class MapLoader {
                     final char symbol = line.charAt(x);
                     final Position pos = new Position(x, y);
 
-                    gameEntities.add(entityFactory.createEntity(symbol, pos));
+                    final GameEntity entity = entityFactory.createEntity(symbol, pos);
+                    if (entity != null) {
+                        gameEntities.add(entity);
+}
 
                 }
                 y++;

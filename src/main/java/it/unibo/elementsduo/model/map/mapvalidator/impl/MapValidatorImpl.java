@@ -155,16 +155,16 @@ public final class MapValidatorImpl implements MapValidator {
             throws InvalidMapException {
 
         final Set<Position> startPoints = getNeighbors(spawn).stream()
-                .filter(emptySpace::contains)
+                .filter(walkableSpace::contains)
                 .collect(Collectors.toSet());
 
         if (startPoints.isEmpty()) {
             throw new InvalidMapException(playerName + " spawn at " + spawn
-                    + " is not adjacent to any empty space.");
+                    + " is not adjacent to any walkable space.");
         }
 
         final Set<Position> endPoints = getNeighbors(exit).stream()
-                .filter(emptySpace::contains)
+                .filter(walkableSpace::contains)
                 .collect(Collectors.toSet());
 
         if (endPoints.isEmpty()) {
