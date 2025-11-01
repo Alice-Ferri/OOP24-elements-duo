@@ -114,6 +114,8 @@ public final class MainControllerImpl implements GameNavigation, HomeNavigation,
     
     @Override
     public void gameGuide() {
+        this.checkController();
+        
         GuidePanel guidePanel = new GuidePanel(this::goToMenu);
         final String guideKey = "GUIDE";
         mainFrame.addView(guidePanel, guideKey);

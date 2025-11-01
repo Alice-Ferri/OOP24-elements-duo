@@ -1,7 +1,10 @@
 package it.unibo.elementsduo.controller.subcontroller.impl;
 
+import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.elementsduo.controller.maincontroller.api.LevelSelectionNavigation;
@@ -20,6 +23,8 @@ public final class LevelSelectionController implements Controller {
     private final LevelSelectionPanel view;
     private final LevelSelectionNavigation controller;
     private final ProgressionManagerImpl progressionManager;
+    private final ActionListener onMenuListener;
+    private final Map<JButton, ActionListener> levelButtonListeners;
 
     /**
      * Constructs a new LevelSelectionController.
@@ -34,6 +39,9 @@ public final class LevelSelectionController implements Controller {
         this.view = panel;
         this.controller = controller;
         this.progressionManager = progressionManager;
+
+        this.onMenuListener = e -> this.controller.goToMenu();
+        this.levelButtonListeners = new HashMap<>();
     }
 
     @Override
@@ -41,14 +49,12 @@ public final class LevelSelectionController implements Controller {
         this.populateLevelData();
 
         this.view.getLevelButtons().forEach((button, levelNumber) -> {
-            button.addActionListener(e -> {
-                this.controller.startGame(levelNumber);
-            });
+            final ActionListener listener = e -> this.controller.startGame(levelNumber);
+            this.levelButtonListeners.put(button, listener);
+            button.addActionListener(listener);
         });
 
-        this.view.getBackButton().addActionListener(e -> {
-            this.controller.goToMenu();
-        });
+        this.view.getBackButton().addActionListener(onMenuListener);
     }
 
     private void populateLevelData() {
@@ -69,9 +75,12 @@ public final class LevelSelectionController implements Controller {
 
     @Override
     public void deactivate() {
-         this.view.getLevelButtons().keySet().forEach(button -> button.removeActionListener(null));
+        this.levelButtonListeners.forEach((button, listener) -> {
+            button.removeActionListener(listener);
+        });
+        this.levelButtonListeners.clear();
 
-        this.view.getBackButton().removeActionListener(null);
+        this.view.getBackButton().removeActionListener(onMenuListener);
     }
 
     @Override

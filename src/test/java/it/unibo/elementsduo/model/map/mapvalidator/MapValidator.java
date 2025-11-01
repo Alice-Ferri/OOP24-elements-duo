@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Test for {@link MapValidatorImpl}.
+ * Test for {@link MapValidagittorImpl}.
  * Verifies that loaded maps are correctly validated against game rules.
  */
 final class TestMapValidator {
