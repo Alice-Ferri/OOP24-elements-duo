@@ -32,7 +32,7 @@ public final class WaterSpawn extends AbstractStaticObstacle {
      * @return always {@code false}
      */
     @Override
-    public boolean isSolid() {
+    public boolean hasPhysicsResponse() {
         return false;
     }
 }

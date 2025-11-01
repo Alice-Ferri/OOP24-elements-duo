@@ -34,7 +34,7 @@ public final class WaterExit extends AbstractStaticObstacle implements ExitZone 
      * @return {@code false} because this object is not solid
      */
     @Override
-    public boolean isSolid() {
+    public boolean hasPhysicsResponse() {
         return false;
     }
 

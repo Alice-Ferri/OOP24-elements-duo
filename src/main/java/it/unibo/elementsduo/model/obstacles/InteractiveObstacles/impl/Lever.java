@@ -80,7 +80,7 @@ public class Lever extends AbstractInteractiveObstacle implements Triggerable {
      * @return {@code false}, since levers can be passed through
      */
     @Override
-    public boolean isSolid() {
+    public boolean hasPhysicsResponse() {
         return false;
     }
 

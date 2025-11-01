@@ -99,15 +99,15 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      * @param dt the time step in seconds
      */
     public void update(final double dt) {
-        this.onGround = false;
+        final boolean wasOnGround = this.onGround;
 
-        if (!this.onGround) {
+        if (!wasOnGround) {
             this.velocity = this.velocity.add(new Vector2D(0, GRAVITY * dt));
         }
 
         move(this.velocity.multiply(dt));
 
-        if (this.onGround) {
+        if (wasOnGround) {
             this.velocity = new Vector2D(this.velocity.x() * GROUND_FRICTION, this.velocity.y());
         } else {
             this.velocity = new Vector2D(this.velocity.x() * AIR_FRICTION, this.velocity.y());
@@ -120,6 +120,8 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
         if (this.velocity.y() > MAX_FALL_SPEED) {
             this.velocity = new Vector2D(this.velocity.x(), MAX_FALL_SPEED);
         }
+
+        this.onGround = false;
     }
 
     /**

@@ -34,7 +34,7 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
      * @return always {@code false}
      */
     @Override
-    public boolean isSolid() {
+    public boolean hasPhysicsResponse() {
         return false;
     }
 

@@ -33,20 +33,11 @@ public final class PhysicsHandler extends AbstractCollisionHandler<Movable, Coll
 
     @Override
     public boolean canHandle(final Collidable a, final Collidable b) {
-        if (!a.isSolid() || !b.isSolid()) {
+        if (!a.hasPhysicsResponse() || !b.hasPhysicsResponse()) {
             return false;
         }
 
         if (a instanceof Movable && b instanceof Movable) {
-            return false;
-        }
-
-        if (a instanceof ShooterEnemyImpl && b instanceof Projectiles
-                || a instanceof Projectiles && b instanceof ShooterEnemyImpl) {
-            return false;
-        }
-        if (a instanceof Projectiles && b instanceof Player
-                || a instanceof Player && b instanceof Projectiles) {
             return false;
         }
 

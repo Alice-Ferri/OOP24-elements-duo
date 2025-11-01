@@ -34,7 +34,7 @@ public final class FireSpawn extends AbstractStaticObstacle {
      * @return always {@code false}
      */
     @Override
-    public boolean isSolid() {
+    public boolean hasPhysicsResponse() {
         return false;
     }
 }

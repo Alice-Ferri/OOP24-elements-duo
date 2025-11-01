@@ -25,7 +25,7 @@ public interface Collidable {
      *
      * @return {@code true} if the object is solid, {@code false} otherwise
      */
-    default boolean isSolid() {
+    default boolean hasPhysicsResponse() {
         return true;
     }
 }
