@@ -73,7 +73,6 @@ public abstract class AbstractPlayer implements Player {
         return this.velocity;
     }
 
-
     /**
      * {@inheritDoc}
      *
