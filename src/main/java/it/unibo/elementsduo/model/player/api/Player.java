@@ -4,6 +4,7 @@ import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Represents a player entity in the game.
@@ -35,7 +36,21 @@ public interface Player extends Collidable, Movable, GameEntity {
      *
      * @return the vertical component of the player's velocity
      */
-    double getVelocityY();
+    Vector2D getVelocity();
+
+    /**
+     *  Set velocity on x.
+     * 
+     *  @param vx velocity to set.
+     */
+    void setVelocityX(double vx);
+
+    /**
+     *  Set velocity on y.
+     * 
+     *  @param vy velocity to set.
+     */
+    void setVelocityY(double vy);
 
     /**
      * Returns whether the player is currently on the ground.
@@ -45,11 +60,28 @@ public interface Player extends Collidable, Movable, GameEntity {
     boolean isOnGround();
 
     /**
+     * Sets the player on ground.
+     */
+    void setOnGround();
+
+    /**
+     * Marks the player as airborne.
+     */
+    void setAirborne();
+
+    /**
      * Returns whether the player is currently on the exit.
      *
      * @return {@code true} if the player is on the exit, {@code false} otherwise
      */
     boolean isOnExit();
+
+    /**
+     * Set the condition on exit.
+     * 
+     * @param condition to set on exit.
+     */
+    void setOnExit(boolean condition);
 
     /**
      * Moves the player horizontally by the delta value.
@@ -85,32 +117,6 @@ public interface Player extends Collidable, Movable, GameEntity {
      * @param ceilingY the vertical coordinate of the ceiling
      */
     void stopJump(double ceilingY);
-
-    /**
-     * Marks the player as airborne.
-     */
-    void setAirborne();
-
-    /**
-     *  Set velocity on x.
-     * 
-     *  @param vx velocity to set.
-     */
-    void setVelocityX(double vx);
-
-    /**
-     *  Set velocity on y.
-     * 
-     *  @param vy velocity to set.
-     */
-    void setVelocityY(double vy);
-
-    /**
-     * Set the condition on exit.
-     * 
-     * @param condition to set on exit.
-     */
-    void setOnExit(boolean condition);
 
     /**
      * Updating the state of the player.
