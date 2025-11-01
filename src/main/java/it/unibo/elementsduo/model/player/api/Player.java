@@ -128,6 +128,21 @@ public interface Player extends Collidable, Movable, GameEntity {
      */
     PlayerType getPlayerType();
 
+
+    /**
+     * Returns the specific player's exit 
+     *
+     * @return the exit of this player
+     */
+    Type getRequiredExitType();
+
+    /**
+     * Returns the specific player's exit 
+     *
+     * @return the exit of this player
+     */
+    boolean isImmuneTo(Hazard hazardType);
+
     /**
      * Returns the width of the player's bounding box.
      *

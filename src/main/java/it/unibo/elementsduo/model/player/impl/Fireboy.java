@@ -13,4 +13,14 @@ public class Fireboy extends AbstractPlayer {
         return PlayerType.FIREBOY;
     }
 
+    @Override
+    public Type getRequiredExitType() {
+        return ObstacleType.Type.FIRE_EXIT;
+    }
+
+    @Override
+    public boolean isImmuneTo(final Hazard hazardType) {
+        return hazardType instanceof LavaPool;
+    }
+
 }

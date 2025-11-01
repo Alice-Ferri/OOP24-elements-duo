@@ -13,4 +13,14 @@ public class Watergirl extends AbstractPlayer {
         return PlayerType.WATERGIRL;
     }
 
+    Override
+    public Type getRequiredExitType() {
+        return ObstacleType.Type.WATER_EXIT;
+    }
+
+    @Override
+    public boolean isImmuneTo(final Hazard hazardType) {
+        return hazardType instanceof WaterPool;
+    }
+
 }
