@@ -4,6 +4,8 @@ import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.ExitType;
 
 /**
  * Represents a player entity in the game.
@@ -109,14 +111,15 @@ public interface Player extends Collidable, Movable, GameEntity {
     /**
      * Sets whether the player is currently on the exit area.
      *
-     * @param condition {@code true} if the player is on the exit, otherwise {@code false}
+     * @param condition {@code true} if the player is on the exit, otherwise
+     *                  {@code false}
      */
     void setOnExit(boolean condition);
 
     /**
      * Updates the state of the player.
      *
-     * @param deltaTime the time elapsed since the last update
+     * @param deltaTime       the time elapsed since the last update
      * @param inputController the input controller managing player input
      */
     void update(double deltaTime, InputController inputController);
@@ -145,4 +148,8 @@ public interface Player extends Collidable, Movable, GameEntity {
     default double getHeight() {
         return DEFAULT_HEIGHT;
     }
+
+    ExitType getRequiredExitType();
+
+    boolean isImmuneTo(HazardType hazardType);
 }

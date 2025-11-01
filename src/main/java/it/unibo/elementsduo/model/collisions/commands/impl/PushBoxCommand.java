@@ -1,41 +1,33 @@
 package it.unibo.elementsduo.model.collisions.commands.impl;
 
 import it.unibo.elementsduo.model.collisions.commands.api.CollisionCommand;
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
-/**
- * Command that handles the collision logic and physics when the player pushes a
- * PushBox.
- * This class is final as it is not designed for extension.
- */
 public final class PushBoxCommand implements CollisionCommand {
 
     private static final double FORCE = 15;
+    private static final double VERTICAL_THRESHOLD = -0.5;
 
     private final PushBox box;
     private final double penetration;
-    private final Vector2D normal;
-    private final boolean playerFirst;
-    private final Collidable other;
+    private final Vector2D playerNormal;
+    private final Player player;
 
     /**
-     * Constructs a new push command for a box.
      *
-     * @param box         the PushBox involved in the collision
-     * @param penetration the depth of the collision penetration
-     * @param normal      the collision normal vector
-     * @param playerFirst true if the player is the first body in the collision,
-     *                    false otherwise
+     * @param box          la PushBox
+     * @param penetration  la penetrazione
+     * @param playerNormal la normale calcolata dal punto di vista del player
+     * @param player       il Player
      */
-    public PushBoxCommand(final PushBox box, final double penetration, final Vector2D normal,
-            final boolean playerFirst, Collidable other) {
+    public PushBoxCommand(final PushBox box, final double penetration, final Vector2D playerNormal,
+            final Player player) {
         this.box = box;
         this.penetration = penetration;
-        this.normal = normal;
-        this.playerFirst = playerFirst;
-        this.other = other;
+        this.playerNormal = playerNormal;
+        this.player = player;
     }
 
     @Override
@@ -44,22 +36,26 @@ public final class PushBoxCommand implements CollisionCommand {
             return;
         }
 
-        final Vector2D playerNormal = playerFirst ? normal : normal.multiply(-1);
+        final Vector2D boxNormal = playerNormal.multiply(-1);
 
-        if (Math.abs(normal.x()) > Math.abs(normal.y())) {
-            final double direction = -Math.signum(normal.x());
+        if (Math.abs(playerNormal.x()) > Math.abs(playerNormal.y())) {
+
+            final double correction = penetration / 2.0;
+            player.correctPhysicsCollision(correction, playerNormal, box);
+            box.correctPhysicsCollision(correction, boxNormal, player);
+
+            final double direction = -Math.signum(playerNormal.x());
             final double push = penetration * FORCE * direction;
             box.push(new Vector2D(push, 0));
-            return;
+
+        } else {
+            if (playerNormal.y() < VERTICAL_THRESHOLD) {
+                player.correctPhysicsCollision(penetration, playerNormal, box);
+            } else {
+                final double correction = penetration / 2.0;
+                player.correctPhysicsCollision(correction, playerNormal, box);
+                box.correctPhysicsCollision(correction, boxNormal, player);
+            }
         }
-
-        final boolean playerOn = playerNormal.y() < 0;
-
-        if (!playerOn) {
-            return;
-        }
-
-        final Vector2D normalBox = playerNormal.multiply(-1);
-        box.correctPhysicsCollision(0, normalBox, other);
     }
 }

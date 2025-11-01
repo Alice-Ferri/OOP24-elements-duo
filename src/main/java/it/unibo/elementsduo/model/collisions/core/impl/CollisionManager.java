@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.collisions.core.impl;
 import java.util.List;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ButtonActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.GemCollisionsHandler;
@@ -11,10 +10,13 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationH
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerHazardHandler;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerPlatformHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerProjectileHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerExitHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
+import it.unibo.elementsduo.model.collisions.detection.api.CollisionChecker;
+import it.unibo.elementsduo.model.collisions.detection.impl.CollisionCheckerImpl;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -54,6 +56,7 @@ public final class CollisionManager {
         register.registerHandler(new PlayerProjectileHandler(eventManager));
         register.registerHandler(new PhysicsHandler());
         register.registerHandler(new PlayerExitHandler(this.eventManager));
+        register.registerHandler(new PlayerPlatformHandler());
     }
 
     /**

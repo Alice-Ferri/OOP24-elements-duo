@@ -4,6 +4,7 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Abstract base class for handling collisions between two {@link Collidable}
@@ -99,4 +100,8 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
      * @param builder the builder used to construct the collision response
      */
     protected abstract void handleCollision(A a, B b, CollisionInformations c, CollisionResponse.Builder builder);
+
+    protected Vector2D getNormalFromPerspective(final Collidable perspectiveObj, final CollisionInformations c) {
+        return (c.getObjectA() == perspectiveObj) ? c.getNormal() : c.getNormal().multiply(-1);
+    }
 }

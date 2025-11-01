@@ -5,6 +5,7 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Handles collisions between a {@link Player} and a {@link PushBox}.
@@ -37,7 +38,9 @@ public final class PushBoxHandler extends AbstractCollisionHandler<Player, PushB
     @Override
     public void handleCollision(final Player player, final PushBox box, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
+
+        final Vector2D playerNormal = getNormalFromPerspective(player, c);
         builder.addPhysicsCommand(
-                new PushBoxCommand(box, c.getPenetration(), c.getNormal(), c.getObjectA() instanceof Player, player));
+                new PushBoxCommand(box, c.getPenetration(), playerNormal, player));
     }
 }

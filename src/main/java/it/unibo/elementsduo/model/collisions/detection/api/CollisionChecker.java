@@ -1,6 +1,9 @@
-package it.unibo.elementsduo.model.collisions.core.api;
+package it.unibo.elementsduo.model.collisions.detection.api;
 
 import java.util.List;
+
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 
 /**
  * Defines the contract for checking collisions among a collection of

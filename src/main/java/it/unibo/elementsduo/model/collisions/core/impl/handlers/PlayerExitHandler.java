@@ -6,6 +6,7 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.FireExitEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ExitZone;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.ExitType;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -51,17 +52,15 @@ public final class PlayerExitHandler extends AbstractCollisionHandler<Player, Ex
     public void handleCollision(final Player player, final ExitZone exitZone, final CollisionInformations collisionInfo,
             final CollisionResponse.Builder builder) {
 
-        final boolean correctExit = player.getPlayerType() == PlayerType.FIREBOY && exitZone instanceof FireExit
-                || player.getPlayerType() == PlayerType.WATERGIRL && exitZone instanceof WaterExit;
+        final boolean correctExit = player.getRequiredExitType() == exitZone.getExitType();
 
         if (correctExit && !player.isOnExit()) {
             builder.addLogicCommand(() -> {
                 player.setOnExit(true);
                 exitZone.activate();
-
-                if (player.getPlayerType() == PlayerType.FIREBOY) {
+                if (exitZone.getExitType() == ExitType.FIRE_EXIT) {
                     this.eventManager.notify(new FireExitEvent(player));
-                } else {
+                } else if (exitZone.getExitType() == ExitType.WATER_EXIT) {
                     this.eventManager.notify(new WaterExitEvent(player));
                 }
             });

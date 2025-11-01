@@ -58,4 +58,9 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
     public boolean isActive() {
         return this.active;
     }
+
+    @Override
+    public ExitType getExitType() {
+        return ExitType.FIRE_EXIT;
+    }
 }
