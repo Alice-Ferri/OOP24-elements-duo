@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.collisions.core.impl;
 import java.util.List;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ButtonActivationHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.GemCollisionsHandler;
@@ -15,6 +14,8 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerProjectile
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerExitHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
+import it.unibo.elementsduo.model.collisions.detection.api.CollisionChecker;
+import it.unibo.elementsduo.model.collisions.detection.impl.CollisionCheckerImpl;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
