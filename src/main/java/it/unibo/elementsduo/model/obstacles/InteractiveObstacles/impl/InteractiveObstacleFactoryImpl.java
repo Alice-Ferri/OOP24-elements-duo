@@ -3,26 +3,45 @@ package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.resources.Position;
 
-public class InteractiveObstacleFactoryImpl implements InteractiveObstacleFactory {
+/**
+ * Implementation of the {@link InteractiveObstacleFactory} interface.
+ * 
+ * <p>
+ * This factory provides creation methods for interactive obstacles such as
+ * levers, push boxes, moving platforms, and buttons.
+ * </p>
+ */
+public final class InteractiveObstacleFactoryImpl implements InteractiveObstacleFactory {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Lever createLever(Position pos) {
+    public Lever createLever(final Position pos) {
         return new Lever(pos);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public PushBox createPushBox(Position pos) {
+    public PushBox createPushBox(final Position pos) {
         return new PushBox(pos);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public PlatformImpl createMovingPlatform(Position pos, Position a, Position b) {
+    public PlatformImpl createMovingPlatform(final Position pos, final Position a, final Position b) {
         return new PlatformImpl(pos, a, b);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public button createButton(Position pos) {
+    public button createButton(final Position pos) {
         return new button(pos);
     }
-
 }

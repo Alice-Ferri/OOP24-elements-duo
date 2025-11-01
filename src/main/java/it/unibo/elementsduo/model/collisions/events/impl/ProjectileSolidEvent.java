@@ -3,15 +3,15 @@ package it.unibo.elementsduo.model.collisions.events.impl;
 import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 
-public class ProjectileSolidEvent implements Event {
-    private final Projectiles projectile;
-
-    public ProjectileSolidEvent(final Projectiles projectile) {
-        this.projectile = projectile;
-    }
-
-    public Projectiles getProjectile() {
-        return this.projectile;
-    }
-
+/**
+ * Event triggered when a {@link Projectiles} collides with a solid object.
+ * 
+ * <p>
+ * Used to notify that a projectile has hit a wall, platform, or other solid
+ * obstacle
+ * and should be deactivated or destroyed.
+ *
+ * @param projectile the projectile that collided with a solid object
+ */
+public record ProjectileSolidEvent(Projectiles projectile) implements Event {
 }

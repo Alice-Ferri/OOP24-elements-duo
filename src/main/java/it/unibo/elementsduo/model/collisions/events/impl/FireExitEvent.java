@@ -3,14 +3,14 @@ package it.unibo.elementsduo.model.collisions.events.impl;
 import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.player.api.Player;
 
-public class FireExitEvent implements Event {
-    private final Player player;
-
-    public FireExitEvent(Player p) {
-        this.player = p;
-    }
-
-    public Player getPlayer() {
-        return this.player;
-    }
+/**
+ * Event triggered when the {@link Player} of type Fireboy reaches a fire exit.
+ * 
+ * <p>
+ * Used to signal that Fireboy has successfully reached his corresponding goal
+ * area.
+ *
+ * @param player the player who reached the fire exit
+ */
+public record FireExitEvent(Player player) implements Event {
 }

@@ -2,17 +2,14 @@ package it.unibo.elementsduo.model.enemies.api;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
-import it.unibo.elementsduo.model.collisions.events.api.EventListener;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Represents a projectile, a mobile and short-lived entity that
  * is spawned by an enemy.
  */
 
-public interface Projectiles extends Movable, EventListener, GameEntity, Collidable {
+public interface Projectiles extends Movable, GameEntity, Collidable {
 
     /**
      * Updates the projectile's state, including movement.
@@ -20,14 +17,6 @@ public interface Projectiles extends Movable, EventListener, GameEntity, Collida
      * @param deltaTime the time elapsed since the last frame.
      */
     void update(double deltaTime);
-
-    /**
-     * Executes physics correction in case of a collision.
-     *
-     * @param penetration the depth of penetration into the colliding object.
-     * @param normal      the normal vector of the collision point.
-     */
-    void correctPhysicsCollision(double penetration, Vector2D normal);
 
     /**
      * Indicates whether the projectile is still active and should be
@@ -57,13 +46,6 @@ public interface Projectiles extends Movable, EventListener, GameEntity, Collida
      * @return the direction.
      */
     double getDirection();
-
-    /**
-     * Gets the collision hitbox of the projectile.
-     *
-     * @return the HitBox instance.
-     */
-    HitBox getHitBox();
 
     /**
      * Sets the projectile to an inactive state, removing it from the game world.

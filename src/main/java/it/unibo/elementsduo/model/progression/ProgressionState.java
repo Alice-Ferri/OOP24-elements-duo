@@ -11,23 +11,7 @@ public final class ProgressionState {
 
     private int currentLevel; 
     private final Map<Integer, Double> levelCompletionTimes = new HashMap<>(); 
-    private final Map<Integer, Integer> levelGemsCollected = new HashMap<>();
-
-    /**
-     * Default constructor for ProgressionState.
-     */
-    public ProgressionState() { 
-
-    }
-
-    /**
-     * Constructor for a new ProgressionState with initial values.
-     *
-     * @param currentLevel the starting level.
-     */
-    public ProgressionState(final int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
+    private final Map<Integer, String> levelMissionCompleted = new HashMap<>();
 
     /**
      * Updates the progression data for a given level.
@@ -38,18 +22,19 @@ public final class ProgressionState {
      * @param timeSeconds the time taken to complete the level, in milliseconds.
      * @param gemsCollected the number of gems collected in the level.
      */
-    public void addLevelCompletionTime(final int levelNumber, final double timeSeconds, final int gemsCollected) {
+    public void addLevelCompletionTime(final int levelNumber, final double timeSeconds, final boolean missionCompleted) {
 
-        final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) || timeSeconds < this.levelCompletionTimes.get(levelNumber);
-    
+        final boolean isNewBestTime = !this.levelCompletionTimes.containsKey(levelNumber) 
+        || timeSeconds < this.levelCompletionTimes.get(levelNumber);
+
         if (isNewBestTime) {
             this.levelCompletionTimes.put(levelNumber, timeSeconds);
         }
-        
-        final int currentMaxGems = this.levelGemsCollected.getOrDefault(levelNumber, 0);
 
-        if (gemsCollected > currentMaxGems) {
-            this.levelGemsCollected.put(levelNumber, gemsCollected);
+        final String currentMissionCompleted = this.levelMissionCompleted.getOrDefault(levelNumber, "X Sfida non superata!");
+
+        if (missionCompleted) {
+            this.levelMissionCompleted.put(levelNumber, "* Sfida Completata!");
         }
     }
 
@@ -79,13 +64,13 @@ public final class ProgressionState {
     public Map<Integer, Double> getLevelCompletionTimes() { 
         return this.levelCompletionTimes; 
     }
-    
+
     /**
      * Gets the map of the maximum gems collected for each level.
      *
      * @return a map where keys are level numbers and values are the maximum gems collected.
      */
-    public Map<Integer, Integer> getLevelGemsCollected() { 
-        return this.levelGemsCollected; 
+    public Map<Integer, String> getLevelMissionCompleted() { 
+        return this.levelMissionCompleted; 
     }
 }

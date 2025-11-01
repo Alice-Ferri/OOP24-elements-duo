@@ -1,18 +1,16 @@
 package it.unibo.elementsduo.model.collisions.events.impl;
 
-import java.util.EventListener;
-
 import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.player.api.Player;
 
-public class PlayerDiedEvent implements Event {
-    private final Player player;
-
-    public PlayerDiedEvent(final Player p) {
-        this.player = p;
-    }
-
-    public Player getPlayer() {
-        return this.player;
-    }
+/**
+ * Event triggered when a {@link Player} dies.
+ * 
+ * <p>
+ * Used to notify that a player has perished due to hazards, enemies, or other
+ * fatal interactions.
+ *
+ * @param player the player who died
+ */
+public record PlayerDiedEvent(Player player) implements Event {
 }

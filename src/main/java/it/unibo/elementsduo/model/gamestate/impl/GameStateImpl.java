@@ -9,18 +9,28 @@ import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.FireExitEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.GemCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent; 
+import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 
-public class GameStateImpl implements EventListener, GameState {
+/**
+ * Implementation of {@link GameState}.
+ * Listens to game events to track the game's progress,
+ * such as winning, losing, and collecting items.
+ */
+public final class GameStateImpl implements EventListener, GameState {
 
-    private boolean gameOver = false;
-    private boolean won = false;
-    private int gemsCollected = 0;
-    private int deadEnemies = 0;
-    private boolean fireboyReachedExit = false; 
-    private boolean watergirlReachedExit = false; 
+    private boolean gameOver;
+    private boolean won;
+    private int gemsCollected;
+    private int deadEnemies;
+    private boolean fireboyReachedExit;
+    private boolean watergirlReachedExit;
 
+    /**
+     * Constructs a new GameState and subscribes it to relevant game events.
+     *
+     * @param eventManager The main {@link EventManager} to subscribe to.
+     */
     public GameStateImpl(final EventManager eventManager) {
         Objects.requireNonNull(eventManager);
 
@@ -32,45 +42,43 @@ public class GameStateImpl implements EventListener, GameState {
     }
 
     @Override
-    public void onEvent(Event event) {
+    public void onEvent(final Event event) {
         if (gameOver) {
             return;
         }
 
-        if (event instanceof PlayerDiedEvent e) {
-            handlePlayerDied(e);
-        } else if (event instanceof GemCollectedEvent e) {
-            handleGemCollected(e);
-        } else if (event instanceof EnemyDiedEvent e) {
-            handleEnemyDied(e);
-        } else if (event instanceof FireExitEvent e) { 
-            handleFireReachedExit(e);
+        if (event instanceof PlayerDiedEvent) {
+            handlePlayerDied();
+        } else if (event instanceof GemCollectedEvent) {
+            handleGemCollected();
+        } else if (event instanceof EnemyDiedEvent) {
+            handleEnemyDied();
+        } else if (event instanceof FireExitEvent) {
+            handleFireReachedExit();
             checkGameWinCondition();
-        } else if (event instanceof WaterExitEvent e) {
-            handleWaterReachedExit(e);
+        } else if (event instanceof WaterExitEvent) {
+            handleWaterReachedExit();
             checkGameWinCondition();
         }
-
     }
 
-
-    private void handleEnemyDied(EnemyDiedEvent e) {
+    private void handleEnemyDied() {
         this.deadEnemies++;
     }
 
-    private void handleGemCollected(GemCollectedEvent e) {
+    private void handleGemCollected() {
         this.gemsCollected++;
     }
 
-    private void handlePlayerDied(PlayerDiedEvent e) {
+    private void handlePlayerDied() {
         endGame(false);
     }
 
-    private void handleFireReachedExit(FireExitEvent e) {
+    private void handleFireReachedExit() {
         this.fireboyReachedExit = true;
     }
 
-    private void handleWaterReachedExit(WaterExitEvent e) {
+    private void handleWaterReachedExit() {
         this.watergirlReachedExit = true;
     }
 
@@ -80,10 +88,10 @@ public class GameStateImpl implements EventListener, GameState {
         }
     }
 
-    private void endGame(boolean won) {
+    private void endGame(final boolean gameWon) {
         if (!gameOver) {
             this.gameOver = true;
-            this.won = won;
+            this.won = gameWon;
         }
     }
 
@@ -107,10 +115,20 @@ public class GameStateImpl implements EventListener, GameState {
         return this.deadEnemies;
     }
 
+    /**
+     * Checks if Fireboy has reached the exit door.
+     *
+     * @return true if Fireboy has reached the exit, false otherwise.
+     */
     public boolean hasFireboyReachedExit() {
         return this.fireboyReachedExit;
     }
 
+    /**
+     * Checks if Watergirl has reached the exit door.
+     *
+     * @return true if Watergirl has reached the exit, false otherwise.
+     */
     public boolean hasWatergirlReachedExit() {
         return this.watergirlReachedExit;
     }

@@ -10,8 +10,6 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
 
-import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.resources.Position;
 
 import java.io.BufferedReader;
@@ -24,15 +22,27 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class MapLoader {
+/**
+ * Handles loading game levels from text files.
+ * This class reads a map file, uses an EntityFactory to create game entities
+ * based on symbols, and links interactive objects.
+ */
+public final class MapLoader {
 
-    private static final String levelFolder = "levels/";
-    private static final String levelFile = "map%d.txt";
+    private static final String LEVEL_FOLDER = "levels/";
+    private static final String LEVEL_FILE = "map%d.txt";
     private final EntityFactory entityFactory;
 
+    /**
+     * Constructs a MapLoader with all necessary entity factories.
+     *
+     * @param obstacleFactory           Factory for creating static obstacles.
+     * @param enemyFactory              Factory for creating enemies.
+     * @param interactiveObstacleFactory Factory for creating interactive obstacles.
+     */
     public MapLoader(final ObstacleFactory obstacleFactory,
                      final EnemyFactory enemyFactory,
-                     final InteractiveObstacleFactory interactiveObstacleFactory) { 
+                     final InteractiveObstacleFactory interactiveObstacleFactory) {
         this.entityFactory = new EntityFactoryImpl(
                 Objects.requireNonNull(obstacleFactory),
                 Objects.requireNonNull(enemyFactory),
@@ -40,52 +50,75 @@ public class MapLoader {
         );
     }
 
-    public Level loadLevel(final int levelNumber) {
-        final String filePath = levelFolder + String.format(levelFile, levelNumber);
+    /**
+     * Loads a specific level by its number.
+     * It formats the file path and delegates to loadLevelFromFIle method.
+     *
+     * @param levelNumber The number of the level to load (e.g., 1 for "map1.txt").
+     * @return The fully constructed Level object.
+     * @throws MapLoadingException      If an I/O error occurs during file reading.
+     * @throws IllegalArgumentException If the map file is not found.
+     */
+    public Set<GameEntity> loadLevel(final int levelNumber) {
+        final String filePath = LEVEL_FOLDER + String.format(LEVEL_FILE, levelNumber);
         return loadLevelFromFile(filePath);
     }
 
-    private Level loadLevelFromFile(final String filePath) {
+    /**
+     * Loads a level from a specific file path (e.g., "levels/map1.txt").
+     * Reads the file, creates entities using the EntityFactory,
+     * links interactive objects, and returns the final entity set.
+     *
+     * @param filePath The full path to the map file within the resources folder.
+     * @return A {@link Set} of all {@link GameEntity} objects for the level.
+     * @throws IllegalArgumentException If the map file is not found.
+     * @throws MapLoadingException    If an I/O error occurs during reading.
+     */
+    public Set<GameEntity> loadLevelFromFile(final String filePath) {
         final Set<GameEntity> gameEntities = new HashSet<>();
         final InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
 
         if (is == null) {
-            throw new IllegalArgumentException("File di mappa non trovato: " + filePath);
+            throw new IllegalArgumentException("Map file not found: " + filePath);
         }
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-            String line;
+            String line = br.readLine();
             int y = 0;
-            while ((line = br.readLine()) != null) {
+            while (line != null) {
                 for (int x = 0; x < line.length(); x++) {
                     final char symbol = line.charAt(x);
                     final Position pos = new Position(x, y);
 
-                    gameEntities.addAll(entityFactory.createEntities(symbol, pos));
+                    final GameEntity entity = entityFactory.createEntity(symbol, pos);
+                    if (entity != null) {
+                        gameEntities.add(entity);
+        }
 
                 }
                 y++;
+                line = br.readLine();
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Errore durante la lettura del file di mappa: " + filePath, e);
+        } catch (final IOException e) {
+            throw new MapLoadingException("Error while reading map file: " + filePath, e);
         }
 
         linkInteractiveObjects(gameEntities);
-        return new LevelImpl(gameEntities);
+        return gameEntities;
     }
 
-    private void linkInteractiveObjects(Set<GameEntity> interObjs) {
-        List<Lever> levers = interObjs.stream()
+    private void linkInteractiveObjects(final Set<GameEntity> interObjs) {
+        final List<Lever> levers = interObjs.stream()
                 .filter(Lever.class::isInstance)
                 .map(Lever.class::cast)
                 .toList();
 
-        List<button> buttons = interObjs.stream()
+        final List<button> buttons = interObjs.stream()
                 .filter(button.class::isInstance)
                 .map(button.class::cast)
                 .toList();
 
-        List<PlatformImpl> platforms = interObjs.stream()
+        final List<PlatformImpl> platforms = interObjs.stream()
                 .filter(PlatformImpl.class::isInstance)
                 .map(PlatformImpl.class::cast)
                 .toList();

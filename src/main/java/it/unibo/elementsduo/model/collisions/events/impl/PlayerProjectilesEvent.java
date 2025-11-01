@@ -1,24 +1,18 @@
-package it.unibo.elementsduo.model.collisions.events.impl; // O il tuo package eventi
+package it.unibo.elementsduo.model.collisions.events.impl;
 
 import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.player.api.Player;
 
-public class PlayerProjectilesEvent implements Event {
-
-    private final Player player;
-    private final Projectiles projectile;
-
-    public PlayerProjectilesEvent(final Player player, final Projectiles projectile) {
-        this.player = player;
-        this.projectile = projectile;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Projectiles getProjectile() {
-        return projectile;
-    }
+/**
+ * Event triggered when a {@link Player} is hit by a {@link Projectiles}.
+ * 
+ * <p>
+ * Used to notify that a projectile has successfully collided with and damaged a
+ * player.
+ *
+ * @param player     the player who was hit
+ * @param projectile the projectile that caused the collision
+ */
+public record PlayerProjectilesEvent(Player player, Projectiles projectile) implements Event {
 }

@@ -28,7 +28,8 @@ dependencies {
     // Maven dependencies are composed by a group name, a name and a version, separated by colons
     implementation("com.omertron:API-OMDB:1.5")
     implementation("org.jooq:jool:0.9.15")
-    implementation ("com.google.code.gson:gson:2.10.1")
+    
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.17.1")
 
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j

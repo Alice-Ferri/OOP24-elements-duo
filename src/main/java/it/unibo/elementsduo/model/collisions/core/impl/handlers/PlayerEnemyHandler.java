@@ -2,58 +2,55 @@ package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.collisions.commands.impl.PlayerEnemyCommand;
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
-import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
-import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class PlayerEnemyHandler implements CollisionHandler {
+/**
+ * Handles collisions between a {@link Player} and an {@link Enemy}.
+ * 
+ * <p>
+ * Determines whether the player hits the enemy from above or from another
+ * direction and triggers the appropriate response using a
+ * {@link PlayerEnemyCommand}.
+ */
+public final class PlayerEnemyHandler extends AbstractCollisionHandler<Player, Enemy> {
 
+    private static final double VERTICAL_THRESHOLD = -0.5;
     private final EventManager eventManager;
 
-    public PlayerEnemyHandler(EventManager em) {
+    /**
+     * Creates a new {@code PlayerEnemyHandler} for managing player–enemy
+     * collisions.
+     *
+     * @param em the event manager used to notify game events
+     */
+    public PlayerEnemyHandler(final EventManager em) {
+        super(Player.class, Enemy.class);
         this.eventManager = em;
     }
 
+    /**
+     * Handles the collision between a {@link Player} and an {@link Enemy}.
+     * 
+     * <p>
+     * Determines whether the player struck the enemy from above and issues
+     * a {@link PlayerEnemyCommand} to handle the interaction accordingly.
+     *
+     * @param player  the player involved in the collision
+     * @param enemy   the enemy involved in the collision
+     * @param c       the collision information
+     * @param builder the collision response builder used to queue logic commands
+     */
     @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof Enemy) || (b instanceof Player && a instanceof Enemy);
+    public void handleCollision(final Player player, final Enemy enemy, final CollisionInformations c,
+            final CollisionResponse.Builder builder) {
+        final Vector2D normalEnemyPlayer = getNormalFromPerspective(player, c);
+        final boolean isPlayerAboveEnemy = normalEnemyPlayer.y() < VERTICAL_THRESHOLD;
+
+        builder.addLogicCommand(
+                new PlayerEnemyCommand(player, enemy, eventManager, isPlayerAboveEnemy));
     }
-
-    @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        final Player player;
-        final Enemy enemy;
-        Vector2D normal = c.getNormal();
-        if (c.getObjectA() instanceof Player) {
-            player = (Player) c.getObjectA();
-            enemy = (Enemy) c.getObjectB();
-        } else {
-            player = (Player) c.getObjectB();
-            enemy = (Enemy) c.getObjectA();
-            normal = normal.multiply(-1);
-        }
-
-        if (player == null) {
-            return;
-        }
-
-        boolean isOn;
-        if (normal.y() < -0.5)
-            isOn = true;
-        else
-            isOn = false;
-
-        if (isOn) {
-            collisionResponse.addLogicCommand(new PlayerEnemyCommand(player, enemy, eventManager, true));
-        } else {
-            collisionResponse.addLogicCommand(new PlayerEnemyCommand(player, enemy, eventManager, false));
-        }
-    }
-
 }

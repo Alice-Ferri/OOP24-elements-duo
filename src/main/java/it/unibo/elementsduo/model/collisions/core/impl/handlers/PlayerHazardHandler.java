@@ -1,55 +1,58 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.PlayerHazardCommand;
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionHandler;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.greenPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.lavaPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.waterPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.GreenPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 
-public class PlayerHazardHandler implements CollisionHandler {
+/**
+ * Handles collisions between a {@link Player} and a {@link Hazard}.
+ * 
+ * <p>
+ * Determines whether the player should die based on their type and the
+ * type of hazard they collide with. For example, Fireboy dies in water pools,
+ * Watergirl dies in lava pools, and both die in green pools.
+ */
+public final class PlayerHazardHandler extends AbstractCollisionHandler<Player, Hazard> {
 
-    EventManager eventManager;
+    private final EventManager eventManager;
 
-    public PlayerHazardHandler(EventManager eventManager) {
+    /**
+     * Creates a new {@code PlayerHazardHandler} that uses the provided
+     * {@link EventManager}
+     * to notify player death events.
+     *
+     * @param eventManager the event manager used to dispatch player death events
+     */
+    public PlayerHazardHandler(final EventManager eventManager) {
+        super(Player.class, Hazard.class);
         this.eventManager = eventManager;
     }
 
+    /**
+     * Handles collisions between players and hazards.
+     * 
+     * <p>
+     * Determines if the player should die based on the hazard type and triggers
+     * a {@link PlayerDiedEvent} when appropriate.
+     *
+     * @param player  the player involved in the collision
+     * @param hazard  the hazard the player collided with
+     * @param c       the collision information
+     * @param builder the collision response builder used to queue logic commands
+     */
     @Override
-    public boolean canHandle(Collidable a, Collidable b) {
-        return (a instanceof Player && b instanceof Hazard) || (b instanceof Player && a instanceof Hazard);
-    }
-
-    @Override
-    public void handle(CollisionInformations c, CollisionResponse collisionResponse) {
-        Player player = null;
-        Hazard hazard = null;
-        if (c.getObjectA() instanceof Player && c.getObjectB() instanceof Hazard) {
-            player = (Player) c.getObjectA();
-            hazard = (Hazard) c.getObjectB();
-        } else if (c.getObjectA() instanceof Hazard && c.getObjectB() instanceof Player) {
-            player = (Player) c.getObjectB();
-            hazard = (Hazard) c.getObjectA();
-        }
-
-        if (player == null || hazard == null)
-            return;
-
-        if (player instanceof Fireboy && hazard instanceof waterPool) {
-            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
-        } else if (player instanceof Watergirl && hazard instanceof lavaPool) {
-            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
-        } else if (hazard instanceof greenPool) {
-            collisionResponse.addLogicCommand(new PlayerHazardCommand(player, hazard, eventManager));
+    public void handleCollision(final Player player, final Hazard hazard, final CollisionInformations c,
+            final CollisionResponse.Builder builder) {
+        if (!player.isImmuneTo(hazard.getHazardType())) {
+            builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         }
     }
-
 }

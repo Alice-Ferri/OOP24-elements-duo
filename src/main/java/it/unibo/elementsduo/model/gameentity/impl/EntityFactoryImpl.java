@@ -3,107 +3,83 @@ package it.unibo.elementsduo.model.gameentity.impl;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
-import it.unibo.elementsduo.model.gameentity.api.EntityType;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+import java.util.function.Function;
 
-public class EntityFactoryImpl implements EntityFactory{
+/**
+ * Concrete implementation of {@link EntityFactory}.
+ * Creates game entities using other factories.
+ */
+public final class EntityFactoryImpl implements EntityFactory {
 
     private final ObstacleFactory obstacleFactory;
     private final EnemyFactory enemyFactory;
     private final InteractiveObstacleFactory interactiveObsFactory;
+    private final Map<Character, EntityCreationStrategy> creationMap;
 
-    private static final Map<Character, EntityType> SYMBOL_REGISTRY = buildSymbolRegistry();
-    private static final Map<Character, obstacleType.type> STATIC_TYPE_MAP = Map.of(
-            'P', obstacleType.type.FLOOR,
-            '#', obstacleType.type.WALL,
-            'A', obstacleType.type.WATER_EXIT,
-            'F', obstacleType.type.FIRE_EXIT,
-            'B', obstacleType.type.FIRE_SPAWN,
-            'G', obstacleType.type.GEM,
-            'Q', obstacleType.type.LAVA_POOL,
-            'K', obstacleType.type.GREEN_POOL,
-            'E', obstacleType.type.WATER_POOL);
-            
+    /**
+     * Constructs a new EntityFactory with its required sub-factories.
+     *
+     * @param obstacleFactory       Factory for creating static obstacles.
+     * @param enemyFactory          Factory for creating enemies.
+     * @param interactiveObsFactory Factory for creating interactive obstacles.
+     */
+    public EntityFactoryImpl(final ObstacleFactory obstacleFactory,
+                             final EnemyFactory enemyFactory,
+                             final InteractiveObstacleFactory interactiveObsFactory) {
+        this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
+        this.enemyFactory = Objects.requireNonNull(enemyFactory);
+        this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
+        this.creationMap = buildCreationMap();
+    }
 
-    private static Map<Character, EntityType> buildSymbolRegistry() {
-        Map<Character, EntityType> map = new HashMap<>();
+    private Map<Character, EntityCreationStrategy> buildCreationMap() {
 
-        map.put('P', EntityType.STATIC_OBSTACLE);
-        map.put('#', EntityType.STATIC_OBSTACLE);
-        map.put('A', EntityType.STATIC_OBSTACLE);
-        map.put('F', EntityType.STATIC_OBSTACLE);
-        map.put('G', EntityType.STATIC_OBSTACLE);
-        map.put('Q', EntityType.STATIC_OBSTACLE);
-        map.put('E', EntityType.STATIC_OBSTACLE);
-        map.put('K', EntityType.STATIC_OBSTACLE);
-        map.put('B', EntityType.SPAWN_POINT);
-        map.put('W', EntityType.SPAWN_POINT);
-        map.put('C', EntityType.ENEMY);
-        map.put('S', EntityType.ENEMY);
-        map.put('L', EntityType.LEVER);
-        map.put('H', EntityType.PUSH_BOX);
-        map.put('M', EntityType.MOVING_PLATFORM);
-        map.put('R', EntityType.BUTTON);
+        final Map<Character, EntityCreationStrategy> map = new HashMap<>();
+        final Function<Position, HitBoxImpl> defaultHitbox = 
+            pos -> new HitBoxImpl(pos, 1, 1);
+
+        map.put('P', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.FLOOR, defaultHitbox.apply(pos)));
+        map.put('#', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WALL, defaultHitbox.apply(pos)));
+        map.put('A', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WATER_EXIT, defaultHitbox.apply(pos)));
+        map.put('F', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.FIRE_EXIT, defaultHitbox.apply(pos)));
+        map.put('G', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.GEM, defaultHitbox.apply(pos)));
+        map.put('Q', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.LAVA_POOL, defaultHitbox.apply(pos)));
+        map.put('K', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.GREEN_POOL, defaultHitbox.apply(pos)));
+        map.put('E', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WATER_POOL, defaultHitbox.apply(pos)));
+        map.put('B', Fireboy::new);
+        map.put('W', Watergirl::new);
+        map.put('C', pos -> this.enemyFactory.createEnemy('C', pos));
+        map.put('S', pos -> this.enemyFactory.createEnemy('S', pos));
+        map.put('L', this.interactiveObsFactory::createLever);
+        map.put('H', this.interactiveObsFactory::createPushBox);
+        map.put('R', this.interactiveObsFactory::createButton);
+        map.put('M', pos -> this.interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
 
         return Collections.unmodifiableMap(map);
     }
 
-    public EntityFactoryImpl(final ObstacleFactory obstacleFactory,final EnemyFactory enemyFactory,final InteractiveObstacleFactory interactiveObsFactory) 
-    {
-        this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
-        this.enemyFactory = Objects.requireNonNull(enemyFactory);
-        this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
+    @Override
+    public GameEntity createEntity(final char symbol, final Position pos) {
+        final EntityCreationStrategy strategy = this.creationMap.get(symbol);
+        if (strategy == null) {
+            return null;
+        }
+        return strategy.create(pos);
     }
 
-    public Set<GameEntity> createEntities(final char symbol, final Position pos) {
-        final EntityType type = SYMBOL_REGISTRY.get(symbol);
-
-        if (type == null) {
-            return Collections.emptySet();
-        }
-
-        final HitBoxImpl defaultHitbox = new HitBoxImpl(pos, 1, 1);
-        final Set<GameEntity> created = new HashSet<>(); 
-
-        switch (type) {
-            case STATIC_OBSTACLE:
-                created.add(obstacleFactory.createObstacle(STATIC_TYPE_MAP.get(symbol), defaultHitbox));
-                break;
-            case ENEMY:
-                created.add(enemyFactory.createEnemy(symbol, pos));
-                break;
-            case SPAWN_POINT: 
-                created.add((symbol == 'B') ? new Watergirl(pos) : new Fireboy(pos));
-                break;
-            case LEVER:
-                created.add(interactiveObsFactory.createLever(pos));
-                break;
-            case PUSH_BOX:
-                created.add(interactiveObsFactory.createPushBox(pos));
-                break;
-            case MOVING_PLATFORM:
-                created.add(interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
-                break;
-            case BUTTON:
-                created.add(interactiveObsFactory.createButton(pos));
-                break;
-            default:
-                System.err.println("Unhandled EntityType in factory for symbol '" + symbol + "'");
-                break;
-        }
-        return created; 
+    private interface EntityCreationStrategy {
+        GameEntity create(Position pos);
     }
 }

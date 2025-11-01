@@ -1,11 +1,25 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.StaticObstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 
-public class Floor extends StaticObstacle {
+/**
+ * Represents a solid floor obstacle in the game world.
+ * 
+ * <p>
+ * The {@code Floor} acts as a surface on which entities such as players or
+ * movable objects can stand.
+ * 
+ * </p>
+ */
+public final class Floor extends AbstractStaticObstacle {
 
-    public Floor(HitBox hitbox) {
+    /**
+     * Creates a new {@code Floor} with the specified hitbox.
+     *
+     * @param hitbox the {@link HitBox} defining the floor’s position and boundaries
+     */
+    public Floor(final HitBox hitbox) {
         super(hitbox);
     }
 }

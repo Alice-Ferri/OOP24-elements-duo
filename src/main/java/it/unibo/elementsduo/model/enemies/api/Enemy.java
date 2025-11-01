@@ -2,25 +2,21 @@ package it.unibo.elementsduo.model.enemies.api;
 
 import java.util.Optional;
 
-import it.unibo.elementsduo.controller.enemiesController.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
-import it.unibo.elementsduo.model.collisions.events.api.EventListener;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable, ManagerInjectable, Collidable, EventListener, GameEntity {
+public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntity {
 
     /**
-     * Attempts to perform an attack action.
+     * Attempts to perform an attack action based on internal conditions (e.g., cooldown).
      *
-     * @return an {@link Optional} containing a {@link Projectiles} instance if an
-     * *attack occurs,
-     * *or an empty {@link Optional} otherwise.
+     * @return an {@link Optional} containing a new {@link Projectiles} instance if the attack is ok,else {@link Optional#empty}.
      */
+
     Optional<Projectiles> attack();
 
     /**
@@ -61,21 +57,7 @@ public interface Enemy extends Movable, ManagerInjectable, Collidable, EventList
      *
      * @return the current movement direction.
      */
-    double getDirection();
-
-    /**
-     * Gets the collision hitbox of the enemy.
-     *
-     * @return the HitBox instance.
-     */
-    HitBox getHitBox();
-
-    /**
-     * Injects the movement manager responsible for handling enemy movement constraints.
-     *
-     * @param manager the EnemiesMoveManager instance.
-     */
-    void setMoveManager(EnemiesMoveManager manager);
+    int getDirection();
 
     /**
      * Sets the enemy's state to dead.

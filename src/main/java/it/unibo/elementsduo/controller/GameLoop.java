@@ -7,7 +7,7 @@ import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 public class GameLoop implements Runnable {
     private static final int TARGET_FPS = 120;
     private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
-    private volatile boolean running = false;
+    private volatile boolean running ;
     private Thread gameThread;
     private final GameController engine;
 
@@ -17,7 +17,7 @@ public class GameLoop implements Runnable {
 
     public synchronized void start() {
         if (running) {
-            return;
+            
         } else {
             running = true;
             gameThread = new Thread(this);
@@ -41,14 +41,14 @@ public class GameLoop implements Runnable {
 
         while (running) {
             final long now = System.nanoTime();
-            final long UpdateLength = now - lastLoopTime;
+            final long updateLength = now - lastLoopTime;
             lastLoopTime = now;
-            final double deltaTime = UpdateLength / 1_000_000_000.0;
+            final double deltaTime = updateLength / 1_000_000_000.0;
             this.engine.update(deltaTime);
             this.engine.render();
 
-            long elapsed = System.nanoTime() - lastLoopTime;
-            long sleepNanos = OPTIMAL_TIME - elapsed;
+            final long elapsed = System.nanoTime() - lastLoopTime;
+            final long sleepNanos = OPTIMAL_TIME - elapsed;
 
             if (sleepNanos > 0) {
                 try {
