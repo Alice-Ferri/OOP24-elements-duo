@@ -25,6 +25,7 @@ import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.mission.objectives.impl.MissionManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.view.LevelPanel;
@@ -42,6 +43,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     private final GameLoop gameLoop;
     private final EventManager eventManager;
     private final GameState gameState;
+    private final MissionManager scoreManager;
     private final InputController inputController;
     private final CollisionManager collisionManager;
     private final EnemiesMoveManager moveManager;
@@ -70,6 +72,7 @@ public final class GameControllerImpl implements EventListener, GameController {
         this.collisionManager = new CollisionManager(this.eventManager);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.gameTimer = new GameTimer();
+        this.scoreManager = new MissionManager(level);
         this.progressionManager = progressionManager;
 
         eventManager.subscribe(ProjectileSolidEvent.class, this);
@@ -169,6 +172,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     private void handleGameOver() {
         this.gameTimer.stop();
         this.gameLoop.stop();
+        this.scoreManager.calculateFinalScore(gameState,gameTimer.getElapsedSeconds());
 
         SwingUtilities.invokeLater(() -> {
             if (gameState.didWin()) {
@@ -181,7 +185,7 @@ public final class GameControllerImpl implements EventListener, GameController {
                 this.progressionManager.levelCompleted(
                         this.progressionManager.getCurrentState().getCurrentLevel(),
                         this.gameTimer.getElapsedSeconds(),
-                        this.gameState.getGemsCollected() 
+                        this.scoreManager.areAllObjectivesComplete() 
                 );
                 this.controller.goToLevelSelection();
             } else {

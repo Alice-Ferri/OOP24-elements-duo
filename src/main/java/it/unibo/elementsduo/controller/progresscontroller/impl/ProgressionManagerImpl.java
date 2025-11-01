@@ -37,13 +37,13 @@ public final class ProgressionManagerImpl {
      *
      * @param completedLevel the number of the level completed.
      * @param timeSeconds the time taken to complete the level.
-     * @param gemsCollected the number of gems collected in the level.
+     * @param missionCompleted if the mission is completed.
      */
-    public void levelCompleted(final int completedLevel, final double timeSeconds, final int gemsCollected) { 
+    public void levelCompleted(final int completedLevel, final double timeSeconds, final boolean missionCompleted) { 
 
         final int nextLevel = completedLevel + 1; 
 
-        this.currentState.addLevelCompletionTime(completedLevel, timeSeconds, gemsCollected);
+        this.currentState.addLevelCompletionTime(completedLevel, timeSeconds, missionCompleted);
         this.currentState.setCurrentLevel(nextLevel);
 
         this.saveLoadManager.saveGame(this.currentState);

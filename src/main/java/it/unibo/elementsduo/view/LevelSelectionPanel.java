@@ -80,10 +80,10 @@ public final class LevelSelectionPanel extends JPanel {
      *
      * @param levelGems A map associating the level index with the gem count.
      */
-    public void setLevelGems(final Map<Integer, Integer> levelGems) {
-        levelGems.forEach((levelNum, gemCount) -> {
+    public void setMissionCompleted(final Map<Integer, String> missionComplted) {
+        missionComplted.forEach((levelNum, status) -> {
              Optional.ofNullable(this.levelDataPanels.get(levelNum)).ifPresent(panel -> {
-                 panel.getGemsLabel().setText("Gemme raccolte: " + gemCount);
+                 panel.getMissionLabel().setText(status);
              });
          });
     }
@@ -127,10 +127,16 @@ public final class LevelSelectionPanel extends JPanel {
      * Includes the button to start the level, the record time, and gems collected.
      */
     private static final class LevelDataPanel extends JPanel {
+        private final static String MISSION_STRING = "<html><div style='text-align: center;'>"
+                 + "Missione:<br>"
+                 + "Raccogli tutte le gemme,<br>"
+                 + "uccidi tutti i nemici<br>"
+                 + "e finisci prima di un minuto!"
+                 + "</div></html>";
         private static final long serialVersionUID = 1L;
         private final JButton levelButton;
         private final JLabel timeLabel;
-        private final JLabel gemsLabel;
+        private final JLabel missionLabel;
 
         LevelDataPanel(final JButton button) {
             this.levelButton = button;
@@ -140,15 +146,15 @@ public final class LevelSelectionPanel extends JPanel {
             this.levelButton.setAlignmentX(CENTER_ALIGNMENT);
 
             this.timeLabel = new JLabel("Tempo: N/A", SwingConstants.CENTER);
-            this.gemsLabel = new JLabel("Gemme: N/A", SwingConstants.CENTER);
+            this.missionLabel = new JLabel(MISSION_STRING, SwingConstants.CENTER);
             this.timeLabel.setAlignmentX(CENTER_ALIGNMENT);
-            this.gemsLabel.setAlignmentX(CENTER_ALIGNMENT);
+            this.missionLabel.setAlignmentX(CENTER_ALIGNMENT);
 
             add(this.levelButton);
             add(Box.createVerticalStrut(10));
             add(this.timeLabel);
             add(Box.createVerticalStrut(VERTICAL_GAP));
-            add(this.gemsLabel);
+            add(this.missionLabel);
             add(Box.createVerticalStrut(VERTICAL_GAP));
         }
 
@@ -166,8 +172,8 @@ public final class LevelSelectionPanel extends JPanel {
          *
          * @return The gems JLabel.
          */
-        public JLabel getGemsLabel() {
-            return this.gemsLabel;
+        public JLabel getMissionLabel() {
+            return this.missionLabel;
         }
     }
 }

@@ -65,10 +65,10 @@ public final class LevelSelectionController implements Controller {
         final ProgressionState state = this.progressionManager.getCurrentState();
 
         final Map<Integer, Double> bestTimes = state.getLevelCompletionTimes();
-        final Map<Integer, Integer> levelGems = state.getLevelGemsCollected();
+        final Map<Integer, String> missionCompleted = state.getLevelMissionCompleted();
 
         this.view.setBestTimes(bestTimes);
-        this.view.setLevelGems(levelGems);
+        this.view.setMissionCompleted(missionCompleted);
 
         this.view.repaint();
     }
