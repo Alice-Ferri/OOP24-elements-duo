@@ -34,7 +34,7 @@ import it.unibo.elementsduo.view.LevelPanel;
  * This class initializes all game systems (e.g, input, collisions, events...)
  * and runs the main game loop, updating and rendering the level.
  */
-public final class GameControllerImpl implements EventListener,GameController {
+public final class GameControllerImpl implements EventListener, GameController {
 
     private final Level level;
     private final LevelPanel view;
@@ -48,7 +48,7 @@ public final class GameControllerImpl implements EventListener,GameController {
     private final GameTimer gameTimer;
     private final ProgressionManagerImpl progressionManager;
 
-    private boolean entitiesNeedCleaning = false;
+    private boolean entitiesNeedCleaning;
 
     /**
      * Constructs a new GameController for a specific level.
@@ -59,7 +59,7 @@ public final class GameControllerImpl implements EventListener,GameController {
      * @param progressionManager The manager for saving game progress.
      */
     public GameControllerImpl(final Level level, final GameNavigation controller,
-                              final LevelPanel view, final ProgressionManagerImpl progressionManager) {
+                             final LevelPanel view, final ProgressionManagerImpl progressionManager) {
         this.level = Objects.requireNonNull(level);
         this.controller = Objects.requireNonNull(controller);
         this.view = Objects.requireNonNull(view);
@@ -119,7 +119,7 @@ public final class GameControllerImpl implements EventListener,GameController {
         updateInteractiveObstacles(deltaTime);
 
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
-        if(entitiesNeedCleaning){
+        if (entitiesNeedCleaning) {
             this.level.cleanInactiveEntities();
             entitiesNeedCleaning = false;
         }
@@ -132,7 +132,7 @@ public final class GameControllerImpl implements EventListener,GameController {
 
     @Override
     public void onEvent(final Event event) {
-        if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent ) {
+        if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent) {
             this.entitiesNeedCleaning = true;
         }
     }
@@ -163,7 +163,7 @@ public final class GameControllerImpl implements EventListener,GameController {
             } else if (obs instanceof PlatformImpl platform) {
                 platform.update(deltaTime);
             }
-    });
+        });
     }
 
     private void handleGameOver() {

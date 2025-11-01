@@ -64,6 +64,16 @@ public final class MapLoader {
         return loadLevelFromFile(filePath);
     }
 
+    /**
+     * Loads a level from a specific file path (e.g., "levels/map1.txt").
+     * Reads the file, creates entities using the EntityFactory,
+     * links interactive objects, and returns the final entity set.
+     *
+     * @param filePath The full path to the map file within the resources folder.
+     * @return A {@link Set} of all {@link GameEntity} objects for the level.
+     * @throws IllegalArgumentException If the map file is not found.
+     * @throws MapLoadingException    If an I/O error occurs during reading.
+     */
     public Set<GameEntity> loadLevelFromFile(final String filePath) {
         final Set<GameEntity> gameEntities = new HashSet<>();
         final InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
@@ -83,7 +93,7 @@ public final class MapLoader {
                     final GameEntity entity = entityFactory.createEntity(symbol, pos);
                     if (entity != null) {
                         gameEntities.add(entity);
-}
+        }
 
                 }
                 y++;

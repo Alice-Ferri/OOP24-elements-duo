@@ -25,7 +25,8 @@ public interface HomeNavigation {
      */
     void loadSavedGame();
 
+    /**
+     * Show a little guide of the game.
+     */
     void gameGuide();
-    
-
 }
