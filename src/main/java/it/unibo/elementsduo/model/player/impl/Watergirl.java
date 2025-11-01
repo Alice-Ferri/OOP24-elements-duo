@@ -1,5 +1,7 @@
 package it.unibo.elementsduo.model.player.impl;
 
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.ExitType;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.resources.Position;
 
@@ -22,8 +24,19 @@ public class Watergirl extends AbstractPlayer {
      *
      * @return {@link PlayerType#WATERGIRL}
      */
-    @Override public PlayerType getPlayerType() {
+    @Override
+    public PlayerType getPlayerType() {
         return PlayerType.WATERGIRL;
+    }
+
+    @Override
+    public ExitType getRequiredExitType() {
+        return ExitType.WATER_EXIT;
+    }
+
+    @Override
+    public boolean isImmuneTo(HazardType hazardType) {
+        return hazardType == HazardType.WATER;
     }
 
 }

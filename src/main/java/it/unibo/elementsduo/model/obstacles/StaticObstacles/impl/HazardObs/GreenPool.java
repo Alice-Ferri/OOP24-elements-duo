@@ -25,4 +25,9 @@ public final class GreenPool extends AbstractStaticObstacle implements Hazard {
         super(hitBox);
         this.hitbox = hitBox;
     }
+
+    @Override
+    public HazardType getHazardType() {
+        return HazardType.POISON;
+    }
 }

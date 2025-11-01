@@ -51,11 +51,7 @@ public final class PlayerHazardHandler extends AbstractCollisionHandler<Player, 
     @Override
     public void handleCollision(final Player player, final Hazard hazard, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
-        if (player instanceof Fireboy && hazard instanceof WaterPool) {
-            builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
-        } else if (player instanceof Watergirl && hazard instanceof LavaPool) {
-            builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
-        } else if (hazard instanceof GreenPool) {
+        if (!player.isImmuneTo(hazard.getHazardType())) {
             builder.addLogicCommand(() -> eventManager.notify(new PlayerDiedEvent(player)));
         }
     }

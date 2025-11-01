@@ -23,4 +23,9 @@ public final class WaterPool extends AbstractStaticObstacle implements Hazard {
     public WaterPool(final HitBox hitBox) {
         super(hitBox);
     }
+
+    @Override
+    public HazardType getHazardType() {
+        return HazardType.WATER;
+    }
 }

@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
 
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
 /**
@@ -9,4 +10,5 @@ import it.unibo.elementsduo.model.obstacles.api.obstacle;
  * such as dealing damage or causing death upon contact.
  */
 public interface Hazard extends obstacle {
+    HazardType getHazardType();
 }

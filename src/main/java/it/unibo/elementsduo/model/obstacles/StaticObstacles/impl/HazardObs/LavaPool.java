@@ -19,4 +19,9 @@ public final class LavaPool extends AbstractStaticObstacle implements Hazard {
     public LavaPool(final HitBox hitBox) {
         super(hitBox);
     }
+
+    @Override
+    public HazardType getHazardType() {
+        return HazardType.LAVA;
+    }
 }

@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
 
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.ExitType;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
 /**
@@ -28,4 +29,6 @@ public interface ExitZone extends obstacle {
      * @return {@code true} if the exit is active, {@code false} otherwise
      */
     boolean isActive();
+
+    ExitType getExitType();
 }

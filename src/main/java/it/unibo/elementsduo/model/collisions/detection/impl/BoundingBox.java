@@ -13,7 +13,7 @@ public record BoundingBox(double minX, double minY, double maxX, double maxY) {
         if (this.maxX < other.minX() || this.minX > other.maxX()) {
             return false;
         }
-        if (this.maxX < other.minX() || this.minX > other.maxX()) {
+        if (this.maxY < other.minY() || this.minY > other.maxY()) {
             return false;
         }
         return true;

@@ -11,7 +11,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * collision occurs
  * to prevent overlapping and maintain realistic physical behavior.
  */
-public interface Movable {
+public interface Movable extends Collidable {
 
     /**
      * Corrects the position and velocity of the movable object after a collision.

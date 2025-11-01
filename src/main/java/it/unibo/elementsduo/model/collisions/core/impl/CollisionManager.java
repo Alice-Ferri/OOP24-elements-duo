@@ -10,6 +10,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationH
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerHazardHandler;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerPlatformHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerProjectileHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerExitHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
@@ -55,6 +56,7 @@ public final class CollisionManager {
         register.registerHandler(new PlayerProjectileHandler(eventManager));
         register.registerHandler(new PhysicsHandler());
         register.registerHandler(new PlayerExitHandler(this.eventManager));
+        register.registerHandler(new PlayerPlatformHandler());
     }
 
     /**
