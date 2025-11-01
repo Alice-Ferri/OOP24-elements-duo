@@ -13,6 +13,7 @@ import it.unibo.elementsduo.controller.subcontroller.impl.HomeController;
 import it.unibo.elementsduo.controller.subcontroller.impl.LevelSelectionController;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
@@ -68,7 +69,7 @@ public final class MainControllerImpl
         this.checkController();
         currentLevelNumber = levelNumber;
 
-        final Level level = this.mapLoader.loadLevel(currentLevelNumber);
+        final Level level = new LevelImpl(this.mapLoader.loadLevel(currentLevelNumber));
         try {
             mapValidator.validate(level);
         } catch (final InvalidMapException e) {
@@ -81,7 +82,7 @@ public final class MainControllerImpl
         gameController.activate();
 
         final String currentkey = GAME_KEY + currentLevelNumber;
-        mainFrame.addView(gameController.getPanel(), currentkey);
+        mainFrame.addView(panel, currentkey);
         this.progressionManager.getCurrentState().setCurrentLevel(levelNumber);
         mainFrame.showView(currentkey);
 
@@ -117,6 +118,8 @@ public final class MainControllerImpl
 
     @Override
     public void gameGuide() {
+        this.checkController();
+        
         GuidePanel guidePanel = new GuidePanel(this::goToMenu);
         final String guideKey = "GUIDE";
         mainFrame.addView(guidePanel, guideKey);

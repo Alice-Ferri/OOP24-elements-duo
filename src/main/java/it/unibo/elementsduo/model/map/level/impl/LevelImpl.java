@@ -10,7 +10,6 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
@@ -104,14 +103,6 @@ public final class LevelImpl implements Level {
                 .filter(Collidable.class::isInstance)
                 .map(Collidable.class::cast)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Set<Updatable> getAllUpdatables() {
-        return this.gameEntities.stream()
-                .filter(Updatable.class::isInstance)
-                .map(Updatable.class::cast)
-                .collect(Collectors.toSet());
     }
 
 }

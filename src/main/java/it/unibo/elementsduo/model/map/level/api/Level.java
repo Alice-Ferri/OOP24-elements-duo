@@ -7,7 +7,6 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -98,13 +97,6 @@ public interface Level {
      */
 
     void cleanProjectiles();
-
-    /**
-     * Gets all entities that need to be updated every game tick.
-     *
-     * @return A set of all {@link Updatable} objects.
-     */
-    Set<Updatable> getAllUpdatables();
 
     /**
      * Gets all entities that can be part of the collision system.

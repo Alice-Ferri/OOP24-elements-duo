@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.gameentity.api;
 
 import it.unibo.elementsduo.resources.Position;
-import java.util.Set;
 
 /**
  * A functional interface for creating game entities based on a map symbol.
@@ -17,5 +16,5 @@ public interface EntityFactory {
      * @param pos    The grid position for the new entity.
      * @return A set of {@link GameEntity} objects, or an empty set if the symbol is not recognized.
      */
-    Set<GameEntity> createEntities(char symbol, Position pos);
+    GameEntity createEntity(char symbol, Position pos);
 }

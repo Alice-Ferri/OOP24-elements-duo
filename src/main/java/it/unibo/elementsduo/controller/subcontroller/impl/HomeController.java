@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.controller.subcontroller.impl;
 
+import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import it.unibo.elementsduo.controller.maincontroller.api.HomeNavigation;
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
@@ -12,7 +13,9 @@ import it.unibo.elementsduo.view.MenuPanel;
 public final class HomeController implements Controller {
 
     private final MenuPanel view;
-    private final HomeNavigation controller;
+    private final ActionListener onStartListener;
+    private final ActionListener onLoadListener;
+    private final ActionListener onGuideListener;
 
     /**
      * Constructs a new HomeController.
@@ -22,21 +25,24 @@ public final class HomeController implements Controller {
      */
     public HomeController(final MenuPanel panel, final HomeNavigation controller) {
         this.view = panel;
-        this.controller = controller;
+
+        this.onStartListener = e -> controller.startNewGame();
+        this.onLoadListener = e -> controller.loadSavedGame();
+        this.onGuideListener = e -> controller.gameGuide();
     }
 
     @Override
     public void activate() {
-        this.view.getStartButton().addActionListener(e -> controller.startNewGame());
-        this.view.getLoadButton().addActionListener(e -> controller.loadSavedGame());
-        this.view.getGuideButton().addActionListener(e -> controller.gameGuide());
+        this.view.getStartButton().addActionListener(this.onStartListener);
+        this.view.getLoadButton().addActionListener(this.onLoadListener);
+        this.view.getGuideButton().addActionListener(this.onGuideListener);
     }
 
     @Override
     public void deactivate() {
-        this.view.getStartButton().removeActionListener(null);
-        this.view.getLoadButton().removeActionListener(null);
-        this.view.getGuideButton().removeActionListener(null);
+        this.view.getStartButton().removeActionListener(this.onStartListener);
+        this.view.getLoadButton().removeActionListener(this.onLoadListener);
+        this.view.getGuideButton().removeActionListener(this.onGuideListener);
     }
 
     @Override

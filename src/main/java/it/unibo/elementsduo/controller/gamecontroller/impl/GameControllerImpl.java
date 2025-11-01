@@ -13,7 +13,11 @@ import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.maincontroller.api.GameNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionManager;
+import it.unibo.elementsduo.model.collisions.events.api.Event;
+import it.unibo.elementsduo.model.collisions.events.api.EventListener;
+import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
@@ -30,8 +34,7 @@ import it.unibo.elementsduo.view.LevelPanel;
  * This class initializes all game systems (e.g, input, collisions, events...)
  * and runs the main game loop, updating and rendering the level.
  */
-public final class GameControllerImpl implements GameController {
-    private static final int GEMS_COLLECTED_PLACEHOLDER = 500;
+public final class GameControllerImpl implements EventListener,GameController {
 
     private final Level level;
     private final LevelPanel view;
@@ -44,6 +47,8 @@ public final class GameControllerImpl implements GameController {
     private final EnemiesMoveManager moveManager;
     private final GameTimer gameTimer;
     private final ProgressionManagerImpl progressionManager;
+
+    private boolean entitiesNeedCleaning = false;
 
     /**
      * Constructs a new GameController for a specific level.
@@ -66,6 +71,9 @@ public final class GameControllerImpl implements GameController {
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.gameTimer = new GameTimer();
         this.progressionManager = progressionManager;
+
+        eventManager.subscribe(ProjectileSolidEvent.class, this);
+        eventManager.subscribe(EnemyDiedEvent.class, this);
     }
 
     @Override
@@ -111,15 +119,22 @@ public final class GameControllerImpl implements GameController {
         updateInteractiveObstacles(deltaTime);
 
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
-
-        this.level.cleanInactiveEntities();
-        this.level.cleanProjectiles();
-
+        if(entitiesNeedCleaning){
+            this.level.cleanInactiveEntities();
+            entitiesNeedCleaning = false;
+        }
     }
 
     @Override
     public void render() {
         this.view.repaint();
+    }
+
+    @Override
+    public void onEvent(final Event event) {
+        if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent ) {
+            this.entitiesNeedCleaning = true;
+        }
     }
 
     private void updateEnemies(final double deltaTime) {
@@ -142,14 +157,13 @@ public final class GameControllerImpl implements GameController {
     }
 
     private void updateInteractiveObstacles(final double deltaTime) {
-        this.level.getAllInteractiveObstacles().stream()
-                .filter(PushBox.class::isInstance)
-                .map(PushBox.class::cast)
-                .forEach(box -> box.update(deltaTime));
-        this.level.getAllInteractiveObstacles().stream()
-                .filter(PlatformImpl.class::isInstance)
-                .map(PlatformImpl.class::cast)
-                .forEach(p -> p.update(deltaTime));
+        this.level.getAllInteractiveObstacles().forEach(obs -> {
+            if (obs instanceof PushBox box) {
+                box.update(deltaTime);
+            } else if (obs instanceof PlatformImpl platform) {
+                platform.update(deltaTime);
+            }
+    });
     }
 
     private void handleGameOver() {
@@ -167,7 +181,7 @@ public final class GameControllerImpl implements GameController {
                 this.progressionManager.levelCompleted(
                         this.progressionManager.getCurrentState().getCurrentLevel(),
                         this.gameTimer.getElapsedSeconds(),
-                        GEMS_COLLECTED_PLACEHOLDER 
+                        this.gameState.getGemsCollected() 
                 );
                 this.controller.goToLevelSelection();
             } else {
