@@ -107,7 +107,7 @@ public final class LevelPanel extends JPanel {
                 LavaPool.class, Color.ORANGE,
                 WaterPool.class, Color.CYAN,
                 GreenPool.class, Color.GREEN,
-                WaterExit.class, new Color(0, 191, 255));
+                WaterExit.class, Color.BLUE);
 
         private final Map<Class<? extends AbstractInteractiveObstacle>, Color> interactiveColorMap = Map.of(Lever.class,
                 Color.YELLOW,
