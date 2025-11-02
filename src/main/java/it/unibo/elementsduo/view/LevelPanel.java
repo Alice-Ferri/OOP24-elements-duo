@@ -7,20 +7,18 @@ import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSource;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.GreenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.FireSpawn;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.WaterSpawn;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 
@@ -101,8 +99,6 @@ public final class LevelPanel extends JPanel {
         private final Map<Class<? extends AbstractStaticObstacle>, Color> staticObstacleColorMap = Map.of(
                 Wall.class, Color.DARK_GRAY,
                 Floor.class, Color.LIGHT_GRAY,
-                FireSpawn.class, Color.ORANGE,
-                WaterSpawn.class, Color.BLUE,
                 FireExit.class, Color.RED,
                 LavaPool.class, Color.ORANGE,
                 WaterPool.class, Color.CYAN,
@@ -113,7 +109,7 @@ public final class LevelPanel extends JPanel {
                 Color.YELLOW,
                 PlatformImpl.class, Color.CYAN,
                 PushBox.class, Color.RED,
-                button.class, Color.GREEN);
+                Button.class, Color.GREEN);
 
         private final Map<Class<? extends Enemy>, Color> enemyColorMap = Map.of(
                 ClassicEnemiesImpl.class, new Color(139, 0, 0),
@@ -200,6 +196,7 @@ public final class LevelPanel extends JPanel {
 
         private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,
                 final int elementSize) {
+
             level.getEntitiesByClass(AbstractInteractiveObstacle.class).forEach(obj -> {
 
                 final HitBox hb = obj.getHitBox();
@@ -217,8 +214,14 @@ public final class LevelPanel extends JPanel {
                 final Color base = interactiveColorMap.getOrDefault(obj.getClass(), Color.PINK);
                 g.setColor(base);
 
-                if (obj instanceof Triggerable triggerable) {
-                    if (triggerable.isActive()) {
+                if (obj instanceof TriggerSource source) {
+                    if (source.isActive()) {
+                        g.setColor(base.brighter());
+                    } else {
+                        g.setColor(base.darker());
+                    }
+                } else if (obj instanceof PlatformImpl platform) {
+                    if (platform.isActive()) {
                         g.setColor(base.brighter());
                     } else {
                         g.setColor(base.darker());

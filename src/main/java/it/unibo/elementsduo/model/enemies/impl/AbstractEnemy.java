@@ -1,9 +1,11 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
+import java.util.EnumSet;
 import java.util.Optional;
 
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
@@ -179,4 +181,10 @@ public abstract class AbstractEnemy implements Enemy {
     public void die() {
         this.alive = false;
     }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.ENEMY;
+    }
+
 }

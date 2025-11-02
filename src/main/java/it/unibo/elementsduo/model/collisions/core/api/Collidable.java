@@ -1,5 +1,7 @@
 package it.unibo.elementsduo.model.collisions.core.api;
 
+import java.util.EnumSet;
+
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 
 /**
@@ -25,7 +27,23 @@ public interface Collidable {
      *
      * @return {@code true} if the object is solid, {@code false} otherwise
      */
-    default boolean isSolid() {
+    default boolean hasPhysicsResponse() {
         return true;
+    }
+
+    // my layer so other can know if colliding with me
+    CollisionLayer getCollisionLayer();
+
+    // objects i want to collide
+    default EnumSet<CollisionLayer> getCollisionMask() {
+        return this.getCollisionLayer().getDefaultMask();
+    }
+
+    default boolean resolvePhysicsWith(final Collidable other) {
+        if (!this.hasPhysicsResponse() || !other.hasPhysicsResponse()) {
+            return false;
+        }
+        return this.getCollisionMask().contains(other.getCollisionLayer())
+                || other.getCollisionMask().contains(this.getCollisionLayer());
     }
 }

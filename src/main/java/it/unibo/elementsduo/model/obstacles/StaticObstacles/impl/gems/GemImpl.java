@@ -1,5 +1,8 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.gems;
 
+import java.util.EnumSet;
+
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Gem;
@@ -64,5 +67,20 @@ public final class GemImpl implements Gem {
     @Override
     public void collect() {
         this.active = false;
+    }
+
+    @Override
+    public boolean hasPhysicsResponse() {
+        return false;
+    }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.GEM;
+    }
+
+    @Override
+    public EnumSet<CollisionLayer> getCollisionMask() {
+        return EnumSet.of(CollisionLayer.PLAYER);
     }
 }

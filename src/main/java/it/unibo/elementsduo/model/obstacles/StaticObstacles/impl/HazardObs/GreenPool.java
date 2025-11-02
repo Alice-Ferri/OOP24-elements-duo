@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs;
 
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
@@ -12,10 +13,6 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
  * interacted with.
  */
 public final class GreenPool extends AbstractStaticObstacle implements Hazard {
-
-    /** The hitbox defining the position and dimensions of the pool. */
-    private final HitBox hitbox;
-
     /**
      * Constructs a new {@code GreenPool} with the specified hitbox.
      *
@@ -23,11 +20,15 @@ public final class GreenPool extends AbstractStaticObstacle implements Hazard {
      */
     public GreenPool(final HitBox hitBox) {
         super(hitBox);
-        this.hitbox = hitBox;
     }
 
     @Override
     public HazardType getHazardType() {
         return HazardType.POISON;
+    }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.HAZARD;
     }
 }

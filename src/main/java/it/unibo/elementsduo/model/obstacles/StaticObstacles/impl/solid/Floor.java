@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid;
 
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 
@@ -21,5 +22,10 @@ public final class Floor extends AbstractStaticObstacle {
      */
     public Floor(final HitBox hitbox) {
         super(hitbox);
+    }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.STATIC_OBSTACLE;
     }
 }

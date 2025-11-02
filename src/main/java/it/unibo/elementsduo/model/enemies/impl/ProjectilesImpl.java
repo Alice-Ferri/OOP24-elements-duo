@@ -1,6 +1,9 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
+import java.util.EnumSet;
+
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
@@ -99,5 +102,24 @@ public final class ProjectilesImpl implements Projectiles {
     @Override
     public void deactivate() {
         this.alive = false;
+    }
+
+    @Override
+    public boolean hasPhysicsResponse() {
+        return true;
+    }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.PROJECTILE;
+    }
+
+    @Override
+    public EnumSet<CollisionLayer> getCollisionMask() {
+        return EnumSet.of(
+                CollisionLayer.STATIC_OBSTACLE,
+                CollisionLayer.PLATFORM,
+                CollisionLayer.PLAYER,
+                CollisionLayer.PUSHABLE);
     }
 }
