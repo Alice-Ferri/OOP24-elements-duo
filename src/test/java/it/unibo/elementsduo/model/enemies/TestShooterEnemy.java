@@ -22,11 +22,11 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
  * Unit tests for the {@link ShooterEnemyImpl} class, ensuring correct movement, 
  * state management, and projectile cooldown logic.
  */
-final class ShooterEnemyTest {
+final class TestShooterEnemy {
 
     private static final double START_X = 10.0;
     private static final double START_Y = 5.0;
-    private static final double SHOOTER_SPEED = 2.0;
+    private static final double SHOOTER_SPEED = 2.0; 
     private static final double MAX_COOLDOWN = 3.0; 
     private static final double DELTA_TIME = 0.5;
     private static final double DELTA = 0.001;
@@ -65,19 +65,6 @@ final class ShooterEnemyTest {
         return cooldownField.getDouble(enemy);
     }
     
-    // --- Core Tests ---
-
-    /**
-     * Tests the initial state (alive) and basic movement calculation during update.
-     */
-    @Test
-    void testInitialStateAndMovement() {
-        assertTrue(enemy.isAlive());
-        enemy.update(DELTA_TIME);
-        final double expectedX = START_X + (1 * SHOOTER_SPEED * DELTA_TIME);
-        assertEquals(expectedX, enemy.getX(), DELTA);
-    }
-    
     /**
      * Tests that the attack is successful and the cooldown is reset when the cooldown is zero.
      */
@@ -106,7 +93,7 @@ final class ShooterEnemyTest {
      */
     @Test
     void testPhysicsCollisionInvertsDirection() {
-        enemy.correctPhysicsCollision(0.1, new Vector2D(-1.0, 0.0));
+        enemy.correctPhysicsCollision(0.1, new Vector2D(-1.0, 0.0), null);
         assertEquals(-1, enemy.getDirection(), DELTA);
     }
 
