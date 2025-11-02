@@ -18,7 +18,7 @@ import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
@@ -82,7 +82,7 @@ final class TestMapLoader {
         assertEquals(1, countEntities(WaterExit.class));
         assertEquals(1, countEntities(Floor.class));
         assertEquals(1, countEntities(Lever.class));
-        assertEquals(1, countEntities(button.class));
+        assertEquals(1, countEntities(Button.class));
         assertEquals(1, countEntities(PlatformImpl.class));
         assertEquals(1, countEntities(PushBox.class));
         assertEquals(2, countEntities(Enemy.class));
