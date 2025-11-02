@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.progression;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import it.unibo.elementsduo.model.progression.ProgressionState;
 
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
