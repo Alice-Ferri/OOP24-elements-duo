@@ -11,6 +11,8 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.Water
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
+import it.unibo.elementsduo.model.powerups.api.PowerUpType;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpManager;
 
 /**
  * Handles collisions between a {@link Player} and a {@link Hazard}.
@@ -51,8 +53,15 @@ public final class PlayerHazardHandler extends AbstractCollisionHandler<Player, 
     @Override
     public void handleCollision(final Player player, final Hazard hazard, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
-        if (!player.isImmuneTo(hazard.getHazardType())) {
-            builder.addLogicCommand(() -> hazard.getEffect().apply(player, eventManager));
-        }
+        final boolean immuneByClass = player.isImmuneTo(hazard.getHazardType());
+
+        builder.addLogicCommand(() -> {
+            final PowerUpManager manager = PowerUpManager.getInstance();
+            final boolean immuneByPowerUp = manager != null && manager.hasEffect(player, PowerUpType.HAZARD_IMMUNITY);
+            if (immuneByClass || immuneByPowerUp) {
+                return;
+            }
+            hazard.getEffect().apply(player, eventManager);
+        });
     }
 }

@@ -20,6 +20,7 @@ import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
 
 import it.unibo.elementsduo.view.LevelPanel;
@@ -61,7 +62,7 @@ public final class MainControllerImpl
         this.mainFrame = new GameFrame();
         this.mapValidator = new MapValidatorImpl();
         this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
-                new InteractiveObstacleFactoryImpl());
+                new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl());
         this.saveManager = new SaveManager(Paths.get(SAVE_DIR));
     }
 

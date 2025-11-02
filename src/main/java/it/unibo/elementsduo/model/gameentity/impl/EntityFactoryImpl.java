@@ -9,6 +9,8 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
+import it.unibo.elementsduo.model.powerups.api.PowerUpFactory;
+import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.resources.Position;
 
 import java.util.Collections;
@@ -26,6 +28,7 @@ public final class EntityFactoryImpl implements EntityFactory {
     private final ObstacleFactory obstacleFactory;
     private final EnemyFactory enemyFactory;
     private final InteractiveObstacleFactory interactiveObsFactory;
+    private final PowerUpFactory powerUpFactory;
     private final Map<Character, EntityCreationStrategy> creationMap;
 
     /**
@@ -37,11 +40,12 @@ public final class EntityFactoryImpl implements EntityFactory {
      */
     public EntityFactoryImpl(final ObstacleFactory obstacleFactory,
             final EnemyFactory enemyFactory,
-            final InteractiveObstacleFactory interactiveObsFactory) {
+            final InteractiveObstacleFactory interactiveObsFactory, final PowerUpFactory powerUpFactory) {
         this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
         this.enemyFactory = Objects.requireNonNull(enemyFactory);
         this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
         this.creationMap = buildCreationMap();
+        this.powerUpFactory = powerUpFactory;
     }
 
     private Map<Character, EntityCreationStrategy> buildCreationMap() {
@@ -67,6 +71,8 @@ public final class EntityFactoryImpl implements EntityFactory {
         map.put('R', this.interactiveObsFactory::createButton);
         map.put('M',
                 pos -> this.interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
+        map.put('I', pos -> this.powerUpFactory.createPowerUp(PowerUpType.HAZARD_IMMUNITY, pos));
+        map.put('N', pos -> this.powerUpFactory.createPowerUp(PowerUpType.ENEMY_KILL, pos));
 
         return Collections.unmodifiableMap(map);
     }
