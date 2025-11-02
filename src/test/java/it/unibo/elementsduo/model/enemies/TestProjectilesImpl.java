@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 /**
  * Unit tests for the {@link ProjectilesImpl} class, ensuring correct movement, 
  * state management, and collision physics.
@@ -25,7 +24,6 @@ final class TestProjectilesImpl {
     private static final double SPEED = 5.0;
     private static final double DELTA_TIME = 0.1;
     private static final double DELTA = 0.001;
-    
 
     private ProjectilesImpl projectile;
 
@@ -74,9 +72,9 @@ final class TestProjectilesImpl {
     @Test
     void testMovementToLeft() {
         final ProjectilesImpl leftProjectile = new ProjectilesImpl(new Position(START_X, START_Y), (int) DIRECTION_LEFT);
-        
+
         leftProjectile.update(DELTA_TIME); 
-        
+
         final double expectedX = START_X + (DIRECTION_LEFT * SPEED * DELTA_TIME);
         assertEquals(expectedX, leftProjectile.getX(), DELTA);
     }
@@ -88,7 +86,7 @@ final class TestProjectilesImpl {
     void testCorrectPhysicsCollisionCorrection() {
         final double penetration = 0.5;
         final Vector2D normal = new Vector2D(0.0, 1.0);
-        
+
         final double correctionPerc = 0.8;
         final double positionSlop = 0.001;
         final double depth = penetration - positionSlop;
@@ -99,7 +97,7 @@ final class TestProjectilesImpl {
         assertEquals(START_Y + expectedCorrectionY, projectile.getY(), DELTA);
         assertTrue(projectile.isActive());
     }
-    
+
     /**
      * Tests that a collision with zero penetration results in no change to position.
      */
@@ -107,7 +105,7 @@ final class TestProjectilesImpl {
     void testCorrectPhysicsCollisionNoCorrection() {
         final double penetration = 0.0;
         final Vector2D normal = new Vector2D(1.0, 0.0); 
-        
+
         projectile.correctPhysicsCollision(penetration, normal, null);
 
         assertEquals(START_X, projectile.getX(), DELTA);

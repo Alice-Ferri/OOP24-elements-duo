@@ -22,12 +22,9 @@ final class TestProgressionState {
     private static final double TIME_WORSE = 60.0;
     private static final double TIME_BETTER = 45.0;
 
-    // Le costanti GEMS sono state sostituite da costanti MISSION
     private static final boolean MISSION_COMPLETE = true;
     private static final boolean MISSION_FAILED = false;
     private static final String MISSION_COMPLETE_STRING = "* Sfida Completata!";
-    // RIMOSSO: private static final String MISSION_DEFAULT_STRING = "X Sfida non superata!";
-
 
     private static final double DELTA = 0.001;
 
@@ -48,7 +45,6 @@ final class TestProgressionState {
         assertNotNull(progressionState.getLevelMissionCompleted());
         assertTrue(progressionState.getLevelMissionCompleted().isEmpty());
     }
-    
 
     /**
      * Tests the functionality of setting and getting the current level.
@@ -60,17 +56,16 @@ final class TestProgressionState {
         assertEquals(newLevel, progressionState.getCurrentLevel());
     }
 
-
     /**
      * Tests that the time is saved when completing a level for the first time.
      */
     @Test
-    void testTimeFirstCompletionSavesRecord() { // NOME CORRETTO
+    void testTimeFirstCompletionSavesRecord() { 
 
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_RECORD, MISSION_COMPLETE);
-        
+
         final Map<Integer, Double> times = progressionState.getLevelCompletionTimes();
-        
+
         assertTrue(times.containsKey(LEVEL_ONE));
         assertEquals(TIME_RECORD, times.get(LEVEL_ONE), DELTA);
     }
@@ -79,12 +74,12 @@ final class TestProgressionState {
      * Tests that a better (lower) time successfully replaces the existing record.
      */
     @Test
-    void testTimeBeatExistingRecord() { // NOME CORRETTO
+    void testTimeBeatExistingRecord() {
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_RECORD, MISSION_COMPLETE);
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_BETTER, MISSION_FAILED);
-        
+
         final Map<Integer, Double> times = progressionState.getLevelCompletionTimes();
-        
+
         assertEquals(TIME_BETTER, times.get(LEVEL_ONE), DELTA);
     }
 
@@ -92,50 +87,50 @@ final class TestProgressionState {
      * Tests that a worse (higher) time does NOT replace the existing record.
      */
     @Test
-    void testTimeDoNotBeatExistingRecord() { // NOME CORRETTO
+    void testTimeDoNotBeatExistingRecord() {
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_RECORD, MISSION_COMPLETE);
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_WORSE, MISSION_FAILED);
-        
+
         final Map<Integer, Double> times = progressionState.getLevelCompletionTimes();
-        
+
         assertEquals(TIME_RECORD, times.get(LEVEL_ONE), DELTA);
     }
-    
+
     /**
      * Tests that the mission status is saved when completing for the first time with success.
      */
     @Test
-    void testMissionCompletedSavesRecord() { // NOME CORRETTO
+    void testMissionCompletedSavesRecord() {
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_RECORD, MISSION_COMPLETE);
-        
+
         final Map<Integer, String> missions = progressionState.getLevelMissionCompleted();
-        
+
         assertTrue(missions.containsKey(LEVEL_TWO));
         assertEquals(MISSION_COMPLETE_STRING, missions.get(LEVEL_TWO));
     }
-    
+
     /**
      * Tests that a failed mission does NOT overwrite a previously completed mission.
      */
     @Test
-    void testMissionFailedDoesNotOverwriteCompleted() { // NOME CORRETTO
+    void testMissionFailedDoesNotOverwriteCompleted() {
 
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_RECORD, MISSION_COMPLETE);
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_WORSE, MISSION_FAILED);
-        
+
         final Map<Integer, String> missions = progressionState.getLevelMissionCompleted();
-        
+
         assertEquals(MISSION_COMPLETE_STRING, missions.get(LEVEL_TWO));
     }
-    
+
     /**
      * Tests that a completed mission successfully overwrites a failed (default) state.
      */
     @Test
-    void testMissionCompletedOverwritesFailed() { // NOME CORRETTO
+    void testMissionCompletedOverwritesFailed() { 
 
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_RECORD, MISSION_FAILED);
-        
+
         final Map<Integer, String> missions = progressionState.getLevelMissionCompleted();
         assertFalse(missions.containsKey(LEVEL_TWO)); 
 
@@ -144,7 +139,7 @@ final class TestProgressionState {
         assertTrue(missions.containsKey(LEVEL_TWO));
         assertEquals(MISSION_COMPLETE_STRING, missions.get(LEVEL_TWO));
     }
-    
+
     /**
      * Tests scenarios where time and mission updates are mixed, ensuring independent logic.
      */
