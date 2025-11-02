@@ -6,9 +6,9 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.HazardType;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
@@ -44,7 +44,7 @@ final class TestPlayer {
         checkInitialValues(fireboy, PlayerType.FIREBOY);
         checkInitialValues(watergirl, PlayerType.WATERGIRL);
     }
-    
+
     private void checkInitialValues(final Player player, final PlayerType expectedType) {
         assertEquals(0.0, fireboy.getX());
         assertEquals(0.0, fireboy.getY());
@@ -121,8 +121,10 @@ final class TestPlayer {
         assertFalse(fireboy.isOnGround());
         controller.markJumpHandled(PlayerType.FIREBOY);
 
-        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_D, 'D'));
-        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_W, 'W'));
+        controller
+                .dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_D, 'D'));
+        controller
+                .dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_W, 'W'));
 
         assertFalse(controller.getInputState().isActionPressed(PlayerType.FIREBOY, InputState.Action.JUMP));
     }

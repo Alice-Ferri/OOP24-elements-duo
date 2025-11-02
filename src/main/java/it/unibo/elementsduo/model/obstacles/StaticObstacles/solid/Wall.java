@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid;
+package it.unibo.elementsduo.model.obstacles.StaticObstacles.solid;
 
 import java.util.EnumSet;
 

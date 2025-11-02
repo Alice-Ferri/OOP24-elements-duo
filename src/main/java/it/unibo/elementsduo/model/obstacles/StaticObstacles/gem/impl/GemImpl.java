@@ -1,11 +1,11 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.gems;
+package it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.impl;
 
 import java.util.EnumSet;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Gem;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
 import it.unibo.elementsduo.resources.Position;
 
 /**

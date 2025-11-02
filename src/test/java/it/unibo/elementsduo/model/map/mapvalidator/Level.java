@@ -22,8 +22,8 @@ import it.unibo.elementsduo.resources.Position;
 
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ProjectilesImpl;
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,19 +53,19 @@ final class TestLevelImpl {
     @BeforeEach
     void setUp() {
         originalEntities = new HashSet<>();
-        
+
         player1 = new Fireboy(new Position(1, 1));
         player2 = new Watergirl(new Position(1, 2));
 
-        enemyAlive = new ClassicEnemiesImpl(new Position(2, 1)); 
+        enemyAlive = new ClassicEnemiesImpl(new Position(2, 1));
         enemyDead = new ClassicEnemiesImpl(new Position(2, 2));
-        enemyDead.die(); 
+        enemyDead.die();
 
-        projActive = new ProjectilesImpl(new Position(3, 1),1);
-        projInactive = new ProjectilesImpl(new Position(3, 2),-1);
-        projInactive.deactivate(); 
+        projActive = new ProjectilesImpl(new Position(3, 1), 1);
+        projInactive = new ProjectilesImpl(new Position(3, 2), -1);
+        projInactive.deactivate();
 
-        obstacle = new Wall(new HitBoxImpl(new Position(1,3),1,1));
+        obstacle = new Wall(new HitBoxImpl(new Position(1, 3), 1, 1));
         interactive = new Lever(new Position(5, 1));
 
         originalEntities.add(player1);
@@ -91,11 +91,11 @@ final class TestLevelImpl {
         final Set<GameEntity> initialSet = new HashSet<>();
         initialSet.add(new Fireboy(new Position(0, 0)));
         final Level testLevel = new LevelImpl(initialSet);
-        
+
         initialSet.add(new Watergirl(new Position(9, 9)));
-        
-        assertEquals(1, testLevel.getGameEntities().size(), 
-            "The constructor must create a defensive copy of the Set.");
+
+        assertEquals(1, testLevel.getGameEntities().size(),
+                "The constructor must create a defensive copy of the Set.");
     }
 
     /**
@@ -104,10 +104,10 @@ final class TestLevelImpl {
     @Test
     void testGetGameEntities() {
         final Set<GameEntity> entities = level.getGameEntities();
-        
+
         assertEquals(originalEntities.size(), entities.size());
         assertTrue(entities.containsAll(originalEntities));
-        
+
         assertThrows(UnsupportedOperationException.class, () -> {
             entities.add(new Fireboy(new Position(1, 1)));
         }, "The set returned by getGameEntities must be unmodifiable.");
@@ -129,7 +129,7 @@ final class TestLevelImpl {
 
         final Set<Fireboy> fireboys = level.getEntitiesByClass(Fireboy.class);
         assertEquals(1, fireboys.size());
-        
+
         final Set<Lever> levers = level.getEntitiesByClass(Lever.class);
         assertEquals(1, levers.size());
 
@@ -143,10 +143,10 @@ final class TestLevelImpl {
      */
     @Test
     void testGetAllHelperMethods() {
-        assertEquals(2, level.getAllObstacles().size()); 
+        assertEquals(2, level.getAllObstacles().size());
         assertTrue(level.getAllObstacles().contains(obstacle));
         assertTrue(level.getAllObstacles().contains(interactive));
-        
+
         assertEquals(2, level.getAllEnemies().size());
         assertEquals(2, level.getAllPlayers().size());
         assertEquals(1, level.getAllInteractiveObstacles().size());
@@ -162,19 +162,20 @@ final class TestLevelImpl {
         assertEquals(1, living.size());
         assertTrue(living.contains(enemyAlive));
         assertFalse(living.contains(enemyDead));
-        
+
         final List<Collidable> collidables = level.getAllCollidables();
         assertEquals(originalEntities.size(), collidables.size());
     }
 
     /**
-     * Tests the mutation methods e.g, addProjectile, cleanProjectiles, cleanInactiveEntities.
+     * Tests the mutation methods e.g, addProjectile, cleanProjectiles,
+     * cleanInactiveEntities.
      */
     @Test
     void testMutationMethods() {
-        final Projectiles newProjectile = new ProjectilesImpl(new Position(9, 9),1);
+        final Projectiles newProjectile = new ProjectilesImpl(new Position(9, 9), 1);
         level.addProjectile(newProjectile);
-        
+
         final int expectedSizeAfterAdd = originalEntities.size() + 1;
         assertEquals(expectedSizeAfterAdd, level.getGameEntities().size());
         assertEquals(3, level.getAllProjectiles().size());
@@ -183,18 +184,18 @@ final class TestLevelImpl {
         assertEquals(2, level.getAllProjectiles().size(), "Should only remove projInactive");
         assertTrue(level.getAllProjectiles().contains(projActive));
         assertTrue(level.getAllProjectiles().contains(newProjectile));
-        
+
         setUp();
         assertEquals(originalEntities.size(), level.getGameEntities().size());
-        
+
         level.cleanInactiveEntities();
-        
+
         final int expectedSizeAfterClean = originalEntities.size() - 2;
         assertEquals(expectedSizeAfterClean, level.getGameEntities().size());
-        
+
         assertFalse(level.getAllEnemies().contains(enemyDead), "enemyDead should be removed");
         assertTrue(level.getAllEnemies().contains(enemyAlive), "enemyAlive should remain");
-        
+
         assertFalse(level.getAllProjectiles().contains(projInactive), "projInactive should be removed");
         assertTrue(level.getAllProjectiles().contains(projActive), "projActive should remain");
     }

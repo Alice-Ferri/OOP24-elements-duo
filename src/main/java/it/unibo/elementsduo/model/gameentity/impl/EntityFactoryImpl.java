@@ -36,8 +36,8 @@ public final class EntityFactoryImpl implements EntityFactory {
      * @param interactiveObsFactory Factory for creating interactive obstacles.
      */
     public EntityFactoryImpl(final ObstacleFactory obstacleFactory,
-                             final EnemyFactory enemyFactory,
-                             final InteractiveObstacleFactory interactiveObsFactory) {
+            final EnemyFactory enemyFactory,
+            final InteractiveObstacleFactory interactiveObsFactory) {
         this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
         this.enemyFactory = Objects.requireNonNull(enemyFactory);
         this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
@@ -47,17 +47,17 @@ public final class EntityFactoryImpl implements EntityFactory {
     private Map<Character, EntityCreationStrategy> buildCreationMap() {
 
         final Map<Character, EntityCreationStrategy> map = new HashMap<>();
-        final Function<Position, HitBoxImpl> defaultHitbox = 
-            pos -> new HitBoxImpl(pos, 1, 1);
+        final Function<Position, HitBoxImpl> defaultHitbox = pos -> new HitBoxImpl(pos, 1, 1);
 
-        map.put('P', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.FLOOR, defaultHitbox.apply(pos)));
-        map.put('#', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WALL, defaultHitbox.apply(pos)));
-        map.put('A', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WATER_EXIT, defaultHitbox.apply(pos)));
-        map.put('F', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.FIRE_EXIT, defaultHitbox.apply(pos)));
-        map.put('G', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.GEM, defaultHitbox.apply(pos)));
-        map.put('Q', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.LAVA_POOL, defaultHitbox.apply(pos)));
-        map.put('K', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.GREEN_POOL, defaultHitbox.apply(pos)));
-        map.put('E', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WATER_POOL, defaultHitbox.apply(pos)));
+        map.put('P', pos -> this.obstacleFactory.createObstacle(ObstacleType.FLOOR, defaultHitbox.apply(pos)));
+        map.put('#', pos -> this.obstacleFactory.createObstacle(ObstacleType.WALL, defaultHitbox.apply(pos)));
+        map.put('A', pos -> this.obstacleFactory.createObstacle(ObstacleType.WATER_EXIT, defaultHitbox.apply(pos)));
+        map.put('F', pos -> this.obstacleFactory.createObstacle(ObstacleType.FIRE_EXIT, defaultHitbox.apply(pos)));
+        // map.put('G', pos -> this.obstacleFactory.createObstacle(ObstacleType.GEM,
+        // defaultHitbox.apply(pos)));
+        map.put('Q', pos -> this.obstacleFactory.createObstacle(ObstacleType.LAVA_POOL, defaultHitbox.apply(pos)));
+        map.put('K', pos -> this.obstacleFactory.createObstacle(ObstacleType.GREEN_POOL, defaultHitbox.apply(pos)));
+        map.put('E', pos -> this.obstacleFactory.createObstacle(ObstacleType.WATER_POOL, defaultHitbox.apply(pos)));
         map.put('B', Fireboy::new);
         map.put('W', Watergirl::new);
         map.put('C', pos -> this.enemyFactory.createEnemy('C', pos));
@@ -65,7 +65,8 @@ public final class EntityFactoryImpl implements EntityFactory {
         map.put('L', this.interactiveObsFactory::createLever);
         map.put('H', this.interactiveObsFactory::createPushBox);
         map.put('R', this.interactiveObsFactory::createButton);
-        map.put('M', pos -> this.interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
+        map.put('M',
+                pos -> this.interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
 
         return Collections.unmodifiableMap(map);
     }

@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.mission.impl;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.mission.api.Objective;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Gem; 
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 
 /**
@@ -24,12 +24,12 @@ public final class MissionManager {
      * @param initialLevel The Level at the start of the match.
      */
     public MissionManager(final Level initialLevel) {
-        
+
         final int totalGems = initialLevel.getEntitiesByClass(Gem.class).size();
         final int totalEnemies = initialLevel.getEntitiesByClass(Enemy.class).size();
 
         final Mission allTasks = new Mission("Completa gli obiettivi per un bonus");
-        
+
         allTasks.add(new GemObjective(totalGems));
         allTasks.add(new EnemyObjective(totalEnemies));
         allTasks.add(new TimeLimitObjective(TIME_LIMIT));
@@ -50,8 +50,9 @@ public final class MissionManager {
 
     /**
      * Return if the mission is completed.
+     * 
      * @return true if the root mission (all objectives)
-     * is complete.
+     *         is complete.
      */
     public boolean areAllObjectivesComplete() {
         return this.rootObjective.isComplete();
