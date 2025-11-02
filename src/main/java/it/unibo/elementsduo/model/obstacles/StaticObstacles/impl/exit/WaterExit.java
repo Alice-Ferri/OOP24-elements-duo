@@ -72,9 +72,4 @@ public final class WaterExit extends AbstractStaticObstacle implements ExitZone 
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.EXIT_ZONE;
     }
-
-    @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(CollisionLayer.PLAYER);
-    }
 }

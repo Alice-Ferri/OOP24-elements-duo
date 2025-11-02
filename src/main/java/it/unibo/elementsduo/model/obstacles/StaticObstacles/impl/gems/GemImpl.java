@@ -79,8 +79,4 @@ public final class GemImpl implements Gem {
         return CollisionLayer.GEM;
     }
 
-    @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(CollisionLayer.PLAYER);
-    }
 }
