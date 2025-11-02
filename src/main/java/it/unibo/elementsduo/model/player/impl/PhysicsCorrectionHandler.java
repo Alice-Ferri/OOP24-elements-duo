@@ -18,6 +18,11 @@ public class PhysicsCorrectionHandler {
 
     private final Player player;
 
+    /**
+     * Constructor for the physics
+     *
+     * @param player to set corrections
+     */
     public PhysicsCorrectionHandler(final Player player) {
         this.player = player;
     }

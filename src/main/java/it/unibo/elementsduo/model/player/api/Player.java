@@ -16,8 +16,8 @@ import it.unibo.elementsduo.resources.Vector2D;
 public interface Player extends Movable, GameEntity {
 
     /** Default player dimensions. */
-    final static double DEFAULT_WIDTH = 0.8;
-    final static double DEFAULT_HEIGHT = 1.0;
+    double DEFAULT_WIDTH = 0.8;
+    double DEFAULT_HEIGHT = 1.0;
 
     /**
      * Returns the current horizontal position of the player.
@@ -42,14 +42,14 @@ public interface Player extends Movable, GameEntity {
 
     /**
      *  Set velocity on x.
-     * 
+     *
      *  @param vx velocity to set.
      */
     void setVelocityX(double vx);
 
     /**
      *  Set velocity on y.
-     * 
+     *
      *  @param vy velocity to set.
      */
     void setVelocityY(double vy);
@@ -96,14 +96,14 @@ public interface Player extends Movable, GameEntity {
 
     /**
      * Makes the player jump with the given strength.
-     * 
+     *
      * @param strength the upward jump force
      */
     void jump(double strength);
 
     /**
      * Lands the player on a solid surface.
-     * 
+     *
      * @param groundY the vertical coordinate of the ground surface
      */
     void landOn(double groundY);
@@ -117,10 +117,10 @@ public interface Player extends Movable, GameEntity {
 
     /**
      * Updating the state of the player.
-     * 
-     * @param deltaTime the time elapsed since the last update.
-     * 
-     * @param inputController the controller that provides the player's input.
+     *
+     * @param deltaTime the time elapsed since the last update
+     *
+     * @param inputController the controller that provides the player's input
      */
     void update(double deltaTime, InputController inputController);
 

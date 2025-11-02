@@ -29,13 +29,25 @@ public class Watergirl extends AbstractPlayer {
         return PlayerType.WATERGIRL;
     }
 
+    /**
+     * Returns the specific exit type for this player.
+     *
+     * @return exit type of the player
+     */
     @Override
     public ExitType getRequiredExitType() {
         return ExitType.WATER_EXIT;
     }
 
+    /**
+     * Checks if this player is immune to the object
+     *
+     * @param hazardType obstacle to check
+     *
+     * @return true if is immune to the hazard type, false otherwise
+     */
     @Override
-    public boolean isImmuneTo(HazardType hazardType) {
+    public boolean isImmuneTo(final HazardType hazardType) {
         return hazardType == HazardType.WATER;
     }
 

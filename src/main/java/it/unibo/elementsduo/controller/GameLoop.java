@@ -5,8 +5,12 @@ import java.util.Objects;
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 
 public class GameLoop implements Runnable {
+
+    private static final long NANOS_PER_MILLISECOND = 1_000_000L;
+    private static final long NANOS_PER_SECOND = 1_000_000_000L;
+
     private static final int TARGET_FPS = 120;
-    private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
+    private static final long OPTIMAL_TIME = NANOS_PER_SECOND / TARGET_FPS;
     private volatile boolean running ;
     private Thread gameThread;
     private final GameController engine;
@@ -52,7 +56,7 @@ public class GameLoop implements Runnable {
 
             if (sleepNanos > 0) {
                 try {
-                    Thread.sleep(sleepNanos / 1_000_000, (int) (sleepNanos % 1_000_000));
+                    Thread.sleep(sleepNanos / NANOS_PER_MILLISECOND, (int) (sleepNanos % NANOS_PER_MILLISECOND));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     running = false;
