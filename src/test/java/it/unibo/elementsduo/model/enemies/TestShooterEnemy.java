@@ -1,6 +1,7 @@
-package it.unibo.elementsduo.model.enemies.impl;
+package it.unibo.elementsduo.model.enemies;
 
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
+import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
