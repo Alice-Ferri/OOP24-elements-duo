@@ -1,6 +1,7 @@
 package it.unibo.elementsduo.model.powerups.impl;
 
 import java.util.EnumMap;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,37 +13,37 @@ import it.unibo.elementsduo.model.collisions.events.impl.PowerUpExpiredEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.powerups.api.PowerUp;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
+import it.unibo.elementsduo.model.collisions.events.api.Event;
 
-public class PowerUpManager {
+public class PowerUpManager implements it.unibo.elementsduo.model.collisions.events.api.EventListener {
+
     private final EventManager eventManager;
     private final Map<Player, Map<PowerUpType, ActivePowerUp>> activeEffects = new HashMap<>();
 
-    public PowerUpManager(EventManager eventManager) {
+    public PowerUpManager(final EventManager eventManager) {
         this.eventManager = Objects.requireNonNull(eventManager);
-    }
-
-    public void activate(final PowerUp powerUp, final Player player) {
-        final Map<PowerUpType, ActivePowerUp> playerEffects = this.activeEffects
-                .computeIfAbsent(player, p -> new EnumMap<>(PowerUpType.class));
-
-        final PowerUpType type = powerUp.getType();
-        final double duration = powerUp.getDuration();
-
-        final ActivePowerUp existingEffect = playerEffects.get(type);
-
-        if (existingEffect == null) {
-            final ActivePowerUp newEffect = new ActivePowerUp(player, type, duration);
-            playerEffects.put(type, newEffect);
-        } else {
-            existingEffect.refresh(duration);
-        }
-
-        this.eventManager.notify(new PowerUpCollectedEvent(player, type));
+        this.eventManager.subscribe(PowerUpCollectedEvent.class, this);
     }
 
     public boolean hasEffect(final Player player, final PowerUpType type) {
         final Map<PowerUpType, ActivePowerUp> effects = this.activeEffects.get(player);
         return effects != null && effects.containsKey(type);
+    }
+
+    @Override
+    public void onEvent(final Event event) {
+        if (event instanceof PowerUpCollectedEvent collected) {
+            final Map<PowerUpType, ActivePowerUp> playerEffects = this.activeEffects
+                    .computeIfAbsent(collected.player(), p -> new EnumMap<>(PowerUpType.class));
+
+            playerEffects.compute(collected.type(), (t, existing) -> {
+                if (existing == null) {
+                    return new ActivePowerUp(collected.player(), collected.type(), collected.duration());
+                }
+                existing.refresh(collected.duration());
+                return existing;
+            });
+        }
     }
 
     public void update(final double deltaTime) {
