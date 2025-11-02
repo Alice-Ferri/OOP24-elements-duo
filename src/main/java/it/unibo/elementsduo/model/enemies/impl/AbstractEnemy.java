@@ -1,6 +1,5 @@
 package it.unibo.elementsduo.model.enemies.impl;
 
-import java.util.EnumSet;
 import java.util.Optional;
 
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
@@ -10,7 +9,6 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -21,7 +19,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * specific behaviors (like attacking) to subclasses.
  * Uses the Template Method Pattern for the update() method.
  */
-public abstract class AbstractEnemy implements Enemy  {
+public abstract class AbstractEnemy implements Enemy {
 
     private static final double SPEED = 0.8;
     private boolean alive;
@@ -133,7 +131,7 @@ public abstract class AbstractEnemy implements Enemy  {
      * Common physics collision logic for all enemies.
      */
     @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal, Collidable other) {
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
 
         if (penetration <= 0) {
             return;
@@ -183,8 +181,11 @@ public abstract class AbstractEnemy implements Enemy  {
         this.alive = false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public CollisionLayer getCollisionLayer() {
+    public final CollisionLayer getCollisionLayer() {
         return CollisionLayer.ENEMY;
     }
 

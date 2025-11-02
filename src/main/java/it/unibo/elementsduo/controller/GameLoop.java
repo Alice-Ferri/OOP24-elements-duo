@@ -4,31 +4,47 @@ import java.util.Objects;
 
 import it.unibo.elementsduo.controller.gamecontroller.api.GameController;
 
-public class GameLoop implements Runnable {
+/**
+ * Manages the main game loop thread, ensuring consistent updates (ticks)
+ * and rendering frames at a target FPS.
+ */
+public final class GameLoop implements Runnable {
 
     private static final long NANOS_PER_MILLISECOND = 1_000_000L;
     private static final long NANOS_PER_SECOND = 1_000_000_000L;
 
     private static final int TARGET_FPS = 120;
     private static final long OPTIMAL_TIME = NANOS_PER_SECOND / TARGET_FPS;
-    private volatile boolean running ;
+    private volatile boolean running;
     private Thread gameThread;
     private final GameController engine;
 
-    public GameLoop (final GameController engine) {
+    /**
+     * Constructs a new GameLoop associated with a specific GameController.
+     *
+     * @param engine the GameController (engine) to update and render.
+     */
+    public GameLoop(final GameController engine) {
         this.engine = Objects.requireNonNull(engine);
     }
 
+    /**
+     * Starts the game loop in a new thread.
+     * If the loop is already running, this method does nothing.
+     */
     public synchronized void start() {
         if (running) {
-            
-        } else {
-            running = true;
-            gameThread = new Thread(this);
-            gameThread.start();
+            return;
         }
+        running = true;
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
+    /**
+     * Stops the game loop and interrupts its thread.
+     * If the loop is not running, this method does nothing.
+     */
     public synchronized void stop() {
         if (!running) {
             return;
@@ -39,6 +55,11 @@ public class GameLoop implements Runnable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * Contains the core logic of the game loop, calculating delta time
+     * and managing frame pacing to achieve the target FPS.
+     */
     @Override
     public void run() {
         long lastLoopTime = System.nanoTime();
@@ -66,3 +87,4 @@ public class GameLoop implements Runnable {
     }
 
 }
+

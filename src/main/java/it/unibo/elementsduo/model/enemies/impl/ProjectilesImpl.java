@@ -76,7 +76,7 @@ public final class ProjectilesImpl implements Projectiles {
     }
 
     @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal, Collidable other) {
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
 
         if (penetration <= 0) {
             return;

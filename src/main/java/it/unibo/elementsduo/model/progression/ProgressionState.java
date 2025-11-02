@@ -16,11 +16,11 @@ public final class ProgressionState {
     /**
      * Updates the progression data for a given level.
      * Saves the new time if it is a record (lower time).
-     * Saves the new gem count if it is a new maximum for that level (higher count).
+     * Saves if the mission is completed or not.
      *
      * @param levelNumber the number of the level completed.
      * @param timeSeconds the time taken to complete the level, in milliseconds.
-     * @param gemsCollected the number of gems collected in the level.
+     * @param missionCompleted return true if the mission is completed.
      */
     public void addLevelCompletionTime(final int levelNumber, final double timeSeconds, final boolean missionCompleted) {
 
@@ -30,8 +30,6 @@ public final class ProgressionState {
         if (isNewBestTime) {
             this.levelCompletionTimes.put(levelNumber, timeSeconds);
         }
-
-        final String currentMissionCompleted = this.levelMissionCompleted.getOrDefault(levelNumber, "X Sfida non superata!");
 
         if (missionCompleted) {
             this.levelMissionCompleted.put(levelNumber, "* Sfida Completata!");
