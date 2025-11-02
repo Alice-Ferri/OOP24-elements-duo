@@ -10,6 +10,7 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
+import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -20,7 +21,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * specific behaviors (like attacking) to subclasses.
  * Uses the Template Method Pattern for the update() method.
  */
-public abstract class AbstractEnemy implements Enemy {
+public abstract class AbstractEnemy implements Enemy, Updatable {
 
     private static final double SPEED = 0.8;
     private boolean alive;

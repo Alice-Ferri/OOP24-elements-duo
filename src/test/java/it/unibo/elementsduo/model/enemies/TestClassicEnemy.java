@@ -1,9 +1,11 @@
-package it.unibo.elementsduo.model.enemies.impl;
+package it.unibo.elementsduo.model.enemies;
 
-import it.unibo.elementsduo.model.enemies.api.Projectiles;
+
+import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +22,7 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
  * Unit tests for the {@link ClassicEnemiesImpl} class, ensuring correct movement, 
  * state management, and collision response.
  */
-final class ClassicEnemyTest {
+final class TestClassicEnemy {
 
     private static final double START_X = 20.0;
     private static final double START_Y = 15.0;
@@ -84,7 +86,7 @@ final class ClassicEnemyTest {
      */
     @Test
     void testPhysicsCollisionInvertsDirection() {
-        enemy.correctPhysicsCollision(0.1, new Vector2D(-1.0, 0.0));
+        enemy.correctPhysicsCollision(0.1, new Vector2D(-1.0, 0.0), null);
         assertEquals(-1, enemy.getDirection(), 0.001);
     }
     
@@ -100,10 +102,9 @@ final class ClassicEnemyTest {
         final double expectedCorrectionY = normal.y() * CORRECTION_PERCENT * depth;
         final double expectedY = START_Y + expectedCorrectionY;
 
-        enemy.correctPhysicsCollision(penetration, normal);
+        enemy.correctPhysicsCollision(penetration, normal, null);
         
         assertEquals(expectedY, enemy.getY(), 0.001);
-        // Direction should not change on vertical collision
         assertEquals(1, enemy.getDirection(), 0.001); 
     }
 

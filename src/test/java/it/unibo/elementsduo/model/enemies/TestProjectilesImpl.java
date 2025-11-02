@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-
 
 /**
  * Unit tests for the {@link ProjectilesImpl} class, ensuring correct movement, 
@@ -95,7 +93,7 @@ final class TestProjectilesImpl {
         final double depth = penetration - positionSlop;
         final double expectedCorrectionY = normal.y() * correctionPerc * depth;
 
-        projectile.correctPhysicsCollision(penetration, normal);
+        projectile.correctPhysicsCollision(penetration, normal, null);
 
         assertEquals(START_Y + expectedCorrectionY, projectile.getY(), DELTA);
         assertTrue(projectile.isActive());
@@ -109,11 +107,9 @@ final class TestProjectilesImpl {
         final double penetration = 0.0;
         final Vector2D normal = new Vector2D(1.0, 0.0); 
         
-        projectile.correctPhysicsCollision(penetration, normal);
+        projectile.correctPhysicsCollision(penetration, normal, null);
 
         assertEquals(START_X, projectile.getX(), DELTA);
         assertEquals(START_Y, projectile.getY(), DELTA);
     }
-    
-
 }

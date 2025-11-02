@@ -3,13 +3,14 @@ package it.unibo.elementsduo.model.enemies.api;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.model.gameentity.api.Updatable;
 
 /**
  * Represents a projectile, a mobile and short-lived entity that
  * is spawned by an enemy.
  */
 
-public interface Projectiles extends Movable, GameEntity, Collidable {
+public interface Projectiles extends Movable, GameEntity, Collidable, Updatable {
 
     /**
      * Updates the projectile's state, including movement.

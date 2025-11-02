@@ -25,6 +25,7 @@ public final class MenuPanel extends JPanel {
     private final JButton startButton;
     private final JButton loadButton;
     private final JButton guideButton;
+    private final JButton exitButton;
 
     /**
      * Constructs a new MenuPanel.
@@ -43,6 +44,7 @@ public final class MenuPanel extends JPanel {
         this.startButton = createButton("Inizia a Giocare");
         this.loadButton = createButton("Carica Salvataggio");
         this.guideButton = createButton("Guida del Gioco");
+        this.exitButton = createButton("Esci dal Gioco");
 
         // === Layout ===
         add(Box.createVerticalGlue());
@@ -53,6 +55,8 @@ public final class MenuPanel extends JPanel {
         add(loadButton);
         add(Box.createRigidArea(new Dimension(0, VERTICAL_SPACING)));
         add(guideButton);
+        add(Box.createVerticalGlue());
+        add(exitButton);
         add(Box.createVerticalGlue());
     }
 
@@ -95,5 +99,9 @@ public final class MenuPanel extends JPanel {
      */
     public JButton getGuideButton() {
         return this.guideButton;
+    }
+
+    public JButton getExitButton() {
+        return this.exitButton;
     }
 }

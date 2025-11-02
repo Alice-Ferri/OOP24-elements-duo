@@ -80,7 +80,7 @@ public class GuidePanel extends JPanel {
 
         centerPanel.add(createCenteredLabel("=== Punteggio ===", true));
         centerPanel.add(createCenteredLabel("- Tempo impiegato per completare il livello", false));
-        centerPanel.add(createCenteredLabel("- Gemme raccolte durante il livello", false));
+        centerPanel.add(createCenteredLabel("- Missione visibile nel menu' di selezione del livello!", false));
         centerPanel.add(Box.createVerticalStrut(TITLE_SPACING));
         centerPanel.add(Box.createVerticalStrut(TITLE_SPACING));
 

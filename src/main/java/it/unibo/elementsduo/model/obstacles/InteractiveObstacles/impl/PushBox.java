@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pushable;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -19,7 +20,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * position to prevent penetration.
  * </p>
  */
-public final class PushBox extends AbstractInteractiveObstacle implements Pushable, Movable {
+public final class PushBox extends AbstractInteractiveObstacle implements Pushable, Movable, Updatable {
 
     /** Friction applied when the box is on the ground. */
     private static final double GROUND_FRICTION = 0.75;
