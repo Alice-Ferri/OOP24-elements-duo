@@ -1,5 +1,8 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn;
 
+import java.util.EnumSet;
+
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 
@@ -36,5 +39,10 @@ public final class FireSpawn extends AbstractStaticObstacle {
     @Override
     public boolean hasPhysicsResponse() {
         return false;
+    }
+
+    @Override
+    public EnumSet<CollisionLayer> getCollisionMask() {
+        return EnumSet.noneOf(CollisionLayer.class);
     }
 }

@@ -1,5 +1,8 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+import java.util.EnumSet;
+
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -132,5 +135,23 @@ public class PlatformImpl extends AbstractInteractiveObstacle implements Trigger
         } else {
             this.deactivate();
         }
+    }
+
+    @Override
+    public boolean hasPhysicsResponse() {
+        return true;
+    }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.PLATFORM;
+    }
+
+    @Override
+    public EnumSet<CollisionLayer> getCollisionMask() {
+        return EnumSet.of(
+                CollisionLayer.PLAYER,
+                CollisionLayer.ENEMY,
+                CollisionLayer.PUSHABLE);
     }
 }

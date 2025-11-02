@@ -1,6 +1,9 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+import java.util.EnumSet;
+
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pushable;
 import it.unibo.elementsduo.resources.Position;
@@ -184,5 +187,26 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
         } else if (Math.abs(normal.x()) > HORIZONTAL_THRESHOLD) {
             this.velocity = new Vector2D(0, this.velocity.y());
         }
+    }
+
+    @Override
+    public boolean hasPhysicsResponse() {
+        return true;
+    }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.PUSHABLE;
+    }
+
+    @Override
+    public EnumSet<CollisionLayer> getCollisionMask() {
+        return EnumSet.of(
+                CollisionLayer.STATIC_OBSTACLE,
+                CollisionLayer.PLATFORM,
+                CollisionLayer.PLAYER,
+                CollisionLayer.PROJECTILE,
+                CollisionLayer.PUSHABLE,
+                CollisionLayer.BUTTON);
     }
 }

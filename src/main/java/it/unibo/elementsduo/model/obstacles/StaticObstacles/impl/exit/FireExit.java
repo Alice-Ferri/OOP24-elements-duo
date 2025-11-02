@@ -1,5 +1,8 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit;
 
+import java.util.EnumSet;
+
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ExitZone;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
@@ -62,5 +65,15 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
     @Override
     public ExitType getExitType() {
         return ExitType.FIRE_EXIT;
+    }
+
+    @Override
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.EXIT_ZONE;
+    }
+
+    @Override
+    public EnumSet<CollisionLayer> getCollisionMask() {
+        return EnumSet.of(CollisionLayer.PLAYER);
     }
 }
