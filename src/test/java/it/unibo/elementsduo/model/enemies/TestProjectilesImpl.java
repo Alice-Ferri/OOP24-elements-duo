@@ -23,9 +23,9 @@ final class TestProjectilesImpl {
     private static final double DIRECTION_RIGHT = 1;
     private static final double DIRECTION_LEFT = -1;
     private static final double SPEED = 5.0;
-    private static final double SIZE = 0.25;
     private static final double DELTA_TIME = 0.1;
     private static final double DELTA = 0.001;
+    
 
     private ProjectilesImpl projectile;
 

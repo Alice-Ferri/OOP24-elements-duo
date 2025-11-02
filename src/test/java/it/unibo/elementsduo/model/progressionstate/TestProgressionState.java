@@ -26,7 +26,7 @@ final class TestProgressionState {
     private static final boolean MISSION_COMPLETE = true;
     private static final boolean MISSION_FAILED = false;
     private static final String MISSION_COMPLETE_STRING = "* Sfida Completata!";
-    private static final String MISSION_DEFAULT_STRING = "X Sfida non superata!";
+    // RIMOSSO: private static final String MISSION_DEFAULT_STRING = "X Sfida non superata!";
 
 
     private static final double DELTA = 0.001;
@@ -65,7 +65,7 @@ final class TestProgressionState {
      * Tests that the time is saved when completing a level for the first time.
      */
     @Test
-    void testTime_FirstCompletionSavesRecord() {
+    void testTimeFirstCompletionSavesRecord() { // NOME CORRETTO
 
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_RECORD, MISSION_COMPLETE);
         
@@ -79,7 +79,7 @@ final class TestProgressionState {
      * Tests that a better (lower) time successfully replaces the existing record.
      */
     @Test
-    void testTime_BeatExistingRecord() {
+    void testTimeBeatExistingRecord() { // NOME CORRETTO
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_RECORD, MISSION_COMPLETE);
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_BETTER, MISSION_FAILED);
         
@@ -92,7 +92,7 @@ final class TestProgressionState {
      * Tests that a worse (higher) time does NOT replace the existing record.
      */
     @Test
-    void testTime_DoNotBeatExistingRecord() {
+    void testTimeDoNotBeatExistingRecord() { // NOME CORRETTO
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_RECORD, MISSION_COMPLETE);
         progressionState.addLevelCompletionTime(LEVEL_ONE, TIME_WORSE, MISSION_FAILED);
         
@@ -105,7 +105,7 @@ final class TestProgressionState {
      * Tests that the mission status is saved when completing for the first time with success.
      */
     @Test
-    void testMission_CompletedSavesRecord() {
+    void testMissionCompletedSavesRecord() { // NOME CORRETTO
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_RECORD, MISSION_COMPLETE);
         
         final Map<Integer, String> missions = progressionState.getLevelMissionCompleted();
@@ -118,7 +118,7 @@ final class TestProgressionState {
      * Tests that a failed mission does NOT overwrite a previously completed mission.
      */
     @Test
-    void testMission_FailedDoesNotOverwriteCompleted() {
+    void testMissionFailedDoesNotOverwriteCompleted() { // NOME CORRETTO
 
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_RECORD, MISSION_COMPLETE);
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_WORSE, MISSION_FAILED);
@@ -132,7 +132,7 @@ final class TestProgressionState {
      * Tests that a completed mission successfully overwrites a failed (default) state.
      */
     @Test
-    void testMission_CompletedOverwritesFailed() {
+    void testMissionCompletedOverwritesFailed() { // NOME CORRETTO
 
         progressionState.addLevelCompletionTime(LEVEL_TWO, TIME_RECORD, MISSION_FAILED);
         

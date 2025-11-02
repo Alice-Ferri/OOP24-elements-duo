@@ -67,7 +67,7 @@ final class ClassicEnemyTest {
      */
     @Test
     void testAttackAlwaysEmpty() {
-        Optional<Projectiles> result = enemy.attack();
+         final Optional<Projectiles> result = enemy.attack();
         assertFalse(result.isPresent());
     }
 
@@ -121,7 +121,7 @@ final class ClassicEnemyTest {
      * Minimal stub implementation of EnemiesMoveManager to prevent NullPointerException
      * during the update cycle.
      */
-    private static class ManualMoveManagerStub implements EnemiesMoveManager {
+    private static final class ManualMoveManagerStub implements EnemiesMoveManager {
         @Override
         public void handleEdgeDetection(final Enemy enemy) { }
 
