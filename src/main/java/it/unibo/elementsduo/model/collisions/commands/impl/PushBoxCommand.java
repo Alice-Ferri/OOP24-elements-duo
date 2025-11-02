@@ -7,11 +7,11 @@ import it.unibo.elementsduo.resources.Vector2D;
 
 public final class PushBoxCommand implements CollisionCommand {
 
-    private static final double FORCE = 15;
     private static final double VERTICAL_THRESHOLD = -0.5;
 
     private final PushBox box;
     private final Vector2D playerNormal;
+    private final Player player;
 
     /**
      *
@@ -19,22 +19,30 @@ public final class PushBoxCommand implements CollisionCommand {
      * @param penetration  collision penetration
      * @param playerNormal the normal from the player's perspective
      */
-    public PushBoxCommand(final PushBox box, final Vector2D playerNormal) {
+    public PushBoxCommand(final PushBox box, final Player player, final Vector2D playerNormal) {
         this.box = box;
         this.playerNormal = playerNormal;
+        this.player = player;
     }
 
     @Override
     public void execute() {
         if (playerNormal.y() < VERTICAL_THRESHOLD) {
             return;
-        } else {
-            if (Math.abs(playerNormal.x()) > Math.abs(playerNormal.y())) {
-
-                final double direction = -Math.signum(playerNormal.x());
-                final double push = FORCE * direction;
-                box.push(new Vector2D(push, 0));
-            }
         }
+
+        final double playerVelX = player.getVelocity().x();
+        final double direction = -Math.signum(playerNormal.x());
+
+        if (direction == 0.0) {
+            return;
+        }
+
+        if (Math.signum(playerVelX) != direction) {
+            return;
+        }
+
+        final double pushVelocity = direction * Math.abs(playerVelX);
+        box.push(new Vector2D(pushVelocity, 0));
     }
 }

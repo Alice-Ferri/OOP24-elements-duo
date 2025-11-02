@@ -41,6 +41,6 @@ public final class PushBoxHandler extends AbstractCollisionHandler<Player, PushB
 
         final Vector2D playerNormal = getNormalFromPerspective(player, c);
         builder.addPhysicsCommand(
-                new PushBoxCommand(box, playerNormal));
+                new PushBoxCommand(box, player, playerNormal));
     }
 }
