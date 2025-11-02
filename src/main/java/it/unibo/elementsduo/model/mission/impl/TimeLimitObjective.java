@@ -8,6 +8,7 @@ import it.unibo.elementsduo.model.gamestate.api.GameState;
  */
 public final class TimeLimitObjective extends AbstractObjective {
 
+    private boolean isComplete;
     private final double timeLimitInSeconds;
 
     /**

@@ -78,10 +78,10 @@ public final class LevelSelectionPanel extends JPanel {
     /**
      * Updates the collected gems labels for each level.
      *
-     * @param levelGems A map associating the level index with the gem count.
+     * @param missionCompleted A map associating the level index with the gem count.
      */
-    public void setMissionCompleted(final Map<Integer, String> missionComplted) {
-        missionComplted.forEach((levelNum, status) -> {
+    public void setMissionCompleted(final Map<Integer, String> missionCompleted) {
+        missionCompleted.forEach((levelNum, status) -> {
              Optional.ofNullable(this.levelDataPanels.get(levelNum)).ifPresent(panel -> {
                  panel.getMissionLabel().setText(status);
              });
@@ -127,7 +127,7 @@ public final class LevelSelectionPanel extends JPanel {
      * Includes the button to start the level, the record time, and gems collected.
      */
     private static final class LevelDataPanel extends JPanel {
-        private final static String MISSION_STRING = "<html><div style='text-align: center;'>"
+        private static final String MISSION_STRING = "<html><div style='text-align: center;'>"
                  + "Missione:<br>"
                  + "Raccogli tutte le gemme,<br>"
                  + "uccidi tutti i nemici<br>"

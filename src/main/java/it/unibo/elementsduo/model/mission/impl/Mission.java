@@ -13,6 +13,7 @@ import java.util.Collections;
  */
 public final class Mission extends AbstractObjective {
 
+    private boolean isComplete;
     private final List<Objective> objectives = new ArrayList<>();
 
     /**

@@ -101,6 +101,11 @@ public final class MenuPanel extends JPanel {
         return this.guideButton;
     }
 
+    /**
+     * Returns the instance of the exit game button.
+     *
+     * @return the JButton for exit the game.
+     */
     public JButton getExitButton() {
         return this.exitButton;
     }

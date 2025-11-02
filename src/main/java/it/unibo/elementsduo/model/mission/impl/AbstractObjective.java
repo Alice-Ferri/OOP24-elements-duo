@@ -10,9 +10,9 @@ import it.unibo.elementsduo.model.mission.api.Objective;
 public abstract class AbstractObjective implements Objective {
 
     /**
-     * Protected field isComplete
+     * Protected field isComplete.
      */
-    protected boolean isComplete;
+    private boolean isComplete;
     private final String description;
 
     /**
