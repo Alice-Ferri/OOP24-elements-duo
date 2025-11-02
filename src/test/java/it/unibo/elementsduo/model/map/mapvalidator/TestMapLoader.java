@@ -36,11 +36,11 @@ import java.util.Set;
  */
 final class TestMapLoader {
 
-    private MapLoader mapLoader;
-    private Set<GameEntity> gameEntities;
-
     private static final int EXPECTED_WALLS = 35;
     private static final int LEVER_Y_POSITION = 5;
+
+    private MapLoader mapLoader;
+    private Set<GameEntity> gameEntities;
 
     /**
      * Sets up the MapLoader with its real factories before each test.
@@ -52,7 +52,7 @@ final class TestMapLoader {
             new EnemyFactoryImpl(),
             new InteractiveObstacleFactoryImpl()
         );
-        
+
         gameEntities = assertDoesNotThrow(() -> 
             this.mapLoader.loadLevelFromFile("test/maploader.txt")
         );
@@ -109,6 +109,7 @@ final class TestMapLoader {
 
     /**
      * Helper method to count entities of a certain type in the Set.
+     *
      * @param <T> The type of entity to count.
      * @param type The class of the entity to count.
      * @return The number of instances of that type.
@@ -121,6 +122,7 @@ final class TestMapLoader {
 
     /**
      * Helper method to find the first instance of an entity in the set.
+     *
      * @param <T> The type of entity to find.
      * @param type The class of the entity to find.
      * @return The found entity, or null if not present.

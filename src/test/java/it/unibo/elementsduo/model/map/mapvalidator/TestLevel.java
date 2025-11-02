@@ -35,11 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * It verifies that entity filtering, state management,
  * and encapsulation work correctly.
  */
-final class TestLevelImpl {
+final class TestLevel {
+
+    private static final int POS_NINE = 9;
+    private static final int POS_FIVE = 5;
 
     private Level level;
     private Set<GameEntity> originalEntities;
-
     private Player player1;
     private Player player2;
     private Enemy enemyAlive;
@@ -49,16 +51,13 @@ final class TestLevelImpl {
     private obstacle obstacle;
     private obstacle interactive;
 
-    private static final int POS_NINE = 9;
-    private static final int POS_FIVE = 5;
-
     /**
      * Initializes a Level with a predefined set.
      */
     @BeforeEach
     void setUp() {
         originalEntities = new HashSet<>();
-        
+
         player1 = new Fireboy(new Position(1, 1));
         player2 = new Watergirl(new Position(1, 2));
 
@@ -96,9 +95,9 @@ final class TestLevelImpl {
         final Set<GameEntity> initialSet = new HashSet<>();
         initialSet.add(new Fireboy(new Position(0, 0)));
         final Level testLevel = new LevelImpl(initialSet);
-        
+
         initialSet.add(new Watergirl(new Position(POS_NINE, POS_NINE)));
-        
+
         assertEquals(1, testLevel.getGameEntities().size(), 
             "The constructor must create a defensive copy of the Set.");
     }
@@ -109,10 +108,10 @@ final class TestLevelImpl {
     @Test
     void testGetGameEntities() {
         final Set<GameEntity> entities = level.getGameEntities();
-        
+
         assertEquals(originalEntities.size(), entities.size());
         assertTrue(entities.containsAll(originalEntities));
-        
+
         assertThrows(UnsupportedOperationException.class, () -> {
             entities.add(new Fireboy(new Position(1, 1)));
         }, "The set returned by getGameEntities must be unmodifiable.");
@@ -134,7 +133,7 @@ final class TestLevelImpl {
 
         final Set<Fireboy> fireboys = level.getEntitiesByClass(Fireboy.class);
         assertEquals(1, fireboys.size());
-        
+
         final Set<Lever> levers = level.getEntitiesByClass(Lever.class);
         assertEquals(1, levers.size());
 
@@ -151,7 +150,7 @@ final class TestLevelImpl {
         assertEquals(2, level.getAllObstacles().size()); 
         assertTrue(level.getAllObstacles().contains(obstacle));
         assertTrue(level.getAllObstacles().contains(interactive));
-        
+
         assertEquals(2, level.getAllEnemies().size());
         assertEquals(2, level.getAllPlayers().size());
         assertEquals(1, level.getAllInteractiveObstacles().size());
@@ -167,7 +166,7 @@ final class TestLevelImpl {
         assertEquals(1, living.size());
         assertTrue(living.contains(enemyAlive));
         assertFalse(living.contains(enemyDead));
-        
+
         final List<Collidable> collidables = level.getAllCollidables();
         assertEquals(originalEntities.size(), collidables.size());
     }
@@ -179,7 +178,7 @@ final class TestLevelImpl {
     void testMutationMethods() {
         final Projectiles newProjectile = new ProjectilesImpl(new Position(POS_NINE, POS_NINE), 1);
         level.addProjectile(newProjectile);
-        
+
         final int expectedSizeAfterAdd = originalEntities.size() + 1;
         assertEquals(expectedSizeAfterAdd, level.getGameEntities().size());
         assertEquals(3, level.getAllProjectiles().size());
@@ -188,18 +187,18 @@ final class TestLevelImpl {
         assertEquals(2, level.getAllProjectiles().size(), "Should only remove projInactive");
         assertTrue(level.getAllProjectiles().contains(projActive));
         assertTrue(level.getAllProjectiles().contains(newProjectile));
-        
+
         setUp();
         assertEquals(originalEntities.size(), level.getGameEntities().size());
-        
+
         level.cleanInactiveEntities();
-        
+
         final int expectedSizeAfterClean = originalEntities.size() - 2;
         assertEquals(expectedSizeAfterClean, level.getGameEntities().size());
-        
+
         assertFalse(level.getAllEnemies().contains(enemyDead), "enemyDead should be removed");
         assertTrue(level.getAllEnemies().contains(enemyAlive), "enemyAlive should remain");
-        
+
         assertFalse(level.getAllProjectiles().contains(projInactive), "projInactive should be removed");
         assertTrue(level.getAllProjectiles().contains(projActive), "projActive should remain");
     }

@@ -19,7 +19,7 @@ import java.util.Set;
  * Integration test for the {@link EntityFactoryImpl} class.
  * It verifies that all valid symbols create entities and invalid symbols return null.
  */
-final class TestEntityFactoryImpl {
+final class TestEntityFactory {
 
     private EntityFactory entityFactory;
 
@@ -69,7 +69,7 @@ final class TestEntityFactoryImpl {
 
         for (final char symbol : validSymbols) {
             final GameEntity result = entityFactory.createEntity(symbol, pos);
-            
+
             assertNotNull(result, 
                 "The entity created for the symbol '" + symbol + "' was null.");
         }

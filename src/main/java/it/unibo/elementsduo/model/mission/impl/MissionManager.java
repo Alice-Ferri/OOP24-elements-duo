@@ -15,7 +15,6 @@ public final class MissionManager {
     private static final double TIME_LIMIT = 60.0;
     private final Objective rootObjective;
 
-
     /**
      * Constructs the MissionManager with the initial state of the level
      * to get the total counts for gems and enemies.
@@ -26,7 +25,7 @@ public final class MissionManager {
         final int totalGems = initialLevel.getEntitiesByClass(Gem.class).size();
         final int totalEnemies = initialLevel.getEntitiesByClass(Enemy.class).size();
 
-        final Mission allTasks = new Mission("Completa gli obiettivi per un bonus");
+        final Mission allTasks = new Mission("Complete all the objectives!");
         allTasks.add(new GemObjective(totalGems));
         allTasks.add(new EnemyObjective(totalEnemies));
         allTasks.add(new TimeLimitObjective(TIME_LIMIT));
@@ -47,15 +46,16 @@ public final class MissionManager {
 
     /**
      * Return if the mission is completed.
-     * 
-     * @return true if the root mission (all objectives)
-     * is complete.
+     *
+     * @return true if the root mission (all objectives) is complete.
      */
     public boolean areAllObjectivesComplete() {
         return this.rootObjective.isComplete();
     }
 
     /**
+     * Return the root mission.
+     *
      * @return The mission.
      */
     public Objective getRootObjective() {

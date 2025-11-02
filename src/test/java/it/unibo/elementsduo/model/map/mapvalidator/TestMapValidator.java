@@ -59,7 +59,7 @@ final class TestMapValidator {
             final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/invalid_boundary.txt"));
             this.validator.validate(invalidLevel);
         });
-        
+
         assertTrue(e.getMessage().contains("Boundary Error"));
     }
 
@@ -72,7 +72,7 @@ final class TestMapValidator {
             final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/invalid_reach.txt"));
             this.validator.validate(invalidLevel);
         });
-        
+
         assertTrue(e.getMessage().contains("Path Error"));
     }
 
@@ -85,7 +85,7 @@ final class TestMapValidator {
             final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/floating_enemies.txt"));
             this.validator.validate(invalidLevel);
         });
-        
+
         assertTrue(e.getMessage().contains("Positioning Error"));
     }
 
@@ -98,7 +98,7 @@ final class TestMapValidator {
             final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/floating_interactive.txt"));
             this.validator.validate(invalidLevel);
         });
-        
+
         assertTrue(e.getMessage().contains("Positioning Error"));
     }
 

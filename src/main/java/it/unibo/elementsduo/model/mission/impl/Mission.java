@@ -17,7 +17,7 @@ public final class Mission extends AbstractObjective {
 
     /**
      * Creates a new Mission with the given description.
-     * 
+     *
      * @param description the mission's description
      */
     public Mission(final String description) {
@@ -26,7 +26,7 @@ public final class Mission extends AbstractObjective {
 
     /**
      * Adds an objective to this mission.
-     * 
+     *
      * @param objective the objective to add
      */
     public void add(final Objective objective) {
@@ -35,26 +35,26 @@ public final class Mission extends AbstractObjective {
 
     /**
      * Gets an unmodifiable list of the objectives that make up this mission.
-     * 
+     *
      * @return the list of objectives
      */
     public List<Objective> getObjectives() {
         return Collections.unmodifiableList(this.objectives);
     }
 
-    @Override
+
     /**
      * Checks the completion status of the mission by checking all sub-objectives.
      * The mission is complete if and only if all sub-objectives are complete.
-     * 
+     *
      * @param finalState the final state of the game
      * @param finalTimeInSeconds the final time taken in seconds
      */
+    @Override
     public void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
         if (this.isComplete) {
             return;
         }
-        
         for (final Objective child : this.objectives) {
             child.checkCompletion(finalState, finalTimeInSeconds);
         }

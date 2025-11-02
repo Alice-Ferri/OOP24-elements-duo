@@ -5,7 +5,7 @@ import it.unibo.elementsduo.model.gamestate.api.GameState;
 /**
  * Checks if all gems were collected.
  */
-public class GemObjective extends AbstractObjective {
+public final class GemObjective extends AbstractObjective {
 
     private final int totalGemsInLevel;
 
@@ -24,7 +24,7 @@ public class GemObjective extends AbstractObjective {
         if (this.isComplete) {
             return;
         }
-        
+
         if (finalState.getGemsCollected() >= this.totalGemsInLevel) {
             this.isComplete = true;
         }
