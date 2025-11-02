@@ -131,16 +131,17 @@ public interface Player extends Movable, GameEntity {
      */
     PlayerType getPlayerType();
 
-
     /**
-     * Returns the specific player's exit 
+     * Returns the specific player's exit.
      *
      * @return the exit of this player
      */
     ExitType getRequiredExitType();
 
     /**
-     * Returns the specific player's exit 
+     * Returns the specific player's exit
+     * 
+     * @param hazardType obstacle to check
      *
      * @return the exit of this player
      */

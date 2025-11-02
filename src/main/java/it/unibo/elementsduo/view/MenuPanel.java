@@ -60,6 +60,7 @@ public final class MenuPanel extends JPanel {
      * Utility method to create a button with consistent sizing and alignment.
      * 
      * @param text to write on the button
+     * 
      * @return button created
      */
     private JButton createButton(final String text) {
