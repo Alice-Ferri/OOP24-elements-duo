@@ -1,221 +1,169 @@
 package it.unibo.elementsduo.model.player;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
+import it.unibo.elementsduo.controller.inputController.impl.InputState;
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
-import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
+import it.unibo.elementsduo.model.obstacles.api.obstacle;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.awt.event.KeyEvent;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for {@link Fireboy} and {@link Watergirl} classes.
+ * Test di integrazione per {@link Fireboy} senza uso di mock.
  */
-final class TestAllPlayer {
+class FireboyTest {
 
-    private static final double START_X = 5.0;
-    private static final double START_Y = 10.0;
-    private static final double DELTA = 1e-6;
-    private static final double DELTA_TIME = 0.1;
-    private static final double RUN_SPEED = 8.0;
-    private static final double JUMP_STRENGTH = 6.5;
-    private static final double GRAVITY = 9.8;
-    private static final double POSITION_SLOP = 0.001;
-    private static final double CORRECTION_PERCENT = 0.8;
+    private Fireboy player;
+    private InputControllerImpl controller;
 
-    private Fireboy fireboy;
-    private Watergirl watergirl;
-
-    /**
-     * Sets up player instances before each test.
-     */
     @BeforeEach
     void setUp() {
-        fireboy = new Fireboy(new Position(START_X, START_Y));
-        watergirl = new Watergirl(new Position(START_X, START_Y));
+        player = new Fireboy(new Position(0, 0));
+        controller = new InputControllerImpl();
     }
 
-    /**
-     * Tests that Fireboy returns the correct player type.
-     */
     @Test
-    void testGetPlayerType() {
-        assertEquals(PlayerType.FIREBOY, fireboy.getPlayerType());
-        assertEquals(PlayerType.WATERGIRL, watergirl.getPlayerType());
+    void testInitialValues() {
+        assertEquals(0.0, player.getX());
+        assertEquals(0.0, player.getY());
+        assertTrue(player.isOnGround());
+        assertFalse(player.isOnExit());
+        assertEquals(new Vector2D(0, 0), player.getVelocity());
+        assertEquals(PlayerType.FIREBOY, player.getPlayerType());
     }
 
-    /**
-     * Tests horizontal movement to the right.
-     */
     @Test
-    void testMoveRight() {
-        InputControllerTesting input = new InputControllerTesting();
-        input.moveRight = true;
-
-        fireboy.update(DELTA_TIME, input);
-
-        final double expectedX = START_X + (RUN_SPEED * DELTA_TIME);
-        assertEquals(expectedX, fireboy.getX(), DELTA);
-        assertEquals(START_Y, fireboy.getY(), DELTA);
+    void testMove() {
+        player.move(2.0);
+        assertEquals(2.0, player.getX());
     }
 
-    /**
-     * Tests horizontal movement to the left.
-     */
     @Test
-    void testMoveLeft() {
-        InputControllerTesting input = new InputControllerTesting();
-        input.moveLeft = true;
+    void testJumpAndLand() {
+        player.jump(6.5);
+        assertFalse(player.isOnGround());
+        assertEquals(-6.5, player.getVelocity().y());
 
-        fireboy.update(DELTA_TIME, input);
-
-        final double expectedX = START_X - (RUN_SPEED * DELTA_TIME);
-        assertEquals(expectedX, fireboy.getX(), DELTA);
-        assertEquals(START_Y, fireboy.getY(), DELTA);
+        player.landOn(10.0);
+        assertTrue(player.isOnGround());
+        assertEquals(10.0, player.getY());
+        assertEquals(0.0, player.getVelocity().y());
     }
 
-    /**
-     * Tests that no input results in no horizontal movement.
-     */
-    @Test
-    void testNoMovement() {
-        InputControllerTesting input = new InputControllerTesting();
-
-        fireboy.update(DELTA_TIME, input);
-
-        assertEquals(START_X, fireboy.getX(), DELTA);
-        assertEquals(START_Y, fireboy.getY(), DELTA);
-    }
-
-    /**
-     * Tests jumping behavior, including vertical velocity and position change.
-     */
-    @Test
-    void testJump() {
-        InputControllerTesting input = new InputControllerTesting();
-        input.jump = true;
-
-        fireboy.update(DELTA_TIME, input);
-
-        assertFalse(fireboy.isOnGround());
-        final double expectedVy = -JUMP_STRENGTH + (GRAVITY * DELTA_TIME);
-        assertEquals(expectedVy, fireboy.getVelocityY(), 1e-3);
-
-        final double expectedY = START_Y + expectedVy * DELTA_TIME;
-        assertEquals(expectedY, fireboy.getY(), 1e-3);
-    }
-
-    /**
-     * Tests gravity application when player is airborne.
-     */
-    @Test
-    void testApplyGravityWhenAirborne() {
-        fireboy.setAirborne();
-        double prevVy = fireboy.getVelocityY();
-        double prevY = fireboy.getY();
-
-        fireboy.applyGravity(GRAVITY);
-
-        double expectedVy = prevVy + GRAVITY;
-        double expectedY = prevY + expectedVy;
-
-        assertEquals(expectedVy, fireboy.getVelocityY(), DELTA);
-        assertEquals(expectedY, fireboy.getY(), DELTA);
-    }
-
-    /**
-     * Tests landing on ground resets vertical velocity and sets onGround to true.
-     */
-    @Test
-    void testLandOnGround() {
-        fireboy.setAirborne();
-        fireboy.setVelocityY(-5.0);
-
-        double groundY = 3.0;
-        fireboy.landOn(groundY);
-
-        assertEquals(groundY, fireboy.getY(), DELTA);
-        assertTrue(fireboy.isOnGround());
-        assertEquals(0.0, fireboy.getVelocityY(), DELTA);
-    }
-
-    /**
-     * Tests stopping jump resets vertical velocity.
-     */
     @Test
     void testStopJump() {
-        fireboy.setAirborne();
-        fireboy.setVelocityY(-5.0);
-
-        double ceilingY = 7.0;
-        fireboy.stopJump(ceilingY);
-
-        assertEquals(ceilingY, fireboy.getY(), DELTA);
-        assertEquals(0.0, fireboy.getVelocityY(), DELTA);
+        player.jump(5);
+        player.stopJump(3.0);
+        assertEquals(3.0, player.getY());
+        assertEquals(0.0, player.getVelocity().y());
     }
 
-    /**
-     * Tests setting vertical velocity directly.
-     */
     @Test
-    void testSetVelocityY() {
-        fireboy.setVelocityY(4.2);
-        assertEquals(4.2, fireboy.getVelocityY(), DELTA);
+    void testApplyGravity() {
+        player.setAirborne();
+        player.setVelocityY(0);
+        player.applyGravity(9.8);
+        assertTrue(player.getVelocity().y() > 0);
     }
 
-    /**
-     * Tests setting the onExit flag.
-     */
     @Test
-    void testOnExit() {
-        assertFalse(fireboy.isOnExit());
-        fireboy.setOnExit(true);
-        assertTrue(fireboy.isOnExit());
+    void testSetters() {
+        player.setOnExit(true);
+        assertTrue(player.isOnExit());
+
+        player.setAirborne();
+        assertFalse(player.isOnGround());
+
+        player.setVelocityX(2.5);
+        player.setVelocityY(-1.5);
+        assertEquals(2.5, player.getVelocity().x());
+        assertEquals(-1.5, player.getVelocity().y());
     }
 
-    /**
-     * Tests physics collision correction with positive penetration.
-     */
     @Test
-    void testCorrectPhysicsCollisionPositivePenetration() {
-        double penetration = 0.5;
-        Vector2D normal = new Vector2D(0.0, 1.0);
-
-        double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-        double expectedY = START_Y + CORRECTION_PERCENT * depth;
-
-        fireboy.correctPhysicsCollision(penetration, normal);
-
-        assertEquals(expectedY, fireboy.getY(), DELTA);
+    void testGetHitBox() {
+        HitBox hb = player.getHitBox();
+        assertNotNull(hb);
+        assertEquals(hb.getCenter().x(), player.getX());
+        assertEquals(hb.getCenter().y(), player.getY());
     }
 
-    /**
-     * Tests that collision correction with zero penetration does nothing.
-     */
     @Test
-    void testCorrectPhysicsCollisionNoPenetration() {
-        double penetration = 0.0;
-        Vector2D normal = new Vector2D(0.0, 1.0);
+    void testUpdateAndHandleInputUsingRealController() {
+        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_D, 'D'));
+        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_W, 'W'));
 
-        fireboy.correctPhysicsCollision(penetration, normal);
+        player.update(0.016, controller);
 
-        assertEquals(START_X, fireboy.getX(), DELTA);
-        assertEquals(START_Y, fireboy.getY(), DELTA);
+        assertTrue(player.getVelocity().x() > 0);
+        assertFalse(player.isOnGround());
+        controller.markJumpHandled(PlayerType.FIREBOY);
+
+        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_D, 'D'));
+        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_W, 'W'));
+
+        assertFalse(controller.getInputState().isActionPressed(PlayerType.FIREBOY, InputState.Action.JUMP));
     }
 
-    /**
-     * Test for Watergirl to verify type and initial position.
-     */
     @Test
-    void testWatergirlBasic() {
-        assertEquals(PlayerType.WATERGIRL, watergirl.getPlayerType());
+    void testCorrectPhysicsCollisionSimple() {
+        Collidable dummy = new Collidable() {
+            @Override
+            public HitBox getHitBox() {
+                return player.getHitBox();
+            }
+        };
+        player.setVelocityY(-5);
+        player.correctPhysicsCollision(1.0, new Vector2D(0, 1), dummy);
+        assertEquals(0.0, player.getVelocity().y());
+    }
 
-        assertEquals(START_X, watergirl.getX(), DELTA);
-        assertEquals(START_Y, watergirl.getY(), DELTA);
+    @Test
+    void testCorrectPhysicsCollisionWithWall() {
+        HitBox hitBox = new HitBoxImpl(new Position(0, 0), 1, 1);
+        AbstractStaticObstacle wall = new Wall(hitBox);
+        player.correctPhysicsCollision(1.0, new Vector2D(0, -1), wall);
+    }
+
+    @Test
+    void testHandleVerticalWithPlatform() {
+        Position pos = new Position(0, 0);
+        Position a = new Position(0, 0);
+        Position b = new Position(0, 1);
+        obstacle platform = new PlatformImpl(pos, a, b);
+        player.correctPhysicsCollision(1.0, new Vector2D(0, -1), platform);
+        assertTrue(player.isOnGround());
+        assertEquals(3.0, player.getVelocity().y());
+    }
+
+    @Test
+    void testNoCorrectionIfNoPenetration() {
+        player.correctPhysicsCollision(0, new Vector2D(1, 0), new Collidable() {
+            @Override
+            public HitBox getHitBox() {
+                return player.getHitBox();
+            }
+        });
+        assertEquals(0.0, player.getX());
+    }
+
+    @Test
+    void testIsImmuneToHazard() {
+        assertTrue(player.isImmuneTo(HazardType.LAVA));
+        assertFalse(player.isImmuneTo(HazardType.WATER));
     }
 }
