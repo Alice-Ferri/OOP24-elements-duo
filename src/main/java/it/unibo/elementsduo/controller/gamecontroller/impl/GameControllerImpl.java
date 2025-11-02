@@ -25,6 +25,7 @@ import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.mission.objectives.impl.MissionManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.view.LevelPanel;
@@ -34,7 +35,7 @@ import it.unibo.elementsduo.view.LevelPanel;
  * This class initializes all game systems (e.g, input, collisions, events...)
  * and runs the main game loop, updating and rendering the level.
  */
-public final class GameControllerImpl implements EventListener,GameController {
+public final class GameControllerImpl implements EventListener, GameController {
 
     private final Level level;
     private final LevelPanel view;
@@ -42,13 +43,14 @@ public final class GameControllerImpl implements EventListener,GameController {
     private final GameLoop gameLoop;
     private final EventManager eventManager;
     private final GameState gameState;
+    private final MissionManager scoreManager;
     private final InputController inputController;
     private final CollisionManager collisionManager;
     private final EnemiesMoveManager moveManager;
     private final GameTimer gameTimer;
     private final ProgressionManagerImpl progressionManager;
 
-    private boolean entitiesNeedCleaning = false;
+    private boolean entitiesNeedCleaning;
 
     /**
      * Constructs a new GameController for a specific level.
@@ -59,7 +61,7 @@ public final class GameControllerImpl implements EventListener,GameController {
      * @param progressionManager The manager for saving game progress.
      */
     public GameControllerImpl(final Level level, final GameNavigation controller,
-                              final LevelPanel view, final ProgressionManagerImpl progressionManager) {
+                             final LevelPanel view, final ProgressionManagerImpl progressionManager) {
         this.level = Objects.requireNonNull(level);
         this.controller = Objects.requireNonNull(controller);
         this.view = Objects.requireNonNull(view);
@@ -70,6 +72,7 @@ public final class GameControllerImpl implements EventListener,GameController {
         this.collisionManager = new CollisionManager(this.eventManager);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.gameTimer = new GameTimer();
+        this.scoreManager = new MissionManager(level);
         this.progressionManager = progressionManager;
 
         eventManager.subscribe(ProjectileSolidEvent.class, this);
@@ -119,7 +122,7 @@ public final class GameControllerImpl implements EventListener,GameController {
         updateInteractiveObstacles(deltaTime);
 
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
-        if(entitiesNeedCleaning){
+        if (entitiesNeedCleaning) {
             this.level.cleanInactiveEntities();
             entitiesNeedCleaning = false;
         }
@@ -132,7 +135,7 @@ public final class GameControllerImpl implements EventListener,GameController {
 
     @Override
     public void onEvent(final Event event) {
-        if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent ) {
+        if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent) {
             this.entitiesNeedCleaning = true;
         }
     }
@@ -140,11 +143,9 @@ public final class GameControllerImpl implements EventListener,GameController {
     private void updateEnemies(final double deltaTime) {
         this.level.getLivingEnemies().forEach(enemy -> {
             enemy.update(deltaTime);
-            if (enemy instanceof ShooterEnemyImpl shooter) {
-                shooter.attack().ifPresent(projectile -> {
+                enemy.attack().ifPresent(projectile -> {
                     level.addProjectile(projectile);
                 });
-            }
         });
     }
 
@@ -163,12 +164,13 @@ public final class GameControllerImpl implements EventListener,GameController {
             } else if (obs instanceof PlatformImpl platform) {
                 platform.update(deltaTime);
             }
-    });
+        });
     }
 
     private void handleGameOver() {
         this.gameTimer.stop();
         this.gameLoop.stop();
+        this.scoreManager.calculateFinalScore(gameState,gameTimer.getElapsedSeconds());
 
         SwingUtilities.invokeLater(() -> {
             if (gameState.didWin()) {
@@ -181,7 +183,7 @@ public final class GameControllerImpl implements EventListener,GameController {
                 this.progressionManager.levelCompleted(
                         this.progressionManager.getCurrentState().getCurrentLevel(),
                         this.gameTimer.getElapsedSeconds(),
-                        this.gameState.getGemsCollected() 
+                        this.scoreManager.areAllObjectivesComplete() 
                 );
                 this.controller.goToLevelSelection();
             } else {

@@ -76,8 +76,8 @@ public abstract class AbstractPlayer implements Player {
      * @return the vertical velocity component of the player
      */
     @Override
-    public double getVelocityY() {
-        return this.velocity.y();
+    public Vector2D getVelocity() {
+        return this.velocity;
     }
 
     /**

@@ -6,18 +6,18 @@ import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.ExitType;
+import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Represents a player entity in the game.
  * A {@code Player} is both {@link Collidable} and {@link Movable}.
  */
-public interface Player extends Collidable, Movable, GameEntity {
 
-    /** Default player width. */
-    double DEFAULT_WIDTH = 0.8;
+public interface Player extends Movable, GameEntity {
 
-    /** Default player height. */
-    double DEFAULT_HEIGHT = 1.0;
+    /** Default player dimensions. */
+    final static double DEFAULT_WIDTH = 0.8;
+    final static double DEFAULT_HEIGHT = 1.0;
 
     /**
      * Returns the current horizontal position of the player.
@@ -38,7 +38,21 @@ public interface Player extends Collidable, Movable, GameEntity {
      *
      * @return the vertical component of the player's velocity
      */
-    double getVelocityY();
+    Vector2D getVelocity();
+
+    /**
+     *  Set velocity on x.
+     * 
+     *  @param vx velocity to set.
+     */
+    void setVelocityX(double vx);
+
+    /**
+     *  Set velocity on y.
+     * 
+     *  @param vy velocity to set.
+     */
+    void setVelocityY(double vy);
 
     /**
      * Returns whether the player is currently on the ground.
@@ -48,6 +62,11 @@ public interface Player extends Collidable, Movable, GameEntity {
     boolean isOnGround();
 
     /**
+     * Marks the player as airborne.
+     */
+    void setAirborne();
+
+    /**
      * Returns whether the player is currently on the exit.
      *
      * @return {@code true} if the player is on the exit, {@code false} otherwise
@@ -55,7 +74,14 @@ public interface Player extends Collidable, Movable, GameEntity {
     boolean isOnExit();
 
     /**
-     * Moves the player horizontally by the given delta value.
+     * Set the condition on exit.
+     * 
+     * @param condition to set on exit.
+     */
+    void setOnExit(boolean condition);
+
+    /**
+     * Moves the player horizontally by the delta value.
      *
      * @param dx the horizontal movement delta
      */
@@ -70,66 +96,55 @@ public interface Player extends Collidable, Movable, GameEntity {
 
     /**
      * Makes the player jump with the given strength.
-     *
+     * 
      * @param strength the upward jump force
      */
     void jump(double strength);
 
     /**
      * Lands the player on a solid surface.
-     *
+     * 
      * @param groundY the vertical coordinate of the ground surface
      */
     void landOn(double groundY);
 
     /**
      * Stops the player's upward movement due to a ceiling collision.
-     *
+     * 
      * @param ceilingY the vertical coordinate of the ceiling
      */
     void stopJump(double ceilingY);
 
     /**
-     * Marks the player as airborne (no longer touching the ground).
-     */
-    void setAirborne();
-
-    /**
-     * Sets the horizontal velocity of the player.
-     *
-     * @param vx the new horizontal velocity
-     */
-    void setVelocityX(double vx);
-
-    /**
-     * Sets the vertical velocity of the player.
-     *
-     * @param vy the new vertical velocity
-     */
-    void setVelocityY(double vy);
-
-    /**
-     * Sets whether the player is currently on the exit area.
-     *
-     * @param condition {@code true} if the player is on the exit, otherwise
-     *                  {@code false}
-     */
-    void setOnExit(boolean condition);
-
-    /**
-     * Updates the state of the player.
-     *
-     * @param deltaTime       the time elapsed since the last update
-     * @param inputController the input controller managing player input
+     * Updating the state of the player.
+     * 
+     * @param deltaTime the time elapsed since the last update.
+     * 
+     * @param inputController the controller that provides the player's input.
      */
     void update(double deltaTime, InputController inputController);
 
     /**
-     * Returns the specific player type (Fireboy or Watergirl).
+     * Returns the specific player type.
      *
      * @return the type of this player
      */
     PlayerType getPlayerType();
+
+
+    /**
+     * Returns the specific player's exit 
+     *
+     * @return the exit of this player
+     */
+    ExitType getRequiredExitType();
+
+    /**
+     * Returns the specific player's exit 
+     *
+     * @return the exit of this player
+     */
+    boolean isImmuneTo(HazardType hazardType);
 
     /**
      * Returns the width of the player's bounding box.
@@ -148,8 +163,4 @@ public interface Player extends Collidable, Movable, GameEntity {
     default double getHeight() {
         return DEFAULT_HEIGHT;
     }
-
-    ExitType getRequiredExitType();
-
-    boolean isImmuneTo(HazardType hazardType);
 }

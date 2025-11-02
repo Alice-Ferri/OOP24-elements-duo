@@ -23,10 +23,6 @@ import java.util.function.Function;
  */
 public final class EntityFactoryImpl implements EntityFactory {
 
-    private interface EntityCreationStrategy {
-        GameEntity create(Position pos);
-    }
-
     private final ObstacleFactory obstacleFactory;
     private final EnemyFactory enemyFactory;
     private final InteractiveObstacleFactory interactiveObsFactory;
@@ -45,7 +41,6 @@ public final class EntityFactoryImpl implements EntityFactory {
         this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
         this.enemyFactory = Objects.requireNonNull(enemyFactory);
         this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
-        
         this.creationMap = buildCreationMap();
     }
 
@@ -59,7 +54,7 @@ public final class EntityFactoryImpl implements EntityFactory {
         map.put('#', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WALL, defaultHitbox.apply(pos)));
         map.put('A', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WATER_EXIT, defaultHitbox.apply(pos)));
         map.put('F', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.FIRE_EXIT, defaultHitbox.apply(pos)));
-        //map.put('G', pos -> this.obstacleFactory.createObstacle(obstacleType.type.GEM, defaultHitbox.apply(pos)));
+        map.put('G', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.GEM, defaultHitbox.apply(pos)));
         map.put('Q', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.LAVA_POOL, defaultHitbox.apply(pos)));
         map.put('K', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.GREEN_POOL, defaultHitbox.apply(pos)));
         map.put('E', pos -> this.obstacleFactory.createObstacle(ObstacleType.Type.WATER_POOL, defaultHitbox.apply(pos)));
@@ -78,11 +73,13 @@ public final class EntityFactoryImpl implements EntityFactory {
     @Override
     public GameEntity createEntity(final char symbol, final Position pos) {
         final EntityCreationStrategy strategy = this.creationMap.get(symbol);
-        
         if (strategy == null) {
-            return null; 
+            return null;
         }
-        
         return strategy.create(pos);
+    }
+
+    private interface EntityCreationStrategy {
+        GameEntity create(Position pos);
     }
 }
