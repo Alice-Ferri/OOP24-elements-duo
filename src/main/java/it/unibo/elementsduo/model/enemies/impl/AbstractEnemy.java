@@ -183,22 +183,8 @@ public abstract class AbstractEnemy implements Enemy {
     }
 
     @Override
-    public boolean hasPhysicsResponse() {
-        return true;
-    }
-
-    @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.ENEMY;
     }
 
-    @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(
-                CollisionLayer.STATIC_OBSTACLE,
-                CollisionLayer.PLATFORM,
-                CollisionLayer.PLAYER,
-                CollisionLayer.PROJECTILE,
-                CollisionLayer.PUSHABLE);
-    }
 }

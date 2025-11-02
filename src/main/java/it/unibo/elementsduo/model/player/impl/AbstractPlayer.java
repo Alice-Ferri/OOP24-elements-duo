@@ -323,27 +323,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public boolean hasPhysicsResponse() {
-        return true;
-    }
-
-    @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PLAYER;
-    }
-
-    @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(
-                CollisionLayer.STATIC_OBSTACLE,
-                CollisionLayer.PLATFORM,
-                CollisionLayer.PUSHABLE,
-                CollisionLayer.ENEMY,
-                CollisionLayer.HAZARD,
-                CollisionLayer.PROJECTILE,
-                CollisionLayer.GEM,
-                CollisionLayer.EXIT_ZONE,
-                CollisionLayer.BUTTON,
-                CollisionLayer.LEVER);
     }
 }

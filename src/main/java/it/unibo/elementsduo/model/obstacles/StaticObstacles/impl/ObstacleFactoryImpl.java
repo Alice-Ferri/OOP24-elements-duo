@@ -14,8 +14,6 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.FireSpawn;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.WaterSpawn;
 
 /**
  * Implementation of the {@link ObstacleFactory} interface.
@@ -35,9 +33,7 @@ public final class ObstacleFactoryImpl implements ObstacleFactory {
             ObstacleType.Type.GREEN_POOL, GreenPool::new,
             ObstacleType.Type.WALL, Wall::new,
             ObstacleType.Type.FLOOR, Floor::new,
-            ObstacleType.Type.WATER_SPAWN, WaterSpawn::new,
             ObstacleType.Type.WATER_EXIT, WaterExit::new,
-            ObstacleType.Type.FIRE_SPAWN, FireSpawn::new,
             ObstacleType.Type.FIRE_EXIT, FireExit::new);
 
     /**

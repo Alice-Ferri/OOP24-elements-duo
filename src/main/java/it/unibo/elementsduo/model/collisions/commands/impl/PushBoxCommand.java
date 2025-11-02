@@ -15,13 +15,11 @@ public final class PushBoxCommand implements CollisionCommand {
 
     /**
      *
-     * @param box          la PushBox
-     * @param penetration  la penetrazione
-     * @param playerNormal la normale calcolata dal punto di vista del player
-     * @param player       il Player
+     * @param box          the PushBox
+     * @param penetration  collision penetration
+     * @param playerNormal the normal from the player's perspective
      */
-    public PushBoxCommand(final PushBox box, final double penetration, final Vector2D playerNormal,
-            final Player player) {
+    public PushBoxCommand(final PushBox box, final Vector2D playerNormal) {
         this.box = box;
         this.playerNormal = playerNormal;
     }

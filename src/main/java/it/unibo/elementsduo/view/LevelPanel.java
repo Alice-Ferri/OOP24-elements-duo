@@ -19,8 +19,6 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaP
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.FireSpawn;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.spawn.WaterSpawn;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 
@@ -101,8 +99,6 @@ public final class LevelPanel extends JPanel {
         private final Map<Class<? extends AbstractStaticObstacle>, Color> staticObstacleColorMap = Map.of(
                 Wall.class, Color.DARK_GRAY,
                 Floor.class, Color.LIGHT_GRAY,
-                FireSpawn.class, Color.ORANGE,
-                WaterSpawn.class, Color.BLUE,
                 FireExit.class, Color.RED,
                 LavaPool.class, Color.ORANGE,
                 WaterPool.class, Color.CYAN,

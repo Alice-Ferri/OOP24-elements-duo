@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
@@ -11,9 +10,8 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSour
 import it.unibo.elementsduo.resources.Position;
 
 /**
- * Rappresenta un bottone (Button) che implementa la logica "premi e rilascia"
- * (Pressable).
- * Notifica i suoi listener (TriggerSource) quando viene premuto e rilasciato.
+ * Represents a button which can be pressed and released
+ * notifies its linked objects when its state changes.
  */
 public class Button extends AbstractInteractiveObstacle implements TriggerSource, Pressable {
 
@@ -60,15 +58,9 @@ public class Button extends AbstractInteractiveObstacle implements TriggerSource
         this.linkedObjects.remove(listener);
     }
 
-
     @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(
-            CollisionLayer.PLAYER,
-            CollisionLayer.PUSHABLE
-        );
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.BUTTON;
     }
+
 }
-    
-                
-                

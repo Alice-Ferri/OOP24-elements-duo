@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSource;
@@ -52,11 +51,6 @@ public class Lever extends AbstractInteractiveObstacle implements TriggerSource,
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.LEVER;
-    }
-
-    @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(CollisionLayer.PLAYER);
     }
 
 }

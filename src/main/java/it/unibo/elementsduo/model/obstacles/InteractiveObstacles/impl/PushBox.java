@@ -190,23 +190,8 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
     }
 
     @Override
-    public boolean hasPhysicsResponse() {
-        return true;
-    }
-
-    @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PUSHABLE;
     }
 
-    @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(
-                CollisionLayer.STATIC_OBSTACLE,
-                CollisionLayer.PLATFORM,
-                CollisionLayer.PLAYER,
-                CollisionLayer.PROJECTILE,
-                CollisionLayer.PUSHABLE,
-                CollisionLayer.BUTTON);
-    }
 }

@@ -32,21 +32,18 @@ public interface Collidable {
     }
 
     // my layer so other can know if colliding with me
-    default CollisionLayer getCollisionLayer() {
-        return CollisionLayer.STATIC_OBSTACLE;
-    }
+    CollisionLayer getCollisionLayer();
 
     // objects i want to collide
     default EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.allOf(CollisionLayer.class);
+        return this.getCollisionLayer().getDefaultMask();
     }
 
     default boolean resolvePhysicsWith(final Collidable other) {
         if (!this.hasPhysicsResponse() || !other.hasPhysicsResponse()) {
             return false;
         }
-
-        return (this.getCollisionMask().contains(other.getCollisionLayer()))
+        return this.getCollisionMask().contains(other.getCollisionLayer())
                 || other.getCollisionMask().contains(this.getCollisionLayer());
     }
 }

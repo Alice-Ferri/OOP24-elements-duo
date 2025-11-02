@@ -27,12 +27,8 @@ public final class Wall extends AbstractStaticObstacle {
     }
 
     @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        // Un muro interagisce con oggetti che si muovono.
-        return EnumSet.of(
-                CollisionLayer.PLAYER,
-                CollisionLayer.ENEMY,
-                CollisionLayer.PUSHABLE,
-                CollisionLayer.PROJECTILE);
+    public CollisionLayer getCollisionLayer() {
+        return CollisionLayer.STATIC_OBSTACLE;
     }
+
 }

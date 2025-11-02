@@ -29,9 +29,6 @@ public final class PhysicsHandler extends AbstractCollisionHandler<Movable, Coll
 
     @Override
     public boolean canHandle(final Collidable a, final Collidable b) {
-        if (!a.hasPhysicsResponse() || !b.hasPhysicsResponse()) {
-            return false;
-        }
 
         if (a instanceof Movable && !a.resolvePhysicsWith(b)) {
             return false;

@@ -18,8 +18,6 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.PushBoxHandler;
 import it.unibo.elementsduo.model.collisions.detection.api.CollisionChecker;
 import it.unibo.elementsduo.model.collisions.detection.impl.CollisionCheckerImpl;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.player.api.Player;
 
 /**
  * Manages all collision checks and responses between collidable entities in the

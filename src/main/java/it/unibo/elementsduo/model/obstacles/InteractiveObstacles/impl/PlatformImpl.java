@@ -138,20 +138,8 @@ public class PlatformImpl extends AbstractInteractiveObstacle implements Trigger
     }
 
     @Override
-    public boolean hasPhysicsResponse() {
-        return true;
-    }
-
-    @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PLATFORM;
     }
 
-    @Override
-    public EnumSet<CollisionLayer> getCollisionMask() {
-        return EnumSet.of(
-                CollisionLayer.PLAYER,
-                CollisionLayer.ENEMY,
-                CollisionLayer.PUSHABLE);
-    }
 }
