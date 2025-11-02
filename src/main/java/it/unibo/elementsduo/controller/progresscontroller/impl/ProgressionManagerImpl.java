@@ -20,7 +20,7 @@ public final class ProgressionManagerImpl {
      */
     public ProgressionManagerImpl(final SaveManager manager, final ProgressionState initialState) { 
         this.saveLoadManager = manager;
-        this.currentState = initialState;
+        this.currentState = new ProgressionState(initialState);
     }
 
     /**
@@ -29,7 +29,7 @@ public final class ProgressionManagerImpl {
      * @return the current ProgressionState.
      */
     public ProgressionState getCurrentState() {
-        return this.currentState;
+        return new ProgressionState(this.currentState);
     }
 
     /**

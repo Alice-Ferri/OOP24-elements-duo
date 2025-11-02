@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.progression;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,27 @@ public final class ProgressionState {
     private int currentLevel; 
     private final Map<Integer, Double> levelCompletionTimes = new HashMap<>(); 
     private final Map<Integer, String> levelMissionCompleted = new HashMap<>();
+
+    /**
+     * Default constructor.
+     * Creates a new, empty progression state.
+     */
+    public ProgressionState() {
+        // Empty constructor, maps are already initialized by field declaration.
+    }
+
+    /**
+     * Copy constructor.
+     * Creates a new instance of ProgressionState by copying data from another.
+     * used for defensive copies.
+     *
+     * @param other the state to copy data from.
+     */
+    public ProgressionState(final ProgressionState other) {
+        this.currentLevel = other.currentLevel;
+        this.levelCompletionTimes.putAll(other.levelCompletionTimes);
+        this.levelMissionCompleted.putAll(other.levelMissionCompleted);
+    }
 
     /**
      * Updates the progression data for a given level.
@@ -60,7 +82,7 @@ public final class ProgressionState {
      * @return a map of best completion times.
      */
     public Map<Integer, Double> getLevelCompletionTimes() { 
-        return this.levelCompletionTimes; 
+        return Collections.unmodifiableMap(this.levelCompletionTimes); 
     }
 
     /**
@@ -69,6 +91,6 @@ public final class ProgressionState {
      * @return a map where keys are level numbers and values are the maximum gems collected.
      */
     public Map<Integer, String> getLevelMissionCompleted() { 
-        return this.levelMissionCompleted; 
+        return Collections.unmodifiableMap(this.levelMissionCompleted); 
     }
 }
