@@ -11,9 +11,7 @@ public final class PushBoxCommand implements CollisionCommand {
     private static final double VERTICAL_THRESHOLD = -0.5;
 
     private final PushBox box;
-    private final double penetration;
     private final Vector2D playerNormal;
-    private final Player player;
 
     /**
      *
@@ -25,36 +23,19 @@ public final class PushBoxCommand implements CollisionCommand {
     public PushBoxCommand(final PushBox box, final double penetration, final Vector2D playerNormal,
             final Player player) {
         this.box = box;
-        this.penetration = penetration;
         this.playerNormal = playerNormal;
-        this.player = player;
     }
 
     @Override
     public void execute() {
-        if (penetration <= 0) {
+        if (playerNormal.y() < VERTICAL_THRESHOLD) {
             return;
-        }
-
-        final Vector2D boxNormal = playerNormal.multiply(-1);
-
-        if (Math.abs(playerNormal.x()) > Math.abs(playerNormal.y())) {
-
-            final double correction = penetration / 2.0;
-            player.correctPhysicsCollision(correction, playerNormal, box);
-            box.correctPhysicsCollision(correction, boxNormal, player);
-
-            final double direction = -Math.signum(playerNormal.x());
-            final double push = penetration * FORCE * direction;
-            box.push(new Vector2D(push, 0));
-
         } else {
-            if (playerNormal.y() < VERTICAL_THRESHOLD) {
-                player.correctPhysicsCollision(penetration, playerNormal, box);
-            } else {
-                final double correction = penetration / 2.0;
-                player.correctPhysicsCollision(correction, playerNormal, box);
-                box.correctPhysicsCollision(correction, boxNormal, player);
+            if (Math.abs(playerNormal.x()) > Math.abs(playerNormal.y())) {
+
+                final double direction = -Math.signum(playerNormal.x());
+                final double push = FORCE * direction;
+                box.push(new Vector2D(push, 0));
             }
         }
     }
