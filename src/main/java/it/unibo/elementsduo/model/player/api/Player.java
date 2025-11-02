@@ -75,7 +75,7 @@ public interface Player extends Movable, GameEntity {
 
     /**
      * Set the condition on exit.
-     * 
+     *
      * @param condition to set on exit.
      */
     void setOnExit(boolean condition);
@@ -110,7 +110,7 @@ public interface Player extends Movable, GameEntity {
 
     /**
      * Stops the player's upward movement due to a ceiling collision.
-     * 
+     *
      * @param ceilingY the vertical coordinate of the ceiling
      */
     void stopJump(double ceilingY);
@@ -139,8 +139,8 @@ public interface Player extends Movable, GameEntity {
     ExitType getRequiredExitType();
 
     /**
-     * Returns the specific player's exit
-     * 
+     * Returns the specific player's exit.
+     *
      * @param hazardType obstacle to check
      *
      * @return the exit of this player

@@ -57,7 +57,7 @@ public class GameLoop implements Runnable {
             if (sleepNanos > 0) {
                 try {
                     Thread.sleep(sleepNanos / NANOS_PER_MILLISECOND, (int) (sleepNanos % NANOS_PER_MILLISECOND));
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     Thread.currentThread().interrupt();
                     running = false;
                 }

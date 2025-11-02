@@ -40,8 +40,8 @@ public class Fireboy extends AbstractPlayer {
     }
 
     /**
-     * Checks if this player is immune to the object
-     * 
+     * Checks if this player is immune to the object.
+     *
      * @param hazardType obstacle to check
      *
      * @return true if is immune to the hazard type, false otherwise

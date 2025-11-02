@@ -9,7 +9,6 @@ import it.unibo.elementsduo.model.player.api.Player;
 
 /**
  * Handles player physics corrections after collisions.
- * Extracted from {@link AbstractPlayer} to keep logic modular and reusable.
  */
 public class PhysicsCorrectionHandler {
 
@@ -19,7 +18,7 @@ public class PhysicsCorrectionHandler {
     private final Player player;
 
     /**
-     * Constructor for the physics
+     * Constructor for the physics.
      *
      * @param player to set corrections
      */

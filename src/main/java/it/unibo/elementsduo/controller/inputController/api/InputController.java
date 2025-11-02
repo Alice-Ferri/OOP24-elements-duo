@@ -32,7 +32,17 @@ public interface InputController {
      */
     boolean isEnabled();
 
+    /**
+     * Returns the current snapshot of all player input states.
+     *
+     * @return an input state representing the current pressed actions for each player
+     */
     InputState getInputState();
 
+    /**
+     * Marks the jump action for the given player as handled.
+     *
+     * @param type the player type whose jump input
+     */
     void markJumpHandled(PlayerType type);
 }

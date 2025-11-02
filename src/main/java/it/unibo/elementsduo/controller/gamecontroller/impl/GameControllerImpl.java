@@ -170,7 +170,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     private void handleGameOver() {
         this.gameTimer.stop();
         this.gameLoop.stop();
-        this.scoreManager.calculateFinalScore(gameState,gameTimer.getElapsedSeconds());
+        this.scoreManager.calculateFinalScore(gameState, gameTimer.getElapsedSeconds());
 
         SwingUtilities.invokeLater(() -> {
             if (gameState.didWin()) {

@@ -40,7 +40,7 @@ public class Watergirl extends AbstractPlayer {
     }
 
     /**
-     * Checks if this player is immune to the object
+     * Checks if this player is immune to the object.
      *
      * @param hazardType obstacle to check
      *

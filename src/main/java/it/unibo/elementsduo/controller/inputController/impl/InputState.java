@@ -18,7 +18,7 @@ public final class InputState {
      *
      * @param state the initial map of key states for each player
      */
-    public InputState(EnumMap<PlayerType, Map<Action, Boolean>> state) {
+    public InputState(final EnumMap<PlayerType, Map<Action, Boolean>> state) {
         this.state = new EnumMap<>(PlayerType.class);
         state.forEach((player, actions) -> this.state.put(player, Map.copyOf(actions)));
     }
@@ -30,7 +30,7 @@ public final class InputState {
      * @param action the action to verify (LEFT, RIGHT, JUMP)
      * @return if the action is active or not for the player
      */
-    public boolean isActionPressed(PlayerType player, Action action) {
+    public boolean isActionPressed(final PlayerType player, final Action action) {
         return Optional.ofNullable(this.state.get(player))
                        .map(m -> m.getOrDefault(action, false))
                        .orElse(false);
@@ -42,7 +42,7 @@ public final class InputState {
      * @return a map of key states for each {@link PlayerType}, with boolean values for each {@link Action}
      */
     public Map<PlayerType, Map<Action, Boolean>> getState() {
-        EnumMap<PlayerType, Map<Action, Boolean>> copy = new EnumMap<>(PlayerType.class);
+        final EnumMap<PlayerType, Map<Action, Boolean>> copy = new EnumMap<>(PlayerType.class);
         this.state.forEach((p, m) -> copy.put(p, Map.copyOf(m)));
         return copy;
     }

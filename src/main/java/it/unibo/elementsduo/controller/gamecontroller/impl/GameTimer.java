@@ -6,9 +6,10 @@ package it.unibo.elementsduo.controller.gamecontroller.impl;
 public class GameTimer implements Runnable {
 
     private static final double MS_PER_SECOND = 1000.0;
+    private static final int MS_TO_SLEEP = 50;
 
-    private volatile boolean running = false;
-    private long elapsedTime = 0;
+    private volatile boolean running;
+    private long elapsedTime;
     private Thread timerThread;
     private long lastUpdate;
 
@@ -18,14 +19,14 @@ public class GameTimer implements Runnable {
     @Override
     public void run() {
         while (running) {
-            long now = System.currentTimeMillis();
-            long delta = now - lastUpdate;
+            final long now = System.currentTimeMillis();
+            final long delta = now - lastUpdate;
             elapsedTime += delta;
             lastUpdate = now;
 
             try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
+                Thread.sleep(MS_TO_SLEEP);
+            } catch (final InterruptedException e) {
                 Thread.currentThread().interrupt();
                 running = false;
             }
