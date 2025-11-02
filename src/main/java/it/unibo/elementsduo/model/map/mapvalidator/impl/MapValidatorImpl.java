@@ -15,7 +15,7 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.GreenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
@@ -38,8 +38,7 @@ public final class MapValidatorImpl implements MapValidator {
     private static final Set<Class<? extends obstacle>> ENEMY_SURFACES = Set.of(
             Floor.class, LavaPool.class, WaterPool.class, GreenPool.class);
     private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
-            Floor.class, LavaPool.class, WaterPool.class
-    );
+            Floor.class, LavaPool.class, WaterPool.class);
     private static final Set<Class<? extends obstacle>> VISITABLE_SURFACES = Set.of(
             PlatformImpl.class,
             PushBox.class);
@@ -221,7 +220,7 @@ public final class MapValidatorImpl implements MapValidator {
 
         final Set<Collidable> interactives = new HashSet<>();
         interactives.addAll(level.getEntitiesByClass(Lever.class));
-        interactives.addAll(level.getEntitiesByClass(button.class));
+        interactives.addAll(level.getEntitiesByClass(Button.class));
 
         for (final Collidable interactive : interactives) {
             final Position interactivePos = getGridPosFromHitBox(interactive);
@@ -248,8 +247,7 @@ public final class MapValidatorImpl implements MapValidator {
             if (!validSurfaces.contains(posBelow)) {
                 throw new InvalidMapException(
                         "Positioning Error: Enemy at " + enemyPos
-                        + " is floating. Missing a valid surface at " + posBelow + "."
-                );
+                                + " is floating. Missing a valid surface at " + posBelow + ".");
             }
         }
     }

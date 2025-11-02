@@ -41,7 +41,7 @@ public final class InteractiveObstacleFactoryImpl implements InteractiveObstacle
      * {@inheritDoc}
      */
     @Override
-    public button createButton(final Position pos) {
-        return new button(pos);
+    public Button createButton(final Position pos) {
+        return new Button(pos);
     }
 }

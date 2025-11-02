@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
 import it.unibo.elementsduo.resources.Position;
 
 /**
@@ -49,5 +49,5 @@ public interface InteractiveObstacleFactory {
      * @param pos the position of the button's center
      * @return a new {@code button} instance
      */
-    button createButton(Position pos);
+    Button createButton(Position pos);
 }

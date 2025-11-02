@@ -8,7 +8,7 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Interactive
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
 
 import it.unibo.elementsduo.resources.Position;
 
@@ -36,18 +36,17 @@ public final class MapLoader {
     /**
      * Constructs a MapLoader with all necessary entity factories.
      *
-     * @param obstacleFactory           Factory for creating static obstacles.
-     * @param enemyFactory              Factory for creating enemies.
+     * @param obstacleFactory            Factory for creating static obstacles.
+     * @param enemyFactory               Factory for creating enemies.
      * @param interactiveObstacleFactory Factory for creating interactive obstacles.
      */
     public MapLoader(final ObstacleFactory obstacleFactory,
-                     final EnemyFactory enemyFactory,
-                     final InteractiveObstacleFactory interactiveObstacleFactory) {
+            final EnemyFactory enemyFactory,
+            final InteractiveObstacleFactory interactiveObstacleFactory) {
         this.entityFactory = new EntityFactoryImpl(
                 Objects.requireNonNull(obstacleFactory),
                 Objects.requireNonNull(enemyFactory),
-                Objects.requireNonNull(interactiveObstacleFactory)
-        );
+                Objects.requireNonNull(interactiveObstacleFactory));
     }
 
     /**
@@ -72,7 +71,7 @@ public final class MapLoader {
      * @param filePath The full path to the map file within the resources folder.
      * @return A {@link Set} of all {@link GameEntity} objects for the level.
      * @throws IllegalArgumentException If the map file is not found.
-     * @throws MapLoadingException    If an I/O error occurs during reading.
+     * @throws MapLoadingException      If an I/O error occurs during reading.
      */
     public Set<GameEntity> loadLevelFromFile(final String filePath) {
         final Set<GameEntity> gameEntities = new HashSet<>();
@@ -93,7 +92,7 @@ public final class MapLoader {
                     final GameEntity entity = entityFactory.createEntity(symbol, pos);
                     if (entity != null) {
                         gameEntities.add(entity);
-        }
+                    }
 
                 }
                 y++;
@@ -107,28 +106,30 @@ public final class MapLoader {
         return gameEntities;
     }
 
-    private void linkInteractiveObjects(final Set<GameEntity> interObjs) {
-        final List<Lever> levers = interObjs.stream()
+    private void linkInteractiveObjects(final Set<GameEntity> gameEntities) {
+        final List<Lever> levers = gameEntities.stream()
                 .filter(Lever.class::isInstance)
                 .map(Lever.class::cast)
                 .toList();
 
-        final List<button> buttons = interObjs.stream()
-                .filter(button.class::isInstance)
-                .map(button.class::cast)
+        final List<Button> buttons = gameEntities.stream()
+                .filter(Button.class::isInstance)
+                .map(Button.class::cast)
                 .toList();
 
-        final List<PlatformImpl> platforms = interObjs.stream()
+        final List<PlatformImpl> platforms = gameEntities.stream()
                 .filter(PlatformImpl.class::isInstance)
                 .map(PlatformImpl.class::cast)
                 .toList();
 
         for (int i = 0; i < Math.min(levers.size(), platforms.size()); i++) {
-            levers.get(i).addLinkedObject(platforms.get(i));
+            levers.get(i).addListener(platforms.get(i));
         }
 
-        for (int i = 0; i < Math.min(buttons.size(), platforms.size()); i++) {
-            buttons.get(i).linkTo(platforms.get(i));
+        final int platformsUsed = levers.size();
+
+        for (int i = 0; i < Math.min(buttons.size(), platforms.size() - platformsUsed); i++) {
+            buttons.get(i).addListener(platforms.get(i + platformsUsed));
         }
     }
 }

@@ -1,0 +1,9 @@
+package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api;
+
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+
+public interface Pressable extends Collidable {
+    void press();
+
+    void release();
+}
