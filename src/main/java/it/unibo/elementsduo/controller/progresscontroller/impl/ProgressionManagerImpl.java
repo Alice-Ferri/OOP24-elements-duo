@@ -55,4 +55,13 @@ public final class ProgressionManagerImpl {
     public void saveGame() {
         this.saveLoadManager.saveGame(this.currentState);
     }
+
+    /**
+     * Sets the current level the player is on.
+     *
+     * @param currentLevel the new current level number.
+     */
+    public void setCurrentLevel(final int levelnumber) { 
+        this.currentState.setCurrentLevel(levelnumber); 
+    }
 }

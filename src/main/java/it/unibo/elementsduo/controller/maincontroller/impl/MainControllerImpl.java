@@ -84,7 +84,7 @@ public final class MainControllerImpl
 
         final String currentkey = GAME_KEY + currentLevelNumber;
         mainFrame.addView(panel, currentkey);
-        this.progressionManager.getCurrentState().setCurrentLevel(levelNumber);
+        this.progressionManager.setCurrentLevel(levelNumber);
         mainFrame.showView(currentkey);
 
         currentController = gameController;
