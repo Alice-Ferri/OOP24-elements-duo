@@ -21,7 +21,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * specific behaviors (like attacking) to subclasses.
  * Uses the Template Method Pattern for the update() method.
  */
-public abstract class AbstractEnemy implements Enemy, Updatable {
+public abstract class AbstractEnemy implements Enemy  {
 
     private static final double SPEED = 0.8;
     private boolean alive;
