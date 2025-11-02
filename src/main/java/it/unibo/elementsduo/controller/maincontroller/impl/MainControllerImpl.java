@@ -45,13 +45,14 @@ public final class MainControllerImpl
     private static final String SAVE_DIR = "save";
 
     private final GameFrame mainFrame;
-    private Controller currentController;
     private final MapLoader mapLoader;
     private final MapValidator mapValidator;
+    private final SaveManager saveManager;
 
     private int currentLevelNumber = -1;
-    private final SaveManager saveManager;
     private ProgressionManagerImpl progressionManager;
+
+    private Controller currentController;
 
     /**
      * Constructs the MainController, initializing the main frame and factories.

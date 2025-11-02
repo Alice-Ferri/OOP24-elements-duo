@@ -25,8 +25,6 @@ import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.mission.impl.MissionManager;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.view.LevelPanel;
 
 /**
@@ -115,12 +113,11 @@ public final class GameControllerImpl implements EventListener, GameController {
             return;
         }
 
-        updateEnemies(deltaTime);
-        updateProjectiles(deltaTime);
         updatePlayers(deltaTime);
-        updateInteractiveObstacles(deltaTime);
-
+        checkEnemiesAttack();
+        this.level.getAllUpdatables().forEach(e -> e.update(deltaTime));
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
+
         if (entitiesNeedCleaning) {
             this.level.cleanInactiveEntities();
             entitiesNeedCleaning = false;
@@ -139,31 +136,12 @@ public final class GameControllerImpl implements EventListener, GameController {
         }
     }
 
-    private void updateEnemies(final double deltaTime) {
-        this.level.getLivingEnemies().forEach(enemy -> {
-            enemy.update(deltaTime);
-                enemy.attack().ifPresent(projectile -> {
-                    level.addProjectile(projectile);
-                });
-        });
+    private void checkEnemiesAttack(){
+        this.level.getLivingEnemies().forEach(e -> e.attack().ifPresent(projectile -> level.addProjectile(projectile)));
     }
 
-    private void updateProjectiles(final double deltaTime) {
-        this.level.getAllProjectiles().forEach(p -> p.update(deltaTime));
-    }
-
-    private void updatePlayers(final double deltaTime) {
-        this.level.getAllPlayers().forEach(p -> p.update(deltaTime, inputController));
-    }
-
-    private void updateInteractiveObstacles(final double deltaTime) {
-        this.level.getAllInteractiveObstacles().forEach(obs -> {
-            if (obs instanceof PushBox box) {
-                box.update(deltaTime);
-            } else if (obs instanceof PlatformImpl platform) {
-                platform.update(deltaTime);
-            }
-        });
+    private void updatePlayers(double dt){
+        this.level.getAllPlayers().forEach(e -> e.update(dt, inputController));
     }
 
     private void handleGameOver() {

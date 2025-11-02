@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Triggerable;
 import it.unibo.elementsduo.resources.Position;
@@ -15,7 +16,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * allowing it to react to external trigger events.
  * </p>
  */
-public class PlatformImpl extends AbstractInteractiveObstacle implements Triggerable, TriggerListener {
+public class PlatformImpl extends AbstractInteractiveObstacle implements Triggerable, TriggerListener, Updatable {
 
     /** The platform's half width. */
     private static final double HALF_WIDTH = 0.5;

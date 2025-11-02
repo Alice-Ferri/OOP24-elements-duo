@@ -7,6 +7,7 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -105,4 +106,6 @@ public interface Level {
      */
 
     List<Collidable> getAllCollidables();
+
+    Set<Updatable> getAllUpdatables();
 }

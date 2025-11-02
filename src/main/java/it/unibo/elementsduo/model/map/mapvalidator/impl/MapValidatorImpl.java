@@ -36,13 +36,21 @@ import it.unibo.elementsduo.resources.Position;
 public final class MapValidatorImpl implements MapValidator {
 
     private static final Set<Class<? extends obstacle>> ENEMY_SURFACES = Set.of(
-            Floor.class, LavaPool.class, WaterPool.class, GreenPool.class);
+            Floor.class, LavaPool.class, WaterPool.class, GreenPool.class
+    );
     private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
             Floor.class, LavaPool.class, WaterPool.class
     );
-    private static final Set<Class<? extends obstacle>> VISITABLE_SURFACES = Set.of(
+    private static final Set<Class<? extends obstacle>> FIREBOY_SURFACES = Set.of(
+            Floor.class, LavaPool.class
+    );
+    private static final Set<Class<? extends obstacle>> WATERGIRL_SURFACES = Set.of(
+            Floor.class, WaterPool.class
+    );
+    private static final Set<Class<? extends obstacle>> VISITABLE_SURFACES_BFS = Set.of(
             PlatformImpl.class,
-            PushBox.class);
+            PushBox.class
+    );
 
     /**
      * {@inheritDoc}
@@ -59,8 +67,7 @@ public final class MapValidatorImpl implements MapValidator {
         checkSpawnsAndExits(level);
         checkBoundaries(level);
         checkReachability(level);
-        checkEnemyFloors(level);
-        checkFloatingInteractives(level);
+        checkAllFloatingEntities(level);
     }
 
     private void checkSpawnsAndExits(final Level level) throws InvalidMapException {
@@ -94,28 +101,6 @@ public final class MapValidatorImpl implements MapValidator {
         }
     }
 
-    private MapDimensions getMapDimensions(final Level level) {
-        final int minX = level.getAllObstacles().stream()
-                .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
-                .min().orElse(0);
-        final int minY = level.getAllObstacles().stream()
-                .mapToInt(obs -> (int) obs.getHitBox().getCenter().y())
-                .min().orElse(0);
-        final int maxX = level.getAllObstacles().stream()
-                .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
-                .max().orElse(0);
-        final int maxY = level.getAllObstacles().stream()
-                .mapToInt(obs -> (int) obs.getHitBox().getCenter().y())
-                .max().orElse(0);
-        return new MapDimensions(minX, minY, maxX, maxY);
-    }
-
-    private Set<Position> getWallPositions(final Level level) {
-        return level.getEntitiesByClass(Wall.class).stream()
-                .map(this::getGridPosFromHitBox)
-                .collect(Collectors.toSet());
-    }
-
     private void checkWallExistsAt(final Position pos, final Set<Position> wallPositions) throws InvalidMapException {
         if (!wallPositions.contains(pos)) {
             throw new InvalidMapException("Boundary not closed: Missing wall at " + pos);
@@ -131,7 +116,7 @@ public final class MapValidatorImpl implements MapValidator {
         final Set<Position> emptySpace = calculateEmptySpace(dims, blockedPositions);
 
         final Set<Position> visitableObstacles = level.getAllObstacles().stream()
-                .filter(obs -> VISITABLE_SURFACES.stream()
+                .filter(obs -> VISITABLE_SURFACES_BFS.stream()
                         .anyMatch(type -> type.isInstance(obs)))
                 .map(this::getGridPosFromHitBox)
                 .collect(Collectors.toSet());
@@ -177,19 +162,6 @@ public final class MapValidatorImpl implements MapValidator {
         }
     }
 
-    private Set<Position> calculateEmptySpace(final MapDimensions dims, final Set<Position> blockedPositions) {
-        final Set<Position> empty = new HashSet<>();
-        for (int y = dims.minY; y <= dims.maxY; y++) {
-            for (int x = dims.minX; x <= dims.maxX; x++) {
-                final Position p = new Position(x, y);
-                if (!blockedPositions.contains(p)) {
-                    empty.add(p);
-                }
-            }
-        }
-        return empty;
-    }
-
     private boolean isPathPossible(final Set<Position> startPoints, final Set<Position> endPoints,
             final Set<Position> walkableSpace) {
 
@@ -213,45 +185,84 @@ public final class MapValidatorImpl implements MapValidator {
         return false;
     }
 
-    private void checkFloatingInteractives(final Level level) throws InvalidMapException {
-        final Set<Position> validSurfaces = level.getAllObstacles().stream()
-                .filter(obs -> INTERACTIVE_SURFACES.stream().anyMatch(type -> type.isInstance(obs)))
-                .map(this::getGridPosFromHitBox)
-                .collect(Collectors.toSet());
+    
+    private void checkAllFloatingEntities(final Level level) throws InvalidMapException {
+        final Set<Position> enemyGround = getValidGround(level, ENEMY_SURFACES);
+        final Set<Position> interactiveGround = getValidGround(level, INTERACTIVE_SURFACES);
+        final Set<Position> fireboyGround = getValidGround(level, FIREBOY_SURFACES);
+        final Set<Position> watergirlGround = getValidGround(level, WATERGIRL_SURFACES);
 
+        final Set<Enemy> enemies = level.getAllEnemies();
         final Set<Collidable> interactives = new HashSet<>();
         interactives.addAll(level.getEntitiesByClass(Lever.class));
         interactives.addAll(level.getEntitiesByClass(button.class));
+        final Set<Fireboy> fireboys = level.getEntitiesByClass(Fireboy.class);
+        final Set<Watergirl> watergirls = level.getEntitiesByClass(Watergirl.class);
 
-        for (final Collidable interactive : interactives) {
-            final Position interactivePos = getGridPosFromHitBox(interactive);
-            final Position posBelow = new Position(interactivePos.x(), interactivePos.y() + 1);
-
-            if (!validSurfaces.contains(posBelow)) {
-                throw new InvalidMapException(
-                        "Positioning Error: The object " + interactive.getClass().getSimpleName()
-                                + " at " + interactivePos + " is floating. Missing a floor at " + posBelow + ".");
-            }
-        }
+        checkFloatingEntities(enemies, enemyGround, "Enemy");
+        checkFloatingEntities(interactives, interactiveGround, "Interactive Object");
+        checkFloatingEntities(fireboys, fireboyGround, "Fireboy");
+        checkFloatingEntities(watergirls, watergirlGround, "Watergirl");
     }
 
-    private void checkEnemyFloors(final Level level) throws InvalidMapException {
-        final Set<Position> validSurfaces = level.getAllObstacles().stream()
-                .filter(obs -> ENEMY_SURFACES.stream().anyMatch(type -> type.isInstance(obs)))
-                .map(this::getGridPosFromHitBox)
-                .collect(Collectors.toSet());
+    private <T extends Collidable> void checkFloatingEntities(
+            final Set<T> entities,
+            final Set<Position> validGround,
+            final String entityTypeName) throws InvalidMapException {
+        
+        for (final T entity : entities) {
+            final Position entityPos = getGridPosFromHitBox(entity);
+            final Position posBelow = new Position(entityPos.x(), entityPos.y() + 1);
 
-        for (final Enemy enemy : level.getAllEnemies()) {
-            final Position enemyPos = getGridPosFromEnemy(enemy);
-            final Position posBelow = new Position(enemyPos.x(), enemyPos.y() + 1);
-
-            if (!validSurfaces.contains(posBelow)) {
+            if (!validGround.contains(posBelow)) {
                 throw new InvalidMapException(
-                        "Positioning Error: Enemy at " + enemyPos
-                        + " is floating. Missing a valid surface at " + posBelow + "."
+                    "Positioning Error: " + entityTypeName + " (" + entity.getClass().getSimpleName() + ")"
+                    + " at " + entityPos + " is floating or on an invalid surface. Missing a valid floor at " + posBelow + "."
                 );
             }
         }
+    }
+    
+    private Set<Position> calculateEmptySpace(final MapDimensions dims, final Set<Position> blockedPositions) {
+        final Set<Position> empty = new HashSet<>();
+        for (int y = dims.minY; y <= dims.maxY; y++) {
+            for (int x = dims.minX; x <= dims.maxX; x++) {
+                final Position p = new Position(x, y);
+                if (!blockedPositions.contains(p)) {
+                    empty.add(p);
+                }
+            }
+        }
+        return empty;
+    }
+    
+    private Set<Position> getValidGround(final Level level, final Set<Class<? extends obstacle>> surfaceTypes) {
+        return level.getAllObstacles().stream()
+                .filter(obs -> surfaceTypes.stream().anyMatch(type -> type.isInstance(obs)))
+                .map(this::getGridPosFromHitBox)
+                .collect(Collectors.toSet());
+    }
+    
+    private MapDimensions getMapDimensions(final Level level) {
+        final int minX = level.getAllObstacles().stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
+                .min().orElse(0);
+        final int minY = level.getAllObstacles().stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().y())
+                .min().orElse(0);
+        final int maxX = level.getAllObstacles().stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
+                .max().orElse(0);
+        final int maxY = level.getAllObstacles().stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().y())
+                .max().orElse(0);
+        return new MapDimensions(minX, minY, maxX, maxY);
+    }
+
+    private Set<Position> getWallPositions(final Level level) {
+        return level.getEntitiesByClass(Wall.class).stream()
+                .map(this::getGridPosFromHitBox)
+                .collect(Collectors.toSet());
     }
 
     private List<Position> getNeighbors(final Position pos) {
@@ -261,12 +272,6 @@ public final class MapValidatorImpl implements MapValidator {
                 new Position(pos.x(), pos.y() + 1),
                 new Position(pos.x(), pos.y() - 1));
 
-    }
-
-    private Position getGridPosFromEnemy(final Enemy enemy) {
-        return new Position(
-                (int) enemy.getX(),
-                (int) enemy.getY());
     }
 
     private Position getGridPosFromHitBox(final Collidable entity) {
