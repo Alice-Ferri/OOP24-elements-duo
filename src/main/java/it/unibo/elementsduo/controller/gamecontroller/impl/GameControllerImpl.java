@@ -136,11 +136,11 @@ public final class GameControllerImpl implements EventListener, GameController {
         }
     }
 
-    private void checkEnemiesAttack(){
-        this.level.getLivingEnemies().forEach(e -> e.attack().ifPresent(projectile -> level.addProjectile(projectile)));
+    private void checkEnemiesAttack() {
+        this.level.getLivingEnemies().forEach(e -> e.attack().ifPresent(level::addProjectile));
     }
 
-    private void updatePlayers(double dt){
+    private void updatePlayers(final double dt) {
         this.level.getAllPlayers().forEach(e -> e.update(dt, inputController));
     }
 

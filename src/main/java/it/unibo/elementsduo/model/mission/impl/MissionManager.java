@@ -12,10 +12,9 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
  * and calculates the results at the end with GameState and time.
  */
 public final class MissionManager {
-
+    private static final double TIME_LIMIT = 60.0;
     private final Objective rootObjective;
 
-    private static final double TIME_LIMIT = 60.0;
 
     /**
      * Constructs the MissionManager with the initial state of the level
@@ -24,12 +23,10 @@ public final class MissionManager {
      * @param initialLevel The Level at the start of the match.
      */
     public MissionManager(final Level initialLevel) {
-        
         final int totalGems = initialLevel.getEntitiesByClass(Gem.class).size();
         final int totalEnemies = initialLevel.getEntitiesByClass(Enemy.class).size();
 
         final Mission allTasks = new Mission("Completa gli obiettivi per un bonus");
-        
         allTasks.add(new GemObjective(totalGems));
         allTasks.add(new EnemyObjective(totalEnemies));
         allTasks.add(new TimeLimitObjective(TIME_LIMIT));
@@ -50,6 +47,7 @@ public final class MissionManager {
 
     /**
      * Return if the mission is completed.
+     * 
      * @return true if the root mission (all objectives)
      * is complete.
      */

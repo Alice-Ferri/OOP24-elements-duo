@@ -10,8 +10,9 @@ public class GemObjective extends AbstractObjective {
     private final int totalGemsInLevel;
 
     /**
-     * Construct the GemObjective
-     * @param totalGems The total number of enemies in the level at the start.
+     * Construct the GemObjective.
+     *
+     * @param totalGemsInLevel The total number of gems in the level at the start.
      */
     public GemObjective(final int totalGemsInLevel) {
         super("Collect all " + totalGemsInLevel + " gems");
@@ -23,6 +24,7 @@ public class GemObjective extends AbstractObjective {
         if (this.isComplete) {
             return;
         }
+        
         if (finalState.getGemsCollected() >= this.totalGemsInLevel) {
             this.isComplete = true;
         }

@@ -79,6 +79,7 @@ public final class EntityFactoryImpl implements EntityFactory {
         return strategy.create(pos);
     }
 
+    @FunctionalInterface
     private interface EntityCreationStrategy {
         GameEntity create(Position pos);
     }

@@ -2,7 +2,9 @@ package it.unibo.elementsduo.model.map.mapvalidator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
@@ -60,7 +62,7 @@ final class TestEntityFactoryImpl {
     void testAllValidSymbolsAreCreated() {
         final Set<Character> validSymbols = Set.of(
             'P', '#', 'A', 'F', 'Q', 'E', 'K',
-            'B', 'W','C', 'S','L', 'H', 'M', 'R'
+            'B', 'W', 'C', 'S', 'L', 'H', 'M', 'R'
         );
 
         final Position pos = new Position(1, 1);

@@ -107,7 +107,7 @@ public final class LevelImpl implements Level {
     }
 
     @Override
-    public Set<Updatable> getAllUpdatables(){
+    public Set<Updatable> getAllUpdatables() {
         return this.gameEntities.stream()
                 .filter(Updatable.class::isInstance)
                 .map(Updatable.class::cast)

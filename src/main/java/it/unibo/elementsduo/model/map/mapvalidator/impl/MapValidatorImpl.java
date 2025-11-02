@@ -125,12 +125,12 @@ public final class MapValidatorImpl implements MapValidator {
                 level.getEntitiesByClass(Watergirl.class).iterator().next());
         final Position waterExitPos = getGridPosFromHitBox(level.getEntitiesByClass(WaterExit.class).iterator().next());
 
-        checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, walkableSpace, emptySpace);
-        checkPathForPlayer("Water", waterSpawnPos, waterExitPos, walkableSpace, emptySpace);
+        checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, walkableSpace);
+        checkPathForPlayer("Water", waterSpawnPos, waterExitPos, walkableSpace);
     }
 
     private void checkPathForPlayer(final String playerName, final Position spawn, final Position exit,
-            final Set<Position> walkableSpace, final Set<Position> emptySpace)
+            final Set<Position> walkableSpace)
             throws InvalidMapException {
 
         final Set<Position> startPoints = getNeighbors(spawn).stream()
@@ -139,7 +139,7 @@ public final class MapValidatorImpl implements MapValidator {
 
         if (startPoints.isEmpty()) {
 
-            throw new InvalidMapException("Path Error: "+ playerName + " spawn at " + spawn
+            throw new InvalidMapException("Spawn Adj Error: " + playerName + " spawn at " + spawn
                     + " is not adjacent to any walkable space.");
         }
 
@@ -149,11 +149,12 @@ public final class MapValidatorImpl implements MapValidator {
 
         if (endPoints.isEmpty()) {
 
-            throw new InvalidMapException("Path Error: "+ playerName + " exit at " + exit + " is not adjacent to any empty space.");
+            throw new InvalidMapException("Adj Error: " + playerName + " exit at " + exit
+                     + " is not adjacent to any empty space.");
         }
 
         if (!isPathPossible(startPoints, endPoints, walkableSpace)) {
-            throw new InvalidMapException("Path Error: "+ playerName + " cannot reach the exit.");
+            throw new InvalidMapException("Path Error: " + playerName + " cannot reach the exit.");
         }
     }
 

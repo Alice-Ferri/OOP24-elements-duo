@@ -6,7 +6,7 @@ import it.unibo.elementsduo.model.gamestate.api.GameState;
  * Checks if the level was completed
  * within a specific time limit.
  */
-public class TimeLimitObjective extends AbstractObjective {
+public final class TimeLimitObjective extends AbstractObjective {
 
     private final double timeLimitInSeconds;
 

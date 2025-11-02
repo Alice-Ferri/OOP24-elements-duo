@@ -25,7 +25,10 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ProjectilesImpl;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the {@link LevelImpl} class using real entity implementations.
@@ -46,6 +49,9 @@ final class TestLevelImpl {
     private obstacle obstacle;
     private obstacle interactive;
 
+    private static final int POS_NINE = 9;
+    private static final int POS_FIVE = 5;
+
     /**
      * Initializes a Level with a predefined set.
      */
@@ -60,12 +66,12 @@ final class TestLevelImpl {
         enemyDead = new ClassicEnemiesImpl(new Position(2, 2));
         enemyDead.die(); 
 
-        projActive = new ProjectilesImpl(new Position(3, 1),1);
-        projInactive = new ProjectilesImpl(new Position(3, 2),-1);
+        projActive = new ProjectilesImpl(new Position(3, 1), 1);
+        projInactive = new ProjectilesImpl(new Position(3, 2), -1);
         projInactive.deactivate(); 
 
-        obstacle = new Wall(new HitBoxImpl(new Position(1,3),1,1));
-        interactive = new Lever(new Position(5, 1));
+        obstacle = new Wall(new HitBoxImpl(new Position(1, 3), 1, 1));
+        interactive = new Lever(new Position(POS_FIVE, 1));
 
         originalEntities.add(player1);
         originalEntities.add(player2);
@@ -91,7 +97,7 @@ final class TestLevelImpl {
         initialSet.add(new Fireboy(new Position(0, 0)));
         final Level testLevel = new LevelImpl(initialSet);
         
-        initialSet.add(new Watergirl(new Position(9, 9)));
+        initialSet.add(new Watergirl(new Position(POS_NINE, POS_NINE)));
         
         assertEquals(1, testLevel.getGameEntities().size(), 
             "The constructor must create a defensive copy of the Set.");
@@ -153,7 +159,7 @@ final class TestLevelImpl {
     }
 
     /**
-     * Tests helper methods that filter by state e.g., getLivingEnemies.
+     * Tests helper methods that filter by state like getLivingEnemies.
      */
     @Test
     void testGetByStateHelperMethods() {
@@ -167,11 +173,11 @@ final class TestLevelImpl {
     }
 
     /**
-     * Tests the mutation methods e.g, addProjectile, cleanProjectiles, cleanInactiveEntities.
+     * Tests the mutation methods: addProjectile, cleanProjectiles, cleanInactiveEntities.
      */
     @Test
     void testMutationMethods() {
-        final Projectiles newProjectile = new ProjectilesImpl(new Position(9, 9),1);
+        final Projectiles newProjectile = new ProjectilesImpl(new Position(POS_NINE, POS_NINE), 1);
         level.addProjectile(newProjectile);
         
         final int expectedSizeAfterAdd = originalEntities.size() + 1;

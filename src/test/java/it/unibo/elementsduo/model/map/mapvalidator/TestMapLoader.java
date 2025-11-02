@@ -38,7 +38,10 @@ final class TestMapLoader {
 
     private MapLoader mapLoader;
     private Set<GameEntity> gameEntities;
-    
+
+    private static final int EXPECTED_WALLS = 35;
+    private static final int LEVER_Y_POSITION = 5;
+
     /**
      * Sets up the MapLoader with its real factories before each test.
      */
@@ -86,7 +89,7 @@ final class TestMapLoader {
         assertEquals(1, countEntities(PlatformImpl.class));
         assertEquals(1, countEntities(PushBox.class));
         assertEquals(2, countEntities(Enemy.class));
-        assertEquals(35, countEntities(Wall.class));
+        assertEquals(EXPECTED_WALLS, countEntities(Wall.class));
     }
 
     /**
@@ -101,7 +104,7 @@ final class TestMapLoader {
 
         final Lever lever = findEntity(Lever.class);
         assertNotNull(lever, "Lever not found in Set");
-        assertEquals(new Position(1, 5), lever.getHitBox().getCenter());
+        assertEquals(new Position(1, LEVER_Y_POSITION), lever.getHitBox().getCenter());
     }
 
     /**
