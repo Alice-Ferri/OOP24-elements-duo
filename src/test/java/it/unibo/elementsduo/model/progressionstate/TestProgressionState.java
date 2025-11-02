@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.progression;
+package it.unibo.elementsduo.model.progressionstate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
