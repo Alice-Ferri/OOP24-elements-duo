@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
-
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
@@ -28,7 +27,7 @@ final class TestEntityFactoryImpl {
      */
     @BeforeEach
     void setUp() {
-        final obstacleFactoryImpl obstacleFactory = new obstacleFactoryImpl();
+        final ObstacleFactoryImpl obstacleFactory = new ObstacleFactoryImpl();
         final EnemyFactoryImpl enemyFactory = new EnemyFactoryImpl();
         final InteractiveObstacleFactoryImpl interactiveObsFactory = new InteractiveObstacleFactoryImpl();
 
@@ -48,9 +47,9 @@ final class TestEntityFactoryImpl {
         assertThrows(NullPointerException.class, () -> 
             new EntityFactoryImpl(null, new EnemyFactoryImpl(), new InteractiveObstacleFactoryImpl()));
         assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new obstacleFactoryImpl(), null, new InteractiveObstacleFactoryImpl()));
+            new EntityFactoryImpl(new ObstacleFactoryImpl(), null, new InteractiveObstacleFactoryImpl()));
         assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new obstacleFactoryImpl(), new EnemyFactoryImpl(), null));
+            new EntityFactoryImpl(new ObstacleFactoryImpl(), new EnemyFactoryImpl(), null));
     }
 
     /**

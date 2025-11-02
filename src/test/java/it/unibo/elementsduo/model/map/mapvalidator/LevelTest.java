@@ -15,7 +15,6 @@ import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Position;
@@ -45,7 +44,7 @@ final class TestLevelImpl {
     private Projectiles projActive;
     private Projectiles projInactive;
     private obstacle obstacle;
-    private InteractiveObstacle interactive;
+    private obstacle interactive;
 
     /**
      * Initializes a Level with a predefined set.
