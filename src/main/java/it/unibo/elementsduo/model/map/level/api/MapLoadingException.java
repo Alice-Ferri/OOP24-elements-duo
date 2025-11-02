@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.map.level;
+package it.unibo.elementsduo.model.map.level.api;
 
 /**
  * An unchecked exception thrown when an error occurs during map loading.

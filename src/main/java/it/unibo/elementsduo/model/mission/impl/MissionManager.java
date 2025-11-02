@@ -1,8 +1,8 @@
-package it.unibo.elementsduo.model.mission.objectives.impl;
+package it.unibo.elementsduo.model.mission.impl;
 
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.mission.objectives.api.Objective;
+import it.unibo.elementsduo.model.mission.api.Objective;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Gem; 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 

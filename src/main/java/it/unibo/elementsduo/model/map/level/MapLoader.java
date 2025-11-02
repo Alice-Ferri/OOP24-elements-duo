@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.map.level;
 
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
+import it.unibo.elementsduo.model.map.level.api.MapLoadingException;
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;

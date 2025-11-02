@@ -1,7 +1,7 @@
-package it.unibo.elementsduo.model.mission.objectives.impl;
+package it.unibo.elementsduo.model.mission.impl;
 
 import it.unibo.elementsduo.model.gamestate.api.GameState;
-import it.unibo.elementsduo.model.mission.objectives.api.Objective;
+import it.unibo.elementsduo.model.mission.api.Objective;
 
 import java.util.ArrayList;
 import java.util.List;

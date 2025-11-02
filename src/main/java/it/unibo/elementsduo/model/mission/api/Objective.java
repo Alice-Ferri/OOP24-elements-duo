@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.mission.objectives.api;
+package it.unibo.elementsduo.model.mission.api;
 
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 
