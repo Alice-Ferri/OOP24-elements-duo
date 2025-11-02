@@ -9,7 +9,7 @@ import it.unibo.elementsduo.resources.Position;
 
 public class Lever extends AbstractInteractiveObstacle implements TriggerSource, Toggler {
 
-    private static final double HALF_WIDTH = 0.5;
+    private static final double HALF_WIDTH = 0.2;
 
     private static final double HALF_HEIGHT = 0.5;
 
