@@ -4,7 +4,6 @@ import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,9 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.button;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.fireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.waterExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
@@ -45,7 +45,7 @@ final class TestMapLoader {
     @BeforeEach
     void setUp() {
         this.mapLoader = new MapLoader(
-            new obstacleFactoryImpl(), 
+            new ObstacleFactoryImpl(), 
             new EnemyFactoryImpl(),
             new InteractiveObstacleFactoryImpl()
         );
@@ -78,8 +78,8 @@ final class TestMapLoader {
 
         assertEquals(1, countEntities(Fireboy.class));
         assertEquals(1, countEntities(Watergirl.class));
-        assertEquals(1, countEntities(fireExit.class));
-        assertEquals(1, countEntities(waterExit.class));
+        assertEquals(1, countEntities(FireExit.class));
+        assertEquals(1, countEntities(WaterExit.class));
         assertEquals(1, countEntities(Floor.class));
         assertEquals(1, countEntities(Lever.class));
         assertEquals(1, countEntities(button.class));

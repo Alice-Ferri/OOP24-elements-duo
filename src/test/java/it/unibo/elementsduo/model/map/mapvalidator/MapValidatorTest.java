@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ final class TestMapValidator {
     void setUp() {
         this.validator = new MapValidatorImpl();
         this.mapLoader = new MapLoader(
-            new obstacleFactoryImpl(), 
+            new ObstacleFactoryImpl(), 
             new EnemyFactoryImpl(),
             new InteractiveObstacleFactoryImpl()
         );
@@ -60,7 +60,7 @@ final class TestMapValidator {
             this.validator.validate(invalidLevel);
         });
         
-        assertTrue(e.getMessage().contains("Boundary not closed"));
+        assertTrue(e.getMessage().contains("Boundary Error"));
     }
 
     /**
@@ -73,7 +73,7 @@ final class TestMapValidator {
             this.validator.validate(invalidLevel);
         });
         
-        assertTrue(e.getMessage().contains("cannot reach the exit"));
+        assertTrue(e.getMessage().contains("Path Error"));
     }
 
     /**
@@ -86,7 +86,7 @@ final class TestMapValidator {
             this.validator.validate(invalidLevel);
         });
         
-        assertTrue(e.getMessage().contains("Enemy at"));
+        assertTrue(e.getMessage().contains("Positioning Error"));
     }
 
     /**
@@ -99,7 +99,7 @@ final class TestMapValidator {
             this.validator.validate(invalidLevel);
         });
         
-        assertTrue(e.getMessage().contains("The object"));
+        assertTrue(e.getMessage().contains("Positioning Error"));
     }
 
 }
