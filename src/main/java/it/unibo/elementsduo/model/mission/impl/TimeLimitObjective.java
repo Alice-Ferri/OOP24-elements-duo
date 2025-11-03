@@ -19,13 +19,9 @@ public final class TimeLimitObjective extends AbstractObjective {
     }
 
     @Override
-    public void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
-        if (this.isComplete()) {
-            return;
-        }
-
-        if (finalState.didWin() && finalTimeInSeconds <= this.timeLimitInSeconds) {
-            this.setComplete();
-        }
+    protected boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds) {
+       return this.timeLimitInSeconds >= finalTimeInSeconds;
     }
+
+    
 }

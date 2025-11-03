@@ -20,12 +20,9 @@ public final class EnemyObjective extends AbstractObjective {
     }
 
     @Override
-    public void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
-        if (this.isComplete()) {
-            return;
-        }
-        if (finalState.getEnemiesDefeated() >= this.totalEnemiesInLevel) {
-            this.setComplete();
-        }
+    protected boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds) {
+        return finalState.getEnemiesDefeated() <= totalEnemiesInLevel;
     }
+
+    
 }

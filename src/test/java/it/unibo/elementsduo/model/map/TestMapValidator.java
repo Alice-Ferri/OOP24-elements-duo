@@ -1,8 +1,7 @@
-package it.unibo.elementsduo.model.map.mapvalidator;
+package it.unibo.elementsduo.model.map;
 
-import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.model.map.level.MapLoader;
+import it.unibo.elementsduo.model.map.level.impl.Level;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
@@ -47,7 +46,7 @@ final class TestMapValidator {
     @Test
     void testValidMapFromFile() {
         assertDoesNotThrow(() -> {
-            final Level validLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/valid_map.txt"));
+            final Level validLevel = new Level(mapLoader.loadLevelFromFile("test/valid_map.txt"));
             this.validator.validate(validLevel);
         }, "A valid map should not throw an exception");
     }
@@ -58,7 +57,7 @@ final class TestMapValidator {
     @Test
     void testInvalidBoundaryFromFile() {
         final var e = assertThrows(InvalidMapException.class, () -> {
-            final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/invalid_boundary.txt"));
+            final Level invalidLevel = new Level(mapLoader.loadLevelFromFile("test/invalid_boundary.txt"));
             this.validator.validate(invalidLevel);
         });
 
@@ -71,7 +70,7 @@ final class TestMapValidator {
     @Test
     void testUnreachableExitFromFile() {
         final var e = assertThrows(InvalidMapException.class, () -> {
-            final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/invalid_reach.txt"));
+            final Level invalidLevel = new Level(mapLoader.loadLevelFromFile("test/invalid_reach.txt"));
             this.validator.validate(invalidLevel);
         });
 
@@ -84,7 +83,7 @@ final class TestMapValidator {
     @Test
     void testFloatingEnemy() {
         final var e = assertThrows(InvalidMapException.class, () -> {
-            final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/floating_enemies.txt"));
+            final Level invalidLevel = new Level(mapLoader.loadLevelFromFile("test/floating_enemies.txt"));
             this.validator.validate(invalidLevel);
         });
 
@@ -97,7 +96,7 @@ final class TestMapValidator {
     @Test
     void testFloatingInteractive() {
         final var e = assertThrows(InvalidMapException.class, () -> {
-            final Level invalidLevel = new LevelImpl(mapLoader.loadLevelFromFile("test/floating_interactive.txt"));
+            final Level invalidLevel = new Level(mapLoader.loadLevelFromFile("test/floating_interactive.txt"));
             this.validator.validate(invalidLevel);
         });
 

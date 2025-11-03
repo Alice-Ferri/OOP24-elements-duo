@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.map.mapvalidator;
+package it.unibo.elementsduo.model.map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -20,13 +20,8 @@ public final class GemObjective extends AbstractObjective {
     }
 
     @Override
-    public void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
-        if (this.isComplete()) {
-            return;
-        }
-
-        if (finalState.getGemsCollected() >= this.totalGemsInLevel) {
-            this.setComplete();
-        }
+    protected boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds) {
+        return finalState.getGemsCollected() == totalGemsInLevel;
     }
+
 }

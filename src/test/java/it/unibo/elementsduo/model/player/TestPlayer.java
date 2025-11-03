@@ -14,7 +14,7 @@ import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
@@ -158,7 +158,7 @@ final class TestPlayer {
         Position pos = new Position(0, 0);
         Position a = new Position(0, 0);
         Position b = new Position(0, 1);
-        obstacle platform = new PlatformImpl(pos, a, b);
+        Obstacle platform = new PlatformImpl(pos, a, b);
         fireboy.correctPhysicsCollision(1.0, new Vector2D(0, -1), platform);
         assertTrue(fireboy.isOnGround());
         assertEquals(3.0, fireboy.getVelocity().y());

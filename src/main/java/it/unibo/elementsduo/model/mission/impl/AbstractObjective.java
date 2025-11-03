@@ -39,6 +39,26 @@ public abstract class AbstractObjective implements Objective {
         this.isComplete = true;
     }
 
+    /**
+     * This is the template method
+     */
     @Override
-    public abstract void checkCompletion(GameState finalState, double finalTimeInSeconds);
+    public final void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
+        if (this.isComplete()) {
+            return;
+        }
+        
+        if (this.checkObjectiveLogic(finalState, finalTimeInSeconds)) {
+            this.setComplete();
+        }
+    }
+
+    /**
+     * Where sub-classes have to put their logic
+     *
+     * @param finalState the final game state
+     * @param finalTimeInSeconds the final time of the game
+     * @return true if it is satisfied, otherwise false.
+     */
+    protected abstract boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds);
 }

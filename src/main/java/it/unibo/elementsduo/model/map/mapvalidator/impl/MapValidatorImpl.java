@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
@@ -54,7 +54,7 @@ public final class MapValidatorImpl implements MapValidator {
      * @throws InvalidMapException if the map fails any of the validation checks.
      */
     @Override
-    public void validate(final Level level) throws InvalidMapException {
+    public void validate(final LevelData level) throws InvalidMapException {
         if (level.getAllObstacles().isEmpty()) {
             throw new InvalidMapException("The map is empty.");
         }
@@ -65,7 +65,7 @@ public final class MapValidatorImpl implements MapValidator {
         checkAllFloatingEntities(level);
     }
 
-    private void checkSpawnsAndExits(final Level level) throws InvalidMapException {
+    private void checkSpawnsAndExits(final LevelData level) throws InvalidMapException {
         if (level.getEntitiesByClass(Fireboy.class).size() != 1) {
             throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 fire spawn.");
         }
@@ -81,7 +81,7 @@ public final class MapValidatorImpl implements MapValidator {
         }
     }
 
-    private void checkBoundaries(final Level level) throws InvalidMapException {
+    private void checkBoundaries(final LevelData level) throws InvalidMapException {
         final MapDimensions dims = getMapDimensions(level);
         final Set<Position> wallPositions = getWallPositions(level);
 
@@ -102,7 +102,7 @@ public final class MapValidatorImpl implements MapValidator {
         }
     }
 
-    private void checkReachability(final Level level) throws InvalidMapException {
+    private void checkReachability(final LevelData level) throws InvalidMapException {
         final MapDimensions dims = getMapDimensions(level);
 
         final Set<Position> blockedPositions = level.getAllObstacles().stream()
@@ -150,7 +150,7 @@ public final class MapValidatorImpl implements MapValidator {
         if (endPoints.isEmpty()) {
 
             throw new InvalidMapException("Adj Error: " + playerName + " exit at " + exit
-                    + " is not adjacent to any empty space.");
+                     + " is not adjacent to any empty space.");
         }
 
         if (!isPathPossible(startPoints, endPoints, walkableSpace)) {
@@ -181,7 +181,7 @@ public final class MapValidatorImpl implements MapValidator {
         return false;
     }
 
-    private void checkAllFloatingEntities(final Level level) throws InvalidMapException {
+    private void checkAllFloatingEntities(final LevelData level) throws InvalidMapException {
         final Set<Position> enemyGround = getValidGround(level, ENEMY_SURFACES);
         final Set<Position> interactiveGround = getValidGround(level, INTERACTIVE_SURFACES);
         final Set<Position> fireboyGround = getValidGround(level, FIREBOY_SURFACES);
@@ -231,14 +231,14 @@ public final class MapValidatorImpl implements MapValidator {
         return empty;
     }
 
-    private Set<Position> getValidGround(final Level level, final Set<Class<? extends Obstacle>> surfaceTypes) {
+    private Set<Position> getValidGround(final LevelData level, final Set<Class<? extends Obstacle>> surfaceTypes) {
         return level.getAllObstacles().stream()
                 .filter(obs -> surfaceTypes.stream().anyMatch(type -> type.isInstance(obs)))
                 .map(this::getGridPosFromHitBox)
                 .collect(Collectors.toSet());
     }
 
-    private MapDimensions getMapDimensions(final Level level) {
+    private MapDimensions getMapDimensions(final LevelData level) {
         final int minX = level.getAllObstacles().stream()
                 .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
                 .min().orElse(0);
@@ -254,7 +254,7 @@ public final class MapValidatorImpl implements MapValidator {
         return new MapDimensions(minX, minY, maxX, maxY);
     }
 
-    private Set<Position> getWallPositions(final Level level) {
+    private Set<Position> getWallPositions(final LevelData level) {
         return level.getEntitiesByClass(Wall.class).stream()
                 .map(this::getGridPosFromHitBox)
                 .collect(Collectors.toSet());

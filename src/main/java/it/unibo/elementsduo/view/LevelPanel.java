@@ -4,7 +4,7 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
-import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSource;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
@@ -41,7 +41,7 @@ import java.util.Objects;
 public final class LevelPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private final transient Level level;
+    private final transient LevelData level;
     private final GameAreaPanel gameArea;
     private final JButton homeButton;
     private final JButton levelSelectButton;
@@ -51,7 +51,7 @@ public final class LevelPanel extends JPanel {
      *
      * @param level The game level model to be rendered.
      */
-    public LevelPanel(final Level level) {
+    public LevelPanel(final LevelData level) {
         this.level = Objects.requireNonNull(level);
         this.setLayout(new BorderLayout());
 
