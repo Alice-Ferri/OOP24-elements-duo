@@ -20,7 +20,7 @@ public final class ProgressionManagerImpl {
      */
     public ProgressionManagerImpl(final SaveManager manager, final ProgressionState initialState) { 
         this.saveLoadManager = manager;
-        this.currentState = initialState;
+        this.currentState = new ProgressionState(initialState);
     }
 
     /**
@@ -29,7 +29,7 @@ public final class ProgressionManagerImpl {
      * @return the current ProgressionState.
      */
     public ProgressionState getCurrentState() {
-        return this.currentState;
+        return new ProgressionState(this.currentState);
     }
 
     /**
@@ -54,5 +54,14 @@ public final class ProgressionManagerImpl {
      */
     public void saveGame() {
         this.saveLoadManager.saveGame(this.currentState);
+    }
+
+    /**
+     * Sets the current level the player is on.
+     *
+     * @param currentLevel the new current level number.
+     */
+    public void setCurrentLevel(final int levelnumber) { 
+        this.currentState.setCurrentLevel(levelnumber); 
     }
 }

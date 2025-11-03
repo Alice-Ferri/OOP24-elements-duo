@@ -1,12 +1,14 @@
 package it.unibo.elementsduo.controller.subcontroller.impl;
 
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.elementsduo.controller.maincontroller.api.LevelSelectionNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
@@ -24,7 +26,10 @@ public final class LevelSelectionController implements Controller {
     private final LevelSelectionNavigation controller;
     private final ProgressionManagerImpl progressionManager;
     private final ActionListener onMenuListener;
-    private final Map<JButton, ActionListener> levelButtonListeners;
+    private final List<ActionListener> list = new LinkedList<>();
+    final Function<Integer, ActionListener> listenerProvider = (levelNumber) -> {
+            return list.get(levelNumber);
+        };
 
     /**
      * Constructs a new LevelSelectionController.
@@ -33,28 +38,27 @@ public final class LevelSelectionController implements Controller {
      * @param controller         The navigation controller.
      * @param progressionManager The manager for loading player progress.
      */
-    public LevelSelectionController(final LevelSelectionPanel panel,
-                                    final LevelSelectionNavigation controller,
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification ="Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
+    public LevelSelectionController(final LevelSelectionNavigation controller,
                                     final ProgressionManagerImpl progressionManager) {
-        this.view = panel;
+        this.view = new LevelSelectionPanel();
         this.controller = controller;
         this.progressionManager = progressionManager;
 
         this.onMenuListener = e -> this.controller.goToMenu();
-        this.levelButtonListeners = new HashMap<>();
+        list.add(e -> this.controller.startGame(0));
+        list.add(e -> this.controller.startGame(1));
+        list.add(e -> this.controller.startGame(2));
     }
 
     @Override
     public void activate() {
         this.populateLevelData();
 
-        this.view.getLevelButtons().forEach((button, levelNumber) -> {
-            final ActionListener listener = e -> this.controller.startGame(levelNumber);
-            this.levelButtonListeners.put(button, listener);
-            button.addActionListener(listener);
-        });
+        this.view.addButtonListeners(listenerProvider,onMenuListener);
 
-        this.view.getBackButton().addActionListener(onMenuListener);
     }
 
     private void populateLevelData() {
@@ -75,15 +79,12 @@ public final class LevelSelectionController implements Controller {
 
     @Override
     public void deactivate() {
-        this.levelButtonListeners.forEach((button, listener) -> {
-            button.removeActionListener(listener);
-        });
-        this.levelButtonListeners.clear();
-
-        this.view.getBackButton().removeActionListener(onMenuListener);
+        
+        this.view.removeButtonListeners(listenerProvider,onMenuListener);
     }
 
     @Override
+    @SuppressFBWarnings(value = "EI", justification = "i need panel for card layout")
     public JPanel getPanel() {
         return this.view;
     }

@@ -9,10 +9,12 @@ import javax.swing.SwingConstants;
 import javax.swing.Box;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 /**
@@ -48,18 +50,36 @@ public final class LevelSelectionPanel extends JPanel {
         this.levelDataPanels = new LinkedHashMap<>();
         this.levelButtons = new LinkedHashMap<>();
 
-        IntStream.rangeClosed(1, NUM_LEVELS).forEach(i -> {
-            final JButton button = new JButton("Livello " + i);
-            final LevelDataPanel dataPanel = new LevelDataPanel(button);
+        IntStream.rangeClosed(0, NUM_LEVELS-1).forEach(i -> {
+            final JButton button = new JButton("Livello " + (i+1));
+            final LevelDataPanel dataPanel = new LevelDataPanel(button); 
             this.levelButtons.put(button, i);
             this.levelDataPanels.put(i, dataPanel);
             levelGrid.add(dataPanel);
         });
+
+
         add(levelGrid, BorderLayout.CENTER);
         this.backButton = new JButton("Indietro");
         final JPanel southPanel = new JPanel();
         southPanel.add(backButton);
         add(southPanel, BorderLayout.SOUTH);
+    }
+
+    public void addButtonListeners(final Function<Integer, ActionListener> listenerProvider, ActionListener onMenu){
+        this.levelButtons.forEach((button, levelNumber) -> {
+            final ActionListener listener = listenerProvider.apply(levelNumber);
+            button.addActionListener(listener);
+        });
+        this.backButton.addActionListener(onMenu);
+    }
+
+    public void removeButtonListeners(final Function<Integer, ActionListener> listenerProvider,final ActionListener onMenu){
+        this.levelButtons.forEach((button, levelNumber) -> {
+            button.removeActionListener(listenerProvider.apply(levelNumber));
+        });
+        this.backButton.addActionListener(onMenu);
+
     }
 
     /**
@@ -78,10 +98,10 @@ public final class LevelSelectionPanel extends JPanel {
     /**
      * Updates the collected gems labels for each level.
      *
-     * @param levelGems A map associating the level index with the gem count.
+     * @param missionCompleted A map associating the level index with the gem count.
      */
-    public void setMissionCompleted(final Map<Integer, String> missionComplted) {
-        missionComplted.forEach((levelNum, status) -> {
+    public void setMissionCompleted(final Map<Integer, String> missionCompleted) {
+        missionCompleted.forEach((levelNum, status) -> {
              Optional.ofNullable(this.levelDataPanels.get(levelNum)).ifPresent(panel -> {
                  panel.getMissionLabel().setText(status);
              });
@@ -105,29 +125,11 @@ public final class LevelSelectionPanel extends JPanel {
     }
 
     /**
-     * Returns the map associating level selection buttons to their index.
-     *
-     * @return The map of level buttons.
-     */
-    public Map<JButton, Integer> getLevelButtons() {
-        return this.levelButtons;
-    }
-
-    /**
-     * Returns the button used to go back to the main menu.
-     *
-     * @return The "Back" button.
-     */
-    public JButton getBackButton() {
-        return this.backButton;
-    }
-
-    /**
      * An inner panel that displays data for a single level.
      * Includes the button to start the level, the record time, and gems collected.
      */
     private static final class LevelDataPanel extends JPanel {
-        private final static String MISSION_STRING = "<html><div style='text-align: center;'>"
+        private static final String MISSION_STRING = "<html><div style='text-align: center;'>"
                  + "Missione:<br>"
                  + "Raccogli tutte le gemme,<br>"
                  + "uccidi tutti i nemici<br>"
@@ -175,5 +177,7 @@ public final class LevelSelectionPanel extends JPanel {
         public JLabel getMissionLabel() {
             return this.missionLabel;
         }
+
+
     }
 }

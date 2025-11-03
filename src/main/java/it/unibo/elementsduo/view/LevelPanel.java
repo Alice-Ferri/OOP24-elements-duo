@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ import java.util.Objects;
 public final class LevelPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private final Level level;
+    private final transient Level level;
     private final GameAreaPanel gameArea;
     private final JButton homeButton;
     private final JButton levelSelectButton;
@@ -68,22 +69,14 @@ public final class LevelPanel extends JPanel {
         this.add(gameArea, BorderLayout.CENTER);
     }
 
-    /**
-     * Gets the button that returns to the home menu.
-     *
-     * @return The "Home Menu" button.
-     */
-    public JButton getHomeButton() {
-        return this.homeButton;
+    public void addButtonsListeners(ActionListener start, ActionListener levelSelection){
+        this.homeButton.addActionListener(start);
+        this.levelSelectButton.addActionListener(levelSelection);
     }
 
-    /**
-     * Gets the button that returns to the level selection menu.
-     *
-     * @return The "Level Selection" button.
-     */
-    public JButton getLevelSelectButton() {
-        return this.levelSelectButton;
+    public void removeButtonsListeners(ActionListener start, ActionListener levelSelection){
+        this.homeButton.removeActionListener(start);
+        this.levelSelectButton.removeActionListener(levelSelection);
     }
 
     /**

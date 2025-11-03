@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Manages game persistence by saving and loading the ProgressionState 
@@ -13,6 +15,7 @@ import java.util.Optional;
  */
 public final class SaveManager { 
 
+    private static final Logger LOGGER = Logger.getLogger(SaveManager.class.getName());
     private static final String SAVE_FILE_NAME = "savegame.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Path savePath;
@@ -39,7 +42,7 @@ public final class SaveManager {
             this.objectMapper.writeValue(this.savePath.toFile(), state); 
 
         } catch (final IOException e) { 
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to save game state to " + this.savePath, e);
         }
     }
 
@@ -63,7 +66,7 @@ public final class SaveManager {
 
         } catch (final IOException e) { 
 
-            e.printStackTrace();
+           LOGGER.log(Level.SEVERE, "Failed to load game state from " + this.savePath, e);
             return Optional.empty();
         }
     }

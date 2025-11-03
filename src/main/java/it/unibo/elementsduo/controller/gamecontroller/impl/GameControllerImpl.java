@@ -4,6 +4,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.awt.event.ActionListener;
 import java.util.Objects;
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
@@ -21,12 +24,21 @@ import it.unibo.elementsduo.model.collisions.events.impl.PowerUpCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
+import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
+import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.map.level.api.Level;
+import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
+import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
+import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
+import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 import it.unibo.elementsduo.model.mission.impl.MissionManager;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.model.powerups.impl.PowerUpManager;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.view.LevelPanel;
 
 /**
@@ -49,6 +61,10 @@ public final class GameControllerImpl implements EventListener, GameController {
     private final EnemiesMoveManager moveManager;
     private final GameTimer gameTimer;
     private final ProgressionManagerImpl progressionManager;
+    private final ActionListener onMenuListener;
+    private final ActionListener onLevelListener;
+    private final MapLoader mapLoader;
+    private final MapValidator mapValidator;
 
     private boolean entitiesNeedCleaning;
 
@@ -60,21 +76,31 @@ public final class GameControllerImpl implements EventListener, GameController {
      * @param view               The level's view panel.
      * @param progressionManager The manager for saving game progress.
      */
-    public GameControllerImpl(final Level level, final GameNavigation controller,
-            final LevelPanel view, final ProgressionManagerImpl progressionManager) {
-        this.level = Objects.requireNonNull(level);
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
+
+    public GameControllerImpl(final int currentLevel, final GameNavigation controller,
+            final ProgressionManagerImpl progressionManager)
+            throws InvalidMapException {
         this.controller = Objects.requireNonNull(controller);
-        this.view = Objects.requireNonNull(view);
         this.gameLoop = new GameLoop(this);
         this.eventManager = new EventManager();
         this.inputController = new InputControllerImpl();
         this.gameState = new GameStateImpl(eventManager);
         this.powerUpManager = new PowerUpManager(this.eventManager);
         this.collisionManager = new CollisionManager(this.eventManager);
-        this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.gameTimer = new GameTimer();
-        this.scoreManager = new MissionManager(level);
         this.progressionManager = progressionManager;
+        this.onLevelListener = e -> controller.goToLevelSelection();
+        this.onMenuListener = e -> controller.goToMenu();
+        this.mapValidator = new MapValidatorImpl();
+        this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
+                new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl());
+
+        level = new LevelImpl(this.mapLoader.loadLevel(currentLevel));
+        mapValidator.validate(level);
+        this.view = new LevelPanel(level);
+        this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
+        this.scoreManager = new MissionManager(level);
 
         eventManager.subscribe(ProjectileSolidEvent.class, this);
         eventManager.subscribe(EnemyDiedEvent.class, this);
@@ -84,8 +110,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     public void activate() {
         this.inputController.install();
 
-        this.view.getHomeButton().addActionListener(e -> controller.goToMenu());
-        this.view.getLevelSelectButton().addActionListener(e -> controller.goToLevelSelection());
+        this.view.addButtonsListeners(onMenuListener, onLevelListener);
 
         this.setEnemiesMoveManager(moveManager);
         this.gameLoop.start();
@@ -95,17 +120,14 @@ public final class GameControllerImpl implements EventListener, GameController {
     @Override
     public void deactivate() {
         this.gameLoop.stop();
+        this.gameTimer.stop();
         this.inputController.uninstall();
 
-        for (final var listener : this.view.getHomeButton().getActionListeners()) {
-            this.view.getHomeButton().removeActionListener(listener);
-        }
-        for (final var listener : this.view.getLevelSelectButton().getActionListeners()) {
-            this.view.getLevelSelectButton().removeActionListener(listener);
-        }
+        view.removeButtonsListeners(onMenuListener, onLevelListener);
     }
 
     @Override
+    @SuppressFBWarnings(value = "EI", justification = "i need panel for card layout")
     public JPanel getPanel() {
         return this.view;
     }
@@ -143,10 +165,10 @@ public final class GameControllerImpl implements EventListener, GameController {
     }
 
     private void checkEnemiesAttack() {
-        this.level.getLivingEnemies().forEach(e -> e.attack().ifPresent(projectile -> level.addProjectile(projectile)));
+        this.level.getLivingEnemies().forEach(e -> e.attack().ifPresent(level::addProjectile));
     }
 
-    private void updatePlayers(double dt) {
+    private void updatePlayers(final double dt) {
         this.level.getAllPlayers().forEach(e -> e.update(dt, inputController));
     }
 

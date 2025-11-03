@@ -2,6 +2,8 @@ package it.unibo.elementsduo.controller.subcontroller.impl;
 
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.elementsduo.controller.maincontroller.api.HomeNavigation;
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
 import it.unibo.elementsduo.view.MenuPanel;
@@ -24,8 +26,8 @@ public final class HomeController implements Controller {
      * @param panel      The {@link MenuPanel} view.
      * @param controller The navigation controller.
      */
-    public HomeController(final MenuPanel panel, final HomeNavigation controller) {
-        this.view = panel;
+    public HomeController(final HomeNavigation controller) {
+        this.view = new MenuPanel();
 
         this.onStartListener = e -> controller.startNewGame();
         this.onLoadListener = e -> controller.loadSavedGame();
@@ -35,21 +37,16 @@ public final class HomeController implements Controller {
 
     @Override
     public void activate() {
-        this.view.getStartButton().addActionListener(this.onStartListener);
-        this.view.getLoadButton().addActionListener(this.onLoadListener);
-        this.view.getGuideButton().addActionListener(this.onGuideListener);
-        this.view.getExitButton().addActionListener(this.onExitListener);
+        this.view.addButtonsListeners(onStartListener, onLoadListener, onGuideListener, onExitListener);
     }
 
     @Override
     public void deactivate() {
-        this.view.getStartButton().removeActionListener(this.onStartListener);
-        this.view.getLoadButton().removeActionListener(this.onLoadListener);
-        this.view.getGuideButton().removeActionListener(this.onGuideListener);
-        this.view.getGuideButton().removeActionListener(this.onExitListener);
+        this.view.removeButtonsListeners(onStartListener, onLoadListener, onGuideListener, onExitListener);
     }
 
     @Override
+    @SuppressFBWarnings(value = "EI", justification = "i need panel for card layout")
     public JPanel getPanel() {
         return this.view;
     }
