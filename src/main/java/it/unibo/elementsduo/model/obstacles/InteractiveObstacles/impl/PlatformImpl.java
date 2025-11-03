@@ -1,11 +1,8 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
-<<<<<<< HEAD
 import java.util.List;
 import java.util.ArrayList;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
-=======
->>>>>>> powerups
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.resources.Position;
@@ -147,11 +144,8 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
 
     /**
      * {@inheritDoc}
-<<<<<<< HEAD
-=======
      *
      * @return the collision layer associated with this platform
->>>>>>> powerups
      */
     @Override
     public CollisionLayer getCollisionLayer() {

@@ -162,11 +162,7 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      *
      * @param penetration the penetration depth between colliding bodies
      * @param normal      the collision normal vector
-<<<<<<< HEAD
-     * @param other       the other collidable object
-=======
      * @param other       the other collidable object involved in the collision
->>>>>>> powerups
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
@@ -190,15 +186,11 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
         }
     }
 
-<<<<<<< HEAD
-    /** {@inheritDoc} */
-=======
     /**
      * {@inheritDoc}
      *
      * @return the collision layer associated with this pushable box
      */
->>>>>>> powerups
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PUSHABLE;
