@@ -3,8 +3,6 @@ package it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.api.Hazard;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.effects.api.HazardEffect;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.effects.impl.KillEffect;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 
 /**
@@ -12,8 +10,6 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticOb
  * for players who come into contact with it.
  */
 public final class LavaPool extends AbstractStaticObstacle implements Hazard {
-
-    private final HazardEffect effect;
 
     /**
      * Creates a new {@code LavaPool} with the specified hitbox.
@@ -23,7 +19,6 @@ public final class LavaPool extends AbstractStaticObstacle implements Hazard {
      */
     public LavaPool(final HitBox hitBox) {
         super(hitBox);
-        this.effect = new KillEffect();
     }
 
     @Override
@@ -36,8 +31,4 @@ public final class LavaPool extends AbstractStaticObstacle implements Hazard {
         return CollisionLayer.HAZARD;
     }
 
-    @Override
-    public HazardEffect getEffect() {
-        return this.effect;
-    }
 }

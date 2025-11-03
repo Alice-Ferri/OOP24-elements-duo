@@ -1,6 +1,5 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.PhysicsCorrectionCommand;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
@@ -23,7 +22,7 @@ public final class PhysicsHandler extends AbstractCollisionHandler<Movable, Coll
             builder.addPhysicsCommand(
                     () -> resolveMovablesCollision(movable, otherMovable, normal, c.getPenetration()));
         } else {
-            builder.addPhysicsCommand(new PhysicsCorrectionCommand(movable, other, c.getPenetration(), normal));
+            builder.addPhysicsCommand(() -> movable.correctPhysicsCollision(c.getPenetration(), normal, other));
         }
     }
 

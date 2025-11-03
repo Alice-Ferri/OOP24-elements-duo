@@ -1,10 +1,11 @@
 package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.collisions.commands.impl.PlayerEnemyCommand;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
+import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
@@ -55,7 +56,12 @@ public final class PlayerEnemyHandler extends AbstractCollisionHandler<Player, E
         builder.addLogicCommand(() -> {
             final boolean enemyPowerActive = player instanceof PlayerPoweredUp aware
                     && aware.hasPowerUpEffect(PowerUpType.ENEMY_KILL);
-            new PlayerEnemyCommand(player, enemy, eventManager, enemyPowerActive || isPlayerAboveEnemy).execute();
+            if (enemyPowerActive || isPlayerAboveEnemy) {
+                enemy.die();
+                this.eventManager.notify(new EnemyDiedEvent(enemy));
+            } else {
+                this.eventManager.notify(new PlayerDiedEvent(player));
+            }
         });
     }
 }
