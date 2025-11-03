@@ -10,6 +10,7 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
  * <p>
  * All physical entities such as players, enemies, and obstacles implement this
  * interface.
+ * </p>
  */
 public interface Collidable {
 
@@ -31,14 +32,42 @@ public interface Collidable {
         return true;
     }
 
-    // my layer so other can know if colliding with me
+    /**
+     * Returns the {@link CollisionLayer} associated with this object.
+     * <p>
+     * The collision layer determines what types of entities this object can
+     * interact with during collision checks.
+     * </p>
+     *
+     * @return the collision layer of this object
+     */
     CollisionLayer getCollisionLayer();
 
-    // objects i want to collide
+    /**
+     * Returns the set of {@link CollisionLayer}s that this object is allowed to
+     * collide with.
+     *
+     * @return an {@link EnumSet} of layers representing allowed collisions
+     */
     default EnumSet<CollisionLayer> getCollisionMask() {
         return this.getCollisionLayer().getDefaultMask();
     }
 
+    /**
+     * Determines whether this object should resolve a physics interaction with
+     * another {@link Collidable}.
+     *
+     * <p>
+     * This check ensures that both objects have physical responses enabled and
+     * that at least one of their collision masks allows interaction with the
+     * other.
+     * </p>
+     *
+     * @param other the other {@link Collidable} to check collision compatibility
+     *              with
+     * @return {@code true} if the objects should resolve a physics collision,
+     *         {@code false} otherwise
+     */
     default boolean resolvePhysicsWith(final Collidable other) {
         if (!this.hasPhysicsResponse() || !other.hasPhysicsResponse()) {
             return false;

@@ -12,16 +12,17 @@ import it.unibo.elementsduo.resources.Vector2D;
  * 
  * <p>
  * This class provides generic collision dispatch logic that identifies whether
- * a
- * pair of collidable objects can be processed by this handler and delegates the
- * actual collision handling to subclasses via the
+ * a pair of collidable objects can be processed by this handler and delegates
+ * the actual collision handling to subclasses via the
  * {@link #handleCollision(Object, Object, CollisionInformations, CollisionResponse.Builder)}
  * method.
+ * </p>
  * 
  * <p>
  * Subclasses should implement
  * {@link #handleCollision(Object, Object, CollisionInformations, CollisionResponse.Builder)}
  * to define specific collision behavior between two object types.
+ * </p>
  *
  * @param <A> the first {@link Collidable} type
  * @param <B> the second {@link Collidable} type
@@ -53,6 +54,7 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
      * <p>
      * The handler can handle the collision if the pair of objects matches either
      * {@code (typeA, typeB)} or {@code (typeB, typeA)}.
+     * </p>
      *
      * @param a the first collidable
      * @param b the second collidable
@@ -66,12 +68,12 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
 
     /**
      * Handles a collision between two collidable objects if their types are
-     * supported
-     * by this handler.
+     * supported by this handler.
      * 
      * <p>
      * The method determines the correct type order and delegates the handling to
      * {@link #handleCollision(Object, Object, CollisionInformations, CollisionResponse.Builder)}.
+     * </p>
      *
      * @param c       the collision information
      * @param builder the builder used to accumulate collision responses
@@ -93,6 +95,7 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
      * <p>
      * Subclasses must implement this method to define collision behavior between
      * the specified types.
+     * </p>
      *
      * @param a       the first collidable object
      * @param b       the second collidable object
@@ -101,7 +104,23 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
      */
     protected abstract void handleCollision(A a, B b, CollisionInformations c, CollisionResponse.Builder builder);
 
-    protected Vector2D getNormalFromPerspective(final Collidable perspectiveObj, final CollisionInformations c) {
+    /**
+     * Returns the collision normal vector from the perspective of a specific
+     * {@link Collidable}.
+     * 
+     * <p>
+     * If the given object is {@code objectA} in the collision, the normal is
+     * returned as-is. Otherwise, the normal is inverted to reflect the opposite
+     * direction from {@code objectB}'s perspective.
+     * </p>
+     *
+     * @param perspectiveObj the {@link Collidable} for which the normal should be
+     *                       computed
+     * @param c              the {@link CollisionInformations} object containing
+     *                       collision details
+     * @return the normal vector from the given object's perspective
+     */
+    protected final Vector2D getNormalFromPerspective(final Collidable perspectiveObj, final CollisionInformations c) {
         return (c.getObjectA() == perspectiveObj) ? c.getNormal() : c.getNormal().multiply(-1);
     }
 }
