@@ -11,6 +11,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerEnemyHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerHazardHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerPlatformHandler;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerPowerUpHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerProjectileHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.PlayerExitHandler;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.ProjectileSolidHandler;
@@ -49,6 +50,7 @@ public final class CollisionManager {
         register.registerHandler(new PushBoxHandler());
         register.registerHandler(new PlayerEnemyHandler(this.eventManager));
         register.registerHandler(new GemCollisionsHandler(this.eventManager));
+        register.registerHandler(new PlayerPowerUpHandler(eventManager));
         register.registerHandler(new ProjectileSolidHandler(this.eventManager));
         register.registerHandler(new PlayerHazardHandler(this.eventManager));
         register.registerHandler(new PlayerProjectileHandler(eventManager));

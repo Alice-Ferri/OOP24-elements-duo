@@ -50,4 +50,9 @@ public class PowerUpImpl implements PowerUp {
         return this.active;
     }
 
+    @Override
+    public boolean hasPhysicsResponse() {
+        return false;
+    }
+
 }
