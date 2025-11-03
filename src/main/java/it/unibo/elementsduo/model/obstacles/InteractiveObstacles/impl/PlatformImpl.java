@@ -15,6 +15,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * at a fixed speed while active. It also implements {@link TriggerListener},
  * allowing it to react to external trigger events.
  * </p>
+ * 
  * <p>
  * This class is not designed for extension and is therefore declared final.
  * </p>

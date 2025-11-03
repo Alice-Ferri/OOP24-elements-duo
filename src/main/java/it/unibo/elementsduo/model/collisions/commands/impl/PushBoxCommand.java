@@ -5,6 +5,10 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
+/**
+ * A collision command that applies a pushing effect to a {@link PushBox}
+ * when a {@link Player} collides with it from the side.
+ */
 public final class PushBoxCommand implements CollisionCommand {
 
     private static final double VERTICAL_THRESHOLD = -0.5;
@@ -14,10 +18,11 @@ public final class PushBoxCommand implements CollisionCommand {
     private final Player player;
 
     /**
+     * Creates a new {@code PushBoxCommand}.
      *
-     * @param box          the PushBox
-     * @param penetration  collision penetration
-     * @param playerNormal the normal from the player's perspective
+     * @param box          the pushable box involved in the collision
+     * @param player       the player interacting with the box
+     * @param playerNormal the collision normal from the player’s perspective
      */
     public PushBoxCommand(final PushBox box, final Player player, final Vector2D playerNormal) {
         this.box = box;
@@ -25,14 +30,18 @@ public final class PushBoxCommand implements CollisionCommand {
         this.player = player;
     }
 
+    /**
+     * Executes the push effect if the collision direction and player movement
+     * meet the conditions for applying a force to the box.
+     */
     @Override
     public void execute() {
-        if (playerNormal.y() < VERTICAL_THRESHOLD) {
+        if (this.playerNormal.y() < VERTICAL_THRESHOLD) {
             return;
         }
 
-        final double playerVelX = player.getVelocity().x();
-        final double direction = -Math.signum(playerNormal.x());
+        final double playerVelX = this.player.getVelocity().x();
+        final double direction = -Math.signum(this.playerNormal.x());
 
         if (direction == 0.0) {
             return;
@@ -43,6 +52,6 @@ public final class PushBoxCommand implements CollisionCommand {
         }
 
         final double pushVelocity = direction * Math.abs(playerVelX);
-        box.push(new Vector2D(pushVelocity, 0));
+        this.box.push(new Vector2D(pushVelocity, 0));
     }
 }

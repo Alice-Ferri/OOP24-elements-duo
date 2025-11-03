@@ -31,14 +31,31 @@ public interface Collidable {
         return true;
     }
 
-    // my layer so other can know if colliding with me
+    /**
+     * Returns the {@link CollisionLayer} of this object,
+     * defining its collision group.
+     *
+     * @return the collision layer of this object
+     */
     CollisionLayer getCollisionLayer();
 
-    // objects i want to collide
+    /**
+     * Returns the set of {@link CollisionLayer}s that this object should
+     * check collisions against.
+     *
+     * @return an {@link EnumSet} representing the collision mask
+     */
     default EnumSet<CollisionLayer> getCollisionMask() {
         return this.getCollisionLayer().getDefaultMask();
     }
 
+    /**
+     * Determines whether this object should resolve physics interactions
+     * with another collidable object.
+     *
+     * @param other the other collidable object
+     * @return {@code true} if physics should be resolved between the two objects
+     */
     default boolean resolvePhysicsWith(final Collidable other) {
         if (!this.hasPhysicsResponse() || !other.hasPhysicsResponse()) {
             return false;

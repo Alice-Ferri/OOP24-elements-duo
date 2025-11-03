@@ -2,6 +2,14 @@ package it.unibo.elementsduo.model.collisions.core.api;
 
 import java.util.EnumSet;
 
+/**
+ * Represents the various collision layers used in the game world.
+ * 
+ * <p>
+ * Each {@code CollisionLayer} defines a category of objects (e.g., player,
+ * enemy, platform) and their default collision interactions with other layers.
+ * </p>
+ */
 public enum CollisionLayer {
     PLAYER(true),
     ENEMY(true),
@@ -38,10 +46,22 @@ public enum CollisionLayer {
         POWER_UP.defaultMask = EnumSet.of(PLAYER);
     }
 
+    /**
+     * Returns whether objects in this layer have a physics response by default.
+     *
+     * @return {@code true} if objects in this layer have physics response,
+     *         {@code false} otherwise
+     */
     public boolean hasPhysicsResponseByDefault() {
         return this.defaultPhysicsResponse;
     }
 
+    /**
+     * Returns the default collision mask for this layer, indicating which layers
+     * it can collide with.
+     *
+     * @return a copy of the {@link EnumSet} containing the default collision mask
+     */
     public EnumSet<CollisionLayer> getDefaultMask() {
         return EnumSet.copyOf(this.defaultMask);
     }

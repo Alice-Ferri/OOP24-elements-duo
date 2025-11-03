@@ -12,9 +12,8 @@ import it.unibo.elementsduo.resources.Vector2D;
  * 
  * <p>
  * This class provides generic collision dispatch logic that identifies whether
- * a
- * pair of collidable objects can be processed by this handler and delegates the
- * actual collision handling to subclasses via the
+ * a pair of collidable objects can be processed by this handler and delegates
+ * the actual collision handling to subclasses via the
  * {@link #handleCollision(Object, Object, CollisionInformations, CollisionResponse.Builder)}
  * method.
  * 
@@ -101,7 +100,20 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
      */
     protected abstract void handleCollision(A a, B b, CollisionInformations c, CollisionResponse.Builder builder);
 
-    protected Vector2D getNormalFromPerspective(final Collidable perspectiveObj, final CollisionInformations c) {
+    /**
+     * Returns the collision normal from the perspective of the specified object.
+     *
+     * <p>
+     * If the provided {@code perspectiveObj} is the first object in the collision
+     * pair, the normal is returned as-is. Otherwise, the normal is inverted.
+     * </p>
+     *
+     * @param perspectiveObj the object whose perspective is used to interpret the
+     *                       collision normal
+     * @param c              the collision information
+     * @return the collision normal from the given object's perspective
+     */
+    protected final Vector2D getNormalFromPerspective(final Collidable perspectiveObj, final CollisionInformations c) {
         return (c.getObjectA() == perspectiveObj) ? c.getNormal() : c.getNormal().multiply(-1);
     }
 }
