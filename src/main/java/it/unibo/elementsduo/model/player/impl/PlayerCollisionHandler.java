@@ -1,6 +1,9 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.resources.Vector2D;
 
 public class PlayerCollisionHandler {
@@ -18,7 +21,7 @@ public class PlayerCollisionHandler {
             return;
         }
 
-        if (other instanceof it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall wall && normal.y() < -0.5) {
+        if (other instanceof Wall wall && normal.y() < -0.5) {
             if (handleHorizontalOverlap(wall)) {
                 return;
             }
@@ -28,7 +31,7 @@ public class PlayerCollisionHandler {
         handleVertical(normal, other);
     }
 
-    private boolean handleHorizontalOverlap(final it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall wall) {
+    private boolean handleHorizontalOverlap(final Wall wall) {
         final var playerHitBox = this.player.getHitBox();
         final var wallHitBox = wall.getHitBox();
         final double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
@@ -73,7 +76,7 @@ public class PlayerCollisionHandler {
             player.setVelocityY(0);
             player.setOnGround();
 
-            if (other instanceof it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl platform) {
+            if (other instanceof PlatformImpl platform) {
                 player.setVelocityY(platform.getVelocity().y());
             }
         } else if (normalY > 0.5) {
