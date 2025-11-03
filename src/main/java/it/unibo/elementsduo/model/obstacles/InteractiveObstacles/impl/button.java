@@ -10,28 +10,46 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSour
 import it.unibo.elementsduo.resources.Position;
 
 /**
- * Represents a button which can be pressed and released
- * notifies its linked objects when its state changes.
+ * Represents a button that can be pressed and released.
+ * When pressed or released, it notifies all registered {@link TriggerListener}s
+ * about its new state.
+ * <p>
+ * This class is not designed for extension and is therefore declared as final.
  */
-public class Button extends AbstractInteractiveObstacle implements TriggerSource, Pressable {
+public final class Button extends AbstractInteractiveObstacle implements TriggerSource, Pressable {
 
     private static final double HALF_WIDTH = 0.5;
-
     private static final double HALF_HEIGHT = 0.5;
 
     private boolean active;
 
     private final List<TriggerListener> linkedObjects = new ArrayList<>();
 
+    /**
+     * Creates a button centered at the specified position.
+     *
+     * @param center the position of the button
+     */
     public Button(final Position center) {
         super(center, HALF_WIDTH, HALF_HEIGHT);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return true if the button is currently active (pressed), false otherwise
+     */
     @Override
     public boolean isActive() {
         return this.active;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Activates the button and notifies all registered listeners if it was not
+     * already active.
+     */
     @Override
     public void press() {
         if (!this.active) {
@@ -40,6 +58,12 @@ public class Button extends AbstractInteractiveObstacle implements TriggerSource
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Deactivates the button and notifies all registered listeners if it was
+     * active.
+     */
     @Override
     public void release() {
         if (this.active) {
@@ -48,19 +72,38 @@ public class Button extends AbstractInteractiveObstacle implements TriggerSource
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Adds a {@link TriggerListener} to be notified when the button is pressed or
+     * released.
+     *
+     * @param listener the listener to add
+     */
     @Override
     public void addListener(final TriggerListener listener) {
         this.linkedObjects.add(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Removes a {@link TriggerListener} from the list of listeners.
+     *
+     * @param listener the listener to remove
+     */
     @Override
     public void removeListener(final TriggerListener listener) {
         this.linkedObjects.remove(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return the collision layer associated with this button
+     */
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.BUTTON;
     }
-
 }
