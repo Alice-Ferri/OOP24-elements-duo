@@ -4,6 +4,7 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.powerups.api.PowerUp;
+import it.unibo.elementsduo.model.powerups.api.PowerUpEffect;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.resources.Position;
 
@@ -13,11 +14,13 @@ public class PowerUpImpl implements PowerUp {
     private final double duration;
     private final HitBox hitBox;
     private boolean active = true;
+    private final PowerUpEffect effect;
 
-    public PowerUpImpl(PowerUpType type, Position pos, double duration) {
+    public PowerUpImpl(PowerUpType type, Position pos, double duration, PowerUpEffect powerUpEffect) {
         this.type = type;
         this.hitBox = new HitBoxImpl(pos, 0.3, 0.3);
         this.duration = duration;
+        this.effect = powerUpEffect;
     }
 
     @Override
@@ -33,6 +36,10 @@ public class PowerUpImpl implements PowerUp {
     @Override
     public PowerUpType getType() {
         return this.type;
+    }
+
+    public PowerUpEffect getEffectStrategy() {
+        return this.effect;
     }
 
     @Override
