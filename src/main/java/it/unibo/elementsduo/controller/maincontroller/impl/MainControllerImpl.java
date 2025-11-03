@@ -106,6 +106,7 @@ public final class MainControllerImpl
 
     @Override
     public void quitGame() {
+        this.checkController();
         this.mainFrame.dispose();
     }
 

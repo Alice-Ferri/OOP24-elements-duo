@@ -118,6 +118,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     @Override
     public void deactivate() {
         this.gameLoop.stop();
+        this.gameTimer.stop();
         this.inputController.uninstall();
 
         view.removeButtonsListeners(onMenuListener, onLevelListener);
