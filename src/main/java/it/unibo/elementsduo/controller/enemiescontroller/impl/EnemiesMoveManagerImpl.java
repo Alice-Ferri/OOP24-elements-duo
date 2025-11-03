@@ -7,50 +7,51 @@ import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.resources.Position;
 
 /**
  * Implementation of the EnemiesMoveManager interface.
- * Handles the logic for detecting edges for enemies 
+ * Handles the logic for detecting edges for enemies
  * and reversing their direction.
  */
-public final class EnemiesMoveManagerImpl implements EnemiesMoveManager { 
+public final class EnemiesMoveManagerImpl implements EnemiesMoveManager {
 
     private static final double CHECK_DROP_DISTANCE = 0.05;
     private static final double CHECK_FORWARD_OFFSET = 0.51;
     private static final double CHECK_HITBOX_WIDTH = 0.2;
 
-    private final Set<obstacle> obstacles;
+    private final Set<Obstacle> obstacles;
 
     /**
      * Constructs a new EnemiesMoveManagerImpl.
      *
      * @param obstacles the set of obstacles in the current level.
      */
-    public EnemiesMoveManagerImpl(final Set<obstacle> obstacles) {
+    public EnemiesMoveManagerImpl(final Set<Obstacle> obstacles) {
         this.obstacles = new HashSet<>(obstacles);
     }
 
     /**
      * {@inheritDoc}
-     * If the enemy is at the edge of a platform or near a gap, its direction is reversed.
+     * If the enemy is at the edge of a platform or near a gap, its direction is
+     * reversed.
      */
     @Override
     public void handleEdgeDetection(final Enemy enemy) {
         final HitBox edgeCheckHitBox = createEdgeCheckHitBox(enemy);
 
         final boolean isEdge = this.obstacles.stream()
-            .noneMatch(obstacle -> obstacle.getHitBox().intersects(edgeCheckHitBox));
+                .noneMatch(obstacle -> obstacle.getHitBox().intersects(edgeCheckHitBox));
 
         if (isEdge) {
-             enemy.setDirection(); 
+            enemy.setDirection();
         }
     }
 
     /**
      * Calculates the HitBox for checking the edge of a platform.
-     * The box is created slightly forward (in the direction of travel) and 
+     * The box is created slightly forward (in the direction of travel) and
      * slightly below the enemy's expected foot position.
      *
      * @param enemy the enemy instance.
@@ -67,7 +68,6 @@ public final class EnemiesMoveManagerImpl implements EnemiesMoveManager {
         final double yCenterPosition = y + enemyHeight + CHECK_DROP_DISTANCE;
 
         return new HitBoxImpl(
-            new Position(checkBoxCenterX, yCenterPosition), CHECK_HITBOX_WIDTH, CHECK_DROP_DISTANCE);
-        }
+                new Position(checkBoxCenterX, yCenterPosition), CHECK_HITBOX_WIDTH, CHECK_DROP_DISTANCE);
+    }
 }
-

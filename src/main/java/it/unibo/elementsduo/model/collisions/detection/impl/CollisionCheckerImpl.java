@@ -13,7 +13,6 @@ import it.unibo.elementsduo.model.collisions.detection.api.QuadTree;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * <<<<<<< HEAD
  * Implementation of {@link CollisionChecker} that detects and resolves
  * collisions between {@link Collidable} entities using a QuadTree for spatial
  * partitioning.

@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /**
@@ -40,9 +40,9 @@ public interface Level {
     /**
      * Gets all static and interactive obstacles in the level.
      *
-     * @return A set of all {@link obstacle} objects.
+     * @return A set of all {@link Obstacle} objects.
      */
-    Set<obstacle> getAllObstacles();
+    Set<Obstacle> getAllObstacles();
 
     /**
      * Gets all enemies in the level, regardless of their state (alive or dead).

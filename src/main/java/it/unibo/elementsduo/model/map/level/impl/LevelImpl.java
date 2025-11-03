@@ -13,7 +13,7 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.powerups.api.PowerUp;
 
@@ -50,8 +50,8 @@ public final class LevelImpl implements Level {
     }
 
     @Override
-    public Set<obstacle> getAllObstacles() {
-        return getEntitiesByClass(obstacle.class);
+    public Set<Obstacle> getAllObstacles() {
+        return getEntitiesByClass(Obstacle.class);
     }
 
     @Override

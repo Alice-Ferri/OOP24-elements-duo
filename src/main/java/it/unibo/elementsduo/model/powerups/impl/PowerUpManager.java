@@ -19,12 +19,10 @@ public class PowerUpManager implements EventListener {
 
     private final EventManager eventManager;
     private final Map<Player, Map<PowerUpType, ActivePowerUp>> activeEffects = new HashMap<>();
-    private static PowerUpManager instance;
 
     public PowerUpManager(final EventManager eventManager) {
         this.eventManager = Objects.requireNonNull(eventManager);
         this.eventManager.subscribe(PowerUpCollectedEvent.class, this);
-        instance = this;
     }
 
     public boolean hasEffect(final Player player, final PowerUpType type) {
@@ -70,10 +68,6 @@ public class PowerUpManager implements EventListener {
                 playersIterator.remove();
             }
         }
-    }
-
-    public static PowerUpManager getInstance() {
-        return instance;
     }
 
     private static final class ActivePowerUp {

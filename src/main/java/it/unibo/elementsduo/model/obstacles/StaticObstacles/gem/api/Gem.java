@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api;
 
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 
 /**
  * Represents a gem or a static collectible object in the game.
@@ -8,7 +8,7 @@ import it.unibo.elementsduo.model.obstacles.api.obstacle;
  * <p>
  * Gems are obstacles that can be collected by the player.
  */
-public interface Gem extends obstacle {
+public interface Gem extends Obstacle {
 
     /**
      * Checks if the gem is currently active and available for collection.

@@ -1,13 +1,5 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api;
 
-/**
- * Listener interface for receiving notifications when a {@link Triggerable}
- * object changes its state.
- * 
- * <p>
- * Implementing classes define how to react when a trigger is activated or
- * deactivated in the game world.
- */
 public interface TriggerListener {
 
     /**

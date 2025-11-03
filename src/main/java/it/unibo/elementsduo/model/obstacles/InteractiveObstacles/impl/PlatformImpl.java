@@ -1,7 +1,5 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
-import java.util.List;
-import java.util.ArrayList;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
@@ -112,6 +110,7 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
     /** {@inheritDoc} */
     public void toggle() {
         this.active = !this.active;
+        this.velocity = Vector2D.ZERO;
     }
 
     /**

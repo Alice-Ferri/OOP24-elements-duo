@@ -23,7 +23,7 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireEx
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
@@ -35,15 +35,15 @@ import it.unibo.elementsduo.resources.Position;
  */
 public final class MapValidatorImpl implements MapValidator {
 
-    private static final Set<Class<? extends obstacle>> ENEMY_SURFACES = Set.of(
+    private static final Set<Class<? extends Obstacle>> ENEMY_SURFACES = Set.of(
             Floor.class, LavaPool.class, WaterPool.class, GreenPool.class);
-    private static final Set<Class<? extends obstacle>> INTERACTIVE_SURFACES = Set.of(
+    private static final Set<Class<? extends Obstacle>> INTERACTIVE_SURFACES = Set.of(
             Floor.class, LavaPool.class, WaterPool.class);
-    private static final Set<Class<? extends obstacle>> FIREBOY_SURFACES = Set.of(
+    private static final Set<Class<? extends Obstacle>> FIREBOY_SURFACES = Set.of(
             Floor.class, LavaPool.class);
-    private static final Set<Class<? extends obstacle>> WATERGIRL_SURFACES = Set.of(
+    private static final Set<Class<? extends Obstacle>> WATERGIRL_SURFACES = Set.of(
             Floor.class, WaterPool.class);
-    private static final Set<Class<? extends obstacle>> VISITABLE_SURFACES_BFS = Set.of(
+    private static final Set<Class<? extends Obstacle>> VISITABLE_SURFACES_BFS = Set.of(
             PlatformImpl.class,
             PushBox.class);
 
@@ -150,7 +150,7 @@ public final class MapValidatorImpl implements MapValidator {
         if (endPoints.isEmpty()) {
 
             throw new InvalidMapException("Adj Error: " + playerName + " exit at " + exit
-                     + " is not adjacent to any empty space.");
+                    + " is not adjacent to any empty space.");
         }
 
         if (!isPathPossible(startPoints, endPoints, walkableSpace)) {
@@ -231,7 +231,7 @@ public final class MapValidatorImpl implements MapValidator {
         return empty;
     }
 
-    private Set<Position> getValidGround(final Level level, final Set<Class<? extends obstacle>> surfaceTypes) {
+    private Set<Position> getValidGround(final Level level, final Set<Class<? extends Obstacle>> surfaceTypes) {
         return level.getAllObstacles().stream()
                 .filter(obs -> surfaceTypes.stream().anyMatch(type -> type.isInstance(obs)))
                 .map(this::getGridPosFromHitBox)

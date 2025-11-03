@@ -1,13 +1,13 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 
 /**
  * Abstract base class for all static (non-moving) obstacles in the game,
  * implementing the basic functionality of an obstacle with a fixed HitBox.
  */
-public abstract class AbstractStaticObstacle implements obstacle {
+public abstract class AbstractStaticObstacle implements Obstacle {
 
     /** The obstacle's hitbox defining its physical boundaries. */
     private final HitBox hitbox;

@@ -5,15 +5,9 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.api.Hazard;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.GreenPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
-import it.unibo.elementsduo.model.player.impl.Fireboy;
-import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
-import it.unibo.elementsduo.model.powerups.impl.PowerUpManager;
 
 /**
  * Handles collisions between a {@link Player} and a {@link Hazard}.

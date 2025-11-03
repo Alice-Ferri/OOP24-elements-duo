@@ -2,7 +2,7 @@ package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.resources.Position;
 
 /**
@@ -16,7 +16,7 @@ import it.unibo.elementsduo.resources.Position;
  * Specific interactive elements (e.g., buttons, levers) should extend this
  * class and define their own behavior.
  */
-public abstract class AbstractInteractiveObstacle implements obstacle {
+public abstract class AbstractInteractiveObstacle implements Obstacle {
 
     /** The center position of the obstacle. */
     private Position center;

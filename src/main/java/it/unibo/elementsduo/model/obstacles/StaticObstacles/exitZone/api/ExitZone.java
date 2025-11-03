@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.api;
 
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.ExitType;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 
 /**
  * Represents an exit area in the game that players can activate to complete a
@@ -11,7 +11,7 @@ import it.unibo.elementsduo.model.obstacles.api.obstacle;
  * Implementations define how the exit zone becomes active and how it interacts
  * with players.
  */
-public interface ExitZone extends obstacle {
+public interface ExitZone extends Obstacle {
 
     /**
      * Activates the exit zone.
