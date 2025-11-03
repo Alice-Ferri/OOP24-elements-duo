@@ -10,6 +10,7 @@ import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,8 @@ final class TestMapValidator {
         this.mapLoader = new MapLoader(
             new ObstacleFactoryImpl(), 
             new EnemyFactoryImpl(),
-            new InteractiveObstacleFactoryImpl()
+            new InteractiveObstacleFactoryImpl(),
+            new PowerUpFactoryImpl()
         );
     }
 

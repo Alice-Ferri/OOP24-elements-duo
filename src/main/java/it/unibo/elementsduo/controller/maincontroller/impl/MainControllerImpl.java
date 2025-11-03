@@ -45,9 +45,6 @@ public final class MainControllerImpl
 
     private int currentLevelNumber = -1;
     private ProgressionManagerImpl progressionManager;
-    private MapValidator mapValidator;
-    private MapLoader mapLoader;
-
     private Controller currentController;
 
     /**
@@ -55,9 +52,6 @@ public final class MainControllerImpl
      */
     public MainControllerImpl() {
         this.mainFrame = new GameFrame();
-        this.mapValidator = new MapValidatorImpl();
-        this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
-                new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl());
         this.saveManager = new SaveManager(Paths.get(SAVE_DIR));
     }
 
