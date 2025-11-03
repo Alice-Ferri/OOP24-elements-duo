@@ -46,8 +46,8 @@ public class PlayerCollisionHandler {
 
         final double velocityNormal = player.getVelocity().dot(horizontalNormal);
         if (velocityNormal < 0) {
-            double newVx = player.getVelocity().x() - horizontalNormal.x() * velocityNormal;
-            player.setVelocityX(newVx);
+            final Vector2D newVelocity = player.getVelocity().subtract(horizontalNormal.multiply(velocityNormal));
+            player.setVelocityX(newVelocity.x());
         }
         return true;
     }
@@ -60,10 +60,9 @@ public class PlayerCollisionHandler {
 
         final double velocityNormal = player.getVelocity().dot(normal);
         if (velocityNormal < 0) {
-            double newVx = player.getVelocity().x() - normal.x() * velocityNormal;
-            double newVy = player.getVelocity().y() - normal.y() * velocityNormal;
-            player.setVelocityX(newVx);
-            player.setVelocityY(newVy);
+            final Vector2D newVelocity = player.getVelocity().subtract(normal.multiply(velocityNormal));
+            player.setVelocityX(newVelocity.x());
+            player.setVelocityY(newVelocity.y());
         }
     }
 
