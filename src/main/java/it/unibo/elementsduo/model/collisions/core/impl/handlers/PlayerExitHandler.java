@@ -57,9 +57,9 @@ public final class PlayerExitHandler extends AbstractCollisionHandler<Player, Ex
                 player.setOnExit(true);
                 exitZone.activate();
                 if (exitZone.getExitType() == ExitType.FIRE_EXIT) {
-                    this.eventManager.notify(new FireExitEvent(player));
+                    this.eventManager.notify(new FireExitEvent());
                 } else if (exitZone.getExitType() == ExitType.WATER_EXIT) {
-                    this.eventManager.notify(new WaterExitEvent(player));
+                    this.eventManager.notify(new WaterExitEvent());
                 }
             });
         }

@@ -45,6 +45,6 @@ public final class ProjectileSolidHandler extends AbstractCollisionHandler<Proje
     public void handleCollision(final Projectiles projectile, final Obstacle ob, final CollisionInformations c,
             final CollisionResponse.Builder builder) {
         projectile.deactivate();
-        builder.addLogicCommand(() -> this.eventManager.notify(new ProjectileSolidEvent(projectile)));
+        builder.addLogicCommand(() -> this.eventManager.notify(new ProjectileSolidEvent()));
     }
 }
