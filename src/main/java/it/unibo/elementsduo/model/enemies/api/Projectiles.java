@@ -11,12 +11,6 @@ import it.unibo.elementsduo.model.gameentity.api.Updatable;
 
 public interface Projectiles extends Movable, GameEntity, Updatable {
 
-    /**
-     * Updates the projectile's state, including movement.
-     *
-     * @param deltaTime the time elapsed since the last frame.
-     */
-    void update(double deltaTime);
 
     /**
      * Indicates whether the projectile is still active and should be

@@ -2,7 +2,6 @@ package it.unibo.elementsduo.model.enemies.api;
 
 import java.util.Optional;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
@@ -10,7 +9,7 @@ import it.unibo.elementsduo.model.gameentity.api.Updatable;
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntity, Updatable {
+public interface Enemy extends Movable, ManagerInjectable, GameEntity, Updatable {
 
     /**
      * Attempts to perform an attack action based on internal conditions (e.g., cooldown).
@@ -19,13 +18,6 @@ public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntit
      */
 
     Optional<Projectiles> attack();
-
-    /**
-     * Updates the enemy's state, including movement and behavioral logic.
-     *
-     * @param deltaTime the time elapsed since the last update.
-     */
-    void update(double deltaTime);
 
     /**
      * Checks if the enemy is currently alive.

@@ -59,7 +59,7 @@ public final class ProgressionManagerImpl {
     /**
      * Sets the current level the player is on.
      *
-     * @param currentLevel the new current level number.
+     * @param levelnumber the new current level number.
      */
     public void setCurrentLevel(final int levelnumber) { 
         this.currentState.setCurrentLevel(levelnumber); 
