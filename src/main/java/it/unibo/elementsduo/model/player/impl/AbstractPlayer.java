@@ -140,16 +140,6 @@ public abstract class AbstractPlayer implements Player {
         this.x += dx;
         this.y += dy;
     }
-    /**
-     * {@inheritDoc}
-     *
-     * @param dx the horizontal movement delta
-     */
-    @Override
-    public void move(final double dx) {
-        this.velocity = new Vector2D(dx, this.velocity.y());
-        this.x += this.velocity.x();
-    }
 
     /**
      * {@inheritDoc}
@@ -180,6 +170,17 @@ public abstract class AbstractPlayer implements Player {
     /**
      * {@inheritDoc}
      *
+     * @param ceilingY the vertical coordinate of the ceiling
+     */
+    @Override
+    public void stopJump(final double ceilingY) {
+        this.y = ceilingY;
+        this.velocity = new Vector2D(this.velocity.x(), 0);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @param groundY the vertical coordinate of the ground surface
      */
     @Override
@@ -187,17 +188,6 @@ public abstract class AbstractPlayer implements Player {
         this.y = groundY;
         this.velocity = new Vector2D(this.velocity.x(), 0);
         this.onGround = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param ceilingY the vertical coordinate of the ceiling
-     */
-    @Override
-    public void stopJump(final double ceilingY) {
-        this.y = ceilingY;
-        this.velocity = new Vector2D(this.velocity.x(), 0);
     }
 
     /** {@inheritDoc} */

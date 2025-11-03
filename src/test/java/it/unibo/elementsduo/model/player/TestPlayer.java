@@ -14,7 +14,6 @@ import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
-import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
@@ -46,19 +45,13 @@ final class TestPlayer {
         checkInitialValues(watergirl, PlayerType.WATERGIRL);
     }
     
-    private void checkInitialValues(final Player player, final PlayerType expectedType) {
-        assertEquals(0.0, fireboy.getX());
-        assertEquals(0.0, fireboy.getY());
-        assertTrue(fireboy.isOnGround());
+    private void checkInitialValues(final Player player, final PlayerType playerType) {
+        assertEquals(0.0, player.getX());
+        assertEquals(0.0, player.getY());
+        assertTrue(player.isOnGround());
         assertFalse(fireboy.isOnExit());
-        assertEquals(new Vector2D(0, 0), fireboy.getVelocity());
-        assertEquals(PlayerType.FIREBOY, fireboy.getPlayerType());
-    }
-
-    @Test
-    void testMove() {
-        fireboy.move(2.0);
-        assertEquals(2.0, fireboy.getX());
+        assertEquals(new Vector2D(0, 0), player.getVelocity());
+        assertEquals(playerType, player.getPlayerType());
     }
 
     @Test
@@ -105,7 +98,7 @@ final class TestPlayer {
 
     @Test
     void testGetHitBox() {
-        HitBox hb = fireboy.getHitBox();
+        final HitBox hb = fireboy.getHitBox();
         assertNotNull(hb);
         assertEquals(hb.getCenter().x(), fireboy.getX());
         assertEquals(hb.getCenter().y(), fireboy.getY());
@@ -130,7 +123,7 @@ final class TestPlayer {
 
     @Test
     void testCorrectPhysicsCollisionSimple() {
-        Collidable dummy = new Collidable() {
+        final Collidable dummy = new Collidable() {
             @Override
             public HitBox getHitBox() {
                 return fireboy.getHitBox();
@@ -148,17 +141,17 @@ final class TestPlayer {
 
     @Test
     void testCorrectPhysicsCollisionWithWall() {
-        HitBox hitBox = new HitBoxImpl(new Position(0, 0), 1, 1);
-        AbstractStaticObstacle wall = new Wall(hitBox);
+        final HitBox hitBox = new HitBoxImpl(new Position(0, 0), 1, 1);
+        final AbstractStaticObstacle wall = new Wall(hitBox);
         fireboy.correctPhysicsCollision(1.0, new Vector2D(0, -1), wall);
     }
 
     @Test
     void testHandleVerticalWithPlatform() {
-        Position pos = new Position(0, 0);
-        Position a = new Position(0, 0);
-        Position b = new Position(0, 1);
-        PlatformImpl platform = new PlatformImpl(pos, a, b);
+        final Position pos = new Position(0, 0);
+        final Position a = new Position(0, 0);
+        final Position b = new Position(0, 1);
+        final PlatformImpl platform = new PlatformImpl(pos, a, b);
         platform.activate();
         platform.update(0.5);
         fireboy.correctPhysicsCollision(1.0, new Vector2D(0, -1), platform);
@@ -186,5 +179,8 @@ final class TestPlayer {
     void testIsImmuneToHazard() {
         assertTrue(fireboy.isImmuneTo(HazardType.LAVA));
         assertFalse(fireboy.isImmuneTo(HazardType.WATER));
+
+        assertTrue(watergirl.isImmuneTo(HazardType.WATER));
+        assertFalse(watergirl.isImmuneTo(HazardType.LAVA));
     }
 }

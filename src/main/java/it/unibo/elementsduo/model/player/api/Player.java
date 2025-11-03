@@ -93,13 +93,6 @@ public interface Player extends Movable, GameEntity {
     void setOnExit(boolean condition);
 
     /**
-     * Moves the player horizontally by the delta value.
-     *
-     * @param dx the horizontal movement delta
-     */
-    void move(double dx);
-
-    /**
      * Applies a gravitational force to the player.
      *
      * @param gravity the gravity acceleration to apply

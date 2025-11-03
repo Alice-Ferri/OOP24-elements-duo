@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.player.impl;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
-import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.resources.Vector2D;
 
 public class PlayerCollisionHandler {
