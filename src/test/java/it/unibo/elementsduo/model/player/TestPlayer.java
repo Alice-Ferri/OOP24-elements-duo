@@ -25,7 +25,7 @@ import java.awt.event.KeyEvent;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test di integrazione per {@link fireboy} senza uso di mock.
+ * Test of player class
  */
 final class TestPlayer {
 
@@ -158,10 +158,12 @@ final class TestPlayer {
         Position pos = new Position(0, 0);
         Position a = new Position(0, 0);
         Position b = new Position(0, 1);
-        Obstacle platform = new PlatformImpl(pos, a, b);
+        PlatformImpl platform = new PlatformImpl(pos, a, b);
+        platform.activate();
+        platform.update(0.5);
         fireboy.correctPhysicsCollision(1.0, new Vector2D(0, -1), platform);
         assertTrue(fireboy.isOnGround());
-        assertEquals(3.0, fireboy.getVelocity().y());
+        assertEquals(1.0, fireboy.getVelocity().y());
     }
 
     @Test

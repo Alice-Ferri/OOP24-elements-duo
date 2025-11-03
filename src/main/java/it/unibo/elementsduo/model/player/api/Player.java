@@ -130,7 +130,7 @@ public interface Player extends Movable, GameEntity {
     /**
      * Updating the state of the player.
      *
-     * @param deltaTime       the time elapsed since the last update
+     * @param deltaTime the time elapsed since the last update
      *
      * @param inputController the controller that provides the player's input
      */

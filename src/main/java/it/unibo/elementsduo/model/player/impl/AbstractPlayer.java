@@ -56,7 +56,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public double getY() {
-        return this.x;
+        return this.y;
     }
 
     /**
@@ -119,7 +119,7 @@ public abstract class AbstractPlayer implements Player {
     public boolean isOnGround() {
         return this.onGround;
     }
-    
+
     /**
      * {@inheritDoc}
      */
