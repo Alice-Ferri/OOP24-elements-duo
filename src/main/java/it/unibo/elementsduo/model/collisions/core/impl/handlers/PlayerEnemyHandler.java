@@ -6,6 +6,7 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.model.powerups.impl.PowerUpManager;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -53,9 +54,9 @@ public final class PlayerEnemyHandler extends AbstractCollisionHandler<Player, E
         final boolean isPlayerAboveEnemy = normalEnemyPlayer.y() < VERTICAL_THRESHOLD;
 
         builder.addLogicCommand(() -> {
-            final PowerUpManager manager = PowerUpManager.getInstance();
-            final boolean EnemyPActive = manager != null && manager.hasEffect(player, PowerUpType.ENEMY_KILL);
-            new PlayerEnemyCommand(player, enemy, eventManager, EnemyPActive || isPlayerAboveEnemy).execute();
+            final boolean enemyPowerActive = player instanceof PlayerPoweredUp aware
+                    && aware.hasPowerUpEffect(PowerUpType.ENEMY_KILL);
+            new PlayerEnemyCommand(player, enemy, eventManager, enemyPowerActive || isPlayerAboveEnemy).execute();
         });
     }
 }

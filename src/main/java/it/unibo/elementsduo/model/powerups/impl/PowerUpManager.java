@@ -1,21 +1,21 @@
 package it.unibo.elementsduo.model.powerups.impl;
 
 import java.util.EnumMap;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import it.unibo.elementsduo.model.collisions.events.api.Event;
+import it.unibo.elementsduo.model.collisions.events.api.EventListener;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PowerUpCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.PowerUpExpiredEvent;
 import it.unibo.elementsduo.model.player.api.Player;
-import it.unibo.elementsduo.model.powerups.api.PowerUp;
+import it.unibo.elementsduo.model.powerups.api.PowerUpEffect;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
-import it.unibo.elementsduo.model.collisions.events.api.Event;
 
-public class PowerUpManager implements it.unibo.elementsduo.model.collisions.events.api.EventListener {
+public class PowerUpManager implements EventListener {
 
     private final EventManager eventManager;
     private final Map<Player, Map<PowerUpType, ActivePowerUp>> activeEffects = new HashMap<>();
@@ -40,7 +40,8 @@ public class PowerUpManager implements it.unibo.elementsduo.model.collisions.eve
 
             playerEffects.compute(collected.type(), (t, existing) -> {
                 if (existing == null) {
-                    return new ActivePowerUp(collected.player(), collected.type(), collected.duration());
+                    return new ActivePowerUp(collected.player(), collected.type(),
+                            collected.strategy(), collected.duration(), this.eventManager);
                 }
                 existing.refresh(collected.duration());
                 return existing;
@@ -59,10 +60,9 @@ public class PowerUpManager implements it.unibo.elementsduo.model.collisions.eve
 
             while (effectsIterator.hasNext()) {
                 final ActivePowerUp active = effectsIterator.next().getValue();
-                active.sub(deltaTime);
-                if (active.hasExpired()) {
+                if (!active.update(deltaTime)) {
                     effectsIterator.remove();
-                    this.eventManager.notify(new PowerUpExpiredEvent(active.player, active.type));
+                    this.eventManager.notify(new PowerUpExpiredEvent(active.player(), active.type()));
                 }
             }
 
@@ -79,24 +79,36 @@ public class PowerUpManager implements it.unibo.elementsduo.model.collisions.eve
     private static final class ActivePowerUp {
         private final Player player;
         private final PowerUpType type;
-        private double remaining;
+        private final PowerUpEffect strategy;
+        private final EventManager eventManager;
 
-        private ActivePowerUp(final Player player, final PowerUpType type, final double duration) {
+        private ActivePowerUp(final Player player, final PowerUpType type, final PowerUpEffect strategy,
+                final double duration, final EventManager eventManager) {
             this.player = player;
             this.type = type;
-            this.remaining = duration;
+            this.strategy = strategy;
+            this.eventManager = eventManager;
+            this.strategy.onActivated(this.player, this.eventManager, duration);
         }
 
         private void refresh(final double duration) {
-            this.remaining = duration;
+            this.strategy.onRefreshed(this.player, this.eventManager, duration);
         }
 
-        private void sub(final double deltaTime) {
-            this.remaining -= deltaTime;
+        private boolean update(final double deltaTime) {
+            final boolean stillActive = this.strategy.onUpdate(this.player, this.eventManager, deltaTime);
+            if (!stillActive) {
+                this.strategy.onExpired(this.player, this.eventManager);
+            }
+            return stillActive;
         }
 
-        private boolean hasExpired() {
-            return this.remaining <= 0.0;
+        private Player player() {
+            return this.player;
+        }
+
+        private PowerUpType type() {
+            return this.type;
         }
 
     }

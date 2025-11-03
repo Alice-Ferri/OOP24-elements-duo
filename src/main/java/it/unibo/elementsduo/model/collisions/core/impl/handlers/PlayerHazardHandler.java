@@ -9,6 +9,7 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.Green
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
@@ -56,8 +57,8 @@ public final class PlayerHazardHandler extends AbstractCollisionHandler<Player, 
         final boolean immuneByClass = player.isImmuneTo(hazard.getHazardType());
 
         builder.addLogicCommand(() -> {
-            final PowerUpManager manager = PowerUpManager.getInstance();
-            final boolean immuneByPowerUp = manager != null && manager.hasEffect(player, PowerUpType.HAZARD_IMMUNITY);
+            final boolean immuneByPowerUp = player instanceof PlayerPoweredUp aware
+                    && aware.hasPowerUpEffect(PowerUpType.HAZARD_IMMUNITY);
             if (immuneByClass || immuneByPowerUp) {
                 return;
             }

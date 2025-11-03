@@ -5,6 +5,9 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 
+/**
+ * Power-up strategy enabling players to defeat enemies on contact.
+ */
 public final class EnemyKill extends AbstractTimedPowerUpStrategy {
 
     @Override

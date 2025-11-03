@@ -5,7 +5,7 @@ import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 /**
  * Marker interface for players that can expose active power-up effects.
  */
-public interface PlayerPoweredUp extends Player {
+public interface PlayerPoweredUp {
 
     void addPowerUpEffect(PowerUpType type);
 
