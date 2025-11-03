@@ -1,7 +1,5 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit;
 
-import java.util.EnumSet;
-
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ExitZone;
@@ -11,15 +9,13 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticOb
  * Represents the exit point that must be
  * activated by one of the players before proceeding to the next level.
  */
-public class FireExit extends AbstractStaticObstacle implements ExitZone {
+public final class FireExit extends AbstractStaticObstacle implements ExitZone {
 
     /** Whether this exit has been activated. */
     private boolean active;
 
     /**
      * Creates a new {@code FireExit} object.
-     * 
-     * <p>
      *
      * @param hitBox the {@link HitBox} defining the exit zone's position and
      *               boundaries
@@ -30,9 +26,10 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * <p>
      * Returns {@code false}, as the exit zone should not block player movement.
+     * </p>
      *
      * @return always {@code false}
      */
@@ -52,8 +49,6 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
 
     /**
      * Checks if the exit zone is currently active.
-     * 
-     * <p>
      *
      * @return {@code true} if the exit is active, {@code false} otherwise
      */
@@ -62,11 +57,30 @@ public class FireExit extends AbstractStaticObstacle implements ExitZone {
         return this.active;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * Returns the type of exit, which for this implementation is
+     * {@link ExitType#FIRE_EXIT}.
+     * </p>
+     *
+     * @return the fire exit type
+     */
     @Override
     public ExitType getExitType() {
         return ExitType.FIRE_EXIT;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * Returns the collision layer associated with exit zones.
+     * </p>
+     *
+     * @return the {@link CollisionLayer#EXIT_ZONE} layer
+     */
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.EXIT_ZONE;

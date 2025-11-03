@@ -1,10 +1,10 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
-import java.util.EnumSet;
-
+import java.util.List;
+import java.util.ArrayList;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -18,7 +18,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * allowing it to react to external trigger events.
  * </p>
  */
-public class PlatformImpl extends AbstractInteractiveObstacle implements TriggerListener, Updatable {
+public final class PlatformImpl extends AbstractInteractiveObstacle implements TriggerListener, Updatable {
 
     /** The platform's half width. */
     private static final double HALF_WIDTH = 0.5;
@@ -71,6 +71,7 @@ public class PlatformImpl extends AbstractInteractiveObstacle implements Trigger
      *
      * @param delta the time step for the update, in seconds
      */
+    @Override
     public void update(final double delta) {
         if (!this.active) {
             return;
@@ -138,9 +139,11 @@ public class PlatformImpl extends AbstractInteractiveObstacle implements Trigger
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PLATFORM;
     }
-
 }

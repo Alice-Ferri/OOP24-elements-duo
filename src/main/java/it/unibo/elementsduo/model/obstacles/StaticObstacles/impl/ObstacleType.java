@@ -8,6 +8,7 @@ public final class ObstacleType {
 
         /**
          * Enumeration of obstacle types available in the game.
+         * 
          * <p>
          * Each constant represents a different kind of static or interactive
          * element present in the level.

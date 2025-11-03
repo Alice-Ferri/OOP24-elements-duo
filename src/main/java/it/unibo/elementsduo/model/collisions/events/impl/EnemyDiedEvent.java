@@ -5,6 +5,7 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 
 /**
  * Event triggered when an {@link Enemy} is defeated or destroyed.
+ * 
  * <p>
  * This event is used to notify listeners that an enemy has been eliminated
  * from the game world, allowing related logic (e.g., score updates or

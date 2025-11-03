@@ -10,10 +10,13 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSour
 import it.unibo.elementsduo.resources.Position;
 
 /**
- * Represents a button which can be pressed and released
- * notifies its linked objects when its state changes.
+ * Represents a button that can be pressed and released.
+ * <p>
+ * When pressed or released, it notifies all linked {@link TriggerListener}
+ * objects of its state change.
+ * </p>
  */
-public class Button extends AbstractInteractiveObstacle implements TriggerSource, Pressable {
+public final class Button extends AbstractInteractiveObstacle implements TriggerSource, Pressable {
 
     private static final double HALF_WIDTH = 0.5;
 
@@ -23,15 +26,26 @@ public class Button extends AbstractInteractiveObstacle implements TriggerSource
 
     private final List<TriggerListener> linkedObjects = new ArrayList<>();
 
+    /**
+     * Creates a new button centered at the specified position.
+     *
+     * @param center the position of the button's center
+     */
     public Button(final Position center) {
         super(center, HALF_WIDTH, HALF_HEIGHT);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isActive() {
         return this.active;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void press() {
         if (!this.active) {
@@ -40,6 +54,9 @@ public class Button extends AbstractInteractiveObstacle implements TriggerSource
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void release() {
         if (this.active) {
@@ -48,19 +65,27 @@ public class Button extends AbstractInteractiveObstacle implements TriggerSource
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addListener(final TriggerListener listener) {
         this.linkedObjects.add(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeListener(final TriggerListener listener) {
         this.linkedObjects.remove(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.BUTTON;
     }
-
 }

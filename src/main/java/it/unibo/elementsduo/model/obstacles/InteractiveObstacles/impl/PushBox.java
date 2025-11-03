@@ -1,7 +1,5 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
-import java.util.EnumSet;
-
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
@@ -102,6 +100,7 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      *
      * @param dt the time step in seconds
      */
+    @Override
     public void update(final double dt) {
         final boolean wasOnGround = this.onGround;
 
@@ -167,9 +166,10 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      *
      * @param penetration the penetration depth between colliding bodies
      * @param normal      the collision normal vector
+     * @param other       the other collidable object
      */
     @Override
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal, Collidable other) {
+    public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
         final double depth = Math.max(penetration - COLLISION_TOLERANCE, 0);
         final Vector2D correction = normal.multiply(depth * COLLISION_CORRECTION_FACTOR);
 
@@ -190,9 +190,9 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PUSHABLE;
     }
-
 }

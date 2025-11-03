@@ -6,6 +6,15 @@ import java.util.List;
 
 import it.unibo.elementsduo.model.collisions.detection.api.QuadTree;
 
+/**
+ * Implementation of the {@link QuadTree} data structure used for efficient
+ * spatial partitioning and collision detection.
+ * <p>
+ * The {@code QuadTreeImpl} recursively subdivides the game world into four
+ * quadrants, improving the performance of collision checks between nearby
+ * objects.
+ * </p>
+ */
 public final class QuadTreeImpl implements QuadTree {
     private static final int MAX_OBJECTS_PER_NODE = 6;
     private static final int MAX_LEVELS = 6;
@@ -15,18 +24,35 @@ public final class QuadTreeImpl implements QuadTree {
     private final List<QuadObj> objects = new ArrayList<>();
     private final QuadTree[] nodes = new QuadTree[4];
 
+    /**
+     * Creates a new QuadTree instance starting at level 0 with the given bounds.
+     *
+     * @param bounds the bounding box representing the area of this quadtree
+     */
     public QuadTreeImpl(final BoundingBox bounds) {
         this(0, bounds);
     }
 
+    /**
+     * Creates a new QuadTree with the specified level and bounding box.
+     *
+     * @param level  the current depth level of this node
+     * @param bounds the bounding box representing this node's area
+     */
     private QuadTreeImpl(final int level, final BoundingBox bounds) {
         this.level = level;
         this.bounds = bounds;
     }
 
+    /**
+     * Inserts a new {@link QuadObj} into the quadtree. If the current node exceeds
+     * its capacity, it subdivides into smaller nodes and redistributes its objects.
+     *
+     * @param entry the object to insert into the tree
+     */
     public void insert(final QuadObj entry) {
         if (nodes[0] != null) {
-            int index = getIndex(entry.bb());
+            final int index = getIndex(entry.bb());
             if (index != -1) {
                 nodes[index].insert(entry);
                 return;
@@ -40,10 +66,10 @@ public final class QuadTreeImpl implements QuadTree {
                 split();
             }
 
-            Iterator<QuadObj> iterator = objects.iterator();
+            final Iterator<QuadObj> iterator = objects.iterator();
             while (iterator.hasNext()) {
-                QuadObj stored = iterator.next();
-                int index = getIndex(stored.bb());
+                final QuadObj stored = iterator.next();
+                final int index = getIndex(stored.bb());
                 if (index != -1) {
                     nodes[index].insert(stored);
                     iterator.remove();
@@ -52,13 +78,20 @@ public final class QuadTreeImpl implements QuadTree {
         }
     }
 
+    /**
+     * Retrieves all potential {@link QuadObj} objects that may collide with the
+     * specified entry.
+     *
+     * @param result the list to store retrieved objects
+     * @param entry  the object used as reference for collision retrieval
+     */
     public void retrieve(final List<QuadObj> result, final QuadObj entry) {
-        int index = getIndex(entry.bb());
+        final int index = getIndex(entry.bb());
         if (nodes[0] != null) {
             if (index != -1) {
                 nodes[index].retrieve(result, entry);
             } else {
-                for (QuadTree node : nodes) {
+                for (final QuadTree node : nodes) {
                     if (node != null && node.intersects(entry.bb())) {
                         node.retrieve(result, entry);
                     }
@@ -69,15 +102,25 @@ public final class QuadTreeImpl implements QuadTree {
         result.addAll(objects);
     }
 
+    /**
+     * Checks whether this quadtree node intersects with the given bounding box.
+     *
+     * @param bb the bounding box to check
+     * @return {@code true} if the bounding box intersects this node, {@code false}
+     *         otherwise
+     */
     public boolean intersects(final BoundingBox bb) {
         return this.bounds.intersects(bb);
     }
 
+    /**
+     * Splits this quadtree node into four smaller child nodes.
+     */
     private void split() {
-        double subWidth = bounds.width() / 2.0;
-        double subHeight = bounds.height() / 2.0;
-        double x = bounds.minX();
-        double y = bounds.minY();
+        final double subWidth = bounds.width() / 2.0;
+        final double subHeight = bounds.height() / 2.0;
+        final double x = bounds.minX();
+        final double y = bounds.minY();
 
         nodes[0] = new QuadTreeImpl(level + 1, new BoundingBox(x + subWidth, y, x + 2 * subWidth, y + subHeight));
         nodes[1] = new QuadTreeImpl(level + 1, new BoundingBox(x, y, x + subWidth, y + subHeight));
@@ -86,12 +129,19 @@ public final class QuadTreeImpl implements QuadTree {
                 new BoundingBox(x + subWidth, y + subHeight, x + 2 * subWidth, y + 2 * subHeight));
     }
 
+    /**
+     * Determines which quadrant the given bounding box belongs to.
+     *
+     * @param box the bounding box to evaluate
+     * @return the index of the quadrant (0–3), or -1 if it does not fit entirely in
+     *         one quadrant
+     */
     private int getIndex(final BoundingBox box) {
-        double midPointVert = bounds.minX() + bounds.width() / 2.0;
-        double midPointOriz = bounds.minY() + bounds.height() / 2.0;
+        final double midPointVert = bounds.minX() + bounds.width() / 2.0;
+        final double midPointOriz = bounds.minY() + bounds.height() / 2.0;
 
-        boolean topQuadrant = box.maxY() <= midPointOriz;
-        boolean bottomQuadrant = box.minY() >= midPointOriz;
+        final boolean topQuadrant = box.maxY() <= midPointOriz;
+        final boolean bottomQuadrant = box.minY() >= midPointOriz;
 
         if (box.maxX() <= midPointVert) {
             if (topQuadrant) {
