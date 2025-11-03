@@ -11,21 +11,10 @@ import it.unibo.elementsduo.controller.maincontroller.api.LevelSelectionNavigati
 import it.unibo.elementsduo.controller.maincontroller.api.MainController;
 import it.unibo.elementsduo.controller.subcontroller.impl.HomeController;
 import it.unibo.elementsduo.controller.subcontroller.impl.LevelSelectionController;
-import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
-import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
-import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
-import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
-import it.unibo.elementsduo.model.map.level.MapLoader;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
 
-import it.unibo.elementsduo.view.LevelPanel;
 import it.unibo.elementsduo.view.GuidePanel;
-import it.unibo.elementsduo.view.LevelSelectionPanel;
-import it.unibo.elementsduo.view.MenuPanel;
 import it.unibo.elementsduo.datasave.SaveManager;
 import it.unibo.elementsduo.model.progression.ProgressionState;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
@@ -45,8 +34,6 @@ public final class MainControllerImpl
     private static final String SAVE_DIR = "save";
 
     private final GameFrame mainFrame;
-    private final MapLoader mapLoader;
-    private final MapValidator mapValidator;
     private final SaveManager saveManager;
 
     private int currentLevelNumber = -1;
@@ -59,9 +46,6 @@ public final class MainControllerImpl
      */
     public MainControllerImpl() {
         this.mainFrame = new GameFrame();
-        this.mapValidator = new MapValidatorImpl();
-        this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
-                new InteractiveObstacleFactoryImpl());
         this.saveManager = new SaveManager(Paths.get(SAVE_DIR));
     }
 
@@ -69,25 +53,19 @@ public final class MainControllerImpl
     public void startGame(final int levelNumber) {
         this.checkController();
         currentLevelNumber = levelNumber;
+        try{
+            final Controller gameController = new GameControllerImpl(currentLevelNumber, this, progressionManager);
+            gameController.activate();
 
-        final Level level = new LevelImpl(this.mapLoader.loadLevel(currentLevelNumber));
-        try {
-            mapValidator.validate(level);
-        } catch (final InvalidMapException e) {
-            handleException(e.getMessage());
-            return;
-        }
-
-        final LevelPanel panel = new LevelPanel(level);
-        final Controller gameController = new GameControllerImpl(level, this, panel, progressionManager);
-        gameController.activate();
-
-        final String currentkey = GAME_KEY + currentLevelNumber;
-        mainFrame.addView(panel, currentkey);
-        this.progressionManager.setCurrentLevel(levelNumber);
-        mainFrame.showView(currentkey);
+            final String currentkey = GAME_KEY + currentLevelNumber;
+            mainFrame.addView(gameController.getPanel(), currentkey);
+            this.progressionManager.setCurrentLevel(levelNumber);
+            mainFrame.showView(currentkey);
 
         currentController = gameController;
+        }catch (InvalidMapException e) {
+            this.handleException(e.getMessage());
+        }
 
     }
 
@@ -136,12 +114,11 @@ public final class MainControllerImpl
         this.checkController();
         currentLevelNumber = -1;
 
-        final MenuPanel view = new MenuPanel();
-        final Controller controller = new HomeController(view, this);
+        final Controller controller = new HomeController(this);
 
         controller.activate();
 
-        mainFrame.addView(view, MENU_KEY);
+        mainFrame.addView(controller.getPanel(), MENU_KEY);
         mainFrame.showView(MENU_KEY);
 
         currentController = controller;
@@ -152,11 +129,10 @@ public final class MainControllerImpl
         this.checkController();
         currentLevelNumber = -1;
 
-        final LevelSelectionPanel view = new LevelSelectionPanel();
-        final Controller controller = new LevelSelectionController(view, this, this.progressionManager);
+        final Controller controller = new LevelSelectionController(this, this.progressionManager);
         controller.activate();
 
-        mainFrame.addView(view, LEVEL_KEY);
+        mainFrame.addView(controller.getPanel(), LEVEL_KEY);
         mainFrame.showView(LEVEL_KEY);
 
         currentController = controller;
@@ -189,13 +165,13 @@ public final class MainControllerImpl
         }
     }
 
-    private void handleException(final String error) {
+    public void handleException(final String error) {
+        this.goToLevelSelection();
         JOptionPane.showMessageDialog(
                 this.mainFrame,
                 error,
                 "Map Error",
                 JOptionPane.ERROR_MESSAGE);
-        this.goToLevelSelection();
     }
 
     private void initProgressionManager(final ProgressionState state) {
