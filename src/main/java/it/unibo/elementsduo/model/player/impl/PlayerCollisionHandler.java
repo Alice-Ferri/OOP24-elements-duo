@@ -1,45 +1,25 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.resources.Vector2D;
-import it.unibo.elementsduo.model.player.api.Player;
 
-/**
- * Handles player physics corrections after collisions.
- */
-public class PhysicsCorrectionHandler {
-
+public class PlayerCollisionHandler {
     private static final double POSITION_SLOP = 0.001;
     private static final double CORRECTION_PERCENT = 0.8;
 
-    private final Player player;
+    private final AbstractPlayer player;
 
-    /**
-     * Constructor for the physics.
-     *
-     * @param player to set corrections
-     */
-    public PhysicsCorrectionHandler(final Player player) {
+    public PlayerCollisionHandler(final AbstractPlayer player) {
         this.player = player;
     }
 
-    /**
-     * Corrects the player's position and velocity after a collision.
-     *
-     * @param penetration the overlap depth of the collision
-     * @param normal      the collision normal vector
-     * @param other       the other collidable object
-     */
-    public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
+    public void handleCollision(final double penetration, final Vector2D normal, final Collidable other) {
         if (penetration <= 0) {
             return;
         }
 
-        if (other instanceof Wall && normal.y() < -0.5) {
-            if (handleHorizontalOverlap((Wall) other)) {
+        if (other instanceof it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall wall && normal.y() < -0.5) {
+            if (handleHorizontalOverlap(wall)) {
                 return;
             }
         }
@@ -48,10 +28,9 @@ public class PhysicsCorrectionHandler {
         handleVertical(normal, other);
     }
 
-    private boolean handleHorizontalOverlap(final Wall wall) {
-        final HitBox playerHitBox = player.getHitBox();
-        final HitBox wallHitBox = wall.getHitBox();
-
+    private boolean handleHorizontalOverlap(final it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall wall) {
+        final var playerHitBox = this.player.getHitBox();
+        final var wallHitBox = wall.getHitBox();
         final double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
         final double overlapX = (playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth()) - Math.abs(dx);
 
@@ -63,13 +42,12 @@ public class PhysicsCorrectionHandler {
         final double depth = Math.max(overlapX - POSITION_SLOP, 0.0);
         final Vector2D correction = horizontalNormal.multiply(CORRECTION_PERCENT * depth);
 
-        player.move(correction.x());
+        player.correctPosition(correction.x(), correction.y());
 
         final double velocityNormal = player.getVelocity().dot(horizontalNormal);
         if (velocityNormal < 0) {
-            final Vector2D newVelocity = player.getVelocity().subtract(horizontalNormal.multiply(velocityNormal));
-            player.setVelocityX(newVelocity.x());
-            player.setVelocityY(newVelocity.y());
+            double newVx = player.getVelocity().x() - horizontalNormal.x() * velocityNormal;
+            player.setVelocityX(newVx);
         }
         return true;
     }
@@ -78,13 +56,14 @@ public class PhysicsCorrectionHandler {
         final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
         final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
 
-        player.move(correction.x());
+        player.correctPosition(correction.x(), correction.y());
 
         final double velocityNormal = player.getVelocity().dot(normal);
         if (velocityNormal < 0) {
-            final Vector2D newVelocity = player.getVelocity().subtract(normal.multiply(velocityNormal));
-            player.setVelocityX(newVelocity.x());
-            player.setVelocityY(newVelocity.y());
+            double newVx = player.getVelocity().x() - normal.x() * velocityNormal;
+            double newVy = player.getVelocity().y() - normal.y() * velocityNormal;
+            player.setVelocityX(newVx);
+            player.setVelocityY(newVy);
         }
     }
 
@@ -92,14 +71,13 @@ public class PhysicsCorrectionHandler {
         final double normalY = normal.y();
 
         if (normalY < -0.5) {
-            player.landOn(player.getY());
             player.setVelocityY(0);
+            player.setOnGround();
 
-            if (other instanceof PlatformImpl platform) {
+            if (other instanceof it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl platform) {
                 player.setVelocityY(platform.getVelocity().y());
             }
         } else if (normalY > 0.5) {
-            player.stopJump(player.getY());
             player.setVelocityY(0);
         }
     }

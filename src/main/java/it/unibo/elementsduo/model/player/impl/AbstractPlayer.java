@@ -1,15 +1,11 @@
 package it.unibo.elementsduo.model.player.impl;
 
-import java.util.EnumSet;
-
 import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.controller.inputController.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.resources.Position;
@@ -24,14 +20,14 @@ public abstract class AbstractPlayer implements Player {
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5;
     private static final double GRAVITY = 9.8;
-    private static final double POSITION_SLOP = 0.001;
-    private static final double CORRECTION_PERCENT = 0.8;
 
     private double x;
     private double y;
     private Vector2D velocity = new Vector2D(0, 0);
     private boolean onGround = true;
     private boolean onExit;
+    
+    private final PlayerCollisionHandler playerCollisionHandler = new PlayerCollisionHandler(this);
 
     /**
      * Constructs with the starting position.
@@ -56,21 +52,11 @@ public abstract class AbstractPlayer implements Player {
     /**
      * {@inheritDoc}
      *
-     * @return {@code true} if the player is on the exit, {@code false} otherwise
-     */
-    @Override
-    public boolean isOnExit() {
-        return this.onExit;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return the current y-coordinate of the player
+     * @return the current x-coordinate of the player
      */
     @Override
     public double getY() {
-        return this.y;
+        return this.x;
     }
 
     /**
@@ -86,13 +72,74 @@ public abstract class AbstractPlayer implements Player {
     /**
      * {@inheritDoc}
      *
+     * @param vx the horizontal velocity component
+     */
+    @Override
+    public void setVelocityX(final double vx) {
+        this.velocity = new Vector2D(vx, this.velocity.y());
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param vy the vertical velocity component
+     */
+    @Override
+    public void setVelocityY(final double vy) {
+        this.velocity = new Vector2D(this.velocity.x(), vy);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@code true} if the player is on the exit, {@code false} otherwise
+     */
+    @Override
+    public boolean isOnExit() {
+        return this.onExit;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param cond {@code true} if the player is on the exit, {@code false}
+     *             otherwise
+     */
+    @Override
+    public void setOnExit(final boolean cond) {
+        this.onExit = cond;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @return {@code true} if the player is on the ground, {@code false} otherwise
      */
     @Override
     public boolean isOnGround() {
         return this.onGround;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setOnGround(){
+        this.onGround = true;
+    }
 
+    /**
+     * Corrects the position of the player.
+     *
+     * @param dx
+     *
+     * @param dy
+     */
+    @Override
+    public void correctPosition(final double dx, final double dy) {
+        this.x += dx;
+        this.y += dy;
+    }
     /**
      * {@inheritDoc}
      *
@@ -160,37 +207,6 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param vx the horizontal velocity component
-     */
-    @Override
-    public void setVelocityX(final double vx) {
-        this.velocity = new Vector2D(vx, this.velocity.y());
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param vy the vertical velocity component
-     */
-    @Override
-    public void setVelocityY(final double vy) {
-        this.velocity = new Vector2D(this.velocity.x(), vy);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param cond {@code true} if the player is on the exit, {@code false}
-     *             otherwise
-     */
-    @Override
-    public void setOnExit(final boolean cond) {
-        this.onExit = cond;
-    }
-
-    /**
      * Updates the player's state based on input and physics.
      *
      * @param deltaTime the time elapsed since the last update, in seconds
@@ -254,72 +270,7 @@ public abstract class AbstractPlayer implements Player {
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
-
-        if (penetration <= 0) {
-            return;
-        }
-
-        if (other instanceof Wall && normal.y() < -0.5) {
-            if (handleHorizontalOverlap((Wall) other)) {
-                return;
-            }
-        }
-
-        applyCorrection(normal, penetration);
-
-        handleVertical(normal, other);
-    }
-
-    private boolean handleHorizontalOverlap(final Wall wall) {
-        final HitBox playerHitBox = this.getHitBox();
-        final HitBox wallHitBox = wall.getHitBox();
-        final double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
-        final double overlapX = (playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth()) - Math.abs(dx);
-
-        if (overlapX <= 0) {
-            return false;
-        }
-
-        final Vector2D horizontalNormal = new Vector2D(dx > 0 ? 1 : -1, 0);
-        final double depth = Math.max(overlapX - POSITION_SLOP, 0.0);
-        final Vector2D correction = horizontalNormal.multiply(CORRECTION_PERCENT * depth);
-
-        this.x += correction.x();
-        this.y += correction.y();
-
-        final double velocityNormal = this.velocity.dot(horizontalNormal);
-        if (velocityNormal < 0) {
-            this.velocity = this.velocity.subtract(horizontalNormal.multiply(velocityNormal));
-        }
-        return true;
-    }
-
-    private void applyCorrection(final Vector2D normal, final double penetration) {
-        final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
-        final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
-
-        this.x += correction.x();
-        this.y += correction.y();
-
-        final double velocityNormal = this.velocity.dot(normal);
-        if (velocityNormal < 0) {
-            this.velocity = this.velocity.subtract(normal.multiply(velocityNormal));
-        }
-    }
-
-    private void handleVertical(final Vector2D normal, final Collidable other) {
-        final double normalY = normal.y();
-
-        if (normalY < -0.5) {
-            this.onGround = true;
-            this.velocity = new Vector2D(this.velocity.x(), 0);
-
-            if (other instanceof PlatformImpl platform) {
-                this.setVelocityY(platform.getVelocity().y());
-            }
-        } else if (normalY > 0.5) { // hitting ceiling
-            this.velocity = new Vector2D(this.velocity.x(), 0);
-        }
+        playerCollisionHandler.handleCollision(penetration, normal, other);
     }
 
     @Override
