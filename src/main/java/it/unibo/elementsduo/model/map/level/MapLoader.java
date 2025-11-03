@@ -7,6 +7,7 @@ import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
+import it.unibo.elementsduo.model.powerups.api.PowerUpFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
@@ -43,11 +44,12 @@ public final class MapLoader {
      */
     public MapLoader(final ObstacleFactory obstacleFactory,
             final EnemyFactory enemyFactory,
-            final InteractiveObstacleFactory interactiveObstacleFactory) {
+            final InteractiveObstacleFactory interactiveObstacleFactory, final PowerUpFactory powerUpFactory) {
         this.entityFactory = new EntityFactoryImpl(
                 Objects.requireNonNull(obstacleFactory),
                 Objects.requireNonNull(enemyFactory),
-                Objects.requireNonNull(interactiveObstacleFactory));
+                Objects.requireNonNull(interactiveObstacleFactory),
+                Objects.requireNonNull(powerUpFactory));
     }
 
     /**

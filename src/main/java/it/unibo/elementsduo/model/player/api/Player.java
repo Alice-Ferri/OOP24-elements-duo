@@ -4,8 +4,8 @@ import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.ExitType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.HazardType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.ExitType;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
@@ -41,16 +41,16 @@ public interface Player extends Movable, GameEntity {
     Vector2D getVelocity();
 
     /**
-     *  Set velocity on x.
+     * Set velocity on x.
      *
-     *  @param vx velocity to set.
+     * @param vx velocity to set.
      */
     void setVelocityX(double vx);
 
     /**
-     *  Set velocity on y.
+     * Set velocity on y.
      *
-     *  @param vy velocity to set.
+     * @param vy velocity to set.
      */
     void setVelocityY(double vy);
 
@@ -118,7 +118,7 @@ public interface Player extends Movable, GameEntity {
     /**
      * Updating the state of the player.
      *
-     * @param deltaTime the time elapsed since the last update
+     * @param deltaTime       the time elapsed since the last update
      *
      * @param inputController the controller that provides the player's input
      */

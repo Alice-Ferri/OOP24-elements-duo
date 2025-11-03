@@ -27,7 +27,7 @@ public final class PlayerEnemyCommand implements CollisionCommand {
     private final EventManager eventManager;
 
     /** Indicates whether the player is above the enemy. */
-    private final boolean isOn;
+    private final boolean flag;
 
     /**
      * Constructs a new {@code PlayerEnemyCommand}.
@@ -35,15 +35,15 @@ public final class PlayerEnemyCommand implements CollisionCommand {
      * @param player       the player involved in the collision
      * @param enemy        the enemy involved in the collision
      * @param eventManager the {@link EventManager} used to trigger game events
-     * @param isOn         {@code true} if the player is above the enemy; otherwise
+     * @param flag         {@code true} if the player is above the enemy; otherwise
      *                     {@code false}
      */
     public PlayerEnemyCommand(final Player player, final Enemy enemy, final EventManager eventManager,
-            final boolean isOn) {
+            final boolean flag) {
         this.player = player;
         this.enemy = enemy;
         this.eventManager = eventManager;
-        this.isOn = isOn;
+        this.flag = flag;
     }
 
     /**
@@ -54,7 +54,7 @@ public final class PlayerEnemyCommand implements CollisionCommand {
      */
     @Override
     public void execute() {
-        if (isOn) {
+        if (flag) {
             enemy.die();
             this.eventManager.notify(new EnemyDiedEvent(enemy));
         } else {

@@ -11,8 +11,15 @@ import it.unibo.elementsduo.controller.maincontroller.api.LevelSelectionNavigati
 import it.unibo.elementsduo.controller.maincontroller.api.MainController;
 import it.unibo.elementsduo.controller.subcontroller.impl.HomeController;
 import it.unibo.elementsduo.controller.subcontroller.impl.LevelSelectionController;
+import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
+import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
+import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
+import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 
 import it.unibo.elementsduo.view.GuidePanel;
 import it.unibo.elementsduo.datasave.SaveManager;
@@ -38,6 +45,8 @@ public final class MainControllerImpl
 
     private int currentLevelNumber = -1;
     private ProgressionManagerImpl progressionManager;
+    private MapValidator mapValidator;
+    private MapLoader mapLoader;
 
     private Controller currentController;
 
@@ -46,6 +55,9 @@ public final class MainControllerImpl
      */
     public MainControllerImpl() {
         this.mainFrame = new GameFrame();
+        this.mapValidator = new MapValidatorImpl();
+        this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
+                new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl());
         this.saveManager = new SaveManager(Paths.get(SAVE_DIR));
     }
 
@@ -53,7 +65,7 @@ public final class MainControllerImpl
     public void startGame(final int levelNumber) {
         this.checkController();
         currentLevelNumber = levelNumber;
-        try{
+        try {
             final Controller gameController = new GameControllerImpl(currentLevelNumber, this, progressionManager);
             gameController.activate();
 
@@ -62,8 +74,8 @@ public final class MainControllerImpl
             this.progressionManager.setCurrentLevel(levelNumber);
             mainFrame.showView(currentkey);
 
-        currentController = gameController;
-        }catch (InvalidMapException e) {
+            currentController = gameController;
+        } catch (InvalidMapException e) {
             this.handleException(e.getMessage());
         }
 

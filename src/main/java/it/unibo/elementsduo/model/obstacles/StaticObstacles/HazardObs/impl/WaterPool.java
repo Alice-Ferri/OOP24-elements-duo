@@ -1,9 +1,11 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs;
+package it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.api.Hazard;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.effects.api.HazardEffect;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.effects.impl.KillEffect;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
 
 /**
  * Represents a pool of water that acts as a hazard for certain players.
@@ -15,6 +17,8 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Hazard;
  */
 public final class WaterPool extends AbstractStaticObstacle implements Hazard {
 
+    private final HazardEffect effect;
+
     /**
      * Creates a new {@code WaterPool} with the specified hitbox.
      *
@@ -23,6 +27,7 @@ public final class WaterPool extends AbstractStaticObstacle implements Hazard {
      */
     public WaterPool(final HitBox hitBox) {
         super(hitBox);
+        this.effect = new KillEffect();
     }
 
     @Override
@@ -33,5 +38,10 @@ public final class WaterPool extends AbstractStaticObstacle implements Hazard {
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.HAZARD;
+    }
+
+    @Override
+    public HazardEffect getEffect() {
+        return this.effect;
     }
 }

@@ -20,6 +20,7 @@ import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.collisions.events.api.EventListener;
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
+import it.unibo.elementsduo.model.collisions.events.impl.PowerUpCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
@@ -34,6 +35,8 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 import it.unibo.elementsduo.model.mission.impl.MissionManager;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpManager;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.view.LevelPanel;
@@ -53,6 +56,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     private final GameState gameState;
     private final MissionManager scoreManager;
     private final InputController inputController;
+    private final PowerUpManager powerUpManager;
     private final CollisionManager collisionManager;
     private final EnemiesMoveManager moveManager;
     private final GameTimer gameTimer;
@@ -72,18 +76,17 @@ public final class GameControllerImpl implements EventListener, GameController {
      * @param view               The level's view panel.
      * @param progressionManager The manager for saving game progress.
      */
-    @SuppressFBWarnings(
-        value = "EI_EXPOSE_REP2",
-        justification ="Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
 
     public GameControllerImpl(final int currentLevel, final GameNavigation controller,
-                             final ProgressionManagerImpl progressionManager)
-                             throws InvalidMapException {
+            final ProgressionManagerImpl progressionManager)
+            throws InvalidMapException {
         this.controller = Objects.requireNonNull(controller);
         this.gameLoop = new GameLoop(this);
         this.eventManager = new EventManager();
         this.inputController = new InputControllerImpl();
         this.gameState = new GameStateImpl(eventManager);
+        this.powerUpManager = new PowerUpManager(this.eventManager);
         this.collisionManager = new CollisionManager(this.eventManager);
         this.gameTimer = new GameTimer();
         this.progressionManager = progressionManager;
@@ -91,9 +94,8 @@ public final class GameControllerImpl implements EventListener, GameController {
         this.onMenuListener = e -> controller.goToMenu();
         this.mapValidator = new MapValidatorImpl();
         this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
-                new InteractiveObstacleFactoryImpl());
+                new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl());
 
-        
         level = new LevelImpl(this.mapLoader.loadLevel(currentLevel));
         mapValidator.validate(level);
         this.view = new LevelPanel(level);
@@ -141,6 +143,7 @@ public final class GameControllerImpl implements EventListener, GameController {
         checkEnemiesAttack();
         this.level.getAllUpdatables().forEach(e -> e.update(deltaTime));
         this.collisionManager.manageCollisions(this.level.getAllCollidables());
+        this.powerUpManager.update(deltaTime);
 
         if (entitiesNeedCleaning) {
             this.level.cleanInactiveEntities();
@@ -155,7 +158,8 @@ public final class GameControllerImpl implements EventListener, GameController {
 
     @Override
     public void onEvent(final Event event) {
-        if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent) {
+        if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent
+                || event instanceof PowerUpCollectedEvent) {
             this.entitiesNeedCleaning = true;
         }
     }
@@ -179,13 +183,11 @@ public final class GameControllerImpl implements EventListener, GameController {
                         this.view,
                         "Level Completed!",
                         "WIN!",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
+                        JOptionPane.INFORMATION_MESSAGE);
                 this.progressionManager.levelCompleted(
                         this.progressionManager.getCurrentState().getCurrentLevel(),
                         this.gameTimer.getElapsedSeconds(),
-                        this.scoreManager.areAllObjectivesComplete() 
-                );
+                        this.scoreManager.areAllObjectivesComplete());
                 this.controller.goToLevelSelection();
             } else {
                 this.controller.restartCurrentLevel();

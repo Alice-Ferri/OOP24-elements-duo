@@ -15,6 +15,7 @@ import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.powerups.api.PowerUp;
 
 /**
  * Implementation of the {@link Level} interface.
@@ -95,7 +96,8 @@ public final class LevelImpl implements Level {
     @Override
     public void cleanInactiveEntities() {
         this.gameEntities.removeIf(entity -> entity instanceof Projectiles p && !p.isActive()
-                || entity instanceof Enemy e && !e.isAlive());
+                || entity instanceof Enemy e && !e.isAlive()
+                || entity instanceof PowerUp powerUp && !powerUp.isActive());
     }
 
     @Override

@@ -1,8 +1,11 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
+<<<<<<< HEAD
 import java.util.List;
 import java.util.ArrayList;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
+=======
+>>>>>>> powerups
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.resources.Position;
@@ -16,6 +19,9 @@ import it.unibo.elementsduo.resources.Vector2D;
  * The platform moves back and forth between two points {@code a} and {@code b}
  * at a fixed speed while active. It also implements {@link TriggerListener},
  * allowing it to react to external trigger events.
+ * </p>
+ * <p>
+ * This class is not designed for extension and is therefore declared final.
  * </p>
  */
 public final class PlatformImpl extends AbstractInteractiveObstacle implements TriggerListener, Updatable {
@@ -141,6 +147,11 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
 
     /**
      * {@inheritDoc}
+<<<<<<< HEAD
+=======
+     *
+     * @return the collision layer associated with this platform
+>>>>>>> powerups
      */
     @Override
     public CollisionLayer getCollisionLayer() {

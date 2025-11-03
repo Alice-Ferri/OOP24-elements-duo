@@ -13,7 +13,8 @@ public enum CollisionLayer {
     GEM(false),
     EXIT_ZONE(false),
     BUTTON(false),
-    LEVER(false);
+    LEVER(false),
+    POWER_UP(false);
 
     private final boolean defaultPhysicsResponse;
     private EnumSet<CollisionLayer> defaultMask;
@@ -34,6 +35,7 @@ public enum CollisionLayer {
         EXIT_ZONE.defaultMask = EnumSet.of(PLAYER);
         BUTTON.defaultMask = EnumSet.of(PLAYER, PUSHABLE);
         LEVER.defaultMask = EnumSet.of(PLAYER);
+        POWER_UP.defaultMask = EnumSet.of(PLAYER);
     }
 
     public boolean hasPhysicsResponseByDefault() {

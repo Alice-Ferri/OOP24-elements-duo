@@ -1,6 +1,7 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
+package it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.api;
 
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.HazardType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.effects.api.HazardEffect;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.HazardType;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
 /**
@@ -11,4 +12,6 @@ import it.unibo.elementsduo.model.obstacles.api.obstacle;
  */
 public interface Hazard extends obstacle {
     HazardType getHazardType();
+
+    HazardEffect getEffect();
 }

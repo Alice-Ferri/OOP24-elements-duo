@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.mission.impl;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.map.level.api.Level;
 import it.unibo.elementsduo.model.mission.api.Objective;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.Gem; 
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 
 /**
@@ -46,8 +46,14 @@ public final class MissionManager {
 
     /**
      * Return if the mission is completed.
+     * <<<<<<< HEAD
+     * 
+     * @return true if the root mission (all objectives)
+     *         is complete.
+     *         =======
      *
      * @return true if the root mission (all objectives) is complete.
+     *         >>>>>>> 734a0d56b9228c4452cce144977d99c1ae70ee13
      */
     public boolean areAllObjectivesComplete() {
         return this.rootObjective.isComplete();

@@ -5,6 +5,7 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pushable;
+import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -56,9 +57,6 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
     /** Current velocity of the box. */
     private Vector2D velocity = Vector2D.ZERO;
 
-    /** The mass of the box. */
-    private final double mass = 1;
-
     /** Whether the box is currently on the ground. */
     private boolean onGround;
 
@@ -75,17 +73,15 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      * Applies a horizontal push to this {@code PushBox}.
      *
      * <p>
-     * Only the X component of the given vector is used. The resulting
-     * acceleration is divided by the object's mass and added to its velocity.
+     * Only the X component of the given vector is used and replaces the current
+     * horizontal velocity. Vertical motion is unaffected.
      * </p>
      *
      * @param v the push vector to apply
      */
     @Override
     public void push(final Vector2D v) {
-        final Vector2D horizontal = new Vector2D(v.x(), 0);
-        final Vector2D accel = new Vector2D(horizontal.x() / this.mass, horizontal.y() / this.mass);
-        this.velocity = this.velocity.add(accel);
+        this.velocity = new Vector2D(v.x(), this.velocity.y());
     }
 
     /** {@inheritDoc} */
@@ -166,7 +162,11 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
      *
      * @param penetration the penetration depth between colliding bodies
      * @param normal      the collision normal vector
+<<<<<<< HEAD
      * @param other       the other collidable object
+=======
+     * @param other       the other collidable object involved in the collision
+>>>>>>> powerups
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
@@ -185,12 +185,20 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
             this.velocity = new Vector2D(this.velocity.x(), 0);
         } else if (normal.y() > VERTICAL_THRESHOLD) {
             this.velocity = new Vector2D(this.velocity.x(), 0);
-        } else if (Math.abs(normal.x()) > HORIZONTAL_THRESHOLD) {
+        } else if (Math.abs(normal.x()) > HORIZONTAL_THRESHOLD && !(other instanceof Player)) {
             this.velocity = new Vector2D(0, this.velocity.y());
         }
     }
 
+<<<<<<< HEAD
     /** {@inheritDoc} */
+=======
+    /**
+     * {@inheritDoc}
+     *
+     * @return the collision layer associated with this pushable box
+     */
+>>>>>>> powerups
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PUSHABLE;

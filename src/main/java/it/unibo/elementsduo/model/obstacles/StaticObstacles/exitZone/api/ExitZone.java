@@ -1,6 +1,6 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
+package it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.api;
 
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.ExitType;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.ExitType;
 import it.unibo.elementsduo.model.obstacles.api.obstacle;
 
 /**

@@ -13,6 +13,7 @@ import it.unibo.elementsduo.model.collisions.detection.api.QuadTree;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
+<<<<<<< HEAD
  * Implementation of {@link CollisionChecker} that detects and resolves
  * collisions between {@link Collidable} entities using a QuadTree for spatial
  * partitioning.
@@ -20,6 +21,12 @@ import it.unibo.elementsduo.resources.Vector2D;
  * <p>
  * This class is final and not designed for extension.
  * </p>
+=======
+ * Implementation of {@link CollisionChecker} that uses a QuadTree to
+ * efficiently detect
+ * collisions between {@link Collidable} objects.
+ * <p>
+>>>>>>> powerups
  */
 public final class CollisionCheckerImpl implements CollisionChecker {
 
@@ -107,7 +114,11 @@ public final class CollisionCheckerImpl implements CollisionChecker {
     }
 
     private static BoundingBox boundsFor(final Collidable collidable) {
+<<<<<<< HEAD
         final HitBox hitBox = collidable.getHitBox();
+=======
+        final var hitBox = collidable.getHitBox();
+>>>>>>> powerups
         final var center = hitBox.getCenter();
         final double halfWidth = hitBox.getHalfWidth();
         final double halfHeight = hitBox.getHalfHeight();

@@ -5,15 +5,15 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.GreenPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaPool;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.GreenPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.LavaPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.HazardObs.WaterPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 
 /**
  * Implementation of the {@link ObstacleFactory} interface.
@@ -27,14 +27,14 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
 public final class ObstacleFactoryImpl implements ObstacleFactory {
 
     /** Mapping between obstacle types and their creation functions. */
-    private static final Map<ObstacleType.Type, Function<HitBox, AbstractStaticObstacle>> OBSTACLE_CREATORS = Map.of(
-            ObstacleType.Type.WATER_POOL, WaterPool::new,
-            ObstacleType.Type.LAVA_POOL, LavaPool::new,
-            ObstacleType.Type.GREEN_POOL, GreenPool::new,
-            ObstacleType.Type.WALL, Wall::new,
-            ObstacleType.Type.FLOOR, Floor::new,
-            ObstacleType.Type.WATER_EXIT, WaterExit::new,
-            ObstacleType.Type.FIRE_EXIT, FireExit::new);
+    private static final Map<ObstacleType, Function<HitBox, AbstractStaticObstacle>> OBSTACLE_CREATORS = Map.of(
+            ObstacleType.WATER_POOL, WaterPool::new,
+            ObstacleType.LAVA_POOL, LavaPool::new,
+            ObstacleType.GREEN_POOL, GreenPool::new,
+            ObstacleType.WALL, Wall::new,
+            ObstacleType.FLOOR, Floor::new,
+            ObstacleType.WATER_EXIT, WaterExit::new,
+            ObstacleType.FIRE_EXIT, FireExit::new);
 
     /**
      * Creates a new static obstacle of the specified type.
@@ -46,7 +46,7 @@ public final class ObstacleFactoryImpl implements ObstacleFactory {
      * @throws IllegalArgumentException if the obstacle type is not supported
      */
     @Override
-    public AbstractStaticObstacle createObstacle(final ObstacleType.Type type, final HitBox hitbox) {
+    public AbstractStaticObstacle createObstacle(final ObstacleType type, final HitBox hitbox) {
         return Optional.ofNullable(OBSTACLE_CREATORS.get(type))
                 .map(creator -> creator.apply(hitbox))
                 .orElseThrow(() -> new IllegalArgumentException("Unsupported obstacle type: " + type));

@@ -1,9 +1,9 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit;
+package it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ExitZone;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.api.ExitZone;
 
 /**
  * Represents the water exit zone in the game world.
