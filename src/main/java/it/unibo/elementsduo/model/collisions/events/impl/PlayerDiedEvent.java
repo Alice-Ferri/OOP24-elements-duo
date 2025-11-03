@@ -12,5 +12,5 @@ import it.unibo.elementsduo.model.player.api.Player;
  *
  * @param player the player who died
  */
-public record PlayerDiedEvent(Player player) implements Event {
+public record PlayerDiedEvent() implements Event {
 }

@@ -13,5 +13,5 @@ import it.unibo.elementsduo.model.player.api.Player;
  *
  * @param player the player who reached the water exit
  */
-public record WaterExitEvent(Player player) implements Event {
+public record WaterExitEvent() implements Event {
 }

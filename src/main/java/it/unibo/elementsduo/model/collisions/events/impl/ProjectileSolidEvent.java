@@ -13,5 +13,5 @@ import it.unibo.elementsduo.model.enemies.api.Projectiles;
  *
  * @param projectile the projectile that collided with a solid object
  */
-public record ProjectileSolidEvent(Projectiles projectile) implements Event {
+public record ProjectileSolidEvent() implements Event {
 }

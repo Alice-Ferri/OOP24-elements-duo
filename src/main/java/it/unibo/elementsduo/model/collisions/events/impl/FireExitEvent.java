@@ -9,8 +9,6 @@ import it.unibo.elementsduo.model.player.api.Player;
  * <p>
  * Used to signal that Fireboy has successfully reached his corresponding goal
  * area.
- *
- * @param player the player who reached the fire exit
  */
-public record FireExitEvent(Player player) implements Event {
+public record FireExitEvent() implements Event {
 }

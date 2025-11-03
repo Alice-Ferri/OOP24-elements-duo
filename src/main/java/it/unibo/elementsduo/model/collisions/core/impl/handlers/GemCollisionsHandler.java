@@ -48,7 +48,7 @@ public final class GemCollisionsHandler extends AbstractCollisionHandler<Player,
         builder.addLogicCommand(() -> {
             if (gem.isActive()) {
                 gem.collect();
-                this.eventManager.notify(new GemCollectedEvent(player, gem));
+                this.eventManager.notify(new GemCollectedEvent());
             }
         });
     }

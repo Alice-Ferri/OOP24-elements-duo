@@ -44,6 +44,6 @@ public final class PlayerProjectileHandler extends AbstractCollisionHandler<Play
     @Override
     public void handleCollision(final Player player, final Projectiles projectile,
             final CollisionInformations c, final CollisionResponse.Builder builder) {
-        builder.addLogicCommand(() -> this.eventManager.notify(new PlayerDiedEvent(player)));
+        builder.addLogicCommand(() -> this.eventManager.notify(new PlayerDiedEvent()));
     }
 }

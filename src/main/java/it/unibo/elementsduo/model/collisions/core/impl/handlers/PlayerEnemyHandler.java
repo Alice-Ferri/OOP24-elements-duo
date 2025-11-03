@@ -58,9 +58,9 @@ public final class PlayerEnemyHandler extends AbstractCollisionHandler<Player, E
                     && aware.hasPowerUpEffect(PowerUpType.ENEMY_KILL);
             if (enemyPowerActive || isPlayerAboveEnemy) {
                 enemy.die();
-                this.eventManager.notify(new EnemyDiedEvent(enemy));
+                this.eventManager.notify(new EnemyDiedEvent());
             } else {
-                this.eventManager.notify(new PlayerDiedEvent(player));
+                this.eventManager.notify(new PlayerDiedEvent());
             }
         });
     }

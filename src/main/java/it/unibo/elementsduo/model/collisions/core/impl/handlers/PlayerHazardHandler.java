@@ -56,7 +56,7 @@ public final class PlayerHazardHandler extends AbstractCollisionHandler<Player, 
             if (immuneByClass || immuneByPowerUp) {
                 return;
             }
-            eventManager.notify(new PlayerDiedEvent(player));
+            eventManager.notify(new PlayerDiedEvent());
         });
     }
 }
