@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.elementsduo.controller.maincontroller.api.LevelSelectionNavigation;
 import it.unibo.elementsduo.controller.progresscontroller.impl.ProgressionManagerImpl;
 import it.unibo.elementsduo.controller.subcontroller.api.Controller;
@@ -33,6 +34,9 @@ public final class LevelSelectionController implements Controller {
      * @param controller         The navigation controller.
      * @param progressionManager The manager for loading player progress.
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification ="Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
     public LevelSelectionController(final LevelSelectionPanel panel,
                                     final LevelSelectionNavigation controller,
                                     final ProgressionManagerImpl progressionManager) {
