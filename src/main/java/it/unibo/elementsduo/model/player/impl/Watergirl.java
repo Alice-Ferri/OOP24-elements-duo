@@ -51,5 +51,4 @@ public class Watergirl extends AbstractPlayer {
         return hazardType == HazardType.WATER;
     }
 
-
 }

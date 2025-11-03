@@ -57,7 +57,7 @@ public interface Player extends Movable, GameEntity {
     /**
      * Returns whether the player is currently on the ground.
      *
-     * @return {@code true} if the player is on the ground, {@code false} otherwise
+     * @return true if the player is on the ground, false otherwise
      */
     boolean isOnGround();
 
@@ -65,14 +65,16 @@ public interface Player extends Movable, GameEntity {
      * Sets the palyer on ground.
      */
     void setOnGround();
-    
+
     /**
      * Corrects the position of the player.
+     *
      * @param dx
+     *
      * @param dy
      */
-    void correctPosition(double dx, double dy);
-    
+    void correctPosition(final double dx, final double dy);
+
     /**
      * Marks the player as airborne.
      */
