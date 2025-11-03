@@ -1,5 +1,8 @@
 package it.unibo.elementsduo.model.player.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.controller.inputController.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
@@ -7,7 +10,9 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.player.api.PlayerType;
+import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -15,7 +20,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * Abstract base class implementing common behavior for all {@link Player}
  * types.
  */
-public abstract class AbstractPlayer implements Player {
+public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
 
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5;
@@ -26,14 +31,15 @@ public abstract class AbstractPlayer implements Player {
     private Vector2D velocity = new Vector2D(0, 0);
     private boolean onGround = true;
     private boolean onExit;
-    
+
     private final PlayerCollisionHandler playerCollisionHandler = new PlayerCollisionHandler(this);
+    private final Set<PowerUpType> activePowerUps = new HashSet<>();
 
     /**
      * Constructs with the starting position.
      *
      * @param startPos the initial position of the player
-     */
+    */
     protected AbstractPlayer(final Position startPos) {
         this.x = startPos.x();
         this.y = startPos.y();
@@ -124,16 +130,16 @@ public abstract class AbstractPlayer implements Player {
      * {@inheritDoc}
      */
     @Override
-    public void setOnGround(){
+    public void setOnGround() {
         this.onGround = true;
     }
 
     /**
      * Corrects the position of the player.
      *
-     * @param dx
+     * @param dx to correct by x position
      *
-     * @param dy
+     * @param dy to correct by y position
      */
     @Override
     public void correctPosition(final double dx, final double dy) {
@@ -194,6 +200,38 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public void setAirborne() {
         this.onGround = false;
+    }
+
+    /**
+     * {@inheritDoc} 
+     *
+     * @param powerUpType to add to the set
+    */
+    @Override
+    public void addPowerUpEffect(final PowerUpType powerUpType) {
+        this.activePowerUps.add(powerUpType);
+    }
+
+    /**
+     * {@inheritDoc} 
+     *
+     * @param powerUpType to remove to the set
+    */
+    @Override
+    public void removePowerUpEffect(final PowerUpType powerUpType) {
+        this.activePowerUps.remove(powerUpType);
+    }
+
+    /**
+     * {@inheritDoc} 
+     *
+     * @param powerUpType to ask if is present in the power up set
+     *
+     * @return true if the power up is present, false otherwise
+    */
+    @Override
+    public boolean hasPowerUpEffect(final PowerUpType powerUpType) {
+        return this.activePowerUps.contains(powerUpType);
     }
 
     /**
