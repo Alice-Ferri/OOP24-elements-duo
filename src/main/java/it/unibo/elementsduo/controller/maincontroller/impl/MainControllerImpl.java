@@ -128,7 +128,7 @@ public final class MainControllerImpl
 
     @Override
     public void quitGame() {
-        System.exit(0);
+        this.mainFrame.dispose();
     }
 
     @Override

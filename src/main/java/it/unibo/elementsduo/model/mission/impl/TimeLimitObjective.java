@@ -8,7 +8,6 @@ import it.unibo.elementsduo.model.gamestate.api.GameState;
  */
 public final class TimeLimitObjective extends AbstractObjective {
 
-    private boolean isComplete;
     private final double timeLimitInSeconds;
 
     /**
@@ -21,12 +20,12 @@ public final class TimeLimitObjective extends AbstractObjective {
 
     @Override
     public void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
-        if (this.isComplete) {
+        if (this.isComplete()) {
             return;
         }
 
         if (finalState.didWin() && finalTimeInSeconds <= this.timeLimitInSeconds) {
-            this.isComplete = true;
+            this.setComplete();
         }
     }
 }

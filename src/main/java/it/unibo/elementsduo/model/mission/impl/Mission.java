@@ -13,7 +13,6 @@ import java.util.Collections;
  */
 public final class Mission extends AbstractObjective {
 
-    private boolean isComplete;
     private final List<Objective> objectives = new ArrayList<>();
 
     /**
@@ -53,14 +52,14 @@ public final class Mission extends AbstractObjective {
      */
     @Override
     public void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
-        if (this.isComplete) {
+        if (this.isComplete()) {
             return;
         }
         for (final Objective child : this.objectives) {
             child.checkCompletion(finalState, finalTimeInSeconds);
         }
         if (this.objectives.stream().allMatch(Objective::isComplete)) {
-            this.isComplete = true;
+            this.setComplete();
         }
     }
 }

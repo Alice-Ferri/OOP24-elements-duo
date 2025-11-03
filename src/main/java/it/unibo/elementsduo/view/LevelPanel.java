@@ -40,7 +40,7 @@ import java.util.Objects;
 public final class LevelPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private final Level level;
+    private final transient Level level;
     private final GameAreaPanel gameArea;
     private final JButton homeButton;
     private final JButton levelSelectButton;

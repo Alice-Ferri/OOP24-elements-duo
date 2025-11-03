@@ -7,7 +7,6 @@ import it.unibo.elementsduo.model.gamestate.api.GameState;
  */
 public final class EnemyObjective extends AbstractObjective {
 
-    private boolean isComplete;
     private final int totalEnemiesInLevel;
 
     /**
@@ -22,11 +21,11 @@ public final class EnemyObjective extends AbstractObjective {
 
     @Override
     public void checkCompletion(final GameState finalState, final double finalTimeInSeconds) {
-        if (this.isComplete) {
+        if (this.isComplete()) {
             return;
         }
         if (finalState.getEnemiesDefeated() >= this.totalEnemiesInLevel) {
-            this.isComplete = true;
+            this.setComplete();
         }
     }
 }

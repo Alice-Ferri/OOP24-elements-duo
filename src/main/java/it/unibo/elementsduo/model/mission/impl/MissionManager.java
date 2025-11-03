@@ -54,11 +54,11 @@ public final class MissionManager {
     }
 
     /**
-     * Return the root mission.
+     * Return the root mission description.
      *
      * @return The mission.
      */
-    public Objective getRootObjective() {
-        return this.rootObjective;
+    public String getRootObjective() {
+        return this.rootObjective.getDescription();
     }
 }
