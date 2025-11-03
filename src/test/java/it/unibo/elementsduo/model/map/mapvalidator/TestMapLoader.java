@@ -19,13 +19,14 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.FireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.exit.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 
 import java.util.Set;
@@ -50,7 +51,8 @@ final class TestMapLoader {
         this.mapLoader = new MapLoader(
             new ObstacleFactoryImpl(), 
             new EnemyFactoryImpl(),
-            new InteractiveObstacleFactoryImpl()
+            new InteractiveObstacleFactoryImpl(),
+            new PowerUpFactoryImpl()
         );
 
         gameEntities = assertDoesNotThrow(() -> 
