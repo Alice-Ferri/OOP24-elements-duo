@@ -14,5 +14,5 @@ import it.unibo.elementsduo.model.player.api.Player;
  * @param player     the player who was hit
  * @param projectile the projectile that caused the collision
  */
-public record PlayerProjectilesEvent(Player player, Projectiles projectile) implements Event {
+public record PlayerProjectilesEvent() implements Event {
 }

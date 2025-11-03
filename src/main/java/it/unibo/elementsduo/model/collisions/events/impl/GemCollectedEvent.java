@@ -10,9 +10,6 @@ import it.unibo.elementsduo.model.player.api.Player;
  * <p>
  * Used to notify that a player has successfully collected a gem in the game
  * world.
- *
- * @param player the player who collected the gem
- * @param gem    the gem that was collected
  */
-public record GemCollectedEvent(Player player, Gem gem) implements Event {
+public record GemCollectedEvent() implements Event {
 }
