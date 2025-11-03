@@ -5,12 +5,12 @@ import it.unibo.elementsduo.model.player.api.Player;
 
 public interface PowerUpEffect {
 
-    void onActivated(Player player, EventManager eventManager, double duration);
+    void onActivated(Player player, double duration);
 
-    void onRefreshed(Player player, EventManager eventManager, double duration);
+    void onRefreshed(Player player, double duration);
 
-    boolean onUpdate(Player player, EventManager eventManager, double deltaTime);
+    boolean onUpdate(Player player, double deltaTime);
 
-    void onExpired(Player player, EventManager eventManager);
+    void onExpired(Player player);
 
 }

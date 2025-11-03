@@ -17,29 +17,29 @@ public abstract class AbstractTimedPowerUpStrategy implements PowerUpEffect {
     private double remaining;
 
     @Override
-    public final void onActivated(final Player player, final EventManager eventManager, final double duration) {
+    public final void onActivated(final Player player, final double duration) {
         this.remaining = duration;
-        this.onStart(player, eventManager);
+        this.onStart(player);
     }
 
     @Override
-    public final void onRefreshed(final Player player, final EventManager eventManager, final double duration) {
+    public final void onRefreshed(final Player player, final double duration) {
         this.remaining = duration;
     }
 
     @Override
-    public final boolean onUpdate(final Player player, final EventManager eventManager, final double deltaTime) {
+    public final boolean onUpdate(final Player player, final double deltaTime) {
         this.remaining -= deltaTime;
         return this.remaining > 0;
     }
 
     @Override
-    public final void onExpired(final Player player, final EventManager eventManager) {
-        this.onEnd(player, eventManager);
+    public final void onExpired(final Player player) {
+        this.onEnd(player);
     }
 
-    protected abstract void onStart(Player player, EventManager eventManager);
+    protected abstract void onStart(Player player);
 
-    protected abstract void onEnd(Player player, EventManager eventManager);
+    protected abstract void onEnd(Player player);
 
 }

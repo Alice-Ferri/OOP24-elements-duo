@@ -11,14 +11,14 @@ import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 public final class HazardImmunity extends AbstractTimedPowerUpStrategy {
 
     @Override
-    protected void onStart(final Player player, final EventManager eventManager) {
+    protected void onStart(final Player player) {
         if (player instanceof PlayerPoweredUp aware) {
             aware.addPowerUpEffect(PowerUpType.HAZARD_IMMUNITY);
         }
     }
 
     @Override
-    protected void onEnd(final Player player, final EventManager eventManager) {
+    protected void onEnd(final Player player) {
         if (player instanceof PlayerPoweredUp aware) {
             aware.removePowerUpEffect(PowerUpType.HAZARD_IMMUNITY);
         }

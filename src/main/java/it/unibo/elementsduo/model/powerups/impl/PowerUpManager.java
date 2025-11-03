@@ -10,7 +10,6 @@ import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.collisions.events.api.EventListener;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PowerUpCollectedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.PowerUpExpiredEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.powerups.api.PowerUpEffect;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
@@ -60,7 +59,6 @@ public class PowerUpManager implements EventListener {
                 final ActivePowerUp active = effectsIterator.next().getValue();
                 if (!active.update(deltaTime)) {
                     effectsIterator.remove();
-                    this.eventManager.notify(new PowerUpExpiredEvent(active.player(), active.type()));
                 }
             }
 
@@ -74,25 +72,23 @@ public class PowerUpManager implements EventListener {
         private final Player player;
         private final PowerUpType type;
         private final PowerUpEffect strategy;
-        private final EventManager eventManager;
 
         private ActivePowerUp(final Player player, final PowerUpType type, final PowerUpEffect strategy,
                 final double duration, final EventManager eventManager) {
             this.player = player;
             this.type = type;
             this.strategy = strategy;
-            this.eventManager = eventManager;
-            this.strategy.onActivated(this.player, this.eventManager, duration);
+            this.strategy.onActivated(this.player, duration);
         }
 
         private void refresh(final double duration) {
-            this.strategy.onRefreshed(this.player, this.eventManager, duration);
+            this.strategy.onRefreshed(this.player, duration);
         }
 
         private boolean update(final double deltaTime) {
-            final boolean stillActive = this.strategy.onUpdate(this.player, this.eventManager, deltaTime);
+            final boolean stillActive = this.strategy.onUpdate(this.player, deltaTime);
             if (!stillActive) {
-                this.strategy.onExpired(this.player, this.eventManager);
+                this.strategy.onExpired(this.player);
             }
             return stillActive;
         }
