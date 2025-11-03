@@ -29,8 +29,7 @@ import it.unibo.elementsduo.controller.inputController.api.InputController;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
 import it.unibo.elementsduo.model.map.level.MapLoader;
-import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
+import it.unibo.elementsduo.model.map.level.impl.Level;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
@@ -95,7 +94,7 @@ public final class GameControllerImpl implements EventListener, GameController {
         this.mapValidator = new MapValidatorImpl();
         this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
                 new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl());
-        level = new LevelImpl(this.mapLoader.loadLevel(currentLevel));
+        level = new Level(this.mapLoader.loadLevel(currentLevel));
         mapValidator.validate(level);
         this.view = new LevelPanel(level);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());

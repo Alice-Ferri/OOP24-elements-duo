@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.map.mapvalidator;
+package it.unibo.elementsduo.model.map;
 
 import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
@@ -79,7 +79,7 @@ final class TestMapLoader {
     void testMapLoadingAndEntityCreation() {
 
         assertNotNull(gameEntities);
-        assertTrue(countEntities(obstacle.class) > 0, "No obstacles were loaded");
+        assertTrue(countEntities(Obstacle.class) > 0, "No obstacles were loaded");
 
         assertEquals(1, countEntities(Fireboy.class));
         assertEquals(1, countEntities(Watergirl.class));

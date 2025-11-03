@@ -1,7 +1,4 @@
-package it.unibo.elementsduo.model.map.mapvalidator;
-
-import it.unibo.elementsduo.model.map.level.api.Level;
-import it.unibo.elementsduo.model.map.level.impl.LevelImpl;
+package it.unibo.elementsduo.model.map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +12,8 @@ import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.obstacles.api.obstacle;
+import it.unibo.elementsduo.model.map.level.impl.Level;
+import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Position;
 
@@ -48,8 +46,8 @@ final class TestLevel {
     private Enemy enemyDead;
     private Projectiles projActive;
     private Projectiles projInactive;
-    private obstacle obstacle;
-    private obstacle interactive;
+    private Obstacle obstacle;
+    private Obstacle interactive;
 
     /**
      * Initializes a Level with a predefined set.
@@ -81,7 +79,7 @@ final class TestLevel {
         originalEntities.add(obstacle);
         originalEntities.add(interactive);
 
-        this.level = new LevelImpl(originalEntities);
+        this.level = new Level(originalEntities);
     }
 
     /**
@@ -90,11 +88,11 @@ final class TestLevel {
      */
     @Test
     void testConstructor() {
-        assertThrows(NullPointerException.class, () -> new LevelImpl(null));
+        assertThrows(NullPointerException.class, () -> new Level(null));
 
         final Set<GameEntity> initialSet = new HashSet<>();
         initialSet.add(new Fireboy(new Position(0, 0)));
-        final Level testLevel = new LevelImpl(initialSet);
+        final Level testLevel = new Level(initialSet);
 
         initialSet.add(new Watergirl(new Position(POS_NINE, POS_NINE)));
 
