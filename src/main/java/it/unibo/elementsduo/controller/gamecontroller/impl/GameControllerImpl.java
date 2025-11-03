@@ -4,6 +4,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Objects;
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
@@ -57,6 +59,9 @@ public final class GameControllerImpl implements EventListener, GameController {
      * @param view               The level's view panel.
      * @param progressionManager The manager for saving game progress.
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification ="Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
     public GameControllerImpl(final Level level, final GameNavigation controller,
                              final LevelPanel view, final ProgressionManagerImpl progressionManager) {
         this.level = Objects.requireNonNull(level);
