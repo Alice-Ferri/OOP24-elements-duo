@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 /**
  * Represents the initial menu panel of the game.
@@ -74,34 +75,17 @@ public final class MenuPanel extends JPanel {
         return button;
     }
 
-    /**
-     * Returns the instance of the start button.
-     *
-     * @return the JButton for starting the game.
-     */
-    public JButton getStartButton() {
-        return this.startButton;
+    public void addButtonsListeners(ActionListener start, ActionListener load, ActionListener guide, ActionListener exit){
+        this.startButton.addActionListener(start);
+        this.loadButton.addActionListener(load);
+        this.guideButton.addActionListener(guide);
+        this.exitButton.addActionListener(exit);
     }
 
-    /**
-     * Returns the instance of the load game button.
-     *
-     * @return the JButton for loading the game.
-     */
-    public JButton getLoadButton() {
-        return this.loadButton;
-    }
-
-    /**
-     * Returns the instance of the guide game button.
-     *
-     * @return the JButton for guide the game.
-     */
-    public JButton getGuideButton() {
-        return this.guideButton;
-    }
-
-    public JButton getExitButton() {
-        return this.exitButton;
+    public void removeButtonsListeners(ActionListener start, ActionListener load, ActionListener guide, ActionListener exit){
+        this.startButton.removeActionListener(start);
+        this.loadButton.removeActionListener(load);
+        this.guideButton.removeActionListener(guide);
+        this.exitButton.removeActionListener(exit);
     }
 }

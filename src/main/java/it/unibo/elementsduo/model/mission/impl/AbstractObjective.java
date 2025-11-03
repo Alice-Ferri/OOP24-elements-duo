@@ -9,11 +9,17 @@ import it.unibo.elementsduo.model.mission.api.Objective;
  */
 public abstract class AbstractObjective implements Objective {
 
-    protected boolean isComplete = false;
+    private boolean isComplete;
     private final String description;
 
+    /**
+     * Constructs a new AbstractObjective.
+     *
+     * @param description The text description of this objective.
+     */
     public AbstractObjective(final String description) {
         this.description = description;
+        this.isComplete = false;
     }
 
     @Override
@@ -24,6 +30,13 @@ public abstract class AbstractObjective implements Objective {
     @Override
     public final String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Protected method for subclasses to securely set the objective as complete.
+     */
+    protected final void setComplete() {
+        this.isComplete = true;
     }
 
     @Override

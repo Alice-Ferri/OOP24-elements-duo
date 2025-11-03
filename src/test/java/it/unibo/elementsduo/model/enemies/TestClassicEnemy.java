@@ -1,11 +1,10 @@
 package it.unibo.elementsduo.model.enemies;
 
-
+import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
-import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +29,7 @@ final class TestClassicEnemy {
     private static final double DELTA_TIME = 0.5;
     private static final double CORRECTION_PERCENT = 0.8;
     private static final double POSITION_SLOP = 0.001;
+     private static final double PERC_TEST = 0.1;
 
     private ClassicEnemiesImpl enemy;
 
@@ -48,9 +48,9 @@ final class TestClassicEnemy {
     @Test
     void testInitialStateAndPosition() {
         assertTrue(enemy.isAlive());
-        assertEquals(START_X, enemy.getX(), 0.001);
-        assertEquals(START_Y, enemy.getY(), 0.001);
-        assertEquals(1, enemy.getDirection(), 0.001);
+        assertEquals(START_X, enemy.getX(), POSITION_SLOP);
+        assertEquals(START_Y, enemy.getY(), POSITION_SLOP);
+        assertEquals(1, enemy.getDirection(), POSITION_SLOP);
     }
 
     /**
@@ -60,15 +60,15 @@ final class TestClassicEnemy {
     void testMovementAndSpeed() {
         enemy.update(DELTA_TIME); 
         final double expectedX = START_X + (1 * CLASSIC_SPEED * DELTA_TIME);
-        assertEquals(expectedX, enemy.getX(), 0.001);
+        assertEquals(expectedX, enemy.getX(), POSITION_SLOP);
     }
-    
+
     /**
      * Tests that the classic enemy's attack method always returns an empty optional.
      */
     @Test
     void testAttackAlwaysEmpty() {
-        Optional<Projectiles> result = enemy.attack();
+         final Optional<Projectiles> result = enemy.attack();
         assertFalse(result.isPresent());
     }
 
@@ -78,18 +78,18 @@ final class TestClassicEnemy {
     @Test
     void testDirectionReversal() {
         enemy.setDirection();
-        assertEquals(-1, enemy.getDirection(), 0.001);
+        assertEquals(-1, enemy.getDirection(), POSITION_SLOP);
     }
-    
+
     /**
      * Tests that a lateral physics collision inverts the enemy's direction.
      */
     @Test
     void testPhysicsCollisionInvertsDirection() {
-        enemy.correctPhysicsCollision(0.1, new Vector2D(-1.0, 0.0), null);
-        assertEquals(-1, enemy.getDirection(), 0.001);
+        enemy.correctPhysicsCollision(PERC_TEST, new Vector2D(-1.0, 0.0), null);
+        assertEquals(-1, enemy.getDirection(), POSITION_SLOP);
     }
-    
+
     /**
      * Tests that a physics collision correctly displaces the enemy along the normal.
      */
@@ -97,15 +97,15 @@ final class TestClassicEnemy {
     void testPhysicsCollisionCorrectsPosition() {
         final double penetration = 0.5;
         final Vector2D normal = new Vector2D(0.0, 1.0);
-        
+
         final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
         final double expectedCorrectionY = normal.y() * CORRECTION_PERCENT * depth;
         final double expectedY = START_Y + expectedCorrectionY;
 
         enemy.correctPhysicsCollision(penetration, normal, null);
-        
-        assertEquals(expectedY, enemy.getY(), 0.001);
-        assertEquals(1, enemy.getDirection(), 0.001); 
+
+        assertEquals(expectedY, enemy.getY(), POSITION_SLOP);
+        assertEquals(1, enemy.getDirection(), POSITION_SLOP); 
     }
 
     /**
@@ -121,7 +121,7 @@ final class TestClassicEnemy {
      * Minimal stub implementation of EnemiesMoveManager to prevent NullPointerException
      * during the update cycle.
      */
-    private static class ManualMoveManagerStub implements EnemiesMoveManager {
+    private static final class ManualMoveManagerStub implements EnemiesMoveManager {
         @Override
         public void handleEdgeDetection(final Enemy enemy) { }
 

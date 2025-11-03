@@ -67,17 +67,17 @@ public final class MapValidatorImpl implements MapValidator {
 
     private void checkSpawnsAndExits(final Level level) throws InvalidMapException {
         if (level.getEntitiesByClass(Fireboy.class).size() != 1) {
-            throw new InvalidMapException("Map must have exactly 1 fire spawn.");
+            throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 fire spawn.");
         }
         if (level.getEntitiesByClass(Watergirl.class).size() != 1) {
-            throw new InvalidMapException("Map must have exactly 1 water spawn.");
+            throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 water spawn.");
         }
 
         if (level.getEntitiesByClass(FireExit.class).size() != 1) {
-            throw new InvalidMapException("Map must have exactly 1 fire exit.");
+            throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 fire exit.");
         }
         if (level.getEntitiesByClass(WaterExit.class).size() != 1) {
-            throw new InvalidMapException("Map must have exactly 1 water exit.");
+            throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 water exit.");
         }
     }
 
@@ -98,7 +98,7 @@ public final class MapValidatorImpl implements MapValidator {
 
     private void checkWallExistsAt(final Position pos, final Set<Position> wallPositions) throws InvalidMapException {
         if (!wallPositions.contains(pos)) {
-            throw new InvalidMapException("Boundary not closed: Missing wall at " + pos);
+            throw new InvalidMapException("Boundary Error: Missing wall at " + pos);
         }
     }
 
@@ -125,12 +125,12 @@ public final class MapValidatorImpl implements MapValidator {
                 level.getEntitiesByClass(Watergirl.class).iterator().next());
         final Position waterExitPos = getGridPosFromHitBox(level.getEntitiesByClass(WaterExit.class).iterator().next());
 
-        checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, walkableSpace, emptySpace);
-        checkPathForPlayer("Water", waterSpawnPos, waterExitPos, walkableSpace, emptySpace);
+        checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, walkableSpace);
+        checkPathForPlayer("Water", waterSpawnPos, waterExitPos, walkableSpace);
     }
 
     private void checkPathForPlayer(final String playerName, final Position spawn, final Position exit,
-            final Set<Position> walkableSpace, final Set<Position> emptySpace)
+            final Set<Position> walkableSpace)
             throws InvalidMapException {
 
         final Set<Position> startPoints = getNeighbors(spawn).stream()
@@ -139,7 +139,7 @@ public final class MapValidatorImpl implements MapValidator {
 
         if (startPoints.isEmpty()) {
 
-            throw new InvalidMapException(playerName + " spawn at " + spawn
+            throw new InvalidMapException("Spawn Adj Error: " + playerName + " spawn at " + spawn
                     + " is not adjacent to any walkable space.");
         }
 
@@ -149,11 +149,12 @@ public final class MapValidatorImpl implements MapValidator {
 
         if (endPoints.isEmpty()) {
 
-            throw new InvalidMapException(playerName + " exit at " + exit + " is not adjacent to any empty space.");
+            throw new InvalidMapException("Adj Error: " + playerName + " exit at " + exit
+                     + " is not adjacent to any empty space.");
         }
 
         if (!isPathPossible(startPoints, endPoints, walkableSpace)) {
-            throw new InvalidMapException(playerName + " cannot reach the exit.");
+            throw new InvalidMapException("Path Error: " + playerName + " cannot reach the exit.");
         }
     }
 

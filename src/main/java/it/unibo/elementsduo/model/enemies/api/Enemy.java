@@ -5,11 +5,12 @@ import java.util.Optional;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.model.gameentity.api.Updatable;
 
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntity {
+public interface Enemy extends Movable, ManagerInjectable, Collidable, GameEntity, Updatable {
 
     /**
      * Attempts to perform an attack action based on internal conditions (e.g., cooldown).

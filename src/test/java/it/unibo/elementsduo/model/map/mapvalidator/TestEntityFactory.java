@@ -2,12 +2,13 @@ package it.unibo.elementsduo.model.map.mapvalidator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.obstacleFactoryImpl;
-
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
@@ -18,7 +19,7 @@ import java.util.Set;
  * Integration test for the {@link EntityFactoryImpl} class.
  * It verifies that all valid symbols create entities and invalid symbols return null.
  */
-final class TestEntityFactoryImpl {
+final class TestEntityFactory {
 
     private EntityFactory entityFactory;
 
@@ -28,7 +29,7 @@ final class TestEntityFactoryImpl {
      */
     @BeforeEach
     void setUp() {
-        final obstacleFactoryImpl obstacleFactory = new obstacleFactoryImpl();
+        final ObstacleFactoryImpl obstacleFactory = new ObstacleFactoryImpl();
         final EnemyFactoryImpl enemyFactory = new EnemyFactoryImpl();
         final InteractiveObstacleFactoryImpl interactiveObsFactory = new InteractiveObstacleFactoryImpl();
 
@@ -48,9 +49,9 @@ final class TestEntityFactoryImpl {
         assertThrows(NullPointerException.class, () -> 
             new EntityFactoryImpl(null, new EnemyFactoryImpl(), new InteractiveObstacleFactoryImpl()));
         assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new obstacleFactoryImpl(), null, new InteractiveObstacleFactoryImpl()));
+            new EntityFactoryImpl(new ObstacleFactoryImpl(), null, new InteractiveObstacleFactoryImpl()));
         assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new obstacleFactoryImpl(), new EnemyFactoryImpl(), null));
+            new EntityFactoryImpl(new ObstacleFactoryImpl(), new EnemyFactoryImpl(), null));
     }
 
     /**
@@ -61,14 +62,14 @@ final class TestEntityFactoryImpl {
     void testAllValidSymbolsAreCreated() {
         final Set<Character> validSymbols = Set.of(
             'P', '#', 'A', 'F', 'Q', 'E', 'K',
-            'B', 'W','C', 'S','L', 'H', 'M', 'R'
+            'B', 'W', 'C', 'S', 'L', 'H', 'M', 'R'
         );
 
         final Position pos = new Position(1, 1);
 
         for (final char symbol : validSymbols) {
             final GameEntity result = entityFactory.createEntity(symbol, pos);
-            
+
             assertNotNull(result, 
                 "The entity created for the symbol '" + symbol + "' was null.");
         }

@@ -96,7 +96,6 @@ public interface Level {
     /**
      * Removes all inactive projectiles from the level.
      */
-
     void cleanProjectiles();
 
     /**
@@ -104,8 +103,12 @@ public interface Level {
      *
      * @return A list of all {@link Collidable} objects.
      */
-
     List<Collidable> getAllCollidables();
 
+    /**
+     * Gets all entities that can be part of the update system.
+     *
+     * @return A set of all {@link Updatable} objects.
+     */
     Set<Updatable> getAllUpdatables();
 }

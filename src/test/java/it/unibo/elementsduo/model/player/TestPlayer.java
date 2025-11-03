@@ -3,6 +3,7 @@ package it.unibo.elementsduo.model.player;
 import it.unibo.elementsduo.controller.inputController.impl.InputControllerImpl;
 import it.unibo.elementsduo.controller.inputController.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
@@ -134,6 +135,11 @@ final class TestPlayer {
             public HitBox getHitBox() {
                 return fireboy.getHitBox();
             }
+
+            @Override
+            public CollisionLayer getCollisionLayer() {
+                return fireboy.getCollisionLayer();
+            }
         };
         fireboy.setVelocityY(-5);
         fireboy.correctPhysicsCollision(1.0, new Vector2D(0, 1), dummy);
@@ -164,6 +170,11 @@ final class TestPlayer {
             @Override
             public HitBox getHitBox() {
                 return fireboy.getHitBox();
+            }
+
+            @Override
+            public CollisionLayer getCollisionLayer() {
+                return fireboy.getCollisionLayer();
             }
         });
         assertEquals(0.0, fireboy.getX());

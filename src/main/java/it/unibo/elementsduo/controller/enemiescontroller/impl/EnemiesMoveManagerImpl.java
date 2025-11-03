@@ -1,5 +1,6 @@
 package it.unibo.elementsduo.controller.enemiescontroller.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
@@ -28,7 +29,7 @@ public final class EnemiesMoveManagerImpl implements EnemiesMoveManager {
      * @param obstacles the set of obstacles in the current level.
      */
     public EnemiesMoveManagerImpl(final Set<obstacle> obstacles) {
-        this.obstacles = obstacles;
+        this.obstacles = new HashSet<>(obstacles);
     }
 
     /**
