@@ -1,5 +1,7 @@
 package it.unibo.elementsduo.model.player.impl.handlers;
 
+import java.util.Optional;
+
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.controller.inputcontroller.impl.InputState;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -33,23 +35,19 @@ public class PlayerInputHandler {
      */
     public void handleInput(final Player player, final InputController inputController) {
         final PlayerType type = player.getPlayerType();
-
         final InputState state = inputController.getInputState();
-
+    
         final boolean left = state.isActionPressed(type, InputState.Action.LEFT);
         final boolean right = state.isActionPressed(type, InputState.Action.RIGHT);
-
-        if (left == right) {
-            player.setVelocityX(0);
-        } else if (left) {
-            player.setVelocityX(-RUN_SPEED);
-        } else {
-            player.setVelocityX(RUN_SPEED);
-        }
-
-        if (state.isActionPressed(type, InputState.Action.JUMP)) {
-            physicsHandler.jump(player, JUMP_STRENGTH);
-            inputController.markJumpHandled(type);
-        }
+    
+        Optional.of((right ? 1 : 0) - (left ? 1 : 0))
+                .ifPresent(direction -> player.setVelocityX(direction * RUN_SPEED));
+    
+        Optional.of(state)
+                .filter(s -> s.isActionPressed(type, InputState.Action.JUMP))
+                .ifPresent(s -> {
+                    physicsHandler.jump(player, JUMP_STRENGTH);
+                    inputController.markJumpHandled(type);
+                });
     }
 }

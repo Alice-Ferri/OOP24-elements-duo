@@ -1,5 +1,7 @@
 package it.unibo.elementsduo.model.player.impl.handlers;
 
+import java.util.Optional;
+
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
@@ -35,16 +37,16 @@ public class PlayerCollisionHandler {
      * @param other whoever collides with
      */
     public void handleCollision(final double penetration, final Vector2D normal, final Collidable other) {
-        if (penetration <= 0) {
-            return;
-        }
-
-        if (other instanceof Wall wall && normal.y() < -0.5 && handleHorizontalOverlap(wall)) {
-                return;
-        }
-
-        applyCorrection(normal, penetration);
-        handleVertical(normal, other);
+        
+        Optional.of(penetration)
+            .filter(p -> p > 0)
+            .ifPresent(p -> {
+                if (other instanceof Wall wall && normal.y() < -0.5 && handleHorizontalOverlap(wall)) {
+                    return;
+                }
+                applyCorrection(normal, p);
+                handleVertical(normal, other);
+            });
     }
 
     private boolean handleHorizontalOverlap(final Wall wall) {
@@ -92,10 +94,15 @@ public class PlayerCollisionHandler {
             player.setVelocityY(0);
             player.setOnGround();
 
-            if (other instanceof PlatformImpl platform) {
-                player.setVelocityY(platform.getVelocity().y());
-            }
-        } else if (normalY > 0.5) {
+            Optional.of(other)
+                    .filter(PlatformImpl.class::isInstance)
+                    .map(PlatformImpl.class::cast)
+                    .map(PlatformImpl::getVelocity)
+                    .ifPresent(v -> player.setVelocityY(v.y()));
+            return;
+        }
+
+        if (normalY > 0.5) {
             player.setVelocityY(0);
         }
     }
