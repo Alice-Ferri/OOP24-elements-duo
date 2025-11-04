@@ -3,12 +3,15 @@ package it.unibo.elementsduo.model.player.impl.handlers;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
+/**
+ * Class to handle the player physics.
+ */
 public class PlayerPhysicsHandler {
 
     private static final double GRAVITY = 9.8;
 
     /**
-     * Updates the player position
+     * Updates the player position.
      *
      * @param player to update
      *
@@ -16,20 +19,20 @@ public class PlayerPhysicsHandler {
      */
     public void updatePosition(final Player player, final double deltaTime) {
         this.applyGravity(player, deltaTime);
-        Vector2D velocity = player.getVelocity();
+        final Vector2D velocity = player.getVelocity();
         player.correctPosition(velocity.x() * deltaTime, velocity.y() * deltaTime);
     }
 
     /**
-     * Fa saltare il player se è a terra
+     * Jumps the player if is on ground.
      *
-     * @param player il player che salta
+     * @param player to jump
      *
-     * @param jumpStrength la forza del salto
+     * @param jumpStrength jump power
      */
     public void jump(final Player player, final double jumpStrength) {
         if (player.isOnGround()) {
-            Vector2D velocity = player.getVelocity();
+            final Vector2D velocity = player.getVelocity();
             player.setVelocityY(velocity.y() - jumpStrength);
             player.setAirborne();
         }
@@ -44,7 +47,7 @@ public class PlayerPhysicsHandler {
      */
     private void applyGravity(final Player player, final double deltaTime) {
         if (!player.isOnGround()) {
-            Vector2D velocity = player.getVelocity();
+            final Vector2D velocity = player.getVelocity();
             player.setVelocityY(velocity.y() + GRAVITY * deltaTime);
         }
     }

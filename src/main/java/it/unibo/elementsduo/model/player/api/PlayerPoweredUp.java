@@ -7,9 +7,26 @@ import it.unibo.elementsduo.model.powerups.api.PowerUpType;
  */
 public interface PlayerPoweredUp {
 
-    void addPowerUpEffect(PowerUpType type);
+    /**
+     * Adds a power-up effect to the player.
+     *
+     * @param powerUpType the type of the power-up to add
+     */
+    void addPowerUpEffect(PowerUpType powerUpType);
 
-    void removePowerUpEffect(PowerUpType type);
+    /**
+     * Removes a power-up effect from the player.
+     *
+     * @param powerUpType the type of the power-up to remove
+     */
+    void removePowerUpEffect(PowerUpType powerUpType);
 
-    boolean hasPowerUpEffect(PowerUpType type);
+    /**
+     * Checks whether a specific power-up effect is currently active on the player.
+     *
+     * @param powerUpType the type of the power-up to check
+     *
+     * @return true if the power-up is active, false otherwise
+     */
+    boolean hasPowerUpEffect(PowerUpType powerUpType);
 }

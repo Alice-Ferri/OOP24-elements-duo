@@ -69,11 +69,11 @@ public interface Player extends Movable, GameEntity {
     /**
      * Corrects the position of the player.
      *
-     * @param dx
+     * @param dx to add x-coordinate
      *
-     * @param dy
+     * @param dy to add y-coordinate
      */
-    void correctPosition(final double dx, final double dy);
+    void correctPosition(double dx, double dy);
 
     /**
      * Marks the player as airborne.

@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 /** 
  *   The {@code GuidePanel} class displays a visual guide for the game.
  */
-public class GuidePanel extends JPanel {
+public final class GuidePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 

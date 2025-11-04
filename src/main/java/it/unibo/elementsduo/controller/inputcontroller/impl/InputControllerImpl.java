@@ -23,7 +23,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
     private boolean enabled = true;
     private boolean installed;
 
-     /**
+    /**
      * Creates a new input controller with predefined key mappings for player type.
      */
     public InputControllerImpl() {
@@ -76,7 +76,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
                 pressed.remove(e.getKeyCode());
                 handledPress.remove(e.getKeyCode());
             }
-            default -> {}
+            default -> { }
         }
         return false;
     }
@@ -127,7 +127,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
     private boolean isPressed(final int keyScheme) {
         return pressed.contains(keyScheme);
     }
-    
+
     /**
      * Checks if the jump key is currently pressed.
      *
@@ -142,7 +142,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
      * Marks the jump input for a player as handled,
      * preventing repeated jumps until the key is released.
      *
-     * @param player the player type whose jump was handled
+     * @param playerType the player type whose jump was handled
      */
     @Override
     public void markJumpHandled(final PlayerType playerType) {
@@ -151,7 +151,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
             handledPress.add(scheme.jump);
         }
     }
-    
+
     /**
      * Represents the key bindings for player movement and jump.
      *

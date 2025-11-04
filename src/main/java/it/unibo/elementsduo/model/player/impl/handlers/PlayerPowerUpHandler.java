@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.player.impl.handlers;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.EnumSet;
 
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 
@@ -10,7 +9,8 @@ import it.unibo.elementsduo.model.powerups.api.PowerUpType;
  */
 public class PlayerPowerUpHandler {
 
-    private final Set<PowerUpType> activePowerUps = new HashSet<>();
+    private final EnumSet<PowerUpType> activePowerUps = EnumSet.noneOf(PowerUpType.class);
+
 
     /**
      * Adds a power-up to the set of active power-ups.

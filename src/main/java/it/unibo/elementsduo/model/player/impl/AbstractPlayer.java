@@ -36,7 +36,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * Constructs with the starting position.
      *
      * @param startPos the initial position of the player
-    */
+     */
     protected AbstractPlayer(final Position startPos) {
         this.x = startPos.x();
         this.y = startPos.y();
@@ -156,7 +156,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * {@inheritDoc} 
      *
      * @param powerUpType to add to the set
-    */
+     */
     @Override
     public void addPowerUpEffect(final PowerUpType powerUpType) {
         powerUpHandler.add(powerUpType);
@@ -166,7 +166,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * {@inheritDoc} 
      *
      * @param powerUpType to remove to the set
-    */
+     */
     @Override
     public void removePowerUpEffect(final PowerUpType powerUpType) {
         powerUpHandler.remove(powerUpType);
@@ -192,7 +192,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * @param powerUpType to ask if is present in the power up set
      *
      * @return true if the power up is present, false otherwise
-    */
+     */
     @Override
     public boolean hasPowerUpEffect(final PowerUpType powerUpType) {
         return powerUpHandler.has(powerUpType);
@@ -216,6 +216,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * Corrects the player's position and velocity after a collision.
      *
      * @param penetration the overlap depth of the collision
+     *
      * @param normal      the collision normal vector
      */
     @Override

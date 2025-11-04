@@ -25,7 +25,7 @@ public class PlayerInputHandler {
     }
 
     /**
-     * Gestisce input e aggiorna lo stato del player
+     * Handles the input player.
      *
      * @param player to handle input
      *
