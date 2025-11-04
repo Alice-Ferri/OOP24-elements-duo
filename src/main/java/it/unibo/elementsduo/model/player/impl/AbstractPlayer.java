@@ -1,8 +1,5 @@
 package it.unibo.elementsduo.model.player.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.controller.inputcontroller.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
@@ -12,6 +9,9 @@ import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.player.api.PlayerType;
+import it.unibo.elementsduo.model.player.impl.handlers.PlayerCollisionHandler;
+import it.unibo.elementsduo.model.player.impl.handlers.PlayerPhysicsHandler;
+import it.unibo.elementsduo.model.player.impl.handlers.PlayerPowerUpHandler;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -24,7 +24,6 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
 
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5;
-    private static final double GRAVITY = 9.8;
 
     private double x;
     private double y;
@@ -32,8 +31,9 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     private boolean onGround = true;
     private boolean onExit;
 
-    private final PlayerCollisionHandler playerCollisionHandler = new PlayerCollisionHandler(this);
-    private final Set<PowerUpType> activePowerUps = new HashSet<>();
+    private final PlayerCollisionHandler collisionHandler = new PlayerCollisionHandler(this);
+    private final PlayerPowerUpHandler powerUpHandler = new PlayerPowerUpHandler();
+    private final PlayerPhysicsHandler physicsHandler = new PlayerPhysicsHandler();    
 
     /**
      * Constructs with the starting position.
@@ -135,6 +135,14 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setAirborne() {
+        this.onGround = false;
+    }
+
+    /**
      * Corrects the position of the player.
      *
      * @param dx to correct by x position
@@ -148,68 +156,13 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param gravity the gravity acceleration to apply
-     */
-    @Override
-    public void applyGravity(final double gravity) {
-        if (!this.onGround) {
-            this.velocity = this.velocity.add(new Vector2D(0, gravity));
-            this.y += this.velocity.y();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param strength the upward jump force
-     */
-    @Override
-    public void jump(final double strength) {
-        if (this.onGround) {
-            this.velocity = this.velocity.add(new Vector2D(0, -strength));
-            this.onGround = false;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param ceilingY the vertical coordinate of the ceiling
-     */
-    @Override
-    public void stopJump(final double ceilingY) {
-        this.y = ceilingY;
-        this.velocity = new Vector2D(this.velocity.x(), 0);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param groundY the vertical coordinate of the ground surface
-     */
-    @Override
-    public void landOn(final double groundY) {
-        this.y = groundY;
-        this.velocity = new Vector2D(this.velocity.x(), 0);
-        this.onGround = true;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setAirborne() {
-        this.onGround = false;
-    }
-
-    /**
      * {@inheritDoc} 
      *
      * @param powerUpType to add to the set
     */
     @Override
     public void addPowerUpEffect(final PowerUpType powerUpType) {
-        this.activePowerUps.add(powerUpType);
+        powerUpHandler.add(powerUpType);
     }
 
     /**
@@ -219,7 +172,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     */
     @Override
     public void removePowerUpEffect(final PowerUpType powerUpType) {
-        this.activePowerUps.remove(powerUpType);
+        powerUpHandler.remove(powerUpType);
     }
 
     /**
@@ -231,7 +184,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     */
     @Override
     public boolean hasPowerUpEffect(final PowerUpType powerUpType) {
-        return this.activePowerUps.contains(powerUpType);
+        return powerUpHandler.has(powerUpType);
     }
 
     /**
@@ -246,12 +199,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
 
         this.onGround = false;
 
-        if (!this.onGround) {
-            this.velocity = this.velocity.add(new Vector2D(0, GRAVITY * deltaTime));
-        }
-
-        this.x += this.velocity.x() * deltaTime;
-        this.y += this.velocity.y() * deltaTime;
+        physicsHandler.updatePosition(this, deltaTime);
     }
 
     private void handleInput(final InputController controller) {
@@ -271,7 +219,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
         }
 
         if (state.isActionPressed(type, InputState.Action.JUMP)) {
-            this.jump(JUMP_STRENGTH);
+            physicsHandler.jump(this, JUMP_STRENGTH);
             controller.markJumpHandled(type);
         }
     }
@@ -298,9 +246,12 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
-        playerCollisionHandler.handleCollision(penetration, normal, other);
+        collisionHandler.handleCollision(penetration, normal, other);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CollisionLayer getCollisionLayer() {
         return CollisionLayer.PLAYER;

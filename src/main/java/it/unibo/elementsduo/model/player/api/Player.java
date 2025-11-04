@@ -95,34 +95,6 @@ public interface Player extends Movable, GameEntity {
     void setOnExit(boolean condition);
 
     /**
-     * Applies a gravitational force to the player.
-     *
-     * @param gravity the gravity acceleration to apply
-     */
-    void applyGravity(double gravity);
-
-    /**
-     * Makes the player jump with the given strength.
-     *
-     * @param strength the upward jump force
-     */
-    void jump(double strength);
-
-    /**
-     * Lands the player on a solid surface.
-     *
-     * @param groundY the vertical coordinate of the ground surface
-     */
-    void landOn(double groundY);
-
-    /**
-     * Stops the player's upward movement due to a ceiling collision.
-     *
-     * @param ceilingY the vertical coordinate of the ceiling
-     */
-    void stopJump(double ceilingY);
-
-    /**
      * Updating the state of the player.
      *
      * @param deltaTime the time elapsed since the last update

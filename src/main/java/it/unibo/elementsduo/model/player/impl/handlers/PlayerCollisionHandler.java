@@ -1,8 +1,9 @@
-package it.unibo.elementsduo.model.player.impl;
+package it.unibo.elementsduo.model.player.impl.handlers;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.player.impl.AbstractPlayer;
 import it.unibo.elementsduo.resources.Vector2D;
 
 public class PlayerCollisionHandler {
