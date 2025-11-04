@@ -21,6 +21,4 @@ public interface GameNavigation {
      */
     void restartCurrentLevel();
 
-    void handleException(String message);
-
 }

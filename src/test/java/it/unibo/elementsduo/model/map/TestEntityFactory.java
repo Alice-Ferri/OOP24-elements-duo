@@ -40,7 +40,6 @@ final class TestEntityFactory {
             enemyFactory, 
             interactiveObsFactory,
             powerUpFactoryImpl
-            
         );
     }
 
@@ -51,11 +50,14 @@ final class TestEntityFactory {
     @Test
     void testConstructorNullChecks() {
         assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(null, new EnemyFactoryImpl(), new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl()));
+            new EntityFactoryImpl(null, new EnemyFactoryImpl(), 
+            new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl()));
         assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new ObstacleFactoryImpl(), null, new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl()));
+            new EntityFactoryImpl(new ObstacleFactoryImpl(), null, 
+            new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl()));
         assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new ObstacleFactoryImpl(), new EnemyFactoryImpl(), null, new PowerUpFactoryImpl()));
+            new EntityFactoryImpl(new ObstacleFactoryImpl(), new EnemyFactoryImpl(), 
+            null, new PowerUpFactoryImpl()));
     }
 
     /**

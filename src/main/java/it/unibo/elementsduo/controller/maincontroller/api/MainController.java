@@ -3,7 +3,6 @@ package it.unibo.elementsduo.controller.maincontroller.api;
 /**
  * Defines the main controller for starting the application.
  */
-@FunctionalInterface
 public interface MainController {
 
     /**
@@ -12,4 +11,10 @@ public interface MainController {
      */
     void startApp();
 
+    /**
+     * Shows a joption panel with the error.
+     *
+     * @param error A String with the error occoured
+     */
+    void handleException(String error);
 }

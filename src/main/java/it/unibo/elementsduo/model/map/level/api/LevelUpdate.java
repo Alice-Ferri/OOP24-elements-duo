@@ -2,9 +2,13 @@ package it.unibo.elementsduo.model.map.level.api;
 
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 
+/**
+ * Interface that define methods that
+ * level can use to modify his set.
+ */
 public interface LevelUpdate {
-    
-        /**
+
+    /**
      * Removes inactive entities (like dead enemies or expired projectiles)
      * from the main game entity set.
      */
@@ -21,5 +25,5 @@ public interface LevelUpdate {
      * Removes all inactive projectiles from the level.
      */
     void cleanProjectiles();
-    
+
 }

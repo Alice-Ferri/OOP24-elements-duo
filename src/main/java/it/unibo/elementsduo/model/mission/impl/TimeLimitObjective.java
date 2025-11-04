@@ -19,9 +19,8 @@ public final class TimeLimitObjective extends AbstractObjective {
     }
 
     @Override
-    protected boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds) {
+    protected boolean checkObjectiveLogic(final GameState finalState, final double finalTimeInSeconds) {
        return this.timeLimitInSeconds >= finalTimeInSeconds;
     }
 
-    
 }

@@ -41,6 +41,7 @@ public final class MapLoader {
      * @param obstacleFactory            Factory for creating static obstacles.
      * @param enemyFactory               Factory for creating enemies.
      * @param interactiveObstacleFactory Factory for creating interactive obstacles.
+     * @param powerUpFactory             Factory for creating Power-Ups
      */
     public MapLoader(final ObstacleFactory obstacleFactory,
             final EnemyFactory enemyFactory,

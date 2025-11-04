@@ -6,6 +6,7 @@ import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.impl.GemImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
@@ -37,6 +38,7 @@ public final class EntityFactoryImpl implements EntityFactory {
      * @param obstacleFactory       Factory for creating static obstacles.
      * @param enemyFactory          Factory for creating enemies.
      * @param interactiveObsFactory Factory for creating interactive obstacles.
+     * @param powerUpFactory        Factory for creating power ups
      */
     public EntityFactoryImpl(final ObstacleFactory obstacleFactory,
             final EnemyFactory enemyFactory,
@@ -57,8 +59,7 @@ public final class EntityFactoryImpl implements EntityFactory {
         map.put('#', pos -> this.obstacleFactory.createObstacle(ObstacleType.WALL, defaultHitbox.apply(pos)));
         map.put('A', pos -> this.obstacleFactory.createObstacle(ObstacleType.WATER_EXIT, defaultHitbox.apply(pos)));
         map.put('F', pos -> this.obstacleFactory.createObstacle(ObstacleType.FIRE_EXIT, defaultHitbox.apply(pos)));
-        // map.put('G', pos -> this.obstacleFactory.createObstacle(ObstacleType.GEM,
-        // defaultHitbox.apply(pos)));
+        map.put('G', GemImpl::new);
         map.put('Q', pos -> this.obstacleFactory.createObstacle(ObstacleType.LAVA_POOL, defaultHitbox.apply(pos)));
         map.put('K', pos -> this.obstacleFactory.createObstacle(ObstacleType.GREEN_POOL, defaultHitbox.apply(pos)));
         map.put('E', pos -> this.obstacleFactory.createObstacle(ObstacleType.WATER_POOL, defaultHitbox.apply(pos)));

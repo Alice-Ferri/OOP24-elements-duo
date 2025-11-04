@@ -23,7 +23,6 @@ public final class HomeController implements Controller {
     /**
      * Constructs a new HomeController.
      *
-     * @param panel      The {@link MenuPanel} view.
      * @param controller The navigation controller.
      */
     public HomeController(final HomeNavigation controller) {

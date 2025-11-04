@@ -11,16 +11,8 @@ import it.unibo.elementsduo.controller.maincontroller.api.LevelSelectionNavigati
 import it.unibo.elementsduo.controller.maincontroller.api.MainController;
 import it.unibo.elementsduo.controller.subcontroller.impl.HomeController;
 import it.unibo.elementsduo.controller.subcontroller.impl.LevelSelectionController;
-import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
-import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
-import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
-import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.view.GameFrame;
-import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
-
 import it.unibo.elementsduo.view.GuidePanel;
 import it.unibo.elementsduo.datasave.SaveManager;
 import it.unibo.elementsduo.model.progression.ProgressionState;
@@ -69,7 +61,7 @@ public final class MainControllerImpl
             mainFrame.showView(currentkey);
 
             currentController = gameController;
-        } catch (InvalidMapException e) {
+        } catch (final InvalidMapException e) {
             this.handleException(e.getMessage());
         }
 
@@ -172,6 +164,7 @@ public final class MainControllerImpl
         }
     }
 
+    @Override
     public void handleException(final String error) {
         this.goToLevelSelection();
         JOptionPane.showMessageDialog(

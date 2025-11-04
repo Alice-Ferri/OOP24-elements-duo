@@ -70,12 +70,12 @@ public final class GameControllerImpl implements EventListener, GameController {
     /**
      * Constructs a new GameController for a specific level.
      *
-     * @param level              The game level model.
+     * @param currentLevel       The current level
      * @param controller         The main navigation controller.
-     * @param view               The level's view panel.
      * @param progressionManager The manager for saving game progress.
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", 
+                        justification = "Intentional Dependency Injection: ProgressionManager is a shared service.")
 
     public GameControllerImpl(final int currentLevel, final GameNavigation controller,
             final ProgressionManagerImpl progressionManager)

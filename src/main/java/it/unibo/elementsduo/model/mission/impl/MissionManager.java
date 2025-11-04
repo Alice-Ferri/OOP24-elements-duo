@@ -46,8 +46,7 @@ public final class MissionManager {
 
     /**
      * Return if the mission is completed.
-     * 
-     * @return true if the root mission (all objectives)
+     *
      * @return true if the root mission (all objectives) is complete.
      */
     public boolean areAllObjectivesComplete() {

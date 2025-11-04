@@ -20,9 +20,8 @@ public final class EnemyObjective extends AbstractObjective {
     }
 
     @Override
-    protected boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds) {
+    protected boolean checkObjectiveLogic(final GameState finalState, final double finalTimeInSeconds) {
         return finalState.getEnemiesDefeated() <= totalEnemiesInLevel;
     }
 
-    
 }

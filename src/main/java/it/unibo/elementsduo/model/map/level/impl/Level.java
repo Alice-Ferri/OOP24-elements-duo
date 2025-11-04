@@ -23,7 +23,7 @@ import it.unibo.elementsduo.model.powerups.api.PowerUp;
  * It holds the complete set of game entities for a level and provides
  * methods to access and manage them.
  */
-public final class Level implements LevelData,LevelUpdate {
+public final class Level implements LevelData, LevelUpdate {
 
     private final Set<GameEntity> gameEntities;
 

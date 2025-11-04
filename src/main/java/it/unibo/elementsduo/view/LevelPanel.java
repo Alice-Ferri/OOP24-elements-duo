@@ -69,12 +69,24 @@ public final class LevelPanel extends JPanel {
         this.add(gameArea, BorderLayout.CENTER);
     }
 
-    public void addButtonsListeners(ActionListener start, ActionListener levelSelection){
+    /**
+     * Add the action listeners from the gamecontroller.
+     *
+     * @param start             go to the menu of the game
+     * @param levelSelection    go to the level selection
+     */
+    public void addButtonsListeners(final ActionListener start, final ActionListener levelSelection) {
         this.homeButton.addActionListener(start);
         this.levelSelectButton.addActionListener(levelSelection);
     }
 
-    public void removeButtonsListeners(ActionListener start, ActionListener levelSelection){
+    /**
+     * Removes the action listeners.
+     *
+     * @param start             remove the action listener for the menu
+     * @param levelSelection    remove the action listener for the level selection
+     */
+    public void removeButtonsListeners(final ActionListener start, final ActionListener levelSelection) {
         this.homeButton.removeActionListener(start);
         this.levelSelectButton.removeActionListener(levelSelection);
     }

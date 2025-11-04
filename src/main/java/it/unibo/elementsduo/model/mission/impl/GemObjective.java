@@ -20,7 +20,7 @@ public final class GemObjective extends AbstractObjective {
     }
 
     @Override
-    protected boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds) {
+    protected boolean checkObjectiveLogic(final GameState finalState, final double finalTimeInSeconds) {
         return finalState.getGemsCollected() == totalGemsInLevel;
     }
 

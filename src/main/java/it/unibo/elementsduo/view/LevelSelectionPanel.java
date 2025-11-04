@@ -50,14 +50,13 @@ public final class LevelSelectionPanel extends JPanel {
         this.levelDataPanels = new LinkedHashMap<>();
         this.levelButtons = new LinkedHashMap<>();
 
-        IntStream.rangeClosed(0, NUM_LEVELS-1).forEach(i -> {
-            final JButton button = new JButton("Livello " + (i+1));
+        IntStream.rangeClosed(0, NUM_LEVELS - 1).forEach(i -> {
+            final JButton button = new JButton("Livello " + (i + 1));
             final LevelDataPanel dataPanel = new LevelDataPanel(button); 
             this.levelButtons.put(button, i);
             this.levelDataPanels.put(i, dataPanel);
             levelGrid.add(dataPanel);
         });
-
 
         add(levelGrid, BorderLayout.CENTER);
         this.backButton = new JButton("Indietro");
@@ -66,7 +65,13 @@ public final class LevelSelectionPanel extends JPanel {
         add(southPanel, BorderLayout.SOUTH);
     }
 
-    public void addButtonListeners(final Function<Integer, ActionListener> listenerProvider, ActionListener onMenu){
+    /**
+     * Add the action listeners from the level selection controller.
+     *
+     * @param listenerProvider  function that provides the right action listener
+     * @param onMenu            the action listener for the initial menu.
+     */
+    public void addButtonListeners(final Function<Integer, ActionListener> listenerProvider, final ActionListener onMenu) {
         this.levelButtons.forEach((button, levelNumber) -> {
             final ActionListener listener = listenerProvider.apply(levelNumber);
             button.addActionListener(listener);
@@ -74,7 +79,13 @@ public final class LevelSelectionPanel extends JPanel {
         this.backButton.addActionListener(onMenu);
     }
 
-    public void removeButtonListeners(final Function<Integer, ActionListener> listenerProvider,final ActionListener onMenu){
+    /**
+     * Removes the action listeners.
+     *
+     * @param listenerProvider  function that provides the right action listener
+     * @param onMenu            the action listener for the initial menu
+     */
+    public void removeButtonListeners(final Function<Integer, ActionListener> listenerProvider, final ActionListener onMenu) {
         this.levelButtons.forEach((button, levelNumber) -> {
             button.removeActionListener(listenerProvider.apply(levelNumber));
         });
@@ -177,7 +188,6 @@ public final class LevelSelectionPanel extends JPanel {
         public JLabel getMissionLabel() {
             return this.missionLabel;
         }
-
 
     }
 }

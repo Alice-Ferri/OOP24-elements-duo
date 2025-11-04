@@ -43,13 +43,11 @@ public final class Mission extends AbstractObjective {
     }
 
     @Override
-    protected boolean checkObjectiveLogic(GameState finalState, double finalTimeInSeconds) {
+    protected boolean checkObjectiveLogic(final GameState finalState, final double finalTimeInSeconds) {
         for (final Objective child : this.objectives) {
             child.checkCompletion(finalState, finalTimeInSeconds);
         }
         return this.objectives.stream().allMatch(Objective::isComplete);
     }
 
-
-    
 }

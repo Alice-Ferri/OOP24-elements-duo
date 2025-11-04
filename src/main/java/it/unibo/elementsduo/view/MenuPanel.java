@@ -75,14 +75,32 @@ public final class MenuPanel extends JPanel {
         return button;
     }
 
-    public void addButtonsListeners(ActionListener start, ActionListener load, ActionListener guide, ActionListener exit){
+    /**
+     * Add the action listeners from the menu controller.
+     *
+     * @param start Go to the level selection action listener
+     * @param load  Load an existitng game
+     * @param guide Go to the guide
+     * @param exit  Exit the game
+     */
+    public void addButtonsListeners(final ActionListener start, final ActionListener load, 
+                                    final ActionListener guide, final ActionListener exit) {
         this.startButton.addActionListener(start);
         this.loadButton.addActionListener(load);
         this.guideButton.addActionListener(guide);
         this.exitButton.addActionListener(exit);
     }
 
-    public void removeButtonsListeners(ActionListener start, ActionListener load, ActionListener guide, ActionListener exit){
+    /**
+     * Removes the action listeners from the menu controller.
+     *
+     * @param start Go to the level selection action listener
+     * @param load  Load an existitng game
+     * @param guide Go to the guide
+     * @param exit  Exit the game
+     */
+    public void removeButtonsListeners(final ActionListener start, final ActionListener load,
+                                       final ActionListener guide, final ActionListener exit) {
         this.startButton.removeActionListener(start);
         this.loadButton.removeActionListener(load);
         this.guideButton.removeActionListener(guide);

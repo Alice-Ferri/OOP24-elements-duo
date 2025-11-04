@@ -27,20 +27,17 @@ public final class LevelSelectionController implements Controller {
     private final ProgressionManagerImpl progressionManager;
     private final ActionListener onMenuListener;
     private final List<ActionListener> list = new LinkedList<>();
-    final Function<Integer, ActionListener> listenerProvider = (levelNumber) -> {
-            return list.get(levelNumber);
-        };
+    private final Function<Integer, ActionListener> listenerProvider = list::get;
 
     /**
      * Constructs a new LevelSelectionController.
      *
-     * @param panel              The {@link LevelSelectionPanel} view.
      * @param controller         The navigation controller.
      * @param progressionManager The manager for loading player progress.
      */
     @SuppressFBWarnings(
         value = "EI_EXPOSE_REP2",
-        justification ="Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
+        justification = "Intentional Dependency Injection: ProgressionManager is a shared service and must be the same instance.")
     public LevelSelectionController(final LevelSelectionNavigation controller,
                                     final ProgressionManagerImpl progressionManager) {
         this.view = new LevelSelectionPanel();
@@ -57,8 +54,7 @@ public final class LevelSelectionController implements Controller {
     public void activate() {
         this.populateLevelData();
 
-        this.view.addButtonListeners(listenerProvider,onMenuListener);
-
+        this.view.addButtonListeners(listenerProvider, onMenuListener);
     }
 
     private void populateLevelData() {
@@ -79,8 +75,7 @@ public final class LevelSelectionController implements Controller {
 
     @Override
     public void deactivate() {
-        
-        this.view.removeButtonListeners(listenerProvider,onMenuListener);
+        this.view.removeButtonListeners(listenerProvider, onMenuListener);
     }
 
     @Override
