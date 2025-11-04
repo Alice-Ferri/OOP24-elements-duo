@@ -24,12 +24,13 @@ public class PlayerPhysicsHandler {
      * Fa saltare il player se è a terra
      *
      * @param player il player che salta
+     *
      * @param jumpStrength la forza del salto
      */
     public void jump(final Player player, final double jumpStrength) {
         if (player.isOnGround()) {
             Vector2D velocity = player.getVelocity();
-            player.setVelocityY(velocity.y() - jumpStrength); // verso l'alto
+            player.setVelocityY(velocity.y() - jumpStrength);
             player.setAirborne();
         }
     }

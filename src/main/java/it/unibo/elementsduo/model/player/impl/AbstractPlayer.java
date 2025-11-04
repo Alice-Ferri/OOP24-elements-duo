@@ -1,15 +1,14 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
-import it.unibo.elementsduo.controller.inputcontroller.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
-import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.handlers.PlayerCollisionHandler;
+import it.unibo.elementsduo.model.player.impl.handlers.PlayerInputHandler;
 import it.unibo.elementsduo.model.player.impl.handlers.PlayerPhysicsHandler;
 import it.unibo.elementsduo.model.player.impl.handlers.PlayerPowerUpHandler;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
@@ -22,9 +21,6 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
 
-    private static final double RUN_SPEED = 8.0;
-    private static final double JUMP_STRENGTH = 6.5;
-
     private double x;
     private double y;
     private Vector2D velocity = new Vector2D(0, 0);
@@ -33,7 +29,8 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
 
     private final PlayerCollisionHandler collisionHandler = new PlayerCollisionHandler(this);
     private final PlayerPowerUpHandler powerUpHandler = new PlayerPowerUpHandler();
-    private final PlayerPhysicsHandler physicsHandler = new PlayerPhysicsHandler();    
+    private final PlayerPhysicsHandler physicsHandler = new PlayerPhysicsHandler();
+    private final PlayerInputHandler inputHandler = new PlayerInputHandler(physicsHandler);
 
     /**
      * Constructs with the starting position.
@@ -176,6 +173,20 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     }
 
     /**
+     * Updates the player's state based on input and physics.
+     *
+     * @param deltaTime the time elapsed since the last update, in seconds
+     * @param input     the current input controller providing player actions
+     */
+    @Override
+    public void update(final double deltaTime, final InputController input) {
+        inputHandler.handleInput(this, input);
+
+        this.onGround = false;
+        physicsHandler.updatePosition(this, deltaTime);
+    }
+
+    /**
      * {@inheritDoc} 
      *
      * @param powerUpType to ask if is present in the power up set
@@ -185,43 +196,6 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     @Override
     public boolean hasPowerUpEffect(final PowerUpType powerUpType) {
         return powerUpHandler.has(powerUpType);
-    }
-
-    /**
-     * Updates the player's state based on input and physics.
-     *
-     * @param deltaTime the time elapsed since the last update, in seconds
-     * @param input     the current input controller providing player actions
-     */
-    @Override
-    public void update(final double deltaTime, final InputController input) {
-        handleInput(input);
-
-        this.onGround = false;
-
-        physicsHandler.updatePosition(this, deltaTime);
-    }
-
-    private void handleInput(final InputController controller) {
-        final PlayerType type = this.getPlayerType();
-
-        final InputState state = controller.getInputState();
-
-        final boolean left = state.isActionPressed(type, InputState.Action.LEFT);
-        final boolean right = state.isActionPressed(type, InputState.Action.RIGHT);
-
-        if (left == right) {
-            this.setVelocityX(0);
-        } else if (left) {
-            this.setVelocityX(-RUN_SPEED);
-        } else {
-            this.setVelocityX(RUN_SPEED);
-        }
-
-        if (state.isActionPressed(type, InputState.Action.JUMP)) {
-            physicsHandler.jump(this, JUMP_STRENGTH);
-            controller.markJumpHandled(type);
-        }
     }
 
     /**

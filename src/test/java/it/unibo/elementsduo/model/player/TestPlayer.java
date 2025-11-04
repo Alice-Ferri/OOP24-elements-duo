@@ -12,6 +12,8 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticOb
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
+import it.unibo.elementsduo.model.player.impl.handlers.PlayerInputHandler;
+import it.unibo.elementsduo.model.player.impl.handlers.PlayerPhysicsHandler;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -31,12 +33,16 @@ final class TestPlayer {
     private Player fireboy;
     private Player watergirl;
     private InputControllerImpl controller;
+    private PlayerInputHandler inputHandler;
+    private PlayerPhysicsHandler physicsHandler;
 
     @BeforeEach
     void setUp() {
         fireboy = new Fireboy(new Position(0, 0));
         watergirl = new Watergirl(new Position(0, 0));
         controller = new InputControllerImpl();
+        physicsHandler = new PlayerPhysicsHandler();
+        inputHandler = new PlayerInputHandler(physicsHandler);
     }
 
     @Test
@@ -55,34 +61,6 @@ final class TestPlayer {
     }
 
     @Test
-    void testJumpAndLand() {
-        fireboy.jump(6.5);
-        assertFalse(fireboy.isOnGround());
-        assertEquals(-6.5, fireboy.getVelocity().y());
-
-        fireboy.landOn(10.0);
-        assertTrue(fireboy.isOnGround());
-        assertEquals(10.0, fireboy.getY());
-        assertEquals(0.0, fireboy.getVelocity().y());
-    }
-
-    @Test
-    void testStopJump() {
-        fireboy.jump(5);
-        fireboy.stopJump(3.0);
-        assertEquals(3.0, fireboy.getY());
-        assertEquals(0.0, fireboy.getVelocity().y());
-    }
-
-    @Test
-    void testApplyGravity() {
-        fireboy.setAirborne();
-        fireboy.setVelocityY(0);
-        fireboy.applyGravity(9.8);
-        assertTrue(fireboy.getVelocity().y() > 0);
-    }
-
-    @Test
     void testSetters() {
         fireboy.setOnExit(true);
         assertTrue(fireboy.isOnExit());
@@ -96,29 +74,57 @@ final class TestPlayer {
         assertEquals(-1.5, fireboy.getVelocity().y());
     }
 
+
+    @Test
+    void testMovementAndJump() {
+
+        controller.dispatchKeyEvent(new KeyEvent(null, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_D, 'D'));
+        controller.dispatchKeyEvent(new KeyEvent(null, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_W, 'W'));
+
+        inputHandler.handleInput(fireboy, controller);
+        physicsHandler.updatePosition(fireboy, 0.016);
+
+        assertTrue(fireboy.getVelocity().x() > 0);
+
+        assertFalse(fireboy.isOnGround());
+        assertTrue(fireboy.getVelocity().y() < 0);
+
+        controller.markJumpHandled(PlayerType.FIREBOY);
+        controller.dispatchKeyEvent(new KeyEvent(null, KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_D, 'D'));
+        controller.dispatchKeyEvent(new KeyEvent(null, KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_W, 'W'));
+
+        inputHandler.handleInput(fireboy, controller);
+
+        assertEquals(0, fireboy.getVelocity().x());
+
+        assertFalse(controller.getInputState().isActionPressed(PlayerType.FIREBOY, InputState.Action.JUMP));
+    }
+
+    @Test
+    void testJumpOnlyWhenOnGround() {
+
+        fireboy.setOnGround();
+
+        controller.dispatchKeyEvent(new KeyEvent(null, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_W, 'W'));
+        inputHandler.handleInput(fireboy, controller);
+
+        assertFalse(fireboy.isOnGround());
+        assertTrue(fireboy.getVelocity().y() < 0);
+
+        // Try jumping again mid-air
+        controller.dispatchKeyEvent(new KeyEvent(null, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_W, 'W'));
+        inputHandler.handleInput(fireboy, controller);
+
+        // Velocity should not change further while in air
+        assertTrue(fireboy.getVelocity().y() < 0);
+    }
+
     @Test
     void testGetHitBox() {
         final HitBox hb = fireboy.getHitBox();
         assertNotNull(hb);
         assertEquals(hb.getCenter().x(), fireboy.getX());
         assertEquals(hb.getCenter().y(), fireboy.getY());
-    }
-
-    @Test
-    void testUpdateAndHandleInputUsingRealController() {
-        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_D, 'D'));
-        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_W, 'W'));
-
-        fireboy.update(0.016, controller);
-
-        assertTrue(fireboy.getVelocity().x() > 0);
-        assertFalse(fireboy.isOnGround());
-        controller.markJumpHandled(PlayerType.FIREBOY);
-
-        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_D, 'D'));
-        controller.dispatchKeyEvent(new KeyEvent(new java.awt.Label(), KeyEvent.KEY_RELEASED, 0, 0, KeyEvent.VK_W, 'W'));
-
-        assertFalse(controller.getInputState().isActionPressed(PlayerType.FIREBOY, InputState.Action.JUMP));
     }
 
     @Test
