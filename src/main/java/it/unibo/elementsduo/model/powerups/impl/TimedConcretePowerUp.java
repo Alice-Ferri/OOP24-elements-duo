@@ -1,26 +1,28 @@
 package it.unibo.elementsduo.model.powerups.impl;
 
-import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 
-/**
- * Power-up strategy enabling players to defeat enemies on contact.
- */
-public final class EnemyKill extends AbstractTimedPowerUpStrategy {
+public final class TimedConcretePowerUp extends AbstractTimedPowerUp {
+
+    private final PowerUpType type;
+
+    public TimedConcretePowerUp(final PowerUpType type) {
+        this.type = type;
+    }
 
     @Override
     protected void onStart(final Player player) {
         if (player instanceof PlayerPoweredUp aware) {
-            aware.addPowerUpEffect(PowerUpType.ENEMY_KILL);
+            aware.addPowerUpEffect(this.type);
         }
     }
 
     @Override
     protected void onEnd(final Player player) {
         if (player instanceof PlayerPoweredUp aware) {
-            aware.removePowerUpEffect(PowerUpType.ENEMY_KILL);
+            aware.removePowerUpEffect(this.type);
         }
     }
 }

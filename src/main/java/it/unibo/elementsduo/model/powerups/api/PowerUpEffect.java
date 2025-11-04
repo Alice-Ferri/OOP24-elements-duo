@@ -1,6 +1,5 @@
 package it.unibo.elementsduo.model.powerups.api;
 
-import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.player.api.Player;
 
 public interface PowerUpEffect {

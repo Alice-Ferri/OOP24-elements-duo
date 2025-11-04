@@ -70,8 +70,7 @@ public final class GameControllerImpl implements EventListener, GameController {
      * @param controller         The main navigation controller.
      * @param progressionManager The manager for saving game progress.
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", 
-                        justification = "Intentional Dependency Injection: ProgressionManager is a shared service.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional Dependency Injection: ProgressionManager is a shared service.")
 
     public GameControllerImpl(final int currentLevel, final GameNavigation controller,
             final ProgressionManagerImpl progressionManager)
@@ -120,8 +119,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI", 
-                        justification = "Required to MainController to add it to the JFrame's card layout")
+    @SuppressFBWarnings(value = "EI", justification = "Required to MainController to add it to the JFrame's card layout")
     public JPanel getPanel() {
         return this.view;
     }

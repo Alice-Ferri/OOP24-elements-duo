@@ -16,12 +16,11 @@ import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 
 public class PowerUpManager implements EventListener {
 
-    private final EventManager eventManager;
     private final Map<Player, Map<PowerUpType, ActivePowerUp>> activeEffects = new HashMap<>();
 
     public PowerUpManager(final EventManager eventManager) {
-        this.eventManager = Objects.requireNonNull(eventManager);
-        this.eventManager.subscribe(PowerUpCollectedEvent.class, this);
+        Objects.requireNonNull(eventManager);
+        eventManager.subscribe(PowerUpCollectedEvent.class, this);
     }
 
     public boolean hasEffect(final Player player, final PowerUpType type) {
@@ -38,7 +37,7 @@ public class PowerUpManager implements EventListener {
             playerEffects.compute(collected.type(), (t, existing) -> {
                 if (existing == null) {
                     return new ActivePowerUp(collected.player(), collected.type(),
-                            collected.strategy(), collected.duration(), this.eventManager);
+                            collected.effect(), collected.duration());
                 }
                 existing.refresh(collected.duration());
                 return existing;
@@ -70,35 +69,25 @@ public class PowerUpManager implements EventListener {
 
     private static final class ActivePowerUp {
         private final Player player;
-        private final PowerUpType type;
-        private final PowerUpEffect strategy;
+        private final PowerUpEffect effect;
 
-        private ActivePowerUp(final Player player, final PowerUpType type, final PowerUpEffect strategy,
-                final double duration, final EventManager eventManager) {
+        private ActivePowerUp(final Player player, final PowerUpType type, final PowerUpEffect effect,
+                final double duration) {
             this.player = player;
-            this.type = type;
-            this.strategy = strategy;
-            this.strategy.onActivated(this.player, duration);
+            this.effect = effect;
+            this.effect.onActivated(this.player, duration);
         }
 
         private void refresh(final double duration) {
-            this.strategy.onRefreshed(this.player, duration);
+            this.effect.onRefreshed(this.player, duration);
         }
 
         private boolean update(final double deltaTime) {
-            final boolean stillActive = this.strategy.onUpdate(this.player, deltaTime);
+            final boolean stillActive = this.effect.onUpdate(this.player, deltaTime);
             if (!stillActive) {
-                this.strategy.onExpired(this.player);
+                this.effect.onExpired(this.player);
             }
             return stillActive;
-        }
-
-        private Player player() {
-            return this.player;
-        }
-
-        private PowerUpType type() {
-            return this.type;
         }
 
     }

@@ -18,8 +18,8 @@ public class PowerUpFactoryImpl implements PowerUpFactory {
             case ENEMY_KILL -> DEFAULT_KILL_ENEMY_DURATION;
         };
         final PowerUpEffect strategy = switch (type) {
-            case HAZARD_IMMUNITY -> new HazardImmunity();
-            case ENEMY_KILL -> new EnemyKill();
+            case HAZARD_IMMUNITY -> new TimedConcretePowerUp(PowerUpType.HAZARD_IMMUNITY);
+            case ENEMY_KILL -> new TimedConcretePowerUp(PowerUpType.ENEMY_KILL);
         };
         return new PowerUpImpl(type, pos, duration, strategy);
     }

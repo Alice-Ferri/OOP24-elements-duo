@@ -6,5 +6,5 @@ import it.unibo.elementsduo.model.powerups.api.PowerUpEffect;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 
 public record PowerUpCollectedEvent(Player player, PowerUpType type, double duration,
-        PowerUpEffect strategy) implements Event {
+                PowerUpEffect effect) implements Event {
 }

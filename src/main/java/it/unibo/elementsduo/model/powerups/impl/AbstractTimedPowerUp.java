@@ -12,7 +12,7 @@ import it.unibo.elementsduo.model.powerups.api.PowerUpEffect;
  * to implement only the specific enable/disable behaviour.
  * </p>
  */
-public abstract class AbstractTimedPowerUpStrategy implements PowerUpEffect {
+public abstract class AbstractTimedPowerUp implements PowerUpEffect {
 
     private double remaining;
 
