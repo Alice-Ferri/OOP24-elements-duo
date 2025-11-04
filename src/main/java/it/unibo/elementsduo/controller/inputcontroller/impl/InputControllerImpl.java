@@ -108,7 +108,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
      */
     @Override
     public InputState getInputState() {
-        final EnumMap<PlayerType, Map<InputState.Action, Boolean>> map = new EnumMap<>(PlayerType.class);
+        final Map<PlayerType, Map<InputState.Action, Boolean>> map = new EnumMap<>(PlayerType.class);
         playerControls.forEach((player, scheme) -> map.put(player, Map.of(
                 InputState.Action.LEFT, isPressed(scheme.left),
                 InputState.Action.RIGHT, isPressed(scheme.right),

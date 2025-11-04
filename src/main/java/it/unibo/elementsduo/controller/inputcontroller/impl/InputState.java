@@ -18,7 +18,7 @@ public final class InputState {
      *
      * @param state the initial map of key states for each player
      */
-    public InputState(final EnumMap<PlayerType, Map<Action, Boolean>> state) {
+    public InputState(final Map<PlayerType, Map<Action, Boolean>> state) {
         this.state = new EnumMap<>(PlayerType.class);
         state.forEach((player, actions) -> this.state.put(player, Map.copyOf(actions)));
     }
