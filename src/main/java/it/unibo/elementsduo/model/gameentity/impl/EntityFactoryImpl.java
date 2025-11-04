@@ -2,22 +2,25 @@ package it.unibo.elementsduo.model.gameentity.impl;
 
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
+import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.impl.GemImpl;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.model.powerups.api.PowerUpFactory;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
+import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -34,20 +37,13 @@ public final class EntityFactoryImpl implements EntityFactory {
 
     /**
      * Constructs a new EntityFactory with its required sub-factories.
-     *
-     * @param obstacleFactory       Factory for creating static obstacles.
-     * @param enemyFactory          Factory for creating enemies.
-     * @param interactiveObsFactory Factory for creating interactive obstacles.
-     * @param powerUpFactory        Factory for creating power ups
      */
-    public EntityFactoryImpl(final ObstacleFactory obstacleFactory,
-            final EnemyFactory enemyFactory,
-            final InteractiveObstacleFactory interactiveObsFactory, final PowerUpFactory powerUpFactory) {
-        this.obstacleFactory = Objects.requireNonNull(obstacleFactory);
-        this.enemyFactory = Objects.requireNonNull(enemyFactory);
-        this.interactiveObsFactory = Objects.requireNonNull(interactiveObsFactory);
+    public EntityFactoryImpl() {
+        this.obstacleFactory = new ObstacleFactoryImpl();
+        this.enemyFactory = new EnemyFactoryImpl();
+        this.interactiveObsFactory = new InteractiveObstacleFactoryImpl();
+        this.powerUpFactory = new PowerUpFactoryImpl();
         this.creationMap = buildCreationMap();
-        this.powerUpFactory = powerUpFactory;
     }
 
     private Map<Character, EntityCreationStrategy> buildCreationMap() {

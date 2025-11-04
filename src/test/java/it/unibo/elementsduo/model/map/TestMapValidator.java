@@ -6,11 +6,6 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 
-import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
-import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -32,12 +27,7 @@ final class TestMapValidator {
     @BeforeEach
     void setUp() {
         this.validator = new MapValidatorImpl();
-        this.mapLoader = new MapLoader(
-            new ObstacleFactoryImpl(), 
-            new EnemyFactoryImpl(),
-            new InteractiveObstacleFactoryImpl(),
-            new PowerUpFactoryImpl()
-        );
+        this.mapLoader = new MapLoader();
     }
 
     /**

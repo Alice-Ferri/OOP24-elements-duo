@@ -3,13 +3,8 @@ package it.unibo.elementsduo.model.map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
-import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
@@ -30,34 +25,7 @@ final class TestEntityFactory {
      */
     @BeforeEach
     void setUp() {
-        final ObstacleFactoryImpl obstacleFactory = new ObstacleFactoryImpl();
-        final EnemyFactoryImpl enemyFactory = new EnemyFactoryImpl();
-        final InteractiveObstacleFactoryImpl interactiveObsFactory = new InteractiveObstacleFactoryImpl();
-        final PowerUpFactoryImpl powerUpFactoryImpl = new PowerUpFactoryImpl();
-
-        this.entityFactory = new EntityFactoryImpl(
-            obstacleFactory, 
-            enemyFactory, 
-            interactiveObsFactory,
-            powerUpFactoryImpl
-        );
-    }
-
-    /**
-     * Tests that the constructor throws a NullPointerException
-     * if any factory dependency is null.
-     */
-    @Test
-    void testConstructorNullChecks() {
-        assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(null, new EnemyFactoryImpl(), 
-            new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl()));
-        assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new ObstacleFactoryImpl(), null, 
-            new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl()));
-        assertThrows(NullPointerException.class, () -> 
-            new EntityFactoryImpl(new ObstacleFactoryImpl(), new EnemyFactoryImpl(), 
-            null, new PowerUpFactoryImpl()));
+        this.entityFactory = new EntityFactoryImpl();
     }
 
     /**

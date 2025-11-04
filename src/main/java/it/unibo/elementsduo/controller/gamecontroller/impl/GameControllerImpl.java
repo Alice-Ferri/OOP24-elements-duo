@@ -25,7 +25,6 @@ import it.unibo.elementsduo.model.collisions.events.impl.PowerUpCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
-import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
 import it.unibo.elementsduo.model.map.level.MapLoader;
@@ -34,10 +33,7 @@ import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 import it.unibo.elementsduo.model.mission.impl.MissionManager;
-import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.model.powerups.impl.PowerUpManager;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.view.LevelPanel;
 
 /**
@@ -92,8 +88,7 @@ public final class GameControllerImpl implements EventListener, GameController {
         this.onLevelListener = e -> controller.goToLevelSelection();
         this.onMenuListener = e -> controller.goToMenu();
         this.mapValidator = new MapValidatorImpl();
-        this.mapLoader = new MapLoader(new ObstacleFactoryImpl(), new EnemyFactoryImpl(),
-                new InteractiveObstacleFactoryImpl(), new PowerUpFactoryImpl());
+        this.mapLoader = new MapLoader();
         level = new Level(this.mapLoader.loadLevel(currentLevel));
         mapValidator.validate(level);
         this.view = new LevelPanel(level);
@@ -125,7 +120,8 @@ public final class GameControllerImpl implements EventListener, GameController {
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI", justification = "i need panel for card layout")
+    @SuppressFBWarnings(value = "EI", 
+                         justification = "Required to MainController to add it to the JFrame's card layout")
     public JPanel getPanel() {
         return this.view;
     }

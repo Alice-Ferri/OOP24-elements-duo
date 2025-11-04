@@ -2,9 +2,6 @@ package it.unibo.elementsduo.model.map;
 
 import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.InteractiveObstacleFactoryImpl;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -21,12 +18,10 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
-import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 
 import java.util.Set;
@@ -48,12 +43,7 @@ final class TestMapLoader {
      */
     @BeforeEach
     void setUp() {
-        this.mapLoader = new MapLoader(
-            new ObstacleFactoryImpl(), 
-            new EnemyFactoryImpl(),
-            new InteractiveObstacleFactoryImpl(),
-            new PowerUpFactoryImpl()
-        );
+        this.mapLoader = new MapLoader();
 
         gameEntities = assertDoesNotThrow(() -> 
             this.mapLoader.loadLevelFromFile("test/maploader.txt")

@@ -3,11 +3,7 @@ package it.unibo.elementsduo.model.map.level;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
 import it.unibo.elementsduo.model.map.level.api.MapLoadingException;
-import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.InteractiveObstacleFactory;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
-import it.unibo.elementsduo.model.powerups.api.PowerUpFactory;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
@@ -21,7 +17,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -36,21 +31,10 @@ public final class MapLoader {
     private final EntityFactory entityFactory;
 
     /**
-     * Constructs a MapLoader with all necessary entity factories.
-     *
-     * @param obstacleFactory            Factory for creating static obstacles.
-     * @param enemyFactory               Factory for creating enemies.
-     * @param interactiveObstacleFactory Factory for creating interactive obstacles.
-     * @param powerUpFactory             Factory for creating Power-Ups
+     * Constructs a MapLoader with the entity factories.
      */
-    public MapLoader(final ObstacleFactory obstacleFactory,
-            final EnemyFactory enemyFactory,
-            final InteractiveObstacleFactory interactiveObstacleFactory, final PowerUpFactory powerUpFactory) {
-        this.entityFactory = new EntityFactoryImpl(
-                Objects.requireNonNull(obstacleFactory),
-                Objects.requireNonNull(enemyFactory),
-                Objects.requireNonNull(interactiveObstacleFactory),
-                Objects.requireNonNull(powerUpFactory));
+    public MapLoader() {
+            this.entityFactory = new EntityFactoryImpl();
     }
 
     /**
