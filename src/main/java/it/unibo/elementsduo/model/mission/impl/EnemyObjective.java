@@ -21,7 +21,7 @@ public final class EnemyObjective extends AbstractObjective {
 
     @Override
     protected boolean checkObjectiveLogic(final GameState finalState, final double finalTimeInSeconds) {
-        return finalState.getEnemiesDefeated() <= totalEnemiesInLevel;
+        return finalState.getEnemiesDefeated() == totalEnemiesInLevel;
     }
 
 }
