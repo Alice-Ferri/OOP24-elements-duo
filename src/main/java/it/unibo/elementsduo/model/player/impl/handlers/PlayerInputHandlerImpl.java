@@ -6,11 +6,13 @@ import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.controller.inputcontroller.impl.InputState;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerInputHandler;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerPhysicsHandler;
 
 /**
  * Handles player input for movement and jumping.
  */
-public class PlayerInputHandler {
+public class PlayerInputHandlerImpl implements PlayerInputHandler {
 
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5;
@@ -22,7 +24,7 @@ public class PlayerInputHandler {
      *
      * @param physicsHandler the physics handler for player actions
      */
-    public PlayerInputHandler(final PlayerPhysicsHandler physicsHandler) {
+    public PlayerInputHandlerImpl(final PlayerPhysicsHandler physicsHandler) {
         this.physicsHandler = physicsHandler;
     }
 
@@ -33,6 +35,7 @@ public class PlayerInputHandler {
      *
      * @param inputController gets the input
      */
+    @Override
     public void handleInput(final Player player, final InputController inputController) {
         final PlayerType type = player.getPlayerType();
         final InputState state = inputController.getInputState();

@@ -6,26 +6,15 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.api.Player;
-import it.unibo.elementsduo.model.player.impl.AbstractPlayer;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerCollisionHandler;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Responsible for adjusting the player's position and velocity when collisions occur.
  */
-public class PlayerCollisionHandler {
+public class PlayerCollisionHandlerImpl implements PlayerCollisionHandler {
     private static final double POSITION_SLOP = 0.001;
     private static final double CORRECTION_PERCENT = 0.8;
-
-    private final Player player;
-
-    /**
-     * Constructos of collision correction handler.
-     *
-     * @param player whose collisions will be managed
-     */
-    public PlayerCollisionHandler(final AbstractPlayer player) {
-        this.player = player;
-    }
 
     /**
      * Corrects the player's position and velocity after a collision.
@@ -36,21 +25,22 @@ public class PlayerCollisionHandler {
      *
      * @param other whoever collides with
      */
-    public void handleCollision(final double penetration, final Vector2D normal, final Collidable other) {
+    @Override
+    public void handleCollision(final Player player, final double penetration, final Vector2D normal, final Collidable other) {
         
         Optional.of(penetration)
             .filter(p -> p > 0)
             .ifPresent(p -> {
-                if (other instanceof Wall wall && normal.y() < -0.5 && handleHorizontalOverlap(wall)) {
+                if (other instanceof Wall wall && normal.y() < -0.5 && handleHorizontalOverlap(player, wall)) {
                     return;
                 }
-                applyCorrection(normal, p);
-                handleVertical(normal, other);
+                applyCorrection(player, normal, p);
+                handleVertical(player, normal, other);
             });
     }
 
-    private boolean handleHorizontalOverlap(final Wall wall) {
-        final var playerHitBox = this.player.getHitBox();
+    private boolean handleHorizontalOverlap(final Player player, final Wall wall) {
+        final var playerHitBox = player.getHitBox();
         final var wallHitBox = wall.getHitBox();
         final double dx = playerHitBox.getCenter().x() - wallHitBox.getCenter().x();
         final double overlapX = playerHitBox.getHalfWidth() + wallHitBox.getHalfWidth() - Math.abs(dx);
@@ -73,7 +63,7 @@ public class PlayerCollisionHandler {
         return true;
     }
 
-    private void applyCorrection(final Vector2D normal, final double penetration) {
+    private void applyCorrection(final Player player, final Vector2D normal, final double penetration) {
         final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
         final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
 
@@ -87,7 +77,7 @@ public class PlayerCollisionHandler {
         }
     }
 
-    private void handleVertical(final Vector2D normal, final Collidable other) {
+    private void handleVertical(final Player player, final Vector2D normal, final Collidable other) {
         final double normalY = normal.y();
 
         if (normalY < -0.5) {

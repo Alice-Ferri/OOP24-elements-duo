@@ -1,12 +1,13 @@
 package it.unibo.elementsduo.model.player.impl.handlers;
 
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerPhysicsHandler;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Class to handle the player physics.
  */
-public class PlayerPhysicsHandler {
+public class PlayerPhysicsHandlerImpl implements PlayerPhysicsHandler {
 
     private static final double GRAVITY = 9.8;
 
@@ -17,6 +18,7 @@ public class PlayerPhysicsHandler {
      *
      * @param deltaTime from last update
      */
+    @Override
     public void updatePosition(final Player player, final double deltaTime) {
         this.applyGravity(player, deltaTime);
         final Vector2D velocity = player.getVelocity();

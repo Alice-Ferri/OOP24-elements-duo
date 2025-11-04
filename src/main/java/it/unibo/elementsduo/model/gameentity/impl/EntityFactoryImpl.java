@@ -11,8 +11,9 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.impl.GemImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.impl.ObstacleType;
-import it.unibo.elementsduo.model.player.impl.Fireboy;
-import it.unibo.elementsduo.model.player.impl.Watergirl;
+import it.unibo.elementsduo.model.player.api.PlayerFactory;
+import it.unibo.elementsduo.model.player.api.PlayerType;
+import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
 import it.unibo.elementsduo.model.powerups.api.PowerUpFactory;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
@@ -31,6 +32,7 @@ public final class EntityFactoryImpl implements EntityFactory {
 
     private final ObstacleFactory obstacleFactory;
     private final EnemyFactory enemyFactory;
+    private final PlayerFactory playerFactory;
     private final InteractiveObstacleFactory interactiveObsFactory;
     private final PowerUpFactory powerUpFactory;
     private final Map<Character, EntityCreationStrategy> creationMap;
@@ -44,6 +46,7 @@ public final class EntityFactoryImpl implements EntityFactory {
         this.interactiveObsFactory = new InteractiveObstacleFactoryImpl();
         this.powerUpFactory = new PowerUpFactoryImpl();
         this.creationMap = buildCreationMap();
+        this.playerFactory = new PlayerFactoryImpl();
     }
 
     private Map<Character, EntityCreationStrategy> buildCreationMap() {
@@ -59,8 +62,8 @@ public final class EntityFactoryImpl implements EntityFactory {
         map.put('Q', pos -> this.obstacleFactory.createObstacle(ObstacleType.LAVA_POOL, defaultHitbox.apply(pos)));
         map.put('K', pos -> this.obstacleFactory.createObstacle(ObstacleType.GREEN_POOL, defaultHitbox.apply(pos)));
         map.put('E', pos -> this.obstacleFactory.createObstacle(ObstacleType.WATER_POOL, defaultHitbox.apply(pos)));
-        map.put('B', Fireboy::new);
-        map.put('W', Watergirl::new);
+        map.put('B', pos -> this.playerFactory.createPlayer(PlayerType.FIREBOY, pos));
+        map.put('W', pos -> this.playerFactory.createPlayer(PlayerType.WATERGIRL, pos));
         map.put('C', pos -> this.enemyFactory.createEnemy('C', pos));
         map.put('S', pos -> this.enemyFactory.createEnemy('S', pos));
         map.put('L', this.interactiveObsFactory::createLever);

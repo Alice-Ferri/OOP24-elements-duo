@@ -3,6 +3,9 @@ package it.unibo.elementsduo.model.player.impl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.HazardType;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.ExitType;
 import it.unibo.elementsduo.model.player.api.PlayerType;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerCollisionHandler;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerInputHandler;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerPhysicsHandler;
 import it.unibo.elementsduo.resources.Position;
 
 /**
@@ -10,13 +13,24 @@ import it.unibo.elementsduo.resources.Position;
  */
 public class Fireboy extends AbstractPlayer {
 
-    /**
-     * Creates a new Fireboy starting from the given position.
+   /**
+     * Constructs a Fireboy with all injected handlers.
      *
-     * @param startPos the initial position of the player
+     * @param startPos starting position of the player
+     *
+     * @param collisionHandler collision strategy
+     *
+     * @param physicsHandler physics strategy
+     *
+     * @param inputHandler input handling strategy
      */
-    public Fireboy(final Position startPos) {
-        super(startPos);
+    public Fireboy(
+            final Position startPos,
+            final PlayerPhysicsHandler physicsHandler,
+            final PlayerInputHandler inputHandler,
+            final PlayerCollisionHandler collisionHandler
+        ) {
+        super(startPos, physicsHandler, inputHandler, collisionHandler);
     }
 
     /**
