@@ -15,7 +15,9 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.map.level.impl.Level;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
+import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
@@ -55,6 +57,8 @@ final class TestLevel {
     void setUp() {
         originalEntities = new HashSet<>();
 
+        player1 = new PlayerFactoryImpl().createPlayer(PlayerType.FIREBOY,new Position(1,1));
+        player2 = new PlayerFactoryImpl().createPlayer(PlayerType.WATERGIRL,new Position(1,1));
         enemyAlive = new ClassicEnemiesImpl(new Position(2, 1)); 
         enemyDead = new ClassicEnemiesImpl(new Position(2, 2));
         enemyDead.die(); 
@@ -89,7 +93,9 @@ final class TestLevel {
         final Set<GameEntity> initialSet = new HashSet<>();
         final Level testLevel = new Level(initialSet);
 
-        assertEquals(1, testLevel.getGameEntities().size(), 
+        initialSet.add(player1);
+
+        assertEquals(0, testLevel.getGameEntities().size(), 
             "The constructor must create a defensive copy of the Set.");
     }
 
@@ -103,8 +109,9 @@ final class TestLevel {
         assertEquals(originalEntities.size(), entities.size());
         assertTrue(entities.containsAll(originalEntities));
 
-        assertThrows(UnsupportedOperationException.class, () -> { }, 
-            "The set returned by getGameEntities must be unmodifiable.");
+        assertThrows(UnsupportedOperationException.class, () -> {
+            entities.add(player1);
+        }, "The set returned by getGameEntities must be unmodifiable.");
     }
 
     /**
@@ -127,8 +134,12 @@ final class TestLevel {
         final Set<Lever> levers = level.getEntitiesByClass(Lever.class);
         assertEquals(1, levers.size());
 
-        assertThrows(UnsupportedOperationException.class, () -> { }, 
-            "The set returned by getEntitiesByClass must be unmodifiable.");
+        assertThrows(UnsupportedOperationException.class, () -> {
+            players.add(player1);
+        }, "The set returned by getEntitiesByClass must be unmodifiable.");
+
+
+        
     }
 
     /**
