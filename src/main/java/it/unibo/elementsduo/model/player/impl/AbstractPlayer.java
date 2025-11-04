@@ -3,8 +3,8 @@ package it.unibo.elementsduo.model.player.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.unibo.elementsduo.controller.inputController.api.InputController;
-import it.unibo.elementsduo.controller.inputController.impl.InputState;
+import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
+import it.unibo.elementsduo.controller.inputcontroller.impl.InputState;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;

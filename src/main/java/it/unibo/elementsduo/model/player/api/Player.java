@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.player.api;
 
-import it.unibo.elementsduo.controller.inputController.api.InputController;
+import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
@@ -83,7 +83,7 @@ public interface Player extends Movable, GameEntity {
     /**
      * Returns whether the player is currently on the exit.
      *
-     * @return {@code true} if the player is on the exit, {@code false} otherwise
+     * @return true if the player is on the exit, false otherwise
      */
     boolean isOnExit();
 

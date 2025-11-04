@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller.inputController.impl;
+package it.unibo.elementsduo.controller.inputcontroller.impl;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import it.unibo.elementsduo.model.player.api.PlayerType;
  */
 public final class InputState {
 
-    private final EnumMap<PlayerType, Map<Action, Boolean>> state;
+    private final Map<PlayerType, Map<Action, Boolean>> state;
 
     /**
      * Constructs an immutable snapshot from an initial state map.

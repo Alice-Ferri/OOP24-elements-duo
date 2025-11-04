@@ -1,6 +1,6 @@
-package it.unibo.elementsduo.controller.inputController.api;
+package it.unibo.elementsduo.controller.inputcontroller.api;
 
-import it.unibo.elementsduo.controller.inputController.impl.InputState;
+import it.unibo.elementsduo.controller.inputcontroller.impl.InputState;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
 /**

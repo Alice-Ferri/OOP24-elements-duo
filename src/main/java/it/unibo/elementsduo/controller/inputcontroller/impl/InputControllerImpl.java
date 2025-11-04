@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.controller.inputController.impl;
+package it.unibo.elementsduo.controller.inputcontroller.impl;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import it.unibo.elementsduo.controller.inputController.api.InputController;
+import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
 /**
@@ -16,7 +16,7 @@ import it.unibo.elementsduo.model.player.api.PlayerType;
  */
 public final class InputControllerImpl implements KeyEventDispatcher, InputController {
 
-    private final EnumMap<PlayerType, DirectionScheme> playerControls = new EnumMap<>(PlayerType.class);
+    private final Map<PlayerType, DirectionScheme> playerControls = new EnumMap<>(PlayerType.class);
     private final Set<Integer> pressed = new HashSet<>();
     private final Set<Integer> handledPress = new HashSet<>();
 
@@ -34,6 +34,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
     /**
      * Installs this controller as a global key event dispatcher.
      */
+    @Override
     public void install() {
         if (installed) {
             return;
@@ -45,6 +46,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
     /**
      * Uninstalls this controller and clears all stored key states.
      */
+    @Override
     public void uninstall() {
         if (!installed) {
             return;
@@ -74,6 +76,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
                 pressed.remove(e.getKeyCode());
                 handledPress.remove(e.getKeyCode());
             }
+            default -> {}
         }
         return false;
     }
@@ -141,6 +144,7 @@ public final class InputControllerImpl implements KeyEventDispatcher, InputContr
      *
      * @param player the player type whose jump was handled
      */
+    @Override
     public void markJumpHandled(final PlayerType playerType) {
         final DirectionScheme scheme = playerControls.get(playerType);
         if (scheme != null) {
