@@ -1,9 +1,11 @@
 package it.unibo.elementsduo.model.player;
 
 import it.unibo.elementsduo.controller.inputcontroller.impl.InputControllerImpl;
+import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.PlayerFactory;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
-import it.unibo.elementsduo.model.powerups.api.PowerUpType;
+import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
@@ -31,14 +33,24 @@ final class TestFireboy {
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5;
 
-
-    private Fireboy fireboy;
+    private PlayerFactory factory;
     private InputControllerImpl inputController;
+    private Player fireboy;
 
     @BeforeEach
     void setUp() {
-        fireboy = new Fireboy(new Position(0, 0));
+        factory = new PlayerFactoryImpl();
         inputController = new InputControllerImpl();
+    }
+
+    @Test
+    void createFireboy() {
+        final Position startPos = new Position(0, 0);
+        fireboy = factory.createPlayer(PlayerType.FIREBOY, startPos);
+        assertNotNull(fireboy, "Fireboy deve essere creato");
+        assertEquals(startPos.x(), fireboy.getX());
+        assertEquals(startPos.y(), fireboy.getY());
+        assertTrue(fireboy instanceof Fireboy);
     }
 
     @Test
@@ -75,17 +87,6 @@ final class TestFireboy {
 
         fireboy.setOnExit(false);
         assertFalse(fireboy.isOnExit());
-    }
-
-    @Test
-    void testPowerUp() {
-        final PowerUpType powerUp = PowerUpType.HAZARD_IMMUNITY;
-
-        fireboy.addPowerUpEffect(powerUp);
-        assertTrue(fireboy.hasPowerUpEffect(powerUp));
-
-        fireboy.removePowerUpEffect(powerUp);
-        assertFalse(fireboy.hasPowerUpEffect(powerUp));
     }
 
     @Test

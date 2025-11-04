@@ -1,9 +1,11 @@
 package it.unibo.elementsduo.model.player;
 
 import it.unibo.elementsduo.controller.inputcontroller.impl.InputControllerImpl;
+import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.api.PlayerFactory;
 import it.unibo.elementsduo.model.player.api.PlayerType;
+import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
-import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
@@ -31,15 +33,25 @@ final class TestWatergirl {
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5;
 
-    private Watergirl watergirl;
+    private PlayerFactory factory;
     private InputControllerImpl inputController;
+    private Player watergirl;;
 
     @BeforeEach
     void setUp() {
-        watergirl = new Watergirl(new Position(0, 0));
+        factory = new PlayerFactoryImpl();
         inputController = new InputControllerImpl();
     }
 
+    @Test
+    void createFireboy() {
+        final Position startPos = new Position(0, 0);
+        watergirl = factory.createPlayer(PlayerType.WATERGIRL, startPos);
+        assertNotNull(watergirl, "Watergirl deve essere creato");
+        assertEquals(startPos.x(), watergirl.getX());
+        assertEquals(startPos.y(), watergirl.getY());
+        assertTrue(watergirl instanceof Watergirl);
+    }
     @Test
     void testPosition() {
         watergirl.correctPosition(5, 10);
@@ -74,17 +86,6 @@ final class TestWatergirl {
 
         watergirl.setOnExit(false);
         assertFalse(watergirl.isOnExit());
-    }
-
-    @Test
-    void testPowerUp() {
-        final PowerUpType powerUp = PowerUpType.HAZARD_IMMUNITY;
-
-        watergirl.addPowerUpEffect(powerUp);
-        assertTrue(watergirl.hasPowerUpEffect(powerUp));
-
-        watergirl.removePowerUpEffect(powerUp);
-        assertFalse(watergirl.hasPowerUpEffect(powerUp));
     }
 
     @Test

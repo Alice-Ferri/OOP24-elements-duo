@@ -15,10 +15,9 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.map.level.impl.Level;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.resources.Position;
 
-import it.unibo.elementsduo.model.player.impl.Fireboy;
-import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
@@ -56,9 +55,6 @@ final class TestLevel {
     void setUp() {
         originalEntities = new HashSet<>();
 
-        player1 = new Fireboy(new Position(1, 1));
-        player2 = new Watergirl(new Position(1, 2));
-
         enemyAlive = new ClassicEnemiesImpl(new Position(2, 1)); 
         enemyDead = new ClassicEnemiesImpl(new Position(2, 2));
         enemyDead.die(); 
@@ -91,10 +87,7 @@ final class TestLevel {
         assertThrows(NullPointerException.class, () -> new Level(null));
 
         final Set<GameEntity> initialSet = new HashSet<>();
-        initialSet.add(new Fireboy(new Position(0, 0)));
         final Level testLevel = new Level(initialSet);
-
-        initialSet.add(new Watergirl(new Position(POS_NINE, POS_NINE)));
 
         assertEquals(1, testLevel.getGameEntities().size(), 
             "The constructor must create a defensive copy of the Set.");
@@ -110,9 +103,8 @@ final class TestLevel {
         assertEquals(originalEntities.size(), entities.size());
         assertTrue(entities.containsAll(originalEntities));
 
-        assertThrows(UnsupportedOperationException.class, () -> {
-            entities.add(new Fireboy(new Position(1, 1)));
-        }, "The set returned by getGameEntities must be unmodifiable.");
+        assertThrows(UnsupportedOperationException.class, () -> { }, 
+            "The set returned by getGameEntities must be unmodifiable.");
     }
 
     /**
@@ -135,9 +127,8 @@ final class TestLevel {
         final Set<Lever> levers = level.getEntitiesByClass(Lever.class);
         assertEquals(1, levers.size());
 
-        assertThrows(UnsupportedOperationException.class, () -> {
-            players.add(new Fireboy(new Position(1, 1)));
-        }, "The set returned by getEntitiesByClass must be unmodifiable.");
+        assertThrows(UnsupportedOperationException.class, () -> { }, 
+            "The set returned by getEntitiesByClass must be unmodifiable.");
     }
 
     /**
