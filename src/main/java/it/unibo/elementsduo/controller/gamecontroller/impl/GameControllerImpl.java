@@ -121,7 +121,7 @@ public final class GameControllerImpl implements EventListener, GameController {
 
     @Override
     @SuppressFBWarnings(value = "EI", 
-                         justification = "Required to MainController to add it to the JFrame's card layout")
+                        justification = "Required to MainController to add it to the JFrame's card layout")
     public JPanel getPanel() {
         return this.view;
     }

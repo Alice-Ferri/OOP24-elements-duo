@@ -79,7 +79,8 @@ public final class LevelSelectionController implements Controller {
     }
 
     @Override
-    @SuppressFBWarnings(value = "EI", justification = "i need panel for card layout")
+    @SuppressFBWarnings(value = "EI", 
+                        justification = "Required to MainController to add it to the JFrame's card layout")
     public JPanel getPanel() {
         return this.view;
     }
