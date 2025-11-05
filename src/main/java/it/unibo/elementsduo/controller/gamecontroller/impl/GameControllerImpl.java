@@ -93,6 +93,7 @@ public final class GameControllerImpl implements EventListener, GameController {
         this.view = new LevelPanel(level);
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.scoreManager = new MissionManager(level);
+        this.level.getAllPlayers().forEach(this.powerUpManager::registerPlayer);
 
         eventManager.subscribe(ProjectileSolidEvent.class, this);
         eventManager.subscribe(EnemyDiedEvent.class, this);
