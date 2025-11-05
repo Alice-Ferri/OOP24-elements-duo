@@ -5,13 +5,16 @@ import it.unibo.elementsduo.resources.Position;
 /**
  * Factory interface for creating Player instances.
  */
+@FunctionalInterface
 public interface PlayerFactory {
 
     /**
      * Creates a new Player of the given type.
      *
-     * @param type the type of player (e.g., FIREBOY or WATERGIRL)
+     * @param playerType the type of player
+     *
      * @param startPos the starting position of the player
+     *
      * @return a new instance of Player
      */
     Player createPlayer(PlayerType playerType, Position startPos);

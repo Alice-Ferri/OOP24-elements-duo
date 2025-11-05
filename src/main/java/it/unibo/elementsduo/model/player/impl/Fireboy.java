@@ -13,7 +13,7 @@ import it.unibo.elementsduo.resources.Position;
  */
 public class Fireboy extends AbstractPlayer {
 
-   /**
+    /**
      * Constructs a Fireboy with all injected handlers.
      *
      * @param startPos starting position of the player

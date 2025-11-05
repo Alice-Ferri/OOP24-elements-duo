@@ -1,6 +1,7 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
@@ -28,7 +29,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     private boolean onGround = true;
     private boolean onExit;
 
-    private final EnumSet<PowerUpType> activePowerUps = EnumSet.noneOf(PowerUpType.class);
+    private final Set<PowerUpType> activePowerUps = EnumSet.noneOf(PowerUpType.class);
 
     private final PlayerCollisionHandler collisionHandler;
     private final PlayerPhysicsHandler physicsHandler;
@@ -40,8 +41,6 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * @param startPos the initial position
      *
      * @param collisionHandler the collision strategy
-     *
-     * @param powerUpHandler the power-up strategy
      *
      * @param physicsHandler the physics strategy
      *
@@ -164,7 +163,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * @param dy to correct by y position
      */
     @Override
-    public void correctPosition(final double dx, final double dy) {
+    public void moveBy(final double dx, final double dy) {
         this.x += dx;
         this.y += dy;
     }

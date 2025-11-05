@@ -27,7 +27,7 @@ public class PlayerCollisionHandlerImpl implements PlayerCollisionHandler {
      */
     @Override
     public void handleCollision(final Player player, final double penetration, final Vector2D normal, final Collidable other) {
-        
+
         Optional.of(penetration)
             .filter(p -> p > 0)
             .ifPresent(p -> {
@@ -53,7 +53,7 @@ public class PlayerCollisionHandlerImpl implements PlayerCollisionHandler {
         final double depth = Math.max(overlapX - POSITION_SLOP, 0.0);
         final Vector2D correction = horizontalNormal.multiply(CORRECTION_PERCENT * depth);
 
-        player.correctPosition(correction.x(), correction.y());
+        player.moveBy(correction.x(), correction.y());
 
         final double velocityNormal = player.getVelocity().dot(horizontalNormal);
         if (velocityNormal < 0) {
@@ -67,7 +67,7 @@ public class PlayerCollisionHandlerImpl implements PlayerCollisionHandler {
         final double depth = Math.max(penetration - POSITION_SLOP, 0.0);
         final Vector2D correction = normal.multiply(CORRECTION_PERCENT * depth);
 
-        player.correctPosition(correction.x(), correction.y());
+        player.moveBy(correction.x(), correction.y());
 
         final double velocityNormal = player.getVelocity().dot(normal);
         if (velocityNormal < 0) {

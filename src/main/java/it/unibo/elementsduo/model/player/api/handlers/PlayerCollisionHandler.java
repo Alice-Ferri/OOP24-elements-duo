@@ -7,10 +7,13 @@ import it.unibo.elementsduo.resources.Vector2D;
 /**
  * Handles player collision resolution with other game objects.
  */
+@FunctionalInterface
 public interface PlayerCollisionHandler extends PlayerHandler {
 
     /**
      * Manages collision response between the player and another object.
+     * 
+     * @param player the player to correct the collision
      *
      * @param penetration the depth of the overlap
      *
