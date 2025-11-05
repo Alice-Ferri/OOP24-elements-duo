@@ -21,7 +21,7 @@ import it.unibo.elementsduo.model.collisions.events.api.Event;
 import it.unibo.elementsduo.model.collisions.events.api.EventListener;
 import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
-import it.unibo.elementsduo.model.collisions.events.impl.PowerUpCollectedEvent;
+import it.unibo.elementsduo.model.collisions.events.impl.GemCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
@@ -93,6 +93,7 @@ public final class GameControllerImpl implements EventListener, GameController {
 
         eventManager.subscribe(ProjectileSolidEvent.class, this);
         eventManager.subscribe(EnemyDiedEvent.class, this);
+        eventManager.subscribe(GemCollectedEvent.class, this);
     }
 
     @Override
@@ -148,7 +149,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     @Override
     public void onEvent(final Event event) {
         if (event instanceof EnemyDiedEvent || event instanceof ProjectileSolidEvent
-                || event instanceof PowerUpCollectedEvent) {
+                || event instanceof GemCollectedEvent) {
             this.entitiesNeedCleaning = true;
         }
     }

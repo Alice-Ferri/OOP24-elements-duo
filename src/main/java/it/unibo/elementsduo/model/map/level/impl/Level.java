@@ -24,7 +24,6 @@ import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
-import it.unibo.elementsduo.model.powerups.api.PowerUp;
 
 /**
  * Implementation of the {@link Level} interface.
@@ -112,7 +111,7 @@ public final class Level implements LevelData, LevelUpdate {
     public void cleanInactiveEntities() {
         this.gameEntities.removeIf(entity -> entity instanceof Projectiles p && !p.isActive()
                 || entity instanceof Enemy e && !e.isAlive()
-                || entity instanceof PowerUp powerUp && !powerUp.isActive());
+                || entity instanceof Gem gem && !gem.isActive());
     }
 
     @Override

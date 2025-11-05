@@ -15,6 +15,7 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaP
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
@@ -189,7 +190,7 @@ public final class LevelPanel extends JPanel {
                         final int w = toPx(hw * 2.0, elementSize);
                         final int h = toPx(hh * 2.0, elementSize);
 
-                        final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
+                        final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.YELLOW);
                         g.setColor(tileColor);
 
                         g.fillRect(x, y, w, h);
