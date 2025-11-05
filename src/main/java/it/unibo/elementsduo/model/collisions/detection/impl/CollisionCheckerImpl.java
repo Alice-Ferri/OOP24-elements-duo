@@ -115,14 +115,19 @@ public class CollisionCheckerImpl implements CollisionChecker {
             maxY = Math.max(maxY, bounds.maxY());
         }
 
-        if (minX == maxX) {
-            minX -= MIN_BOUND_SPAN / 2.0;
-            maxX += MIN_BOUND_SPAN / 2.0;
+        double spanX = maxX - minX;
+        double spanY = maxY - minY;
+
+        if (spanX < MIN_BOUND_SPAN) {
+            double deltaX = (MIN_BOUND_SPAN - spanX) / 2.0;
+            minX -= deltaX;
+            maxX += deltaX;
         }
 
-        if (minY == maxY) {
-            minY -= MIN_BOUND_SPAN / 2.0;
-            maxY += MIN_BOUND_SPAN / 2.0;
+        if (spanY < MIN_BOUND_SPAN) {
+            double deltaY = (MIN_BOUND_SPAN - spanY) / 2.0;
+            minY -= deltaY;
+            maxY += deltaY;
         }
 
         return new BoundingBox(minX, minY, maxX, maxY);
