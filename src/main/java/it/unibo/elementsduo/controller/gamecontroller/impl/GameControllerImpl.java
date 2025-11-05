@@ -83,7 +83,7 @@ public final class GameControllerImpl implements EventListener, GameController {
         this.onLevelListener = e -> controller.goToLevelSelection();
         this.onMenuListener = e -> controller.goToMenu();
         final MapValidatorImpl mapValidator = new MapValidatorImpl();
-        MapLoader mapLoader = new MapLoader();
+        final MapLoader mapLoader = new MapLoader();
         level = new Level(mapLoader.loadLevel(currentLevel));
         mapValidator.validate(level);
         this.view = new LevelPanel(level);
