@@ -22,7 +22,7 @@ public class PlayerPhysicsHandlerImpl implements PlayerPhysicsHandler {
     public void updatePosition(final Player player, final double deltaTime) {
         this.applyGravity(player, deltaTime);
         final Vector2D velocity = player.getVelocity();
-        player.correctPosition(velocity.x() * deltaTime, velocity.y() * deltaTime);
+        player.moveBy(velocity.x() * deltaTime, velocity.y() * deltaTime);
     }
 
     /**

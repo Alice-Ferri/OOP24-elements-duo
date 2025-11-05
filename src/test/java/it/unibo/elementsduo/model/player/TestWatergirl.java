@@ -58,7 +58,7 @@ final class TestWatergirl {
 
     @Test
     void testPosition() {
-        watergirl.correctPosition(TEST_X, TEST_Y);
+        watergirl.moveBy(TEST_X, TEST_Y);
         assertEquals(TEST_X, watergirl.getX());
         assertEquals(TEST_Y, watergirl.getY());
     }

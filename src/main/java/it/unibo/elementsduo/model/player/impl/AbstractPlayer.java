@@ -42,8 +42,6 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      *
      * @param collisionHandler the collision strategy
      *
-     * @param powerUpHandler the power-up strategy
-     *
      * @param physicsHandler the physics strategy
      *
      * @param inputHandler the input strategy
@@ -165,7 +163,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      * @param dy to correct by y position
      */
     @Override
-    public void correctPosition(final double dx, final double dy) {
+    public void moveBy(final double dx, final double dy) {
         this.x += dx;
         this.y += dy;
     }

@@ -73,7 +73,7 @@ public interface Player extends Movable, GameEntity {
      *
      * @param dy to add y-coordinate
      */
-    void correctPosition(double dx, double dy);
+    void moveBy(double dx, double dy);
 
     /**
      * Marks the player as airborne.

@@ -58,7 +58,7 @@ final class TestFireboy {
 
     @Test
     void testPosition() {
-        fireboy.correctPosition(TEST_X, TEST_Y);
+        fireboy.moveBy(TEST_X, TEST_Y);
         assertEquals(TEST_X, fireboy.getX());
         assertEquals(TEST_Y, fireboy.getY());
     }
