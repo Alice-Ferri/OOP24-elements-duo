@@ -13,8 +13,7 @@ public interface Projectiles extends Movable, GameEntity, Updatable {
 
 
     /**
-     * Indicates whether the projectile is still active and should be
-     * rendered/updated.
+     * Indicates whether the projectile is still active and should be rendered/updated.
      *
      * @return true if the projectile is active, false otherwise.
      */
