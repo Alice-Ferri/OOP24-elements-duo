@@ -10,7 +10,7 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
-import it.unibo.elementsduo.model.player.api.handlers.PlayerCollisionHandler;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerInputHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerPhysicsHandler;
 import it.unibo.elementsduo.model.powerups.api.PowerUpType;
@@ -31,7 +31,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
 
     private final Set<PowerUpType> activePowerUps = EnumSet.noneOf(PowerUpType.class);
 
-    private final PlayerCollisionHandler collisionHandler;
+    private final PlayerCollsCorrectorHandler collsCorrectorHandler;
     private final PlayerPhysicsHandler physicsHandler;
     private final PlayerInputHandler inputHandler;
 
@@ -49,13 +49,13 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     protected AbstractPlayer(final Position startPos,
         final PlayerPhysicsHandler physicsHandler,
         final PlayerInputHandler inputHandler,
-        final PlayerCollisionHandler collisionHandler
+        final PlayerCollsCorrectorHandler collisionHandler
     ) {
         this.x = startPos.x();
         this.y = startPos.y();
         this.physicsHandler = physicsHandler;
         this.inputHandler = inputHandler;
-        this.collisionHandler = collisionHandler;
+        this.collsCorrectorHandler = collisionHandler;
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
      */
     @Override
     public void correctPhysicsCollision(final double penetration, final Vector2D normal, final Collidable other) {
-        collisionHandler.handleCollision(this, penetration, normal, other);
+        collsCorrectorHandler.handleCollision(this, penetration, normal, other);
     }
 
     /**

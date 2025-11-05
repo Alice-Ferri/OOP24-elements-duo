@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.player.impl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.HazardType;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.ExitType;
 import it.unibo.elementsduo.model.player.api.PlayerType;
-import it.unibo.elementsduo.model.player.api.handlers.PlayerCollisionHandler;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerInputHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerPhysicsHandler;
 import it.unibo.elementsduo.resources.Position;
@@ -28,7 +28,7 @@ public class Watergirl extends AbstractPlayer {
             final Position startPos,
             final PlayerPhysicsHandler physicsHandler,
             final PlayerInputHandler inputHandler,
-            final PlayerCollisionHandler collisionHandler
+            final PlayerCollsCorrectorHandler collisionHandler
         ) {
         super(startPos, physicsHandler, inputHandler, collisionHandler);
     }

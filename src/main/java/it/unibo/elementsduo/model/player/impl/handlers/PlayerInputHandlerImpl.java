@@ -37,20 +37,20 @@ public class PlayerInputHandlerImpl implements PlayerInputHandler {
      */
     @Override
     public void handleInput(final Player player, final InputController inputController) {
-        final PlayerType type = player.getPlayerType();
+        final PlayerType playerType = player.getPlayerType();
         final InputState state = inputController.getInputState();
 
-        final boolean left = state.isActionPressed(type, InputState.Action.LEFT);
-        final boolean right = state.isActionPressed(type, InputState.Action.RIGHT);
+        final boolean left = state.isLeftPressed(playerType);
+        final boolean right = state.isRightPressed(playerType);
 
         Optional.of((right ? 1 : 0) - (left ? 1 : 0))
                 .ifPresent(direction -> player.setVelocityX(direction * RUN_SPEED));
 
         Optional.of(state)
-                .filter(s -> s.isActionPressed(type, InputState.Action.JUMP))
+                .filter(s -> s.isJumpPressed(playerType))
                 .ifPresent(s -> {
                     physicsHandler.jump(player, JUMP_STRENGTH);
-                    inputController.markJumpHandled(type);
+                    inputController.markJumpHandled(playerType);
                 });
     }
 }

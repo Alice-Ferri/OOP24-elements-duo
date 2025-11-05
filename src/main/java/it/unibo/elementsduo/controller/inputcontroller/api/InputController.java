@@ -42,8 +42,8 @@ public interface InputController {
     /**
      * Marks the jump action for the given player as handled.
      *
-     * @param type the player type whose jump input
+     * @param playerType the player type whose jump input
      */
-    void markJumpHandled(PlayerType type);
+    void markJumpHandled(PlayerType playerType);
 
 }

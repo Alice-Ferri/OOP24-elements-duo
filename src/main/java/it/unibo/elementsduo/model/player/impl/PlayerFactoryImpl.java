@@ -2,11 +2,11 @@ package it.unibo.elementsduo.model.player.impl;
 
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerFactory;
-import it.unibo.elementsduo.model.player.api.handlers.PlayerCollisionHandler;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerInputHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerPhysicsHandler;
-import it.unibo.elementsduo.model.player.impl.handlers.PlayerCollisionHandlerImpl;
+import it.unibo.elementsduo.model.player.impl.handlers.PlayerCollsCorrectorHandlerImpl;
 import it.unibo.elementsduo.model.player.impl.handlers.PlayerInputHandlerImpl;
 import it.unibo.elementsduo.model.player.impl.handlers.PlayerPhysicsHandlerImpl;
 import it.unibo.elementsduo.resources.Position;
@@ -43,7 +43,7 @@ public final class PlayerFactoryImpl implements PlayerFactory {
     public static Player createFireboy(final Position startPos) {
         final PlayerPhysicsHandler physicsHandler = new PlayerPhysicsHandlerImpl();
         final PlayerInputHandler inputHandler = new PlayerInputHandlerImpl(physicsHandler);
-        final PlayerCollisionHandler collisionHandler = new PlayerCollisionHandlerImpl();
+        final PlayerCollsCorrectorHandler collisionHandler = new PlayerCollsCorrectorHandlerImpl();
 
         return new Fireboy(startPos, physicsHandler, inputHandler, collisionHandler);
     }
@@ -57,7 +57,7 @@ public final class PlayerFactoryImpl implements PlayerFactory {
     public static Player createWatergirl(final Position startPos) {
         final PlayerPhysicsHandler physicsHandler = new PlayerPhysicsHandlerImpl();
         final PlayerInputHandler inputHandler = new PlayerInputHandlerImpl(physicsHandler);
-        final PlayerCollisionHandler collisionHandler = new PlayerCollisionHandlerImpl();
+        final PlayerCollsCorrectorHandler collisionHandler = new PlayerCollsCorrectorHandlerImpl();
 
         return new Watergirl(startPos, physicsHandler, inputHandler, collisionHandler);
     }
