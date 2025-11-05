@@ -46,13 +46,4 @@ public final class InputState {
         this.state.forEach((p, m) -> copy.put(p, Map.copyOf(m)));
         return copy;
     }
-
-    /**
-     * Enum of actions that can be pressed by players.
-     */
-    public enum Action {
-        LEFT,
-        RIGHT,
-        JUMP
-    }
 }

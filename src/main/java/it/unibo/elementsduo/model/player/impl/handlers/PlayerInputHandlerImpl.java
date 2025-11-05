@@ -3,6 +3,7 @@ package it.unibo.elementsduo.model.player.impl.handlers;
 import java.util.Optional;
 
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
+import it.unibo.elementsduo.controller.inputcontroller.impl.Action;
 import it.unibo.elementsduo.controller.inputcontroller.impl.InputState;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
@@ -40,14 +41,14 @@ public class PlayerInputHandlerImpl implements PlayerInputHandler {
         final PlayerType type = player.getPlayerType();
         final InputState state = inputController.getInputState();
 
-        final boolean left = state.isActionPressed(type, InputState.Action.LEFT);
-        final boolean right = state.isActionPressed(type, InputState.Action.RIGHT);
+        final boolean left = state.isActionPressed(type, Action.LEFT);
+        final boolean right = state.isActionPressed(type, Action.RIGHT);
 
         Optional.of((right ? 1 : 0) - (left ? 1 : 0))
                 .ifPresent(direction -> player.setVelocityX(direction * RUN_SPEED));
 
         Optional.of(state)
-                .filter(s -> s.isActionPressed(type, InputState.Action.JUMP))
+                .filter(s -> s.isActionPressed(type, Action.JUMP))
                 .ifPresent(s -> {
                     physicsHandler.jump(player, JUMP_STRENGTH);
                     inputController.markJumpHandled(type);

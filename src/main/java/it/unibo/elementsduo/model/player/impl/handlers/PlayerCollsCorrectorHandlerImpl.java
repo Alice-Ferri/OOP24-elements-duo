@@ -6,13 +6,13 @@ import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.api.Player;
-import it.unibo.elementsduo.model.player.api.handlers.PlayerCollisionHandler;
+import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
  * Responsible for adjusting the player's position and velocity when collisions occur.
  */
-public class PlayerCollisionHandlerImpl implements PlayerCollisionHandler {
+public class PlayerCollsCorrectorHandlerImpl implements PlayerCollsCorrectorHandler {
     private static final double POSITION_SLOP = 0.001;
     private static final double CORRECTION_PERCENT = 0.8;
 
