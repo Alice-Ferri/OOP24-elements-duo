@@ -17,7 +17,7 @@ public interface PlayerPhysicsHandler extends PlayerHandler {
     void updatePosition(Player player, double deltaTime);
 
     /**
-     * Permits to apply the jump to the player
+     * Permits to apply the jump to the player.
      *
      * @param player to set jumping
      *

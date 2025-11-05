@@ -57,8 +57,8 @@ final class TestLevel {
     void setUp() {
         originalEntities = new HashSet<>();
 
-        player1 = new PlayerFactoryImpl().createPlayer(PlayerType.FIREBOY,new Position(1,1));
-        player2 = new PlayerFactoryImpl().createPlayer(PlayerType.WATERGIRL,new Position(1,1));
+        player1 = new PlayerFactoryImpl().createPlayer(PlayerType.FIREBOY, new Position(1, 1));
+        player2 = new PlayerFactoryImpl().createPlayer(PlayerType.WATERGIRL, new Position(1, 1));
         enemyAlive = new ClassicEnemiesImpl(new Position(2, 1)); 
         enemyDead = new ClassicEnemiesImpl(new Position(2, 2));
         enemyDead.die(); 
@@ -138,8 +138,6 @@ final class TestLevel {
             players.add(player1);
         }, "The set returned by getEntitiesByClass must be unmodifiable.");
 
-
-        
     }
 
     /**

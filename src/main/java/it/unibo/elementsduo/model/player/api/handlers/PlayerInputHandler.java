@@ -6,6 +6,7 @@ import it.unibo.elementsduo.model.player.api.Player;
 /**
  * Handles player input events and translates them into in-game actions.
  */
+@FunctionalInterface
 public interface PlayerInputHandler extends PlayerHandler {
 
     /**

@@ -17,23 +17,20 @@ import it.unibo.elementsduo.resources.Position;
  */
 public final class PlayerFactoryImpl implements PlayerFactory {
 
-    public PlayerFactoryImpl() { }
-
-
     /**
      * Generic factory method that creates a Player based on the given type.
      *
-     * @param type the player type (FIREBOY or WATERGIRL)
+     * @param playerType the player type
+     *
      * @param startPos the starting position of the player
+     *
      * @return a fully initialized Player instance
-     * @throws IllegalArgumentException if the type is not supported
      */
     @Override
     public Player createPlayer(final PlayerType playerType, final Position startPos) {
         return switch (playerType) {
             case FIREBOY -> createFireboy(startPos);
             case WATERGIRL -> createWatergirl(startPos);
-            default -> throw new IllegalArgumentException("Unsupported player type: " + playerType);
         };
     }
 

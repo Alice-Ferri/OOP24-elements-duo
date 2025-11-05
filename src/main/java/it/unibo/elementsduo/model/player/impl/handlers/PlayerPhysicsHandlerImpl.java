@@ -32,6 +32,7 @@ public class PlayerPhysicsHandlerImpl implements PlayerPhysicsHandler {
      *
      * @param jumpStrength jump power
      */
+    @Override
     public void jump(final Player player, final double jumpStrength) {
         if (player.isOnGround()) {
             final Vector2D velocity = player.getVelocity();

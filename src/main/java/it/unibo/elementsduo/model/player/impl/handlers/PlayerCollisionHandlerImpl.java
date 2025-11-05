@@ -27,7 +27,7 @@ public class PlayerCollisionHandlerImpl implements PlayerCollisionHandler {
      */
     @Override
     public void handleCollision(final Player player, final double penetration, final Vector2D normal, final Collidable other) {
-        
+
         Optional.of(penetration)
             .filter(p -> p > 0)
             .ifPresent(p -> {

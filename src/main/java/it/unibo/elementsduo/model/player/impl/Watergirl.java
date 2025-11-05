@@ -20,8 +20,6 @@ public class Watergirl extends AbstractPlayer {
      *
      * @param collisionHandler collision strategy
      *
-     * @param powerUpHandler power-up strategy
-     *
      * @param physicsHandler physics strategy
      *
      * @param inputHandler input handling strategy

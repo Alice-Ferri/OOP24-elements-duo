@@ -2,7 +2,6 @@ package it.unibo.elementsduo.model.player;
 
 import it.unibo.elementsduo.controller.inputcontroller.impl.InputControllerImpl;
 import it.unibo.elementsduo.model.player.api.Player;
-import it.unibo.elementsduo.model.player.api.PlayerFactory;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
@@ -19,11 +18,14 @@ import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.awt.Component;
 import java.awt.Label;
 import java.awt.event.KeyEvent;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 final class TestWatergirl {
 
@@ -33,41 +35,43 @@ final class TestWatergirl {
     private static final double RUN_SPEED = 8.0;
     private static final double JUMP_STRENGTH = 6.5;
 
-    private PlayerFactory factory;
+    private static final int TEST_X = 5;
+    private static final int TEST_Y = 7;
+
+    private Player watergirl;
     private InputControllerImpl inputController;
-    private Player watergirl;;
 
     @BeforeEach
     void setUp() {
-        factory = new PlayerFactoryImpl();
+        watergirl = new PlayerFactoryImpl().createPlayer(PlayerType.WATERGIRL, new Position(0, 0));
         inputController = new InputControllerImpl();
     }
 
     @Test
     void createFireboy() {
         final Position startPos = new Position(0, 0);
-        watergirl = factory.createPlayer(PlayerType.WATERGIRL, startPos);
         assertNotNull(watergirl, "Watergirl deve essere creato");
         assertEquals(startPos.x(), watergirl.getX());
         assertEquals(startPos.y(), watergirl.getY());
         assertTrue(watergirl instanceof Watergirl);
     }
+
     @Test
     void testPosition() {
-        watergirl.correctPosition(5, 10);
-        assertEquals(5, watergirl.getX());
-        assertEquals(10, watergirl.getY());
+        watergirl.correctPosition(TEST_X, TEST_Y);
+        assertEquals(TEST_X, watergirl.getX());
+        assertEquals(TEST_Y, watergirl.getY());
     }
 
     @Test
     void testVelocity() {
-        watergirl.setVelocityX(3);
-        watergirl.setVelocityY(7);
+        watergirl.setVelocityX(TEST_X);
+        watergirl.setVelocityY(TEST_Y);
 
         final Vector2D velocity = watergirl.getVelocity();
 
-        assertEquals(3, velocity.x());
-        assertEquals(7, velocity.y());
+        assertEquals(TEST_X, velocity.x());
+        assertEquals(TEST_Y, velocity.y());
     }
 
     @Test

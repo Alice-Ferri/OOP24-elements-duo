@@ -1,6 +1,7 @@
 package it.unibo.elementsduo.model.player.impl;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
@@ -28,7 +29,7 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     private boolean onGround = true;
     private boolean onExit;
 
-    private final EnumSet<PowerUpType> activePowerUps = EnumSet.noneOf(PowerUpType.class);
+    private final Set<PowerUpType> activePowerUps = EnumSet.noneOf(PowerUpType.class);
 
     private final PlayerCollisionHandler collisionHandler;
     private final PlayerPhysicsHandler physicsHandler;

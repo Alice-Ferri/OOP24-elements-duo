@@ -42,7 +42,7 @@ public final class InputState {
      * @return a map of key states for each {@link PlayerType}, with boolean values for each {@link Action}
      */
     public Map<PlayerType, Map<Action, Boolean>> getState() {
-        final EnumMap<PlayerType, Map<Action, Boolean>> copy = new EnumMap<>(PlayerType.class);
+        final Map<PlayerType, Map<Action, Boolean>> copy = new EnumMap<>(PlayerType.class);
         this.state.forEach((p, m) -> copy.put(p, Map.copyOf(m)));
         return copy;
     }
