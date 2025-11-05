@@ -1,3 +1,24 @@
+package it.unibo.elementsduo.model.collisions;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.collisions.core.api.Movable;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionInformationsImpl;
+import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
+import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
+import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.resources.Position;
+import it.unibo.elementsduo.resources.Vector2D;
+
 public class TestPhysicsHandler {
     private static final double EPSILON = 1e-9;
 
