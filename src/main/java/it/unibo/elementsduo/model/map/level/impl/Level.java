@@ -13,9 +13,17 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.map.level.api.LevelUpdate;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.impl.Fireboy;
+import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.model.powerups.api.PowerUp;
 
 /**
@@ -42,8 +50,14 @@ public final class Level implements LevelData, LevelUpdate {
         return Collections.unmodifiableSet(this.gameEntities);
     }
 
-    @Override
-    public <T extends GameEntity> Set<T> getEntitiesByClass(final Class<T> type) {
+    /**
+     * Filters and returns a set of entities that match the specified class type.
+     *
+     * @param <T>  The type of the entity.
+     * @param type The Class object of the type to filter by.
+     * @return An unmodifiable set of entities of the specified type.
+     */
+    private <T extends GameEntity> Set<T> getEntitiesByClass(final Class<T> type) {
         return this.gameEntities.stream()
                 .filter(type::isInstance)
                 .map(type::cast)
@@ -115,6 +129,56 @@ public final class Level implements LevelData, LevelUpdate {
                 .filter(Updatable.class::isInstance)
                 .map(Updatable.class::cast)
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @Override
+    public Set<Fireboy> getFireboy() {
+        return this.getEntitiesByClass(Fireboy.class);
+    }
+
+    @Override
+    public Set<Watergirl> getWatergirl() {
+        return this.getEntitiesByClass(Watergirl.class);
+    }
+
+    @Override
+    public Set<Button> getButtons() {
+        return this.getEntitiesByClass(Button.class);
+    }
+
+    @Override
+    public Set<Lever> getLevers(){
+        return this.getEntitiesByClass(Lever.class);
+    }
+
+    @Override
+    public Set<Wall> getWalls() {
+        return this.getEntitiesByClass(Wall.class);
+    }
+
+    @Override
+    public Set<Gem> getGems() {
+        return this.getEntitiesByClass(Gem.class);
+    }
+
+    @Override
+    public void cleanGems() {
+        this.gameEntities.removeIf(e -> e instanceof Gem p && !p.isActive());
+    }
+
+    @Override
+    public Set<AbstractInteractiveObstacle> getInteractiveObstacles(){
+        return this.getEntitiesByClass(AbstractInteractiveObstacle.class);
+    }
+
+    @Override
+    public Set<WaterExit> getWaterExit() {
+        return this.getEntitiesByClass(WaterExit.class);
+    }
+
+    @Override
+    public Set<FireExit> getFireExit() {
+        return this.getEntitiesByClass(FireExit.class);
     }
 
 }

@@ -23,7 +23,6 @@ import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.PowerUpCollectedEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.ProjectileSolidEvent;
-import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.ManagerInjectable;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.gamestate.impl.GameStateImpl;
@@ -186,7 +185,7 @@ public final class GameControllerImpl implements EventListener, GameController {
     }
 
     private void setEnemiesMoveManager(final EnemiesMoveManager manager) {
-        this.level.getEntitiesByClass(Enemy.class).stream()
+        this.level.getAllEnemies().stream()
                 .filter(ManagerInjectable.class::isInstance)
                 .map(ManagerInjectable.class::cast)
                 .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));

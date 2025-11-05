@@ -202,7 +202,7 @@ public final class LevelPanel extends JPanel {
         private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,
                 final int elementSize) {
 
-            level.getEntitiesByClass(AbstractInteractiveObstacle.class).forEach(obj -> {
+            level.getInteractiveObstacles().forEach(obj -> {
 
                 final HitBox hb = obj.getHitBox();
                 final double cx = hb.getCenter().x();

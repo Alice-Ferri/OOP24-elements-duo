@@ -8,9 +8,17 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
+import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.player.api.Player;
+import it.unibo.elementsduo.model.player.impl.Fireboy;
+import it.unibo.elementsduo.model.player.impl.Watergirl;
 
 /**
  * Represents a game level acting as the main container for all game entities.
@@ -27,15 +35,6 @@ public interface LevelData {
      * @return An unmodifiable set of all {@link GameEntity} objects.
      */
     Set<GameEntity> getGameEntities();
-
-    /**
-     * Filters and returns a set of entities that match the specified class type.
-     *
-     * @param <T>  The type of the entity.
-     * @param type The Class object of the type to filter by.
-     * @return An unmodifiable set of entities of the specified type.
-     */
-    <T extends GameEntity> Set<T> getEntitiesByClass(Class<T> type);
 
     /**
      * Gets all static and interactive obstacles in the level.
@@ -93,4 +92,68 @@ public interface LevelData {
      * @return A set of all {@link Updatable} objects.
      */
     Set<Updatable> getAllUpdatables();
+
+    /**
+     * Gets all entities that can be part of the update system.
+     *
+     * @return A set of all {@link AbstractInteractiveObsactle} objects.
+     */
+    Set<AbstractInteractiveObstacle> getInteractiveObstacles();
+
+    /**
+     * Gets all gems in the level.
+     *
+     * @return A set of all {@link Gem} objects.
+     */
+    Set<Gem> getGems();
+
+    /**
+     * Gets all walls in the level.
+     *
+     * @return A set of all {@link Wall} objects.
+     */
+    Set<Wall> getWalls();
+
+    /**
+     * Gets all levers in the level.
+     *
+     * @return A set of all {@link Lever} objects.
+     */
+    Set<Lever> getLevers();
+
+    /**
+     * Gets all buttons in the level.
+     *
+     * @return A set of all {@link Buttons} objects.
+     */
+    Set<Button> getButtons();
+
+    /**
+     * Gets a set of WaterGirl, it should be only one instance
+     *
+     * @return A set of all {@link Watergirl} objects.
+     */
+    Set<Watergirl> getWatergirl();
+
+    /**
+     * Gets a set of Fireboy, it should be only one instance
+     *
+     * @return A set of all {@link Fireboy} objects.
+     */
+    Set<Fireboy> getFireboy();
+
+    /**
+     * Gets a set of FireExit, it should be only one instance.
+     *
+     * @return A set of all {@link FireExit} objects.
+     */
+    Set<FireExit> getFireExit();
+
+    /**
+     * Gets Gets a set of WaterExit, it should be only one instance.
+     *
+     * @return A set of all {@link WaterExit} objects.
+     */
+    Set<WaterExit> getWaterExit();
+
 }

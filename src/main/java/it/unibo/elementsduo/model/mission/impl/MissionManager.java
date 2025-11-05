@@ -3,8 +3,6 @@ package it.unibo.elementsduo.model.mission.impl;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.mission.api.Objective;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
-import it.unibo.elementsduo.model.enemies.api.Enemy;
 
 /**
  * Manages the root mission for the level.
@@ -22,8 +20,8 @@ public final class MissionManager {
      * @param initialLevel The Level at the start of the match.
      */
     public MissionManager(final LevelData initialLevel) {
-        final int totalGems = initialLevel.getEntitiesByClass(Gem.class).size();
-        final int totalEnemies = initialLevel.getEntitiesByClass(Enemy.class).size();
+        final int totalGems = initialLevel.getGems().size();
+        final int totalEnemies = initialLevel.getAllEnemies().size();
 
         final Mission allTasks = new Mission("Complete all the objectives!");
         allTasks.add(new GemObjective(totalGems));

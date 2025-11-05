@@ -16,7 +16,6 @@ import it.unibo.elementsduo.model.map.level.impl.Level;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
-import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 
@@ -115,36 +114,10 @@ final class TestLevel {
     }
 
     /**
-     * Tests the central getEntitiesByClass() method
-     * and its unmodifiable nature.
-     */
-    @Test
-    void testGetEntitiesByClass() {
-        final Set<Player> players = level.getEntitiesByClass(Player.class);
-        assertEquals(2, players.size());
-        assertTrue(players.contains(player1));
-        assertTrue(players.contains(player2));
-
-        final Set<Enemy> enemies = level.getEntitiesByClass(Enemy.class);
-        assertEquals(2, enemies.size());
-
-        final Set<Fireboy> fireboys = level.getEntitiesByClass(Fireboy.class);
-        assertEquals(1, fireboys.size());
-
-        final Set<Lever> levers = level.getEntitiesByClass(Lever.class);
-        assertEquals(1, levers.size());
-
-        assertThrows(UnsupportedOperationException.class, () -> {
-            players.add(player1);
-        }, "The set returned by getEntitiesByClass must be unmodifiable.");
-
-    }
-
-    /**
      * Tests the helper methods that filter by type e.g., getAllPlayers.
      */
     @Test
-    void testGetAllHelperMethods() {
+    void testGetHelperMethods() {
         assertEquals(2, level.getAllObstacles().size()); 
         assertTrue(level.getAllObstacles().contains(obstacle));
         assertTrue(level.getAllObstacles().contains(interactive));
