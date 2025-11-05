@@ -6,7 +6,6 @@ import it.unibo.elementsduo.resources.Position;
 /**
  * Default implementation of the {@link HitBox} interface.
  * 
- * <p>
  * Represents a rectangular hitbox defined by its center position, height, and
  * width.
  * Provides basic intersection detection functionality.

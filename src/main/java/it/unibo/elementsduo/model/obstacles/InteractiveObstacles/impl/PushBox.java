@@ -22,43 +22,30 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 public final class PushBox extends AbstractInteractiveObstacle implements Pushable, Movable, Updatable {
 
-    /** Friction applied when the box is on the ground. */
     private static final double GROUND_FRICTION = 0.75;
 
-    /** Friction applied when the box is in the air. */
     private static final double AIR_FRICTION = 0.98;
 
-    /** Gravity acceleration value. */
     private static final double GRAVITY = 9.8;
 
-    /** Minimum horizontal velocity threshold. */
     private static final double MIN_VELOCITY_X = 0.02;
 
-    /** Maximum downward fall speed. */
     private static final double MAX_FALL_SPEED = 15;
 
-    /** Box half-width. */
     private static final double HALF_WIDTH = 0.5;
 
-    /** Box half-height. */
     private static final double HALF_HEIGHT = 0.5;
 
-    /** Small correction tolerance for collisions. */
     private static final double COLLISION_TOLERANCE = 0.001;
 
-    /** Correction factor applied after collisions. */
     private static final double COLLISION_CORRECTION_FACTOR = 0.8;
 
-    /** Vertical direction threshold for detecting collisions from above/below. */
     private static final double VERTICAL_THRESHOLD = 0.5;
 
-    /** Horizontal direction threshold for detecting side collisions. */
     private static final double HORIZONTAL_THRESHOLD = 0.5;
 
-    /** Current velocity of the box. */
     private Vector2D velocity = Vector2D.ZERO;
 
-    /** Whether the box is currently on the ground. */
     private boolean onGround;
 
     /**

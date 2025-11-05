@@ -87,7 +87,7 @@ public class TestPhysicsHandler {
         private double lastPenetration;
         private Vector2D lastNormal;
         private Collidable lastOther;
-        private boolean state;
+        private boolean state = true;
 
         @Override
         public HitBox getHitBox() {
