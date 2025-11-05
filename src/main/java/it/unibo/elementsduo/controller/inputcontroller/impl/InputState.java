@@ -30,20 +30,39 @@ public final class InputState {
      * @param action the action to verify (LEFT, RIGHT, JUMP)
      * @return if the action is active or not for the player
      */
-    public boolean isActionPressed(final PlayerType player, final Action action) {
+    private boolean isActionPressed(final PlayerType player, final Action action) {
         return Optional.ofNullable(this.state.get(player))
                        .map(m -> m.getOrDefault(action, false))
                        .orElse(false);
     }
 
     /**
-     * Returns an immutable copy of the complete state.
+     * Checks if the LEFT action is pressed for a player.
      *
-     * @return a map of key states for each {@link PlayerType}, with boolean values for each {@link Action}
+     * @param playerType the player to check
+     * @return true if LEFT is active, false otherwise
      */
-    public Map<PlayerType, Map<Action, Boolean>> getState() {
-        final Map<PlayerType, Map<Action, Boolean>> copy = new EnumMap<>(PlayerType.class);
-        this.state.forEach((p, m) -> copy.put(p, Map.copyOf(m)));
-        return copy;
+    public boolean isLeftPressed(final PlayerType playerType) {
+        return isActionPressed(playerType, Action.LEFT);
+    }
+
+    /**
+     * Checks if the RIGHT action is pressed for a player.
+     *
+     * @param playerType the player to check
+     * @return true if RIGHT is active, false otherwise
+     */
+    public boolean isRightPressed(final PlayerType playerType) {
+        return isActionPressed(playerType, Action.RIGHT);
+    }
+
+    /**
+     * Checks if the JUMP action is pressed for a player.
+     *
+     * @param player the player to check
+     * @return true if JUMP is active, false otherwise
+     */
+    public boolean isJumpPressed(final PlayerType playerType) {
+        return isActionPressed(playerType, Action.JUMP);
     }
 }
