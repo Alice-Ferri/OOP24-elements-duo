@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.api;
+package it.unibo.elementsduo.model.obstacles.impl;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;

@@ -1,6 +1,7 @@
 package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
 
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.resources.Position;

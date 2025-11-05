@@ -6,7 +6,6 @@ import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSource;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
@@ -14,11 +13,12 @@ import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.GreenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 
@@ -72,8 +72,8 @@ public final class LevelPanel extends JPanel {
     /**
      * Add the action listeners from the gamecontroller.
      *
-     * @param start             go to the menu of the game
-     * @param levelSelection    go to the level selection
+     * @param start          go to the menu of the game
+     * @param levelSelection go to the level selection
      */
     public void addButtonsListeners(final ActionListener start, final ActionListener levelSelection) {
         this.homeButton.addActionListener(start);
@@ -83,8 +83,8 @@ public final class LevelPanel extends JPanel {
     /**
      * Removes the action listeners.
      *
-     * @param start             remove the action listener for the menu
-     * @param levelSelection    remove the action listener for the level selection
+     * @param start          remove the action listener for the menu
+     * @param levelSelection remove the action listener for the level selection
      */
     public void removeButtonsListeners(final ActionListener start, final ActionListener levelSelection) {
         this.homeButton.removeActionListener(start);

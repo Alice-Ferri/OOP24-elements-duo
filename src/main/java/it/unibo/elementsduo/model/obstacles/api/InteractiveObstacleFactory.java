@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api;
+package it.unibo.elementsduo.model.obstacles.api;
 
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;

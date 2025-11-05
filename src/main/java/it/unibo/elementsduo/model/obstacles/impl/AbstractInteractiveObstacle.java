@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
+package it.unibo.elementsduo.model.obstacles.impl;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;

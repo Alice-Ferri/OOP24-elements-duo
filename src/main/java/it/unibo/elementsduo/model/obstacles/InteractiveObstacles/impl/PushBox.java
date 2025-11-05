@@ -5,6 +5,7 @@ import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pushable;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;

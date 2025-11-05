@@ -13,8 +13,8 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.map.level.api.LevelUpdate;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.powerups.api.PowerUp;
 

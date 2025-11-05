@@ -1,9 +1,9 @@
 package it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
 import it.unibo.elementsduo.resources.Position;
 
 /**
@@ -14,15 +14,10 @@ import it.unibo.elementsduo.resources.Position;
  * picked up by a player. Once collected, the gem becomes inactive.
  * </p>
  */
-public final class GemImpl implements Gem {
+public final class GemImpl extends AbstractStaticObstacle implements Gem {
 
-    /** Default size of the gem hitbox. */
     private static final double GEM_SIZE = 0.5;
 
-    /** The hitbox representing the gem's position and size. */
-    private final HitBox hitbox;
-
-    /** Whether the gem is still active (not yet collected). */
     private boolean active = true;
 
     /**
@@ -31,17 +26,7 @@ public final class GemImpl implements Gem {
      * @param pos the position where the gem will be placed
      */
     public GemImpl(final Position pos) {
-        this.hitbox = new HitBoxImpl(pos, GEM_SIZE, GEM_SIZE);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return the {@link HitBox} representing the gem’s area
-     */
-    @Override
-    public HitBox getHitBox() {
-        return this.hitbox;
+        super(new HitBoxImpl(pos, GEM_SIZE, GEM_SIZE));
     }
 
     /**
@@ -58,9 +43,7 @@ public final class GemImpl implements Gem {
     /**
      * {@inheritDoc}
      *
-     * <p>
      * Marks the gem as collected, making it inactive.
-     * </p>
      */
     @Override
     public void collect() {

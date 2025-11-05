@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.impl;
+package it.unibo.elementsduo.model.obstacles.impl;
 
 import java.util.Map;
 import java.util.Optional;
@@ -8,12 +8,11 @@ import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.GreenPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaPool;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.AbstractStaticObstacle;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.api.ObstacleFactory;
 
 /**
  * Implementation of the {@link ObstacleFactory} interface.
