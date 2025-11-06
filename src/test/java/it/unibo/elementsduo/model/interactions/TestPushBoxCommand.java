@@ -1,11 +1,11 @@
-package it.unibo.elementsduo.model.collisions;
+package it.unibo.elementsduo.model.interactions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.elementsduo.model.collisions.commands.impl.PushBoxCommand;
+import it.unibo.elementsduo.model.interactions.commands.impl.PushBoxCommand;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerFactory;

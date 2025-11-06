@@ -1,5 +1,6 @@
-package it.unibo.elementsduo.model.interactions.core.api;
+package it.unibo.elementsduo.model.interactions.detection.api;
 
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**

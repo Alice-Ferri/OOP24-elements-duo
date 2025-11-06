@@ -49,7 +49,6 @@ public final class Lever extends AbstractInteractiveObstacle implements TriggerS
      /**
       * {@inheritDoc}
       * 
-      * <p>
       * Toggles the lever state and notifies all registered listeners.
       */
      @Override
@@ -71,7 +70,6 @@ public final class Lever extends AbstractInteractiveObstacle implements TriggerS
      /**
       * {@inheritDoc}
       * 
-      * <p>
       * Adds a {@link TriggerListener} that will be notified when the lever is
       * toggled.
       *

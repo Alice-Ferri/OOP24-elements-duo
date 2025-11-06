@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -43,7 +43,7 @@ public final class PlayerPlatformHandler extends AbstractInteractionHandler<Play
      * @param builder  the collision response builder used to enqueue logic commands
      */
     @Override
-    public void handleCollision(final Player player, final PlatformImpl platform,
+    public void handleInteraction(final Player player, final PlatformImpl platform,
             final CollisionInformations c, final InteractionResponse.Builder builder) {
 
         final Vector2D playerNormal = getNormalFromPerspective(player, c);

@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
 import it.unibo.elementsduo.model.interactions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.api.Hazard;
@@ -44,7 +44,7 @@ public final class PlayerHazardHandler extends AbstractInteractionHandler<Player
      * @param builder the collision response builder used to queue logic commands
      */
     @Override
-    public void handleCollision(final Player player, final Hazard hazard, final CollisionInformations c,
+    public void handleInteraction(final Player player, final Hazard hazard, final CollisionInformations c,
             final InteractionResponse.Builder builder) {
         final boolean immuneByClass = player.isImmuneTo(hazard.getHazardType());
 
@@ -52,7 +52,7 @@ public final class PlayerHazardHandler extends AbstractInteractionHandler<Player
             if (immuneByClass) {
                 return;
             }
-            eventManager.notify(new PlayerDiedEvent());
+            eventManager.dispatch(new PlayerDiedEvent());
         });
     }
 }

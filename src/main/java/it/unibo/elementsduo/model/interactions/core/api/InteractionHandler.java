@@ -1,6 +1,7 @@
 package it.unibo.elementsduo.model.interactions.core.api;
 
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 
 /**
  * Defines the behavior of a collision handler responsible for managing
@@ -13,7 +14,7 @@ import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
  * and define how to respond to the collision by adding commands to a
  * {@link InteractionResponse.Builder}.
  */
-public interface CollisionHandler {
+public interface InteractionHandler {
 
     /**
      * Determines whether this handler can process a collision between the given

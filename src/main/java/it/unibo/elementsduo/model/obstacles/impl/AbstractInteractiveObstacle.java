@@ -18,13 +18,10 @@ import it.unibo.elementsduo.resources.Position;
  */
 public abstract class AbstractInteractiveObstacle implements Obstacle {
 
-    /** The center position of the obstacle. */
     private Position center;
 
-    /** The half height of the obstacle. */
     private final double halfHeight;
 
-    /** The half width of the obstacle. */
     private final double halfWidth;
 
     /**

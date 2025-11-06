@@ -53,8 +53,7 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
     }
 
     /**
-     * Updates the platform's position based on its current direction,
-     * speed, and activation state.
+     * Updates the platform's position 
      *
      * <p>
      * The platform oscillates between {@code a} and {@code b} while active.

@@ -1,7 +1,7 @@
-package it.unibo.elementsduo.model.interactions.core.impl;
+package it.unibo.elementsduo.model.interactions.detection.impl;
 
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**

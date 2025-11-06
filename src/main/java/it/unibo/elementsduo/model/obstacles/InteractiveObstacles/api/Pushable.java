@@ -15,9 +15,6 @@ public interface Pushable {
     /**
      * Applies a push force to this object.
      * 
-     * <p>
-     * The push may affect the object's velocity, acceleration, or position
-     * depending on the specific implementation.
      *
      * @param v the force vector applied to the object
      */
@@ -26,9 +23,6 @@ public interface Pushable {
     /**
      * Moves this object by the specified delta.
      * 
-     * <p>
-     * The movement is typically used to update the object's position
-     * directly, bypassing physics calculations.
      *
      * @param delta the movement vector representing the position change
      */

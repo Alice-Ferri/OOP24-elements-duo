@@ -1,9 +1,9 @@
 package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionHandler;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.interactions.core.api.InteractionHandler;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
@@ -26,7 +26,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * @param <B> the second {@link Collidable} type
  */
 public abstract class AbstractInteractionHandler<A extends Collidable, B extends Collidable>
-        implements CollisionHandler {
+        implements InteractionHandler {
 
     private final Class<A> typeA;
 
@@ -80,9 +80,9 @@ public abstract class AbstractInteractionHandler<A extends Collidable, B extends
         final Collidable b = c.getObjectB();
 
         if (typeA.isInstance(a) && typeB.isInstance(b)) {
-            this.handleCollision(typeA.cast(a), typeB.cast(b), c, builder);
+            this.handleInteraction(typeA.cast(a), typeB.cast(b), c, builder);
         } else if (typeA.isInstance(b) && typeB.isInstance(a)) {
-            this.handleCollision(typeA.cast(b), typeB.cast(a), c, builder);
+            this.handleInteraction(typeA.cast(b), typeB.cast(a), c, builder);
         }
     }
 
@@ -98,7 +98,7 @@ public abstract class AbstractInteractionHandler<A extends Collidable, B extends
      * @param c       the collision information
      * @param builder the builder used to construct the collision response
      */
-    protected abstract void handleCollision(A a, B b, CollisionInformations c, InteractionResponse.Builder builder);
+    protected abstract void handleInteraction(A a, B b, CollisionInformations c, InteractionResponse.Builder builder);
 
     /**
      * Returns the collision normal from the perspective of the specified object.

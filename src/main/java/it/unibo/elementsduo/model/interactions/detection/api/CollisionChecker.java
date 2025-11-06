@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.interactions.detection.api;
 import java.util.List;
 
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 
 /**
  * Defines the contract for checking collisions among a collection of

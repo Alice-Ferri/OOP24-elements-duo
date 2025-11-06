@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
-import it.unibo.elementsduo.model.interactions.core.impl.CollisionInformationsImpl;
 import it.unibo.elementsduo.model.interactions.detection.api.CollisionChecker;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.detection.api.QuadTree;
 import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 import it.unibo.elementsduo.resources.Vector2D;

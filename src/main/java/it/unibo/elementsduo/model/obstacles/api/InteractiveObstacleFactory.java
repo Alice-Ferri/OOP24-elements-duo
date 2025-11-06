@@ -41,7 +41,7 @@ public interface InteractiveObstacleFactory {
      * @param b   the second target position
      * @return a new {@code PlatformImpl} instance
      */
-    PlatformImpl createMovingPlatform(Position pos, Position a, Position b);
+    PlatformImpl createMovingPlatform(Position pos, Position targetA, Position targetB);
 
     /**
      * Creates a new {@link button} centered at the specified position.

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import it.unibo.elementsduo.model.interactions.events.api.Event;
 import it.unibo.elementsduo.model.interactions.events.api.EventListener;
@@ -32,7 +33,19 @@ public final class EventManager {
      * 
      */
     public void subscribe(final Class<? extends Event> eventType, final EventListener listener) {
+        Objects.requireNonNull(eventType);
+        Objects.requireNonNull(listener);
         this.listeners.computeIfAbsent(eventType, k -> new ArrayList<>()).add(listener);
+    }
+
+    public void unsubscribe(final Class<? extends Event> eventType, final EventListener listener) {
+        Objects.requireNonNull(eventType);
+        Objects.requireNonNull(listener);
+
+        this.listeners.computeIfPresent(eventType, (key, list) -> {
+            list.remove(listener);
+            return list.isEmpty() ? null : list;
+        });
     }
 
     /**
@@ -45,7 +58,7 @@ public final class EventManager {
      * @param event the event to dispatch to all relevant listeners
      * 
      */
-    public void notify(final Event event) {
+    public void dispatch(final Event event) {
         final List<EventListener> evListeners = this.listeners.get(event.getClass());
         if (evListeners != null) {
             evListeners.forEach(listener -> listener.onEvent(event));

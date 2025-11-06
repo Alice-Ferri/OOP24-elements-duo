@@ -1,8 +1,8 @@
 package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.events.impl.EnemyDiedEvent;
 import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
 import it.unibo.elementsduo.model.interactions.events.impl.PlayerDiedEvent;
@@ -46,7 +46,7 @@ public final class PlayerEnemyHandler extends AbstractInteractionHandler<Player,
      * @param builder the collision response builder used to queue logic commands
      */
     @Override
-    public void handleCollision(final Player player, final Enemy enemy, final CollisionInformations c,
+    public void handleInteraction(final Player player, final Enemy enemy, final CollisionInformations c,
             final InteractionResponse.Builder builder) {
         final Vector2D normalEnemyPlayer = getNormalFromPerspective(player, c);
         final boolean isPlayerAboveEnemy = normalEnemyPlayer.y() < VERTICAL_THRESHOLD;
@@ -54,9 +54,9 @@ public final class PlayerEnemyHandler extends AbstractInteractionHandler<Player,
         builder.addLogicCommand(() -> {
             if (isPlayerAboveEnemy) {
                 enemy.die();
-                this.eventManager.notify(new EnemyDiedEvent());
+                this.eventManager.dispatch(new EnemyDiedEvent());
             } else {
-                this.eventManager.notify(new PlayerDiedEvent());
+                this.eventManager.dispatch(new PlayerDiedEvent());
             }
         });
     }

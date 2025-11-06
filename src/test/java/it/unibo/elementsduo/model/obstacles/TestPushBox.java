@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerFactory;

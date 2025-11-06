@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.interactions.core.impl;
 import java.util.List;
 
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.handlers.ButtonActivationHandler;
 import it.unibo.elementsduo.model.interactions.core.impl.handlers.GemInteractionHandler;
 import it.unibo.elementsduo.model.interactions.core.impl.handlers.LeverActivationHandler;
@@ -14,8 +13,9 @@ import it.unibo.elementsduo.model.interactions.core.impl.handlers.PlayerHazardHa
 import it.unibo.elementsduo.model.interactions.core.impl.handlers.PlayerPlatformHandler;
 import it.unibo.elementsduo.model.interactions.core.impl.handlers.PlayerProjectileHandler;
 import it.unibo.elementsduo.model.interactions.core.impl.handlers.ProjectileSolidHandler;
-import it.unibo.elementsduo.model.interactions.core.impl.handlers.PushBoxHandler;
+import it.unibo.elementsduo.model.interactions.core.impl.handlers.PlayerPushBoxHandler;
 import it.unibo.elementsduo.model.interactions.detection.api.CollisionChecker;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.detection.impl.CollisionCheckerImpl;
 import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
 
@@ -46,7 +46,7 @@ public final class InteractionsManager {
         this.eventManager = eventManager;
         register.registerHandler(new LeverActivationHandler());
         register.registerHandler(new ButtonActivationHandler());
-        register.registerHandler(new PushBoxHandler());
+        register.registerHandler(new PlayerPushBoxHandler());
         register.registerHandler(new PlayerEnemyHandler(this.eventManager));
         register.registerHandler(new GemInteractionHandler(this.eventManager));
         register.registerHandler(new ProjectileSolidHandler(this.eventManager));

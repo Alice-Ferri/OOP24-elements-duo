@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import it.unibo.elementsduo.model.interactions.core.api.CollisionHandler;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
+import it.unibo.elementsduo.model.interactions.core.api.InteractionHandler;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 
 /**
- * Manages the registration and execution of all {@link CollisionHandler}
+ * Manages the registration and execution of all {@link InteractionHandler}
  * instances.
  * 
  * <p>
@@ -23,16 +23,16 @@ import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
  */
 public final class InteractionsHandlersRegister {
 
-    private final List<CollisionHandler> register = new ArrayList<>();
-    private final Map<Class<? extends CollisionHandler>, CollisionHandler> handlersMap = new HashMap<>();
+    private final List<InteractionHandler> register = new ArrayList<>();
+    private final Map<Class<? extends InteractionHandler>, InteractionHandler> handlersMap = new HashMap<>();
 
     /**
-     * Registers a new {@link CollisionHandler} if it has not already been added.
+     * Registers a new {@link InteractionHandler} if it has not already been added.
      *
      * @param ch the collision handler to register
      * @throws NullPointerException if the provided handler is {@code null}
      */
-    public void registerHandler(final CollisionHandler ch) {
+    public void registerHandler(final InteractionHandler ch) {
         Objects.requireNonNull(ch);
         handlersMap.computeIfAbsent(ch.getClass(), clazz -> {
             register.add(ch);
@@ -47,7 +47,7 @@ public final class InteractionsHandlersRegister {
      * @param type the class object of the handler type
      * @return an {@link Optional} containing the handler if found, otherwise empty
      */
-    public <T extends CollisionHandler> Optional<T> getHandler(final Class<T> type) {
+    public <T extends InteractionHandler> Optional<T> getHandler(final Class<T> type) {
         return Optional.ofNullable(type.cast(handlersMap.get(type)));
     }
 
@@ -74,7 +74,7 @@ public final class InteractionsHandlersRegister {
      * This is typically used to reset per-frame state within handlers.
      */
     public void notifyUpdateStart() {
-        register.forEach(CollisionHandler::onUpdateStart);
+        register.forEach(InteractionHandler::onUpdateStart);
     }
 
     /**
@@ -84,6 +84,6 @@ public final class InteractionsHandlersRegister {
      * This allows handlers to perform cleanup or finalize collision logic.
      */
     public void notifyUpdateEnd() {
-        register.forEach(CollisionHandler::onUpdateEnd);
+        register.forEach(InteractionHandler::onUpdateEnd);
     }
 }

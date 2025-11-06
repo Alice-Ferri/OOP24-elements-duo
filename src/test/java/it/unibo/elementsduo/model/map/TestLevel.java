@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;

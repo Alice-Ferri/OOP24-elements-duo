@@ -1,8 +1,8 @@
 package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
 import it.unibo.elementsduo.model.interactions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.player.api.Player;
@@ -42,8 +42,8 @@ public final class PlayerProjectileHandler extends AbstractInteractionHandler<Pl
      * @param builder    the collision response builder used to queue logic commands
      */
     @Override
-    public void handleCollision(final Player player, final Projectiles projectile,
+    public void handleInteraction(final Player player, final Projectiles projectile,
             final CollisionInformations c, final InteractionResponse.Builder builder) {
-        builder.addLogicCommand(() -> this.eventManager.notify(new PlayerDiedEvent()));
+        builder.addLogicCommand(() -> this.eventManager.dispatch(new PlayerDiedEvent()));
     }
 }

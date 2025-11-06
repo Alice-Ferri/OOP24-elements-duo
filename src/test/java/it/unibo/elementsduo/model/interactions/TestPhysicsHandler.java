@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.collisions;
+package it.unibo.elementsduo.model.interactions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,14 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.core.api.Movable;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionInformationsImpl;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
-import it.unibo.elementsduo.model.collisions.core.impl.handlers.PhysicsHandler;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.core.api.Movable;
+import it.unibo.elementsduo.model.interactions.detection.impl.CollisionInformationsImpl;
+import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.core.impl.handlers.PhysicsHandler;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -35,7 +35,7 @@ public class TestPhysicsHandler {
         final Collidable wall = new TestStaticCollidable();
 
         final var info = new CollisionInformationsImpl(movable, wall, 1.0, new Vector2D(0, -1));
-        final var builder = new CollisionResponse.Builder();
+        final var builder = new InteractionResponse.Builder();
 
         handler.handle(info, builder);
         builder.build().execute();
@@ -53,7 +53,7 @@ public class TestPhysicsHandler {
         final TestMovable right = new TestMovable();
 
         final var info = new CollisionInformationsImpl(left, right, 2.0, new Vector2D(1, 0));
-        final var builder = new CollisionResponse.Builder();
+        final var builder = new InteractionResponse.Builder();
 
         handler.handle(info, builder);
         builder.build().execute();

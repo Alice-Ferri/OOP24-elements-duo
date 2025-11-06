@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;

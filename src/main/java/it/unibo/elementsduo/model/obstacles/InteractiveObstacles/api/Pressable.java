@@ -4,17 +4,17 @@ import it.unibo.elementsduo.model.interactions.core.api.Collidable;
 
 /**
  * Represents an interactive element that can be pressed and released,
- * such as a button or floor switch.
+ * such as a button
  */
 public interface Pressable extends Collidable {
 
      /**
-      * Activates or "presses" this element.
+      * press this element.
       */
      void press();
 
      /**
-      * Deactivates or "releases" this element.
+      * release this element.
       */
      void release();
 }

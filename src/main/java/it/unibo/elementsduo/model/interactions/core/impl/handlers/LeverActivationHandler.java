@@ -3,8 +3,8 @@ package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Toggler;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -48,7 +48,7 @@ public final class LeverActivationHandler extends AbstractInteractionHandler<Pla
      * @param builder the collision response builder
      */
     @Override
-    public void handleCollision(final Player player, final Toggler trigger, final CollisionInformations c,
+    public void handleInteraction(final Player player, final Toggler trigger, final CollisionInformations c,
             final InteractionResponse.Builder builder) {
 
         togglersThisFrame.add(trigger);

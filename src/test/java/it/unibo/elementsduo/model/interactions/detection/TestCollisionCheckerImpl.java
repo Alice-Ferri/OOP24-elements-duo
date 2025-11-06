@@ -10,13 +10,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.detection.api.CollisionChecker;
-import it.unibo.elementsduo.model.collisions.detection.impl.CollisionCheckerImpl;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionChecker;
+import it.unibo.elementsduo.model.interactions.detection.impl.CollisionCheckerImpl;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.resources.Position;
 
 final class TestCollisionCheckerImpl {

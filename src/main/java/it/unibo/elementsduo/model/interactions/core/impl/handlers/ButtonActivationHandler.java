@@ -3,8 +3,8 @@ package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Pressable;
 import it.unibo.elementsduo.model.player.api.Player;
 
@@ -14,11 +14,8 @@ import it.unibo.elementsduo.model.player.api.Player;
  * such as buttons.
  *
  * <p>
- * This handler detects when a player steps on or leaves a button. When the
- * player
- * first collides with a button, it triggers {@link Pressable#press()}. When the
- * player moves away, it triggers {@link Pressable#release()}.
- * </p>
+ * This handler detects when a player steps on or leaves a button.
+ * 
  */
 public final class ButtonActivationHandler extends AbstractInteractionHandler<Player, Pressable> {
 
@@ -50,7 +47,7 @@ public final class ButtonActivationHandler extends AbstractInteractionHandler<Pl
      * @param builder the collision response builder
      */
     @Override
-    public void handleCollision(final Player player, final Pressable b, final CollisionInformations c,
+    public void handleInteraction(final Player player, final Pressable b, final CollisionInformations c,
             final InteractionResponse.Builder builder) {
 
         pressablesThisFrame.add(b);

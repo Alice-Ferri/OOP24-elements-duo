@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.collisions;
+package it.unibo.elementsduo.model.interactions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionInformationsImpl;
-import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
-import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.detection.impl.CollisionInformationsImpl;
+import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.core.impl.handlers.LeverActivationHandler;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Toggler;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerFactory;
@@ -42,7 +42,7 @@ final class TestLeverActivationHandler {
 
         // first collision in frame
         handler.onUpdateStart();
-        var builder = new CollisionResponse.Builder();
+        var builder = new InteractionResponse.Builder();
         handler.handle(new CollisionInformationsImpl(player, lever, 0.0, Vector2D.ZERO), builder);
         builder.build().execute();
         handler.onUpdateEnd();
@@ -52,7 +52,7 @@ final class TestLeverActivationHandler {
 
         // no more toggle
         handler.onUpdateStart();
-        builder = new CollisionResponse.Builder();
+        builder = new InteractionResponse.Builder();
         handler.handle(new CollisionInformationsImpl(player, lever, 0.0, Vector2D.ZERO), builder);
         builder.build().execute();
         handler.onUpdateEnd();
@@ -65,7 +65,7 @@ final class TestLeverActivationHandler {
 
         // toggle again
         handler.onUpdateStart();
-        builder = new CollisionResponse.Builder();
+        builder = new InteractionResponse.Builder();
         handler.handle(new CollisionInformationsImpl(player, lever, 0.0, Vector2D.ZERO), builder);
         builder.build().execute();
         handler.onUpdateEnd();

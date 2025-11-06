@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.interactions.commands.impl;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.elementsduo.model.interactions.commands.api.CollisionCommand;
+import it.unibo.elementsduo.model.interactions.commands.api.InteractionCommand;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
@@ -10,7 +10,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * A collision command that applies a pushing effect to a {@link PushBox}
  * when a {@link Player} collides with it from the side.
  */
-public final class PushBoxCommand implements CollisionCommand {
+public final class PushBoxCommand implements InteractionCommand {
 
     private static final double VERTICAL_THRESHOLD = -0.5;
 

@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
 import it.unibo.elementsduo.model.interactions.events.impl.FireExitEvent;
 import it.unibo.elementsduo.model.interactions.events.impl.WaterExitEvent;
@@ -47,7 +47,8 @@ public final class PlayerExitHandler extends AbstractInteractionHandler<Player, 
      *                      commands
      */
     @Override
-    public void handleCollision(final Player player, final ExitZone exitZone, final CollisionInformations collisionInfo,
+    public void handleInteraction(final Player player, final ExitZone exitZone,
+            final CollisionInformations collisionInfo,
             final InteractionResponse.Builder builder) {
 
         final boolean correctExit = player.getRequiredExitType() == exitZone.getExitType();
@@ -57,9 +58,9 @@ public final class PlayerExitHandler extends AbstractInteractionHandler<Player, 
                 player.setOnExit(true);
                 exitZone.activate();
                 if (exitZone.getExitType() == ExitType.FIRE_EXIT) {
-                    this.eventManager.notify(new FireExitEvent());
+                    this.eventManager.dispatch(new FireExitEvent());
                 } else if (exitZone.getExitType() == ExitType.WATER_EXIT) {
-                    this.eventManager.notify(new WaterExitEvent());
+                    this.eventManager.dispatch(new WaterExitEvent());
                 }
             });
         }

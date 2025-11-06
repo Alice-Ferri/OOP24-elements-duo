@@ -1,8 +1,8 @@
 package it.unibo.elementsduo.model.interactions.core.impl.handlers;
 
 import it.unibo.elementsduo.model.enemies.api.Projectiles;
-import it.unibo.elementsduo.model.interactions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.core.impl.InteractionResponse;
+import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformations;
 import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
 import it.unibo.elementsduo.model.interactions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
@@ -42,9 +42,9 @@ public final class ProjectileSolidHandler extends AbstractInteractionHandler<Pro
      * @param builder    the collision response builder used to queue logic commands
      */
     @Override
-    public void handleCollision(final Projectiles projectile, final Obstacle ob, final CollisionInformations c,
+    public void handleInteraction(final Projectiles projectile, final Obstacle ob, final CollisionInformations c,
             final InteractionResponse.Builder builder) {
         projectile.deactivate();
-        builder.addLogicCommand(() -> this.eventManager.notify(new ProjectileSolidEvent()));
+        builder.addLogicCommand(() -> this.eventManager.dispatch(new ProjectileSolidEvent()));
     }
 }
