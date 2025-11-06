@@ -21,6 +21,8 @@ import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
+import it.unibo.elementsduo.view.api.Renderable;
+import it.unibo.elementsduo.view.api.ShapeType;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -30,7 +32,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -41,18 +44,14 @@ import java.util.Objects;
 public final class LevelPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private final transient LevelData level;
     private final GameAreaPanel gameArea;
     private final JButton homeButton;
     private final JButton levelSelectButton;
 
     /**
      * Constructs a new LevelPanel for the given level.
-     *
-     * @param level The game level model to be rendered.
      */
-    public LevelPanel(final LevelData level) {
-        this.level = Objects.requireNonNull(level);
+    public LevelPanel() {
         this.setLayout(new BorderLayout());
 
         this.homeButton = new JButton("Menu Principale");
@@ -67,6 +66,18 @@ public final class LevelPanel extends JPanel {
 
         this.add(topBar, BorderLayout.NORTH);
         this.add(gameArea, BorderLayout.CENTER);
+    }
+
+    /**
+     * Called by the GameController during the render phase.
+     * Passes the list of renderable objects and the grid
+     * dimensions to the game area for drawing.
+     *
+     * @param renderables    The list of objects to draw.
+     * @param gridDimensions The map dimensions for scaling.
+     */
+    public void updateRenderData(final List<Renderable> renderables, final Dimension gridDimensions) {
+        this.gameArea.setDataToRender(renderables, gridDimensions);
     }
 
     /**
@@ -92,67 +103,38 @@ public final class LevelPanel extends JPanel {
     }
 
     /**
-     * Inner class representing the canvas where the game state is actively
-     * rendered.
-     * It handles all custom painting of game entities.
+     * Inner class representing the "canvas" on which the game state
+     * is rendered.
      */
-    private final class GameAreaPanel extends JPanel {
+    private static final class GameAreaPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
-        private final Dimension gridDimensions;
-
-        private final Map<Class<? extends AbstractStaticObstacle>, Color> staticObstacleColorMap = Map.of(
-                Wall.class, Color.DARK_GRAY,
-                Floor.class, Color.LIGHT_GRAY,
-                FireExit.class, Color.RED,
-                LavaPool.class, Color.ORANGE,
-                WaterPool.class, Color.CYAN,
-                GreenPool.class, Color.GREEN,
-                WaterExit.class, Color.BLUE);
-
-        private final Map<Class<? extends AbstractInteractiveObstacle>, Color> interactiveColorMap = Map.of(Lever.class,
-                Color.YELLOW,
-                PlatformImpl.class, Color.CYAN,
-                PushBox.class, Color.RED,
-                Button.class, Color.GREEN);
-
-        private final Map<Class<? extends Enemy>, Color> enemyColorMap = Map.of(
-                ClassicEnemiesImpl.class, new Color(139, 0, 0),
-                ShooterEnemyImpl.class, new Color(75, 0, 130));
+        private transient List<Renderable> dataToRender = new ArrayList<>();
+        private transient Dimension gridDimensions = new Dimension(0, 0);
 
         GameAreaPanel() {
-            this.gridDimensions = calculateGridDimensions();
             this.setBackground(Color.white);
         }
 
-        private Dimension calculateGridDimensions() {
-            final var staticObstacles = level.getAllObstacles().stream()
-                    .filter(AbstractStaticObstacle.class::isInstance)
-                    .toList();
-
-            if (staticObstacles.isEmpty()) {
-                return new Dimension(0, 0);
-            }
-
-            final int maxX = staticObstacles.stream()
-                    .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
-                    .max()
-                    .orElse(0);
-            final int maxY = staticObstacles.stream()
-                    .mapToInt(obs -> (int) obs.getHitBox().getCenter().y())
-                    .max()
-                    .orElse(0);
-
-            return new Dimension(maxX + 1, maxY + 1);
+        /**
+         * receive new data to render from levelPanel.
+         *
+         * @param data     the new list of renderable objects
+         * @param gridDims the new grid dimensions
+         */
+        public void setDataToRender(final List<Renderable> data, final Dimension gridDims) {
+            this.dataToRender = Objects.requireNonNull(data);
+            this.gridDimensions = Objects.requireNonNull(gridDims);
         }
 
         @Override
         protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
 
-            if (gridDimensions.width == 0 || gridDimensions.height == 0) {
+            if (gridDimensions.width == 0 || gridDimensions.height == 0 || dataToRender.isEmpty()) {
                 return;
             }
+
             final int panelWidth = getWidth();
             final int panelHeight = getHeight();
 
@@ -165,166 +147,38 @@ public final class LevelPanel extends JPanel {
             final int offsetX = (panelWidth - renderedWidth) / 2;
             final int offsetY = (panelHeight - renderedHeight) / 2;
 
-            drawStaticObstacles(g, offsetX, offsetY, elementSize);
-            drawInteractiveObstacles(g, offsetX, offsetY, elementSize);
-            drawEnemies(g, offsetX, offsetY, elementSize);
-            drawProjectiles(g, offsetX, offsetY, elementSize);
-            drawPlayers(g, offsetX, offsetY, elementSize);
-        }
+            for (final Renderable r : this.dataToRender) {
+                final int x = toPx(r.x() - r.halfWidth(), elementSize) + offsetX;
+                final int y = toPx(r.y() - r.halfHeight(), elementSize) + offsetY;
+                final int w = toPx(r.halfWidth() * 2.0, elementSize);
+                final int h = toPx(r.halfHeight() * 2.0, elementSize);
 
-        private void drawStaticObstacles(final Graphics g, final int offsetX, final int offsetY,
-                final int elementSize) {
-            level.getAllObstacles().stream()
-                    .filter(AbstractStaticObstacle.class::isInstance)
-                    .map(AbstractStaticObstacle.class::cast)
-                    .forEach(obs -> {
-                        final HitBox hb = obs.getHitBox();
-                        final double cx = hb.getCenter().x();
-                        final double cy = hb.getCenter().y();
-                        final double hw = hb.getHalfWidth();
-                        final double hh = hb.getHalfHeight();
+                g.setColor(r.color());
 
-                        final int x = toPx(cx - hw, elementSize) + offsetX;
-                        final int y = toPx(cy - hh, elementSize) + offsetY;
-                        final int w = toPx(hw * 2.0, elementSize);
-                        final int h = toPx(hh * 2.0, elementSize);
-
-                        final Color tileColor = this.staticObstacleColorMap.getOrDefault(obs.getClass(), Color.MAGENTA);
-                        g.setColor(tileColor);
-
-                        g.fillRect(x, y, w, h);
-
-                        g.setColor(Color.BLACK);
-                        g.drawRect(x, y, w, h);
-                    });
-        }
-
-        private void drawInteractiveObstacles(final Graphics g, final int offsetX, final int offsetY,
-                final int elementSize) {
-
-            level.getEntitiesByClass(AbstractInteractiveObstacle.class).forEach(obj -> {
-
-                final HitBox hb = obj.getHitBox();
-                final double cx = hb.getCenter().x();
-                final double cy = hb.getCenter().y();
-
-                final double hw = hb.getHalfWidth();
-                final double hh = hb.getHalfHeight();
-
-                final int x = toPx(cx - hw, elementSize) + offsetX;
-                final int y = toPx(cy - hh, elementSize) + offsetY;
-                final int w = toPx(hw * 2.0, elementSize);
-                final int h = toPx(hh * 2.0, elementSize);
-
-                final Color base = interactiveColorMap.getOrDefault(obj.getClass(), Color.PINK);
-                g.setColor(base);
-
-                if (obj instanceof TriggerSource source) {
-                    if (source.isActive()) {
-                        g.setColor(base.brighter());
-                    } else {
-                        g.setColor(base.darker());
-                    }
-                } else if (obj instanceof PlatformImpl platform) {
-                    if (platform.isActive()) {
-                        g.setColor(base.brighter());
-                    } else {
-                        g.setColor(base.darker());
-                    }
+                if (r.shape() == ShapeType.OVAL) {
+                    g.fillOval(x, y, w, h);
+                } else {
+                    g.fillRect(x, y, w, h);
                 }
 
-                g.fillRect(x, y, w, h);
                 g.setColor(Color.BLACK);
-                g.drawRect(x, y, w, h);
-
-            });
-        }
-
-        private void drawEnemies(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
-            final double enemyHalfWidth = 0.5;
-            final double enemyHalfHeight = 0.5;
-
-            level.getLivingEnemies().stream().forEach(enemy -> {
-                final Color enemyColor = this.enemyColorMap.getOrDefault(enemy.getClass(), Color.PINK);
-                g.setColor(enemyColor);
-
-                final double cx = enemy.getX();
-                final double cy = enemy.getY();
-                final double tlx = cx - enemyHalfWidth;
-                final double tly = cy - enemyHalfHeight;
-
-                final int pixelX = toPx(tlx, elementSize) + offsetX;
-                final int pixelY = toPx(tly, elementSize) + offsetY;
-                final int w = toPx(enemyHalfWidth * 2.0, elementSize);
-                final int h = toPx(enemyHalfHeight * 2.0, elementSize);
-
-                g.fillOval(pixelX, pixelY, w, h);
-
-                if (enemy instanceof ShooterEnemyImpl) {
-                    g.setColor(Color.WHITE);
-                    final int detailSize = w / 2;
-                    final int detailOffset = w / 4;
-                    g.fillOval(pixelX + detailOffset, pixelY + detailOffset, detailSize, detailSize);
+                if (r.shape() == ShapeType.OVAL) {
+                    g.drawOval(x, y, w, h);
+                } else {
+                    g.drawRect(x, y, w, h);
                 }
-            });
+            }
         }
 
+        /**
+         * convert coordinates in pixel.
+         *
+         * @param worldCoord  the coordinate in the game world
+         * @param elementSize the scaling factor (size of one grid unit in pixels)
+         * @return the corresponding coordinate in pixels
+         */
         private int toPx(final double worldCoord, final int elementSize) {
             return (int) Math.round(worldCoord * elementSize);
-        }
-
-        private void drawProjectiles(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
-
-            final double projectileWidth = 0.25;
-            final double projectileHeight = 0.25;
-            final double projHalfWidth = projectileWidth / 2.0;
-            final double projHalfHeight = projectileHeight / 2.0;
-
-            level.getAllProjectiles().stream().forEach(projectile -> {
-                g.setColor(Color.BLACK);
-
-                final double cx = projectile.getX();
-                final double cy = projectile.getY();
-                final double tlx = cx - projHalfWidth;
-                final double tly = cy - projHalfHeight;
-
-                final int pixelX = toPx(tlx, elementSize) + offsetX;
-                final int pixelY = toPx(tly, elementSize) + offsetY;
-                final int w = toPx(projectileWidth, elementSize);
-                final int h = toPx(projectileHeight, elementSize);
-
-                g.fillOval(pixelX, pixelY, w, h);
-
-            });
-        }
-
-        private void drawPlayers(final Graphics g, final int offsetX, final int offsetY, final int elementSize) {
-
-            level.getAllPlayers().stream().forEach(player -> {
-
-                final HitBox hb = player.getHitBox();
-                final double cx = hb.getCenter().x();
-                final double cy = hb.getCenter().y();
-                final double hw = hb.getHalfWidth();
-                final double hh = hb.getHalfHeight();
-
-                final int x = toPx(cx - hw, elementSize) + offsetX;
-                final int y = toPx(cy - hh, elementSize) + offsetY;
-                final int w = toPx(hw * 2.0, elementSize);
-                final int h = toPx(hh * 2.0, elementSize);
-
-                if (player instanceof Fireboy) {
-                    g.setColor(Color.RED);
-                } else if (player instanceof Watergirl) {
-                    g.setColor(Color.BLUE);
-                } else {
-                    g.setColor(Color.RED);
-                }
-
-                g.fillOval(x, y, w, h);
-
-                g.setColor(Color.BLACK);
-            });
         }
     }
 }

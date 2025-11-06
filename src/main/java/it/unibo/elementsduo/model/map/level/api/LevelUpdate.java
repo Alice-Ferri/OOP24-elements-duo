@@ -26,4 +26,9 @@ public interface LevelUpdate {
      */
     void cleanProjectiles();
 
+    /**
+     * Removes all inactive gems from the level.
+     */
+    void cleanGems();
+
 }

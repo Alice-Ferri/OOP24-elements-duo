@@ -11,7 +11,6 @@ import it.unibo.elementsduo.model.gameentity.api.Updatable;
 
 public interface Projectiles extends Movable, GameEntity, Updatable {
 
-
     /**
      * Indicates whether the projectile is still active and should be rendered/updated.
      *

@@ -12,6 +12,12 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.GreenPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.LavaPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.WaterPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Lever;
@@ -66,17 +72,17 @@ public final class MapValidatorImpl implements MapValidator {
     }
 
     private void checkSpawnsAndExits(final LevelData level) throws InvalidMapException {
-        if (level.getEntitiesByClass(Fireboy.class).size() != 1) {
+        if (level.getFireboy().size() != 1) {
             throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 fire spawn.");
         }
-        if (level.getEntitiesByClass(Watergirl.class).size() != 1) {
+        if (level.getWatergirl().size() != 1) {
             throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 water spawn.");
         }
 
-        if (level.getEntitiesByClass(FireExit.class).size() != 1) {
+        if (level.getFireExit().size() != 1) {
             throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 fire exit.");
         }
-        if (level.getEntitiesByClass(WaterExit.class).size() != 1) {
+        if (level.getWaterExit().size() != 1) {
             throw new InvalidMapException("Spawn and Exit Error: Map must have exactly 1 water exit.");
         }
     }
@@ -119,11 +125,11 @@ public final class MapValidatorImpl implements MapValidator {
         final Set<Position> walkableSpace = new HashSet<>(emptySpace);
         walkableSpace.addAll(visitableObstacles);
 
-        final Position fireSpawnPos = getGridPosFromHitBox(level.getEntitiesByClass(Fireboy.class).iterator().next());
-        final Position fireExitPos = getGridPosFromHitBox(level.getEntitiesByClass(FireExit.class).iterator().next());
+        final Position fireSpawnPos = getGridPosFromHitBox(level.getFireboy().iterator().next());
+        final Position fireExitPos = getGridPosFromHitBox(level.getFireExit().iterator().next());
         final Position waterSpawnPos = getGridPosFromHitBox(
-                level.getEntitiesByClass(Watergirl.class).iterator().next());
-        final Position waterExitPos = getGridPosFromHitBox(level.getEntitiesByClass(WaterExit.class).iterator().next());
+                level.getWatergirl().iterator().next());
+        final Position waterExitPos = getGridPosFromHitBox(level.getWaterExit().iterator().next());
 
         checkPathForPlayer("Fire", fireSpawnPos, fireExitPos, walkableSpace);
         checkPathForPlayer("Water", waterSpawnPos, waterExitPos, walkableSpace);
@@ -189,10 +195,10 @@ public final class MapValidatorImpl implements MapValidator {
 
         final Set<Enemy> enemies = level.getAllEnemies();
         final Set<Collidable> interactives = new HashSet<>();
-        interactives.addAll(level.getEntitiesByClass(Lever.class));
-        interactives.addAll(level.getEntitiesByClass(Button.class));
-        final Set<Fireboy> fireboys = level.getEntitiesByClass(Fireboy.class);
-        final Set<Watergirl> watergirls = level.getEntitiesByClass(Watergirl.class);
+        interactives.addAll(level.getLevers());
+        interactives.addAll(level.getButtons());
+        final Set<Fireboy> fireboys = level.getFireboy();
+        final Set<Watergirl> watergirls = level.getWatergirl();
 
         checkFloatingEntities(enemies, enemyGround, "Enemy");
         checkFloatingEntities(interactives, interactiveGround, "Interactive Object");
@@ -255,7 +261,7 @@ public final class MapValidatorImpl implements MapValidator {
     }
 
     private Set<Position> getWallPositions(final LevelData level) {
-        return level.getEntitiesByClass(Wall.class).stream()
+        return level.getWalls().stream()
                 .map(this::getGridPosFromHitBox)
                 .collect(Collectors.toSet());
     }
