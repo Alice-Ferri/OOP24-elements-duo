@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.interactions.core.api;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 
@@ -43,9 +43,9 @@ public interface Collidable {
      * Returns the set of {@link CollisionLayer}s that this object should
      * check collisions against.
      *
-     * @return an {@link EnumSet} representing the collision mask
+     * @return an {@link Set} representing the collision mask
      */
-    default EnumSet<CollisionLayer> getCollisionMask() {
+    default Set<CollisionLayer> getCollisionMask() {
         return this.getCollisionLayer().getDefaultMask();
     }
 

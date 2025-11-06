@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.interactions.core.api;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * Represents the various collision layers used in the game world.
@@ -25,25 +25,25 @@ public enum CollisionLayer {
     POWER_UP(false);
 
     private final boolean defaultPhysicsResponse;
-    private EnumSet<CollisionLayer> defaultMask;
+    private Set<CollisionLayer> defaultMask;
 
     CollisionLayer(final boolean defaultPhysicsResponse) {
         this.defaultPhysicsResponse = defaultPhysicsResponse;
     }
 
     static {
-        PLAYER.defaultMask = EnumSet.of(STATIC_OBSTACLE, PLATFORM, PUSHABLE);
-        ENEMY.defaultMask = EnumSet.of(STATIC_OBSTACLE, PLATFORM);
-        PUSHABLE.defaultMask = EnumSet.of(STATIC_OBSTACLE, PLATFORM, PUSHABLE, PLAYER, HAZARD);
-        PLATFORM.defaultMask = EnumSet.of(PLAYER, ENEMY, PUSHABLE);
-        STATIC_OBSTACLE.defaultMask = EnumSet.of(PLAYER, ENEMY, PUSHABLE, PROJECTILE);
-        HAZARD.defaultMask = EnumSet.of(PLAYER);
-        PROJECTILE.defaultMask = EnumSet.of(PLAYER, ENEMY, STATIC_OBSTACLE, PUSHABLE);
-        GEM.defaultMask = EnumSet.of(PLAYER);
-        EXIT_ZONE.defaultMask = EnumSet.of(PLAYER);
-        BUTTON.defaultMask = EnumSet.of(PLAYER, PUSHABLE);
-        LEVER.defaultMask = EnumSet.of(PLAYER);
-        POWER_UP.defaultMask = EnumSet.of(PLAYER);
+        PLAYER.defaultMask = Set.of(STATIC_OBSTACLE, PLATFORM, PUSHABLE);
+        ENEMY.defaultMask = Set.of(STATIC_OBSTACLE, PLATFORM);
+        PUSHABLE.defaultMask = Set.of(STATIC_OBSTACLE, PLATFORM, PUSHABLE, PLAYER, HAZARD);
+        PLATFORM.defaultMask = Set.of(PLAYER, ENEMY, PUSHABLE);
+        STATIC_OBSTACLE.defaultMask = Set.of(PLAYER, ENEMY, PUSHABLE, PROJECTILE);
+        HAZARD.defaultMask = Set.of(PLAYER);
+        PROJECTILE.defaultMask = Set.of(PLAYER, ENEMY, STATIC_OBSTACLE, PUSHABLE);
+        GEM.defaultMask = Set.of(PLAYER);
+        EXIT_ZONE.defaultMask = Set.of(PLAYER);
+        BUTTON.defaultMask = Set.of(PLAYER, PUSHABLE);
+        LEVER.defaultMask = Set.of(PLAYER);
+        POWER_UP.defaultMask = Set.of(PLAYER);
     }
 
     /**
@@ -60,9 +60,9 @@ public enum CollisionLayer {
      * Returns the default collision mask for this layer, indicating which layers
      * it can collide with.
      *
-     * @return a copy of the {@link EnumSet} containing the default collision mask
+     * @return a copy of the {@link Set} containing the default collision mask
      */
-    public EnumSet<CollisionLayer> getDefaultMask() {
-        return EnumSet.copyOf(this.defaultMask);
+    public Set<CollisionLayer> getDefaultMask() {
+        return Set.copyOf(this.defaultMask);
     }
 }

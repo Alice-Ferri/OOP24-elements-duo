@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.collisions;
+package it.unibo.elementsduo.model.interactions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

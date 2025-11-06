@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.interactions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
-public class TestPhysicsHandler {
+final class TestPhysicsHandler {
     private static final double EPSILON = 1e-9;
 
     private PhysicsHandler handler;
@@ -118,7 +117,7 @@ public class TestPhysicsHandler {
             return true;
         }
 
-        public void setState(boolean state) {
+        public void setState(final boolean state) {
             this.state = state;
         }
 

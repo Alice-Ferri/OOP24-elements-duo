@@ -27,7 +27,7 @@ import it.unibo.elementsduo.resources.Vector2D;
 /**
  * Tests for obstacle factories.
  */
-final class TestObstacleFactories {
+final class TestObstaclesFactories {
 
     private static final double WIDTH = 2.0;
     private static final double HEIGHT = 1.0;
@@ -45,9 +45,17 @@ final class TestObstacleFactories {
     void createsHazardsWithTypes() {
         final var hitBox = new HitBoxImpl(new Position(0, 0), HEIGHT, WIDTH);
 
-        final Hazard water = (Hazard) staticFactory.createObstacle(ObstacleType.WATER_POOL, hitBox);
-        final Hazard lava = (Hazard) staticFactory.createObstacle(ObstacleType.LAVA_POOL, hitBox);
-        final Hazard poison = (Hazard) staticFactory.createObstacle(ObstacleType.GREEN_POOL, hitBox);
+        final AbstractStaticObstacle obsWater = staticFactory.createObstacle(ObstacleType.WATER_POOL, hitBox);
+        final AbstractStaticObstacle obsLava = staticFactory.createObstacle(ObstacleType.LAVA_POOL, hitBox);
+        final AbstractStaticObstacle obsPoison = staticFactory.createObstacle(ObstacleType.GREEN_POOL, hitBox);
+
+        assertTrue(obsWater instanceof Hazard, "Factory should create a Hazard for WATER_POOL");
+        assertTrue(obsLava instanceof Hazard, "Factory should create a Hazard for LAVA_POOL");
+        assertTrue(obsPoison instanceof Hazard, "Factory should create a Hazard for GREEN_POOL");
+
+        final Hazard water = (Hazard) obsWater;
+        final Hazard lava = (Hazard) obsLava;
+        final Hazard poison = (Hazard) obsPoison;
 
         assertEquals(HazardType.WATER, water.getHazardType());
         assertEquals(HazardType.LAVA, lava.getHazardType());

@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.collisions.detection;
+package it.unibo.elementsduo.model.interactions.detection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,6 +22,8 @@ import it.unibo.elementsduo.resources.Position;
 final class TestCollisionCheckerImpl {
 
     private static final double EPSILON = 1e-9;
+    private static final double EXP_1 = 0.6;
+    private static final double EXP_2 = 0.4;
 
     private CollisionChecker checker;
 
@@ -42,7 +44,7 @@ final class TestCollisionCheckerImpl {
         final CollisionInformations info = collisions.get(0);
         assertSame(a, info.getObjectA());
         assertSame(b, info.getObjectB());
-        assertEquals(0.6, info.getPenetration(), EPSILON);
+        assertEquals(EXP_1, info.getPenetration(), EPSILON);
         assertEquals(-1.0, info.getNormal().x(), EPSILON);
         assertEquals(0.0, info.getNormal().y(), EPSILON);
     }
@@ -67,7 +69,7 @@ final class TestCollisionCheckerImpl {
         assertEquals(1, collisions.size());
         final CollisionInformations info = collisions.get(0);
         assertNotNull(info);
-        assertEquals(0.4, info.getPenetration(), EPSILON);
+        assertEquals(EXP_2, info.getPenetration(), EPSILON);
         assertEquals(-1.0, info.getNormal().y(), EPSILON);
     }
 

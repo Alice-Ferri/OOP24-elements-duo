@@ -3,11 +3,10 @@ package it.unibo.elementsduo.model.map.level;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityAssemblerImpl;
 import it.unibo.elementsduo.model.map.level.api.MapLoadingException;
-import it.unibo.elementsduo.model.gameentity.api.EntityAssembler;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
-
+import it.unibo.elementsduo.model.gameentity.api.EntityAssembler;
 import it.unibo.elementsduo.resources.Position;
 
 import java.io.BufferedReader;

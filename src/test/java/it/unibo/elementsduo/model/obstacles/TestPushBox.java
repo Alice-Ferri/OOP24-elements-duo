@@ -20,9 +20,17 @@ import it.unibo.elementsduo.resources.Vector2D;
 /**
  * Behavioural tests for {@link PushBox}.
  */
-final class TestPushBoxPhysics {
+final class TestPushBox {
 
     private static final double DELTA_TIME = 1.0;
+    private static final double GRAVITY = 9.8;
+    private static final double TEST_PUSH_VELOCITY_X = -3.0;
+    private static final double PLAYER_PUSH_VELOCITY_X = -4.0;
+    private static final double TEST_PENETRATION_DEPTH = 0.3;
+    private static final double ASSERT_TOLERANCE = 1e-4;
+    private static final double TIME_DIVISOR = 10.0;
+    private static final double POSITION_SLOP = 0.001;
+    private static final double CORRECTION_PERCENTAGE = 0.8;
 
     private PushBox box;
     private PlayerFactory playerFactory;
@@ -35,35 +43,35 @@ final class TestPushBoxPhysics {
 
     @Test
     void updateAppliesGravityInAir() {
-        final double dt = DELTA_TIME / 10;
+        final double dt = DELTA_TIME / TIME_DIVISOR;
         box.update(dt);
 
         assertEquals(0.0, box.getVelocity().x());
-        assertEquals(9.8 * dt, box.getVelocity().y());
+        assertEquals(GRAVITY * dt, box.getVelocity().y());
         assertEquals(0.0, box.getCenter().x());
-        assertEquals(9.8 * dt * dt, box.getCenter().y());
+        assertEquals(GRAVITY * dt * dt, box.getCenter().y());
     }
 
     @Test
     void correctPhysicsCollisionFromSide() {
-        box.push(new Vector2D(-3.0, 0.0));
-        box.correctPhysicsCollision(0.3, new Vector2D(1.0, 0.0), new TestCollidable());
+        box.push(new Vector2D(TEST_PUSH_VELOCITY_X, 0.0));
+        box.correctPhysicsCollision(TEST_PENETRATION_DEPTH, new Vector2D(1.0, 0.0), new TestCollidable());
 
         assertEquals(0.0, box.getVelocity().x());
         assertEquals(0.0, box.getVelocity().y());
-        final double expectedX = (0.3 - 0.001) * 0.8;
-        assertEquals(expectedX, box.getCenter().x(), 1e-4);
+        final double expectedX = (TEST_PENETRATION_DEPTH - POSITION_SLOP) * CORRECTION_PERCENTAGE;
+        assertEquals(expectedX, box.getCenter().x(), ASSERT_TOLERANCE);
     }
 
     @Test
     void maintainsHorizontalVelocityCollidingWithPlayer() {
         final Player player = playerFactory.createPlayer(PlayerType.FIREBOY, new Position(0, 0));
-        box.push(new Vector2D(-4.0, 0.0));
-        box.correctPhysicsCollision(0.3, new Vector2D(-1.0, 0.0), player);
+        box.push(new Vector2D(PLAYER_PUSH_VELOCITY_X, 0.0));
+        box.correctPhysicsCollision(TEST_PENETRATION_DEPTH, new Vector2D(-1.0, 0.0), player);
 
-        assertEquals(-4.0, box.getVelocity().x());
-        final double expectedX = -(0.3 - 0.001) * 0.8;
-        assertEquals(expectedX, box.getCenter().x(), 1e-4);
+        assertEquals(PLAYER_PUSH_VELOCITY_X, box.getVelocity().x());
+        final double expectedX = -(TEST_PENETRATION_DEPTH - POSITION_SLOP) * CORRECTION_PERCENTAGE;
+        assertEquals(expectedX, box.getCenter().x(), ASSERT_TOLERANCE);
     }
 
     /**

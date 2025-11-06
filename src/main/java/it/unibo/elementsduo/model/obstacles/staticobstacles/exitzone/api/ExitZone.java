@@ -23,7 +23,7 @@ public interface ExitZone extends Obstacle {
 
     /**
      * Checks whether the exit zone is currently active.
-     * 
+     *
      * @return {@code true} if the exit has been activated, {@code false} otherwise
      * 
      */

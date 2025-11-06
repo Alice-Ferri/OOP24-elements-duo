@@ -19,6 +19,8 @@ import it.unibo.elementsduo.resources.Vector2D;
  */
 final class TestPushBoxCommand {
 
+    private static final double VELOCITY_TEST = -4.0;
+
     private PlayerFactory playerFactory;
 
     @BeforeEach
@@ -54,7 +56,7 @@ final class TestPushBoxCommand {
     @Test
     void doesNothingWhenPlayerMovesOpposite() {
         final Player player = playerFactory.createPlayer(PlayerType.FIREBOY, new Position(-1, 0));
-        player.setVelocityX(-4.0);
+        player.setVelocityX(VELOCITY_TEST);
         final PushBox box = new PushBox(new Position(0, 0));
 
         final PushBoxCommand command = new PushBoxCommand(box, player, new Vector2D(-1, 0));

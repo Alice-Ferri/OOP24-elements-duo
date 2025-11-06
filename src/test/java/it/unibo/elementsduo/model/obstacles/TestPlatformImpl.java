@@ -20,17 +20,15 @@ final class TestPlatformImpl {
     private static final double EPSILON = 1e-6;
     private static final double DELTA = 0.5;
     private static final double SPEED = 1.0;
+    private static final double EXP_1 = 1.8;
 
     private PlatformImpl platform;
-    private Position start;
-    private Position pointA;
-    private Position pointB;
 
     @BeforeEach
     void setUp() {
-        this.start = new Position(0, 0);
-        this.pointA = new Position(-1, 0);
-        this.pointB = new Position(1, 0);
+        final Position start = new Position(0, 0);
+        final Position pointA = new Position(-1, 0);
+        final Position pointB = new Position(1, 0);
         this.platform = new PlatformImpl(start, pointA, pointB);
     }
 
@@ -54,7 +52,7 @@ final class TestPlatformImpl {
     @Test
     void reversesDirection() {
         platform.activate();
-        platform.update(1.8);
+        platform.update(EXP_1);
         final double previousX = platform.getCenter().x();
 
         // next it flip direction and moves towards A

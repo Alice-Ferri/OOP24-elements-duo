@@ -88,14 +88,14 @@ public final class LevelPanel extends JPanel {
      * Inner class representing the "canvas" on which the game state
      * is rendered.
      */
-    @SuppressFBWarnings(
-        value = "SE_TRANSIENT_FIELD_NOT_INITIALIZED_IN_READOBJECT",
-        justification = "Fields are runtime state, not persistent state.They are correctly initialized by setDataToRender.")
     private static final class GameAreaPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
-        private transient List<Renderable> dataToRender = new ArrayList<>();
-        private transient Dimension gridDimensions = new Dimension(0, 0);
+        @SuppressFBWarnings(
+        justification = "Fields are runtime state, not persistent state.They are correctly initialized by setDataToRender.",
+        value = "SE_BAD_FIELD")
+        private List<Renderable> dataToRender = new ArrayList<>();
+        private Dimension gridDimensions = new Dimension(0, 0);
 
         GameAreaPanel() {
             this.setBackground(Color.white);

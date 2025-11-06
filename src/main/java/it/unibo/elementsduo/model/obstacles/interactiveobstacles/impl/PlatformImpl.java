@@ -80,23 +80,29 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
         }
     }
 
-    /** @return is active or not. */
+    /**
+     * @return is active or not. 
+     */
     public boolean isActive() {
         return this.active;
     }
 
-    /** set activate true */
+    /** 
+     * set activate true.
+     */
     public void activate() {
         this.active = true;
     }
 
-    /** Sets the 'active' flag to false and immediately resets its velocity to zero. */
+    /**
+     *  Sets the 'active' flag to false and immediately resets its velocity to zero.
+     */
     public void deactivate() {
         this.active = false;
         this.velocity = Vector2D.ZERO;
     }
 
-/**
+    /**
      * Toggles the active state of this object (from active to inactive, or vice versa).
      * This method also resets the object's velocity to zero upon changing the state.
      */
