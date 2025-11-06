@@ -146,7 +146,7 @@ public final class Level implements LevelData, LevelUpdate {
     }
 
     @Override
-    public Set<Lever> getLevers(){
+    public Set<Lever> getLevers() {
         return this.getEntitiesByClass(Lever.class);
     }
 
@@ -166,7 +166,7 @@ public final class Level implements LevelData, LevelUpdate {
     }
 
     @Override
-    public Set<AbstractInteractiveObstacle> getInteractiveObstacles(){
+    public Set<AbstractInteractiveObstacle> getInteractiveObstacles() {
         return this.getEntitiesByClass(AbstractInteractiveObstacle.class);
     }
 

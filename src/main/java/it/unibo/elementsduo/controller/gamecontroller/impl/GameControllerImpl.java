@@ -73,7 +73,8 @@ public final class GameControllerImpl implements EventListener, GameController {
      * @param controller         The main navigation controller.
      * @param progressionManager The manager for saving game progress.
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional Dependency Injection: ProgressionManager is a shared service.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", 
+    justification = "Intentional Dependency Injection: ProgressionManager is a shared service.")
 
     public GameControllerImpl(final int currentLevel, final GameNavigation controller,
             final ProgressionManagerImpl progressionManager)
@@ -204,7 +205,9 @@ public final class GameControllerImpl implements EventListener, GameController {
     }
 
     /**
-     * Helper method to get the dimension of the map
+     * Calculates the level grid dimensions based on static obstacles.
+     *
+     * @return The dimensions (width, height) of the grid.
      */
     private Dimension calculateGridDimensions() {
         final var staticObstacles = level.getAllObstacles().stream()

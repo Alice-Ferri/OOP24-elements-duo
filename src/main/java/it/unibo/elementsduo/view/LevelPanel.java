@@ -29,8 +29,6 @@ public final class LevelPanel extends JPanel {
 
     /**
      * Constructs a new LevelPanel for the given level.
-     *
-     * @param level The game level model to be rendered.
      */
     public LevelPanel() {
         this.setLayout(new BorderLayout());
@@ -61,7 +59,6 @@ public final class LevelPanel extends JPanel {
         this.gameArea.setDataToRender(renderables, gridDimensions);
     }
 
-
     /**
      * Add the action listeners from the gamecontroller.
      *
@@ -84,15 +81,15 @@ public final class LevelPanel extends JPanel {
         this.levelSelectButton.removeActionListener(levelSelection);
     }
 
-   /**
+    /**
      * Inner class representing the "canvas" on which the game state
      * is rendered.
      */
-    private final class GameAreaPanel extends JPanel {
+    private static final class GameAreaPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 
-        private List<Renderable> dataToRender = new ArrayList<>();
-        private Dimension gridDimensions = new Dimension(0, 0);
+        private transient List<Renderable> dataToRender = new ArrayList<>();
+        private transient Dimension gridDimensions = new Dimension(0, 0);
 
         GameAreaPanel() {
             this.setBackground(Color.white);
@@ -100,6 +97,9 @@ public final class LevelPanel extends JPanel {
 
         /**
          * receive new data to render from levelPanel.
+         *
+         * @param data     the new list of renderable objects
+         * @param gridDims the new grid dimensions
          */
         public void setDataToRender(final List<Renderable> data, final Dimension gridDims) {
             this.dataToRender = Objects.requireNonNull(data);
@@ -151,6 +151,10 @@ public final class LevelPanel extends JPanel {
 
         /**
          * convert coordinates in pixel.
+         *
+         * @param worldCoord  the coordinate in the game world
+         * @param elementSize the scaling factor (size of one grid unit in pixels)
+         * @return the corresponding coordinate in pixels
          */
         private int toPx(final double worldCoord, final int elementSize) {
             return (int) Math.round(worldCoord * elementSize);

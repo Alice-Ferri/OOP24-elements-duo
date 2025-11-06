@@ -129,14 +129,14 @@ public interface LevelData {
     Set<Button> getButtons();
 
     /**
-     * Gets a set of WaterGirl, it should be only one instance
+     * Gets a set of WaterGirl, it should be only one instance.
      *
      * @return A set of all {@link Watergirl} objects.
      */
     Set<Watergirl> getWatergirl();
 
     /**
-     * Gets a set of Fireboy, it should be only one instance
+     * Gets a set of Fireboy, it should be only one instance.
      *
      * @return A set of all {@link Fireboy} objects.
      */
