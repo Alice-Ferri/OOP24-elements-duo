@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.mission.impl;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.mission.api.Objective;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.gem.api.Gem;
 
 /**
  * Manages the root mission for the level.

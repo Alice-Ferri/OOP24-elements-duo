@@ -1,7 +1,7 @@
-package it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.api;
+package it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.api;
 
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.HazardType;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.HazardType;
 
 /**
  * represents a hazard in the world, Hazards can kill the player depending on

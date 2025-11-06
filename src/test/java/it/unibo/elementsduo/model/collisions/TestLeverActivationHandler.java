@@ -13,7 +13,7 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.core.impl.handlers.LeverActivationHandler;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Toggler;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Toggler;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerFactory;
 import it.unibo.elementsduo.model.player.api.PlayerType;

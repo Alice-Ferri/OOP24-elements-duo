@@ -1,11 +1,11 @@
 package it.unibo.elementsduo.model.player.api;
 
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.HazardType;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.ExitType;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
+import it.unibo.elementsduo.model.interactions.core.api.Movable;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.ExitType;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.HazardType;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**

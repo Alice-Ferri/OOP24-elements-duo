@@ -17,7 +17,7 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerFactory;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Pressable;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Pressable;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 

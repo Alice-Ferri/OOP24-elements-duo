@@ -19,8 +19,8 @@ import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Wall;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ProjectilesImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,13 +58,13 @@ final class TestLevel {
 
         player1 = new PlayerFactoryImpl().createPlayer(PlayerType.FIREBOY, new Position(1, 1));
         player2 = new PlayerFactoryImpl().createPlayer(PlayerType.WATERGIRL, new Position(1, 1));
-        enemyAlive = new ClassicEnemiesImpl(new Position(2, 1)); 
+        enemyAlive = new ClassicEnemiesImpl(new Position(2, 1));
         enemyDead = new ClassicEnemiesImpl(new Position(2, 2));
-        enemyDead.die(); 
+        enemyDead.die();
 
         projActive = new ProjectilesImpl(new Position(3, 1), 1);
         projInactive = new ProjectilesImpl(new Position(3, 2), -1);
-        projInactive.deactivate(); 
+        projInactive.deactivate();
 
         obstacle = new Wall(new HitBoxImpl(new Position(1, 3), 1, 1));
         interactive = new Lever(new Position(POS_FIVE, 1));
@@ -94,8 +94,8 @@ final class TestLevel {
 
         initialSet.add(player1);
 
-        assertEquals(0, testLevel.getGameEntities().size(), 
-            "The constructor must create a defensive copy of the Set.");
+        assertEquals(0, testLevel.getGameEntities().size(),
+                "The constructor must create a defensive copy of the Set.");
     }
 
     /**
@@ -118,7 +118,7 @@ final class TestLevel {
      */
     @Test
     void testGetHelperMethods() {
-        assertEquals(2, level.getAllObstacles().size()); 
+        assertEquals(2, level.getAllObstacles().size());
         assertTrue(level.getAllObstacles().contains(obstacle));
         assertTrue(level.getAllObstacles().contains(interactive));
 
@@ -143,7 +143,8 @@ final class TestLevel {
     }
 
     /**
-     * Tests the mutation methods: addProjectile, cleanProjectiles, cleanInactiveEntities.
+     * Tests the mutation methods: addProjectile, cleanProjectiles,
+     * cleanInactiveEntities.
      */
     @Test
     void testMutationMethods() {

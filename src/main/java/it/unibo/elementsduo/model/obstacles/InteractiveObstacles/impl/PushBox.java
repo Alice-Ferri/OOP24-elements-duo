@@ -1,11 +1,11 @@
-package it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl;
+package it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.core.api.Movable;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.Pushable;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Pushable;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;

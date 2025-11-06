@@ -1,9 +1,9 @@
-package it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl;
+package it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl;
 
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.TriggerListener;
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -24,11 +24,11 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
 
     private static final double HALF_HEIGHT = 0.5;
 
+    private static final double SPEED = 1.0;
+
     private final Position a;
 
     private final Position b;
-
-    private final double speed = 1.0;
 
     private Position pos;
 
@@ -71,11 +71,11 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
         final Position target = forward ? b : a;
         final Vector2D dir = pos.vectorTo(target).normalize();
 
-        velocity = dir.multiply(speed);
+        velocity = dir.multiply(SPEED);
         pos = pos.add(velocity.multiply(delta));
         setCenter(pos);
 
-        if (pos.distanceBetween(target) < speed * delta) {
+        if (pos.distanceBetween(target) < SPEED * delta) {
             forward = !forward;
             this.velocity = Vector2D.ZERO;
         }

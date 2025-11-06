@@ -1,5 +1,6 @@
-package it.unibo.elementsduo.model.obstacles.interactiveObstacles.api;
+package it.unibo.elementsduo.model.obstacles.interactiveobstacles.api;
 
+@FunctionalInterface
 public interface TriggerListener {
 
     /**

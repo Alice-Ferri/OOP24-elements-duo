@@ -2,9 +2,9 @@ package it.unibo.elementsduo.model.player.impl.handlers;
 
 import java.util.Optional;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.resources.Vector2D;

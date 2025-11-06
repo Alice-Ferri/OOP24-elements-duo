@@ -2,15 +2,15 @@ package it.unibo.elementsduo.model.gamestate.impl;
 
 import java.util.Objects;
 
-import it.unibo.elementsduo.model.collisions.events.api.Event;
-import it.unibo.elementsduo.model.collisions.events.api.EventListener;
-import it.unibo.elementsduo.model.collisions.events.impl.EnemyDiedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
-import it.unibo.elementsduo.model.collisions.events.impl.FireExitEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.GemCollectedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.PlayerDiedEvent;
-import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent;
 import it.unibo.elementsduo.model.gamestate.api.GameState;
+import it.unibo.elementsduo.model.interactions.events.api.Event;
+import it.unibo.elementsduo.model.interactions.events.api.EventListener;
+import it.unibo.elementsduo.model.interactions.events.impl.EnemyDiedEvent;
+import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
+import it.unibo.elementsduo.model.interactions.events.impl.FireExitEvent;
+import it.unibo.elementsduo.model.interactions.events.impl.GemCollectedEvent;
+import it.unibo.elementsduo.model.interactions.events.impl.PlayerDiedEvent;
+import it.unibo.elementsduo.model.interactions.events.impl.WaterExitEvent;
 
 /**
  * Implementation of {@link GameState}.

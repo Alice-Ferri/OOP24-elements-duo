@@ -1,24 +1,24 @@
 package it.unibo.elementsduo.view.api;
 
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.enemies.impl.ClassicEnemiesImpl;
 import it.unibo.elementsduo.model.enemies.impl.ShooterEnemyImpl;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.TriggerSource;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Lever;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Button;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.GreenPool;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.LavaPool;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.WaterPool;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.FireExit;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.WaterExit;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.TriggerSource;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.GreenPool;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.LavaPool;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.WaterPool;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Floor;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 
 import java.awt.Color;

@@ -1,9 +1,9 @@
-package it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl;
+package it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl;
 
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.api.ExitZone;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.api.ExitZone;
 
 /**
  * Represents the exit point that must be

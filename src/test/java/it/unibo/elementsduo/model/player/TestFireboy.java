@@ -10,10 +10,10 @@ import it.unibo.elementsduo.resources.Vector2D;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.HazardType;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.ExitType;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.HazardType;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.ExitType;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Wall;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

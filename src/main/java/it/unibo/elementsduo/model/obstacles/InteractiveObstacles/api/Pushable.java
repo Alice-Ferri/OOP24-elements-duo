@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.interactiveObstacles.api;
+package it.unibo.elementsduo.model.obstacles.interactiveobstacles.api;
 
 import it.unibo.elementsduo.resources.Vector2D;
 

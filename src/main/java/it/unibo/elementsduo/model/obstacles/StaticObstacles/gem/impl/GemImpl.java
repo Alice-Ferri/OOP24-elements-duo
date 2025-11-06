@@ -1,9 +1,9 @@
-package it.unibo.elementsduo.model.obstacles.staticObstacles.gem.impl;
+package it.unibo.elementsduo.model.obstacles.staticobstacles.gem.impl;
 
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.gem.api.Gem;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.gem.api.Gem;
 import it.unibo.elementsduo.resources.Position;
 
 /**

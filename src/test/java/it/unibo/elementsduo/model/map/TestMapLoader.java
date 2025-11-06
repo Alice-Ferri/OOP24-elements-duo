@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Floor;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
@@ -45,9 +45,7 @@ final class TestMapLoader {
     void setUp() {
         this.mapLoader = new MapLoader();
 
-        gameEntities = assertDoesNotThrow(() -> 
-            this.mapLoader.loadLevelFromFile("test/maploader.txt")
-        );
+        gameEntities = assertDoesNotThrow(() -> this.mapLoader.loadLevelFromFile("test/maploader.txt"));
     }
 
     /**
@@ -102,28 +100,28 @@ final class TestMapLoader {
     /**
      * Helper method to count entities of a certain type in the Set.
      *
-     * @param <T> The type of entity to count.
+     * @param <T>  The type of entity to count.
      * @param type The class of the entity to count.
      * @return The number of instances of that type.
      */
     private <T> long countEntities(final Class<T> type) {
         return this.gameEntities.stream()
-            .filter(type::isInstance)
-            .count();
+                .filter(type::isInstance)
+                .count();
     }
 
     /**
      * Helper method to find the first instance of an entity in the set.
      *
-     * @param <T> The type of entity to find.
+     * @param <T>  The type of entity to find.
      * @param type The class of the entity to find.
      * @return The found entity, or null if not present.
      */
     private <T> T findEntity(final Class<T> type) {
         return this.gameEntities.stream()
-            .filter(type::isInstance)
-            .map(type::cast)
-            .findFirst()
-            .orElse(null);
+                .filter(type::isInstance)
+                .map(type::cast)
+                .findFirst()
+                .orElse(null);
     }
 }

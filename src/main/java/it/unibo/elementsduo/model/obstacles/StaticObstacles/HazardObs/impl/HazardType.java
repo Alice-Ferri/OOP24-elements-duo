@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl;
+package it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl;
 
 /**
  * Types of hazards present in the world.

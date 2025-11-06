@@ -1,10 +1,10 @@
 package it.unibo.elementsduo.model.obstacles.impl;
 
 import it.unibo.elementsduo.model.obstacles.api.InteractiveObstacleFactory;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Button;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Lever;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PushBox;
 import it.unibo.elementsduo.resources.Position;
 
 /**

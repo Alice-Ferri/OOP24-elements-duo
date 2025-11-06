@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.player.impl;
 
-import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.HazardType;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.ExitType;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.ExitType;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.HazardType;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerInputHandler;

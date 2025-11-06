@@ -1,8 +1,8 @@
 package it.unibo.elementsduo.model.enemies.api;
 
-import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
+import it.unibo.elementsduo.model.interactions.core.api.Movable;
 
 /**
  * Represents a projectile, a mobile and short-lived entity that
@@ -12,7 +12,8 @@ import it.unibo.elementsduo.model.gameentity.api.Updatable;
 public interface Projectiles extends Movable, GameEntity, Updatable {
 
     /**
-     * Indicates whether the projectile is still active and should be rendered/updated.
+     * Indicates whether the projectile is still active and should be
+     * rendered/updated.
      *
      * @return true if the projectile is active, false otherwise.
      */
@@ -42,5 +43,5 @@ public interface Projectiles extends Movable, GameEntity, Updatable {
     /**
      * Sets the projectile to an inactive state, removing it from the game world.
      */
-    void deactivate(); 
+    void deactivate();
 }

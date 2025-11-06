@@ -1,6 +1,6 @@
-package it.unibo.elementsduo.model.obstacles.interactiveObstacles.api;
+package it.unibo.elementsduo.model.obstacles.interactiveobstacles.api;
 
-import it.unibo.elementsduo.model.collisions.core.api.Collidable;
+import it.unibo.elementsduo.model.interactions.core.api.Collidable;
 
 /**
  * Represents an interactive object that can act as a trigger source,

@@ -3,9 +3,9 @@ package it.unibo.elementsduo.model.map.level;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
 import it.unibo.elementsduo.model.map.level.api.MapLoadingException;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Button;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Lever;
-import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.resources.Position;
 

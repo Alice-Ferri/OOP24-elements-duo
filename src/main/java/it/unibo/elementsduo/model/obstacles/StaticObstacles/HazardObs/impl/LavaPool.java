@@ -1,9 +1,9 @@
-package it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl;
+package it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl;
 
-import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.core.api.CollisionLayer;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.api.Hazard;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.api.Hazard;
 
 /**
  * Represents a pool of lava that acts as a deadly hazard for watergirl.

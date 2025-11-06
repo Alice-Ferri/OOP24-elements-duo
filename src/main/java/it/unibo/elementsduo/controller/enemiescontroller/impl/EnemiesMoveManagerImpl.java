@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.Enemy;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.resources.Position;
 

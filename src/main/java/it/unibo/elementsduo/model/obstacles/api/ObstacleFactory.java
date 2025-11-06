@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.obstacles.api;
 
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.impl.ObstacleType;
 
@@ -9,6 +9,7 @@ import it.unibo.elementsduo.model.obstacles.impl.ObstacleType;
  * This interface defines the method to instantiate different types of
  * obstacles.
  */
+@FunctionalInterface
 public interface ObstacleFactory {
     /**
      * Creates a new static obstacle with the specified type and HitBox.

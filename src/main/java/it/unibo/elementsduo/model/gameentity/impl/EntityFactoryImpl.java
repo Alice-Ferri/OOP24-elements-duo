@@ -1,22 +1,19 @@
 package it.unibo.elementsduo.model.gameentity.impl;
 
-import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.api.InteractiveObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.api.ObstacleFactory;
 import it.unibo.elementsduo.model.obstacles.impl.InteractiveObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.impl.ObstacleType;
-import it.unibo.elementsduo.model.obstacles.staticObstacles.gem.impl.GemImpl;
+import it.unibo.elementsduo.model.obstacles.staticobstacles.gem.impl.GemImpl;
 import it.unibo.elementsduo.model.player.api.PlayerFactory;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 import it.unibo.elementsduo.model.player.impl.PlayerFactoryImpl;
-import it.unibo.elementsduo.model.powerups.api.PowerUpFactory;
-import it.unibo.elementsduo.model.powerups.api.PowerUpType;
-import it.unibo.elementsduo.model.powerups.impl.PowerUpFactoryImpl;
 import it.unibo.elementsduo.resources.Position;
 
 import java.util.Collections;
@@ -34,7 +31,6 @@ public final class EntityFactoryImpl implements EntityFactory {
     private final EnemyFactory enemyFactory;
     private final PlayerFactory playerFactory;
     private final InteractiveObstacleFactory interactiveObsFactory;
-    private final PowerUpFactory powerUpFactory;
     private final Map<Character, EntityCreationStrategy> creationMap;
 
     /**
@@ -44,7 +40,6 @@ public final class EntityFactoryImpl implements EntityFactory {
         this.obstacleFactory = new ObstacleFactoryImpl();
         this.enemyFactory = new EnemyFactoryImpl();
         this.interactiveObsFactory = new InteractiveObstacleFactoryImpl();
-        this.powerUpFactory = new PowerUpFactoryImpl();
         this.creationMap = buildCreationMap();
         this.playerFactory = new PlayerFactoryImpl();
     }
@@ -71,8 +66,6 @@ public final class EntityFactoryImpl implements EntityFactory {
         map.put('R', this.interactiveObsFactory::createButton);
         map.put('M',
                 pos -> this.interactiveObsFactory.createMovingPlatform(pos, pos, new Position(pos.x(), pos.y() - 3)));
-        map.put('I', pos -> this.powerUpFactory.createPowerUp(PowerUpType.HAZARD_IMMUNITY, pos));
-        map.put('N', pos -> this.powerUpFactory.createPowerUp(PowerUpType.ENEMY_KILL, pos));
 
         return Collections.unmodifiableMap(map);
     }

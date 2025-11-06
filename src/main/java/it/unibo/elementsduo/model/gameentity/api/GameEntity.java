@@ -1,6 +1,6 @@
 package it.unibo.elementsduo.model.gameentity.api;
 
-import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
+import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 
 /**
  * Represents a generic entity within the game.
