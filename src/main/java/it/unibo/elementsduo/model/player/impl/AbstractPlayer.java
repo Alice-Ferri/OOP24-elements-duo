@@ -1,19 +1,14 @@
 package it.unibo.elementsduo.model.player.impl;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.player.api.Player;
-import it.unibo.elementsduo.model.player.api.PlayerPoweredUp;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerInputHandler;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerPhysicsHandler;
-import it.unibo.elementsduo.model.powerups.api.PowerUpType;
 import it.unibo.elementsduo.resources.Position;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -21,15 +16,13 @@ import it.unibo.elementsduo.resources.Vector2D;
  * Abstract base class implementing common behavior for all {@link Player}
  * types.
  */
-public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
+public abstract class AbstractPlayer implements Player {
 
     private double x;
     private double y;
     private Vector2D velocity = new Vector2D(0, 0);
     private boolean onGround = true;
     private boolean onExit;
-
-    private final Set<PowerUpType> activePowerUps = EnumSet.noneOf(PowerUpType.class);
 
     private final PlayerCollsCorrectorHandler collsCorrectorHandler;
     private final PlayerPhysicsHandler physicsHandler;
@@ -166,38 +159,6 @@ public abstract class AbstractPlayer implements Player, PlayerPoweredUp {
     public void moveBy(final double dx, final double dy) {
         this.x += dx;
         this.y += dy;
-    }
-
-    /**
-     * {@inheritDoc} 
-     *
-     * @param powerUpType to add to the set
-     */
-    @Override
-    public void addPowerUpEffect(final PowerUpType powerUpType) {
-        this.activePowerUps.add(powerUpType);
-    }
-
-    /**
-     * {@inheritDoc} 
-     *
-     * @param powerUpType to remove to the set
-     */
-    @Override
-    public void removePowerUpEffect(final PowerUpType powerUpType) {
-        this.activePowerUps.remove(powerUpType);
-    }
-
-    /**
-     * {@inheritDoc} 
-     *
-     * @param powerUpType to ask if is present in the power up set
-     *
-     * @return true if the power up is present, false otherwise
-     */
-    @Override
-    public boolean hasPowerUpEffect(final PowerUpType powerUpType) {
-        return this.activePowerUps.contains(powerUpType);
     }
 
     /**
