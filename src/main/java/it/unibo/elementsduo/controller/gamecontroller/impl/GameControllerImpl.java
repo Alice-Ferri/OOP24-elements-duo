@@ -6,7 +6,9 @@ import javax.swing.SwingUtilities;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Objects;
 import it.unibo.elementsduo.controller.GameLoop;
 import it.unibo.elementsduo.controller.enemiescontroller.api.EnemiesMoveManager;
@@ -31,8 +33,11 @@ import it.unibo.elementsduo.model.map.level.impl.Level;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;
 import it.unibo.elementsduo.model.mission.impl.MissionManager;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.powerups.impl.PowerUpManager;
 import it.unibo.elementsduo.view.LevelPanel;
+import it.unibo.elementsduo.view.api.Renderable;
+import it.unibo.elementsduo.view.api.RenderableFactory;
 
 /**
  * Manages the logic for a single game level.
@@ -56,6 +61,8 @@ public final class GameControllerImpl implements EventListener, GameController {
     private final ProgressionManagerImpl progressionManager;
     private final ActionListener onMenuListener;
     private final ActionListener onLevelListener;
+    private final RenderableFactory renderableFactory;
+    private final Dimension gridDimensions;
 
     private boolean entitiesNeedCleaning;
 
@@ -86,7 +93,9 @@ public final class GameControllerImpl implements EventListener, GameController {
         final MapLoader mapLoader = new MapLoader();
         level = new Level(mapLoader.loadLevel(currentLevel));
         mapValidator.validate(level);
-        this.view = new LevelPanel(level);
+        this.view = new LevelPanel();
+        this.renderableFactory = new RenderableFactory(); 
+        this.gridDimensions = this.calculateGridDimensions();
         this.moveManager = new EnemiesMoveManagerImpl(level.getAllObstacles());
         this.scoreManager = new MissionManager(level);
         this.level.getAllPlayers().forEach(this.powerUpManager::registerPlayer);
@@ -143,6 +152,8 @@ public final class GameControllerImpl implements EventListener, GameController {
 
     @Override
     public void render() {
+        final List<Renderable> renderables = this.renderableFactory.translate(this.level);
+        this.view.updateRenderData(renderables, this.gridDimensions);
         this.view.repaint();
     }
 
@@ -191,4 +202,29 @@ public final class GameControllerImpl implements EventListener, GameController {
                 .map(ManagerInjectable.class::cast)
                 .forEach(injectableEnemy -> injectableEnemy.setMoveManager(manager));
     }
+
+    /**
+     * Helper method to get the dimension of the map
+     */
+    private Dimension calculateGridDimensions() {
+        final var staticObstacles = level.getAllObstacles().stream()
+                .filter(AbstractStaticObstacle.class::isInstance)
+                .toList();
+
+        if (staticObstacles.isEmpty()) {
+            return new Dimension(0, 0);
+        }
+
+        final int maxX = staticObstacles.stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().x())
+                .max()
+                .orElse(0);
+        final int maxY = staticObstacles.stream()
+                .mapToInt(obs -> (int) obs.getHitBox().getCenter().y())
+                .max()
+                .orElse(0);
+
+        return new Dimension(maxX + 1, maxY + 1);
+    }
+
 }
