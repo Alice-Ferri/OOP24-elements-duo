@@ -2,7 +2,7 @@ package it.unibo.elementsduo.model.gameentity.impl;
 
 import it.unibo.elementsduo.model.enemies.api.EnemyFactory;
 import it.unibo.elementsduo.model.enemies.impl.EnemyFactoryImpl;
-import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
+import it.unibo.elementsduo.model.gameentity.api.EntityAssembler;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.interactions.hitbox.impl.HitBoxImpl;
 import it.unibo.elementsduo.model.obstacles.api.InteractiveObstacleFactory;
@@ -22,21 +22,21 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Concrete implementation of {@link EntityFactory}.
+ * Concrete implementation of {@link EntityAssembler}.
  * Creates game entities using other factories.
  */
-public final class EntityFactoryImpl implements EntityFactory {
+public final class EntityAssemblerImpl implements EntityAssembler {
 
     private final ObstacleFactory obstacleFactory;
     private final EnemyFactory enemyFactory;
     private final PlayerFactory playerFactory;
     private final InteractiveObstacleFactory interactiveObsFactory;
-    private final Map<Character, EntityCreationStrategy> creationMap;
+    private final Map<Character, EntityCreation> creationMap;
 
     /**
-     * Constructs a new EntityFactory with its required sub-factories.
+     * Constructs with its required sub-factories.
      */
-    public EntityFactoryImpl() {
+    public EntityAssemblerImpl() {
         this.obstacleFactory = new ObstacleFactoryImpl();
         this.enemyFactory = new EnemyFactoryImpl();
         this.interactiveObsFactory = new InteractiveObstacleFactoryImpl();
@@ -44,9 +44,9 @@ public final class EntityFactoryImpl implements EntityFactory {
         this.playerFactory = new PlayerFactoryImpl();
     }
 
-    private Map<Character, EntityCreationStrategy> buildCreationMap() {
+    private Map<Character, EntityCreation> buildCreationMap() {
 
-        final Map<Character, EntityCreationStrategy> map = new HashMap<>();
+        final Map<Character, EntityCreation> map = new HashMap<>();
         final Function<Position, HitBoxImpl> defaultHitbox = pos -> new HitBoxImpl(pos, 1, 1);
 
         map.put('P', pos -> this.obstacleFactory.createObstacle(ObstacleType.FLOOR, defaultHitbox.apply(pos)));
@@ -72,7 +72,7 @@ public final class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public GameEntity createEntity(final char symbol, final Position pos) {
-        final EntityCreationStrategy strategy = this.creationMap.get(symbol);
+        final EntityCreation strategy = this.creationMap.get(symbol);
         if (strategy == null) {
             return null;
         }
@@ -80,7 +80,7 @@ public final class EntityFactoryImpl implements EntityFactory {
     }
 
     @FunctionalInterface
-    private interface EntityCreationStrategy {
+    private interface EntityCreation {
         GameEntity create(Position pos);
     }
 }

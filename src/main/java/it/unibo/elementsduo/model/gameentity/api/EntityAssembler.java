@@ -6,11 +6,9 @@ import it.unibo.elementsduo.resources.Position;
  * A functional interface for creating game entities based on a map symbol.
  */
 @FunctionalInterface
-public interface EntityFactory {
+public interface EntityAssembler {
     /**
      * Creates a set of game entities corresponding to a given symbol and position.
-     * It returns a Set because one symbol (like a spawn point) might create
-     * multiple entities.
      *
      * @param symbol The character symbol from the map file.
      * @param pos    The grid position for the new entity.
