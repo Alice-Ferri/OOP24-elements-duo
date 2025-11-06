@@ -5,27 +5,27 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
+import it.unibo.elementsduo.model.gameentity.api.EntityAssembler;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
+import it.unibo.elementsduo.model.gameentity.impl.EntityAssemblerImpl;
 import it.unibo.elementsduo.resources.Position;
 import java.util.Set;
 
 /**
- * Integration test for the {@link EntityFactoryImpl} class.
+ * Integration test for the {@link EntityAssemblerImpl} class.
  * It verifies that all valid symbols create entities and invalid symbols return null.
  */
-final class TestEntityFactory {
+final class TestEntityAssembler {
 
-    private EntityFactory entityFactory;
+    private EntityAssembler entityAssembler;
 
     /**
-     * Initializes the EntityFactory by injecting the implementations
+     * Initializes the entityAssembler by injecting the implementations
      * of others factories before each test.
      */
     @BeforeEach
     void setUp() {
-        this.entityFactory = new EntityFactoryImpl();
+        this.entityAssembler = new EntityAssemblerImpl();
     }
 
     /**
@@ -42,7 +42,7 @@ final class TestEntityFactory {
         final Position pos = new Position(1, 1);
 
         for (final char symbol : validSymbols) {
-            final GameEntity result = entityFactory.createEntity(symbol, pos);
+            final GameEntity result = entityAssembler.createEntity(symbol, pos);
 
             assertNotNull(result, 
                 "The entity created for the symbol '" + symbol + "' was null.");
@@ -60,7 +60,7 @@ final class TestEntityFactory {
 
         for (final char symbol : invalidSymbols) {
             assertNull(
-                entityFactory.createEntity(symbol, pos),
+                entityAssembler.createEntity(symbol, pos),
                 "The invalid symbol '" + symbol + "' did not return null."
             );
         }

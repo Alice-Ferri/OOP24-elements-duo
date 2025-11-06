@@ -1,9 +1,9 @@
 package it.unibo.elementsduo.model.map.level;
 
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
+import it.unibo.elementsduo.model.gameentity.impl.EntityAssemblerImpl;
 import it.unibo.elementsduo.model.map.level.api.MapLoadingException;
-import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
+import it.unibo.elementsduo.model.gameentity.api.EntityAssembler;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
@@ -21,20 +21,20 @@ import java.util.Set;
 
 /**
  * Handles loading game levels from text files.
- * This class reads a map file, uses an EntityFactory to create game entities
+ * This class reads a map file, uses an entityAssembler to create game entities
  * based on symbols, and links interactive objects.
  */
 public final class MapLoader {
 
     private static final String LEVEL_FOLDER = "levels/";
     private static final String LEVEL_FILE = "map%d.txt";
-    private final EntityFactory entityFactory;
+    private final EntityAssembler entityAssembler;
 
     /**
      * Constructs a MapLoader with the entity factories.
      */
     public MapLoader() {
-            this.entityFactory = new EntityFactoryImpl();
+            this.entityAssembler = new EntityAssemblerImpl();
     }
 
     /**
@@ -53,7 +53,7 @@ public final class MapLoader {
 
     /**
      * Loads a level from a specific file path (e.g., "levels/map1.txt").
-     * Reads the file, creates entities using the EntityFactory,
+     * Reads the file, creates entities using the entityAssembler,
      * links interactive objects, and returns the final entity set.
      *
      * @param filePath The full path to the map file within the resources folder.
@@ -77,7 +77,7 @@ public final class MapLoader {
                     final char symbol = line.charAt(x);
                     final Position pos = new Position(x, y);
 
-                    final GameEntity entity = entityFactory.createEntity(symbol, pos);
+                    final GameEntity entity = entityAssembler.createEntity(symbol, pos);
                     if (entity != null) {
                         gameEntities.add(entity);
                     }
