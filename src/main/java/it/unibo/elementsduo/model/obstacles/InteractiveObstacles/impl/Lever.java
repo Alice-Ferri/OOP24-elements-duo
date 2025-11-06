@@ -29,7 +29,6 @@ public final class Lever extends AbstractInteractiveObstacle implements TriggerS
      /**
       * Creates a new lever centered at the specified position.
       *
-      * 
       * @param center the position of the lever's center
       */
      public Lever(final Position center) {
@@ -48,8 +47,6 @@ public final class Lever extends AbstractInteractiveObstacle implements TriggerS
 
      /**
       * {@inheritDoc}
-      * 
-      * Toggles the lever state and notifies all registered listeners.
       */
      @Override
      public void toggle() {
@@ -68,10 +65,7 @@ public final class Lever extends AbstractInteractiveObstacle implements TriggerS
      }
 
      /**
-      * {@inheritDoc}
-      * 
-      * Adds a {@link TriggerListener} that will be notified when the lever is
-      * toggled.
+      * Adds a {@link TriggerListener} that will be notified when the lever is toggled.
       *
       * @param listener the listener to add
       */

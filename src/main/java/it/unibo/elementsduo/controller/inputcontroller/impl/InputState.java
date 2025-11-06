@@ -59,7 +59,7 @@ public final class InputState {
     /**
      * Checks if the JUMP action is pressed for a player.
      *
-     * @param player the player to check
+     * @param playerType the player to check
      * @return true if JUMP is active, false otherwise
      */
     public boolean isJumpPressed(final PlayerType playerType) {

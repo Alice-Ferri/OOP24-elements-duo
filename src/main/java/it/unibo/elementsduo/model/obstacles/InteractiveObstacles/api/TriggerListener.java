@@ -1,5 +1,10 @@
 package it.unibo.elementsduo.model.obstacles.interactiveobstacles.api;
 
+/**
+ * A functional interface for objects that can listen to trigger events.
+ * Implementors define what action to take when a trigger source
+ * (like a button or lever) changes its state.
+ */
 @FunctionalInterface
 public interface TriggerListener {
 

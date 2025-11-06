@@ -26,7 +26,8 @@ public final class PushBoxCommand implements InteractionCommand {
      * @param playerNormal the collision normal from the player’s perspective
      */
 
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The command must keep direct references to the actors for its method execute()")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", 
+    justification = "The command must keep direct references to the actors for its method execute()")
     public PushBoxCommand(final PushBox box, final Player player, final Vector2D playerNormal) {
         this.box = box;
         this.playerNormal = playerNormal;

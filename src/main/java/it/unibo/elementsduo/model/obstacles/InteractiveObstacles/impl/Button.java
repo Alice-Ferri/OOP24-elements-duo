@@ -92,8 +92,6 @@ public final class Button extends AbstractInteractiveObstacle implements Trigger
      }
 
      /**
-      * {@inheritDoc}
-      * 
       * Removes a {@link TriggerListener} from the list of listeners.
       *
       * @param listener the listener to remove

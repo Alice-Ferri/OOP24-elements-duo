@@ -37,8 +37,8 @@ public interface InteractiveObstacleFactory {
      * two target positions.
      *
      * @param pos the initial position of the platform
-     * @param a   the first target position
-     * @param b   the second target position
+     * @param targetA   the first target position
+     * @param targetB   the second target position
      * @return a new {@code PlatformImpl} instance
      */
     PlatformImpl createMovingPlatform(Position pos, Position targetA, Position targetB);

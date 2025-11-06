@@ -11,7 +11,7 @@ import it.unibo.elementsduo.model.obstacles.impl.ObstacleType;
 public interface ObstacleFactory {
     /**
      * Creates a new static obstacle with the specified type and HitBox.
-     * 
+     *
      * @param type   The type of obstacle to create
      * @param hitbox The HitBox that defines the obstacle's position and dimension.
      * @return the new StaticObstacle object.

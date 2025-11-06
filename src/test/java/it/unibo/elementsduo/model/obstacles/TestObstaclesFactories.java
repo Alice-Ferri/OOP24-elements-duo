@@ -18,8 +18,6 @@ import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.api.Hazard
 import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.HazardType;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.api.ObstacleFactory;
-import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.api.ExitZone;
-import it.unibo.elementsduo.model.obstacles.impl.ObstacleFactoryImpl;
 import it.unibo.elementsduo.model.obstacles.impl.ObstacleType;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Floor;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.solid.Wall;

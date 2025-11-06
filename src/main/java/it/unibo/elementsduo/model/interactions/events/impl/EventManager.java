@@ -38,6 +38,15 @@ public final class EventManager {
         this.listeners.computeIfAbsent(eventType, k -> new ArrayList<>()).add(listener);
     }
 
+    /**
+     * Removes (unsubscribes) a specific listener from an event type.
+     * If the listener is registered for the given event, it will be removed
+     * from the notification list. If this listener is the last one
+     * for that event type, the event type itself is removed from the map.
+     *
+     * @param eventType The Class of the event to unsubscribe from (must not be null).
+     * @param listener  The EventListener to remove (must not be null).
+     */
     public void unsubscribe(final Class<? extends Event> eventType, final EventListener listener) {
         Objects.requireNonNull(eventType);
         Objects.requireNonNull(listener);

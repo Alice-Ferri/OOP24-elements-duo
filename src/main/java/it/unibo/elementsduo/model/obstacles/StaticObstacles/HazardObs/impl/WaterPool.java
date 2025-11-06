@@ -6,7 +6,7 @@ import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.api.Hazard;
 
 /**
- * Represents a pool of water that acts as deadly hazard for fireboy
+ * Represents a pool of water that acts as deadly hazard for fireboy.
  * 
  */
 public final class WaterPool extends AbstractStaticObstacle implements Hazard {

@@ -4,9 +4,7 @@ import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.impl.HazardType;
 
 /**
- * represents a hazard in the world, Hazards can kill the player depending on
- * its type
- *
+ * represents a hazard , hazards can kill the player depending on its type
  */
 public interface Hazard extends Obstacle {
     /**

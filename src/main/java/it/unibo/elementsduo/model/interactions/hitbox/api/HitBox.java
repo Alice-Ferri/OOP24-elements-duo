@@ -5,7 +5,6 @@ import it.unibo.elementsduo.resources.Position;
 /**
  * Represents a rectangular hitbox used for collision detection in the game
  * world.
- * 
  * A {@code HitBox} defines the position and size of an object through its
  * center point and half-dimensions.
  */

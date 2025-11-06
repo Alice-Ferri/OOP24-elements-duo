@@ -85,7 +85,7 @@ public class TestPhysicsHandler {
 
         private int calls;
         private double lastPenetration;
-        private Vector2D lastNormal;
+        private Vector2D lastNormal = new Vector2D(0, 0);
         private Collidable lastOther;
         private boolean state = true;
 

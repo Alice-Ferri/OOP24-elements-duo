@@ -5,6 +5,9 @@ import it.unibo.elementsduo.view.api.ShapeType;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -85,6 +88,9 @@ public final class LevelPanel extends JPanel {
      * Inner class representing the "canvas" on which the game state
      * is rendered.
      */
+    @SuppressFBWarnings(
+        value = "SE_TRANSIENT_FIELD_NOT_INITIALIZED_IN_READOBJECT",
+        justification = "Fields are runtime state, not persistent state.They are correctly initialized by setDataToRender.")
     private static final class GameAreaPanel extends JPanel {
         private static final long serialVersionUID = 1L;
 

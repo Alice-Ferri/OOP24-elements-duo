@@ -23,8 +23,6 @@ public final class GemImpl extends AbstractStaticObstacle implements Gem {
     /**
      * Creates a new gem at the specified position.
      *
-     * <p>
-     * 
      * @param pos the position where the gem will be placed
      */
     public GemImpl(final Position pos) {

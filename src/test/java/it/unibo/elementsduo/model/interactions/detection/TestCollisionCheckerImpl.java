@@ -58,7 +58,7 @@ final class TestCollisionCheckerImpl {
     }
 
     @Test
-    void ObjectsWithSameAxis() {
+    void objectsWithSameAxis() {
         final TestCollidable a = new TestCollidable(new Position(1.0, 1.0), 1.0, 1.0);
         final TestCollidable b = new TestCollidable(new Position(1.0, 1.6), 1.0, 1.0);
 

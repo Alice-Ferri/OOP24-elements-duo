@@ -71,7 +71,8 @@ public final class GameControllerImpl implements EventListener, GameController {
      * @param controller         The main navigation controller.
      * @param progressionManager The manager for saving game progress.
      */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Intentional Dependency Injection: ProgressionManager is a shared service.")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", 
+    justification = "Intentional Dependency Injection: ProgressionManager is a shared service.")
 
     public GameControllerImpl(final int currentLevel, final GameNavigation controller,
             final ProgressionManagerImpl progressionManager)

@@ -3,8 +3,7 @@ package it.unibo.elementsduo.model.obstacles.interactiveobstacles.api;
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
 
 /**
- * Represents an interactive element that can be pressed and released,
- * such as a button
+ * Represents an interactive element that can be pressed and released, such as a button.
  */
 public interface Pressable extends Collidable {
 

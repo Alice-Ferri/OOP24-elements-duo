@@ -79,7 +79,7 @@ public final class PushBox extends AbstractInteractiveObstacle implements Pushab
     }
 
     /**
-     * Updates the box's position and state
+     * Updates the box's position and state.
      *
      * @param dt the time step in seconds
      */
