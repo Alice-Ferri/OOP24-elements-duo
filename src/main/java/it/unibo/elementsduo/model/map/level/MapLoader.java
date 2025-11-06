@@ -3,11 +3,10 @@ package it.unibo.elementsduo.model.map.level;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityFactoryImpl;
 import it.unibo.elementsduo.model.map.level.api.MapLoadingException;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
 import it.unibo.elementsduo.model.gameentity.api.EntityFactory;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
-
 import it.unibo.elementsduo.resources.Position;
 
 import java.io.BufferedReader;
@@ -34,7 +33,7 @@ public final class MapLoader {
      * Constructs a MapLoader with the entity factories.
      */
     public MapLoader() {
-            this.entityFactory = new EntityFactoryImpl();
+        this.entityFactory = new EntityFactoryImpl();
     }
 
     /**

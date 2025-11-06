@@ -8,8 +8,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * 
  * <p>
  * Implementations of this interface handle position correction after a
- * collision occurs
- * to prevent overlapping and maintain realistic physical behavior.
+ * collision occurs, to prevent overlapping.
  */
 public interface Movable extends Collidable {
 
@@ -19,6 +18,7 @@ public interface Movable extends Collidable {
      * @param penetration the depth of penetration between the colliding objects
      * @param normal      the collision normal indicating the direction of
      *                    correction
+     * @param other       the other collidable involved in the collision
      */
     void correctPhysicsCollision(double penetration, Vector2D normal, Collidable other);
 }

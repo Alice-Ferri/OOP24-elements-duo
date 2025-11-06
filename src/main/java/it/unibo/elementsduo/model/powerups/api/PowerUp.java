@@ -6,7 +6,7 @@ import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 public interface PowerUp extends Collidable, GameEntity {
     PowerUpType getType();
 
-    PowerUpEffect getEffectStrategy();
+    PowerUpEffect getEffect();
 
     double getDuration();
 

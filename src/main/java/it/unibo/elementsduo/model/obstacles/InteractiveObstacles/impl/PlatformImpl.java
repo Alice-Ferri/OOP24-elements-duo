@@ -1,7 +1,7 @@
-package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
+package it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl;
 
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.TriggerListener;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.resources.Position;
@@ -16,38 +16,26 @@ import it.unibo.elementsduo.resources.Vector2D;
  * at a fixed speed while active. It also implements {@link TriggerListener},
  * allowing it to react to external trigger events.
  * </p>
- * 
- * <p>
- * This class is not designed for extension and is therefore declared final.
- * </p>
+ *
  */
 public final class PlatformImpl extends AbstractInteractiveObstacle implements TriggerListener, Updatable {
 
-    /** The platform's half width. */
     private static final double HALF_WIDTH = 0.5;
 
-    /** The platform's half height. */
     private static final double HALF_HEIGHT = 0.5;
 
-    /** The first target position. */
     private final Position a;
 
-    /** The second target position. */
     private final Position b;
 
-    /** The platform's movement speed. */
-    private double speed = 1.0;
+    private final double speed = 1.0;
 
-    /** The platform's current position. */
     private Position pos;
 
-    /** The platform's velocity vector. */
     private Vector2D velocity = Vector2D.ZERO;
 
-    /** Whether the platform is currently moving forward. */
     private boolean forward = true;
 
-    /** Whether the platform is currently active. */
     private boolean active;
 
     /**

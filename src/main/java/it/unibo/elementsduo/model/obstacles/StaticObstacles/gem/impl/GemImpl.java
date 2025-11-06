@@ -1,9 +1,9 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.impl;
+package it.unibo.elementsduo.model.obstacles.staticObstacles.gem.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.impl.HitBoxImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api.Gem;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.gem.api.Gem;
 import it.unibo.elementsduo.resources.Position;
 
 /**
@@ -23,6 +23,8 @@ public final class GemImpl extends AbstractStaticObstacle implements Gem {
     /**
      * Creates a new gem at the specified position.
      *
+     * <p>
+     * 
      * @param pos the position where the gem will be placed
      */
     public GemImpl(final Position pos) {
@@ -31,9 +33,6 @@ public final class GemImpl extends AbstractStaticObstacle implements Gem {
 
     /**
      * {@inheritDoc}
-     *
-     * @return {@code true} if the gem is still active and can be collected,
-     *         {@code false} otherwise
      */
     @Override
     public boolean isActive() {
@@ -42,8 +41,6 @@ public final class GemImpl extends AbstractStaticObstacle implements Gem {
 
     /**
      * {@inheritDoc}
-     *
-     * Marks the gem as collected, making it inactive.
      */
     @Override
     public void collect() {

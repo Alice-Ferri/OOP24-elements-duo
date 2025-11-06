@@ -12,18 +12,18 @@ import it.unibo.elementsduo.model.enemies.api.Enemy;
 import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Lever;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.Button;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.GreenPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Button;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.Lever;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.GreenPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.LavaPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.WaterPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Floor;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.impl.Fireboy;
 import it.unibo.elementsduo.model.player.impl.Watergirl;
 import it.unibo.elementsduo.resources.Position;
@@ -150,7 +150,7 @@ public final class MapValidatorImpl implements MapValidator {
         if (endPoints.isEmpty()) {
 
             throw new InvalidMapException("Adj Error: " + playerName + " exit at " + exit
-                     + " is not adjacent to any empty space.");
+                    + " is not adjacent to any empty space.");
         }
 
         if (!isPathPossible(startPoints, endPoints, walkableSpace)) {

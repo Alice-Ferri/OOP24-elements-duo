@@ -1,12 +1,13 @@
-package it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl;
+package it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerListener;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.TriggerSource;
+
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.Toggler;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.TriggerListener;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.TriggerSource;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Toggler;
 import it.unibo.elementsduo.resources.Position;
 
 /**

@@ -28,10 +28,8 @@ import it.unibo.elementsduo.resources.Vector2D;
 public abstract class AbstractCollisionHandler<A extends Collidable, B extends Collidable>
         implements CollisionHandler {
 
-    /** The first collidable type handled by this handler. */
     private final Class<A> typeA;
 
-    /** The second collidable type handled by this handler. */
     private final Class<B> typeB;
 
     /**
@@ -58,6 +56,7 @@ public abstract class AbstractCollisionHandler<A extends Collidable, B extends C
      * @return {@code true} if this handler can process the given pair,
      *         {@code false} otherwise
      */
+    @Override
     public boolean canHandle(final Collidable a, final Collidable b) {
         return typeA.isInstance(a) && typeB.isInstance(b)
                 || typeA.isInstance(b) && typeB.isInstance(a);

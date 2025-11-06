@@ -3,7 +3,7 @@ package it.unibo.elementsduo.model.collisions.core.impl.handlers;
 import it.unibo.elementsduo.model.collisions.commands.impl.PushBoxCommand;
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 

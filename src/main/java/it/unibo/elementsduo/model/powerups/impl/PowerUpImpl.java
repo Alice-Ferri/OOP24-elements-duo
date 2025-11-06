@@ -39,7 +39,7 @@ public class PowerUpImpl implements PowerUp {
     }
 
     @Override
-    public PowerUpEffect getEffectStrategy() {
+    public PowerUpEffect getEffect() {
         return this.effect;
     }
 

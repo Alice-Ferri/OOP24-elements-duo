@@ -3,14 +3,15 @@ package it.unibo.elementsduo.model.player.impl.handlers;
 import java.util.Optional;
 
 import it.unibo.elementsduo.model.collisions.core.api.Collidable;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PlatformImpl;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PlatformImpl;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.handlers.PlayerCollsCorrectorHandler;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Responsible for adjusting the player's position and velocity when collisions occur.
+ * Responsible for adjusting the player's position and velocity when collisions
+ * occur.
  */
 public class PlayerCollsCorrectorHandlerImpl implements PlayerCollsCorrectorHandler {
     private static final double POSITION_SLOP = 0.001;
@@ -21,22 +22,23 @@ public class PlayerCollsCorrectorHandlerImpl implements PlayerCollsCorrectorHand
      *
      * @param penetration the overlap depth of the collision
      *
-     * @param normal the collision normal vector
+     * @param normal      the collision normal vector
      *
-     * @param other whoever collides with
+     * @param other       whoever collides with
      */
     @Override
-    public void handleCollision(final Player player, final double penetration, final Vector2D normal, final Collidable other) {
+    public void handleCollision(final Player player, final double penetration, final Vector2D normal,
+            final Collidable other) {
 
         Optional.of(penetration)
-            .filter(p -> p > 0)
-            .ifPresent(p -> {
-                if (other instanceof Wall wall && normal.y() < -0.5 && handleHorizontalOverlap(player, wall)) {
-                    return;
-                }
-                applyCorrection(player, normal, p);
-                handleVertical(player, normal, other);
-            });
+                .filter(p -> p > 0)
+                .ifPresent(p -> {
+                    if (other instanceof Wall wall && normal.y() < -0.5 && handleHorizontalOverlap(player, wall)) {
+                        return;
+                    }
+                    applyCorrection(player, normal, p);
+                    handleVertical(player, normal, other);
+                });
     }
 
     private boolean handleHorizontalOverlap(final Player player, final Wall wall) {

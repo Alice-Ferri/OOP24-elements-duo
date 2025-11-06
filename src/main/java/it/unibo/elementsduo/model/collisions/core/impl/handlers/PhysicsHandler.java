@@ -6,8 +6,19 @@ import it.unibo.elementsduo.model.collisions.core.api.Movable;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.resources.Vector2D;
 
+/**
+ * Handles the physics resolution for collisions involving movable objects.
+ * 
+ * <p>
+ * Applies penetration correction and resolves movement depending on whether
+ * both colliding objects are movable or only one of them
+ */
 public final class PhysicsHandler extends AbstractCollisionHandler<Movable, Collidable> {
 
+    /**
+     * Creates a handler that manages collisions between {@link Movable}
+     * and any {@link Collidable}.
+     */
     public PhysicsHandler() {
         super(Movable.class, Collidable.class);
     }

@@ -5,14 +5,14 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.GreenPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.LavaPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl.WaterPool;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.FireExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.WaterExit;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Floor;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.solid.Wall;
 import it.unibo.elementsduo.model.obstacles.api.ObstacleFactory;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.GreenPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.LavaPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl.WaterPool;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.FireExit;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.WaterExit;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Floor;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.solid.Wall;
 
 /**
  * Implementation of the {@link ObstacleFactory} interface.

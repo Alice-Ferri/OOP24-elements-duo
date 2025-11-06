@@ -27,7 +27,7 @@ public final class PlayerPowerUpHandler extends AbstractCollisionHandler<Player,
             if (powerUp.isActive()) {
                 powerUp.consume();
                 this.eventManager.notify(new PowerUpCollectedEvent(player.getPlayerType(), powerUp.getType(),
-                        powerUp.getDuration(), powerUp.getEffectStrategy()));
+                        powerUp.getDuration(), powerUp.getEffect()));
             }
         });
     }

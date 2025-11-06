@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl;
+package it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl;
 
 /**
  * Represents the different types of exit zones available in the game.

@@ -5,8 +5,8 @@ import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
 import it.unibo.elementsduo.model.collisions.events.impl.EventManager;
 import it.unibo.elementsduo.model.collisions.events.impl.FireExitEvent;
 import it.unibo.elementsduo.model.collisions.events.impl.WaterExitEvent;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.api.ExitZone;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.exitZone.impl.ExitType;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.api.ExitZone;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.exitZone.impl.ExitType;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 

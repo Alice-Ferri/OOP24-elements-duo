@@ -1,7 +1,8 @@
 package it.unibo.elementsduo.model.collisions.commands.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.elementsduo.model.collisions.commands.api.CollisionCommand;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.impl.PushBox;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.impl.PushBox;
 import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
@@ -24,6 +25,8 @@ public final class PushBoxCommand implements CollisionCommand {
      * @param player       the player interacting with the box
      * @param playerNormal the collision normal from the player’s perspective
      */
+
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The command must keep direct references to the actors for its method execute()")
     public PushBoxCommand(final PushBox box, final Player player, final Vector2D playerNormal) {
         this.box = box;
         this.playerNormal = playerNormal;

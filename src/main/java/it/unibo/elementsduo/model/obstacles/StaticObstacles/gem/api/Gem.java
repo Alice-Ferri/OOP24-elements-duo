@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.gem.api;
+package it.unibo.elementsduo.model.obstacles.staticObstacles.gem.api;
 
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 

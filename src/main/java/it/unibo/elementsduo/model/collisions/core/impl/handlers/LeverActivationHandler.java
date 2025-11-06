@@ -5,7 +5,7 @@ import java.util.Set;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionInformations;
 import it.unibo.elementsduo.model.collisions.core.impl.CollisionResponse;
-import it.unibo.elementsduo.model.obstacles.InteractiveObstacles.api.Toggler;
+import it.unibo.elementsduo.model.obstacles.interactiveObstacles.api.Toggler;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /**

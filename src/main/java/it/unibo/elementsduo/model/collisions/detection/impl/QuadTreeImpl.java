@@ -48,12 +48,12 @@ public final class QuadTreeImpl implements QuadTree {
     }
 
     /**
-     * <<<<<<< HEAD
      * Inserts a new {@link QuadObj} into the quadtree. If the current node exceeds
      * its capacity, it subdivides into smaller nodes and redistributes its objects.
      *
      * @param entry the object to insert into the tree
      */
+    @Override
     public void insert(final QuadObj entry) {
         if (nodes[0] != null) {
             final int index = getIndex(entry.bb());
@@ -88,6 +88,7 @@ public final class QuadTreeImpl implements QuadTree {
      * @param result the list where results will be stored
      * @param entry  the object for which to find possible collisions
      */
+    @Override
     public void retrieve(final List<QuadObj> result, final QuadObj entry) {
         final int index = getIndex(entry.bb());
         if (nodes[0] != null) {
@@ -110,8 +111,8 @@ public final class QuadTreeImpl implements QuadTree {
      *
      * @param bb the bounding box to check
      * @return true if there is an intersection, false otherwise
-     *         >>>>>>> powerups
      */
+    @Override
     public boolean intersects(final BoundingBox bb) {
         return this.bounds.intersects(bb);
     }

@@ -1,9 +1,9 @@
-package it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.impl;
+package it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.impl;
 
 import it.unibo.elementsduo.model.collisions.core.api.CollisionLayer;
 import it.unibo.elementsduo.model.collisions.hitbox.api.HitBox;
-import it.unibo.elementsduo.model.obstacles.StaticObstacles.HazardObs.api.Hazard;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
+import it.unibo.elementsduo.model.obstacles.staticObstacles.HazardObs.api.Hazard;
 
 /**
  * Represents a pool of water that acts as deadly hazard for fireboy
