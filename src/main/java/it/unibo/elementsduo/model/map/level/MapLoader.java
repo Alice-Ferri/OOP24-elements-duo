@@ -34,11 +34,7 @@ public final class MapLoader {
      * Constructs a MapLoader with the entity factories.
      */
     public MapLoader() {
-<<<<<<< HEAD
-        this.entityFactory = new EntityFactoryImpl();
-=======
-            this.entityAssembler = new EntityAssemblerImpl();
->>>>>>> 73fa8ed15648803b1167b0b9d4fd6e5d12f93f2e
+        this.entityAssembler = new EntityAssemblerImpl();
     }
 
     /**
