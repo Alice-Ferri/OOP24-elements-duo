@@ -68,8 +68,8 @@ public final class GuidePanel extends JPanel {
         centerPanel.add(Box.createVerticalStrut(SECTION_SPACING));
 
         centerPanel.add(createCenteredLabel("=== Comandi Watergirl ===", true));
-        centerPanel.add(createCenteredLabel("← : Muovi a sinistra", false));
-        centerPanel.add(createCenteredLabel("→ : Muovi a destra", false));
+        centerPanel.add(createCenteredLabel("<- : Muovi a sinistra", false));
+        centerPanel.add(createCenteredLabel("-> : Muovi a destra", false));
         centerPanel.add(createCenteredLabel("↑ : Salta", false));
         centerPanel.add(Box.createVerticalStrut(SECTION_SPACING));
 
