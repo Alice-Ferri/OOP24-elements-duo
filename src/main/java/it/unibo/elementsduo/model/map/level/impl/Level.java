@@ -112,7 +112,7 @@ public final class Level implements LevelData, LevelUpdate {
     public void cleanInactiveEntities() {
         this.gameEntities.removeIf(entity -> entity instanceof Projectiles p && !p.isActive()
                 || entity instanceof Enemy e && !e.isAlive()
-                || entity instanceof Gem gem && !gem.isActive());
+                || entity instanceof Gem gem && !gem.isCollectable());
     }
 
     @Override
@@ -163,7 +163,7 @@ public final class Level implements LevelData, LevelUpdate {
 
     @Override
     public void cleanGems() {
-        this.gameEntities.removeIf(e -> e instanceof Gem p && !p.isActive());
+        this.gameEntities.removeIf(e -> e instanceof Gem p && !p.isCollectable());
     }
 
     @Override

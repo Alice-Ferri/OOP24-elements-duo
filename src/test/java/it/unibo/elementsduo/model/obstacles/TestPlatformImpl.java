@@ -75,17 +75,6 @@ final class TestPlatformImpl {
     }
 
     @Test
-    void toggleSwitchesStateAndResetsVelocity() {
-        platform.toggle();
-        assertTrue(platform.isActive());
-
-        platform.update(DELTA);
-        platform.toggle();
-        assertFalse(platform.isActive());
-        assertEquals(Vector2D.ZERO, platform.getVelocity());
-    }
-
-    @Test
     void triggerListenerCallsActivateDeactivate() {
         platform.onTriggered(true);
         assertTrue(platform.isActive());

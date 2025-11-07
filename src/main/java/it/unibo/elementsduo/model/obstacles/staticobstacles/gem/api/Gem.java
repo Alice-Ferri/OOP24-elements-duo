@@ -18,7 +18,7 @@ public interface Gem extends Obstacle {
      * @return {@code true} if the gem has not been collected yet, {@code false}
      *         otherwise
      */
-    boolean isActive();
+    boolean isCollectable();
 
     /**
      * Sets the gem as collected, effectively deactivating it.

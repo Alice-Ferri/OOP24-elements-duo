@@ -53,7 +53,7 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
     }
 
     /**
-     * Updates the platform's position 
+     * Updates the platform's position
      *
      * <p>
      * The platform oscillates between {@code a} and {@code b} while active.
@@ -81,13 +81,13 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
     }
 
     /**
-     * @return is active or not. 
+     * @return is active or not.
      */
     public boolean isActive() {
         return this.active;
     }
 
-    /** 
+    /**
      * set activate true.
      */
     public void activate() {
@@ -95,19 +95,10 @@ public final class PlatformImpl extends AbstractInteractiveObstacle implements T
     }
 
     /**
-     *  Sets the 'active' flag to false and immediately resets its velocity to zero.
+     * Sets the 'active' flag to false and immediately resets its velocity to zero.
      */
     public void deactivate() {
         this.active = false;
-        this.velocity = Vector2D.ZERO;
-    }
-
-    /**
-     * Toggles the active state of this object (from active to inactive, or vice versa).
-     * This method also resets the object's velocity to zero upon changing the state.
-     */
-    public void toggle() {
-        this.active = !this.active;
         this.velocity = Vector2D.ZERO;
     }
 

@@ -18,7 +18,7 @@ public final class GemImpl extends AbstractStaticObstacle implements Gem {
 
     private static final double GEM_SIZE = 0.5;
 
-    private boolean active = true;
+    private boolean collectable = true;
 
     /**
      * Creates a new gem at the specified position.
@@ -33,8 +33,8 @@ public final class GemImpl extends AbstractStaticObstacle implements Gem {
      * {@inheritDoc}
      */
     @Override
-    public boolean isActive() {
-        return this.active;
+    public boolean isCollectable() {
+        return this.collectable;
     }
 
     /**
@@ -42,7 +42,7 @@ public final class GemImpl extends AbstractStaticObstacle implements Gem {
      */
     @Override
     public void collect() {
-        this.active = false;
+        this.collectable = false;
     }
 
     @Override

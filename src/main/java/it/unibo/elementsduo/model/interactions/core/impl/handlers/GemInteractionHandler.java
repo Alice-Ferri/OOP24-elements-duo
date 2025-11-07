@@ -47,7 +47,7 @@ public final class GemInteractionHandler extends AbstractInteractionHandler<Play
     public void handleInteraction(final Player player, final Gem gem, final CollisionInformations c,
             final InteractionResponse.Builder builder) {
         builder.addLogicCommand(() -> {
-            if (gem.isActive()) {
+            if (gem.isCollectable()) {
                 gem.collect();
                 this.eventManager.dispatch(new GemCollectedEvent());
             }
