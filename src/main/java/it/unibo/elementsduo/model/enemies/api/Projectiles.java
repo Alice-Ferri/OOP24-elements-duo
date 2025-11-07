@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.interactions.core.api.Movable;
  * is spawned by an enemy.
  */
 
-public interface Projectiles extends Movable, GameEntity, Updatable {
+public interface Projectiles extends Movable, Updatable {
 
     /**
      * Indicates whether the projectile is still active and should be

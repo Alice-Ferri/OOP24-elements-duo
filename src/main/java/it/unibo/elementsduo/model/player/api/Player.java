@@ -1,7 +1,6 @@
 package it.unibo.elementsduo.model.player.api;
 
 import it.unibo.elementsduo.controller.inputcontroller.api.InputController;
-import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
 import it.unibo.elementsduo.model.interactions.core.api.Movable;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.ExitType;
@@ -13,7 +12,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * A {@code Player} is both {@link Collidable} and {@link Movable}.
  */
 
-public interface Player extends Movable, GameEntity {
+public interface Player extends Movable {
 
     /** Default player dimensions. */
     double DEFAULT_WIDTH = 0.8;

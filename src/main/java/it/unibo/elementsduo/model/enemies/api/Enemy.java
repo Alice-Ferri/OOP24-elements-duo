@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.interactions.core.api.Movable;
 /**
  * Represents a generic enemy in the game.
  */
-public interface Enemy extends Movable, ManagerInjectable, GameEntity, Updatable {
+public interface Enemy extends Movable, ManagerInjectable, Updatable {
 
     /**
      * Attempts to perform an attack action based on internal conditions (e.g.,

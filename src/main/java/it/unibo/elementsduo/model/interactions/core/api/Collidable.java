@@ -2,6 +2,7 @@ package it.unibo.elementsduo.model.interactions.core.api;
 
 import java.util.Set;
 
+import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 
 /**
@@ -11,7 +12,7 @@ import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
  * All physical entities such as players, enemies, and obstacles implement this
  * interface.
  */
-public interface Collidable {
+public interface Collidable extends GameEntity {
 
     /**
      * Returns the {@link HitBox} that defines the physical bounds of this
