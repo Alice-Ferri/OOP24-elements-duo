@@ -8,7 +8,7 @@ import it.unibo.elementsduo.model.interactions.events.impl.PlayerDiedEvent;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /**
- * Handles collisions between a {@link Player} and {@link Projectiles}.
+ * Handles interactions between a {@link Player} and {@link Projectiles}.
  * 
  * <p>
  * When a projectile hits a player, this handler triggers a
@@ -31,7 +31,7 @@ public final class PlayerProjectileHandler extends AbstractInteractionHandler<Pl
     }
 
     /**
-     * Handles a collision between a {@link Player} and a {@link Projectiles}.
+     * Handles a interaction between a {@link Player} and a {@link Projectiles}.
      * 
      * <p>
      * When a projectile hits the player, a {@link PlayerDiedEvent} is triggered.

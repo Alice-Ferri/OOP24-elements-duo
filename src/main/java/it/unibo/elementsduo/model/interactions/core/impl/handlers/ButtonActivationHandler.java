@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Pressable;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /**
- * Handles collisions between {@link Player} objects and {@link Pressable}
+ * Handles interactions between {@link Player} objects and {@link Pressable}
  * elements
  * such as buttons.
  *
@@ -27,14 +27,14 @@ public final class ButtonActivationHandler extends AbstractInteractionHandler<Pl
 
     /**
      * Creates a new {@code ButtonActivationHandler} for handling player–button
-     * collisions.
+     * interactions.
      */
     public ButtonActivationHandler() {
         super(Player.class, Pressable.class);
     }
 
     /**
-     * Handles the collision between a {@link Player} and a {@link Pressable}.
+     * Handles the interaction between a {@link Player} and a {@link Pressable}.
      *
      * <p>
      * Adds the button to the set of currently pressed buttons and triggers

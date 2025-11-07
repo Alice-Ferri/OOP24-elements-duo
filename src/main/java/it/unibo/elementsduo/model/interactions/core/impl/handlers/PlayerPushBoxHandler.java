@@ -8,7 +8,7 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Handles collisions between a {@link Player} and a {@link PushBox}.
+ * Handles interactions between a {@link Player} and a {@link PushBox}.
  * 
  * <p>
  * This handler generates a {@link PushBoxCommand} that applies a force

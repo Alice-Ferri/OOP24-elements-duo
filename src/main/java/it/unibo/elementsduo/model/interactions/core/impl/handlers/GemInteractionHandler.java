@@ -8,7 +8,8 @@ import it.unibo.elementsduo.model.obstacles.staticobstacles.gem.api.Gem;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /**
- * Handles collisions between {@link Player} objects and {@link Gem} instances.
+ * Handles interactions between {@link Player} objects and {@link Gem}
+ * instances.
  * 
  * <p>
  * When a player collides with an active gem, the gem is collected and a
@@ -31,7 +32,7 @@ public final class GemInteractionHandler extends AbstractInteractionHandler<Play
     }
 
     /**
-     * Handles the collision between a player and a gem.
+     * Handles the interaction between a player and a gem.
      * 
      * <p>
      * If the gem is active, it is collected and an event is sent to notify
@@ -40,7 +41,7 @@ public final class GemInteractionHandler extends AbstractInteractionHandler<Play
      * @param player  the player involved in the collision
      * @param gem     the gem involved in the collision
      * @param c       the collision information
-     * @param builder the collision response builder used to queue logic commands
+     * @param builder the interaction response builder used to queue logic commands
      */
     @Override
     public void handleInteraction(final Player player, final Gem gem, final CollisionInformations c,

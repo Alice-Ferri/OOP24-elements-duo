@@ -8,7 +8,7 @@ import it.unibo.elementsduo.model.interactions.events.impl.ProjectileSolidEvent;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 
 /**
- * Handles collisions between {@link Projectiles} and solid {@link Obstacle}s.
+ * Handles interactions between {@link Projectiles} and solid {@link Obstacle}s.
  * 
  * <p>
  * When a projectile collides with a solid obstacle, the projectile is

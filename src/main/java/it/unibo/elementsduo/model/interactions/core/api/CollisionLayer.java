@@ -41,7 +41,7 @@ public enum CollisionLayer {
         PROJECTILE.defaultMask = Set.of(PLAYER, ENEMY, STATIC_OBSTACLE, PUSHABLE);
         GEM.defaultMask = Set.of(PLAYER);
         EXIT_ZONE.defaultMask = Set.of(PLAYER);
-        BUTTON.defaultMask = Set.of(PLAYER, PUSHABLE);
+        BUTTON.defaultMask = Set.of(PLAYER);
         LEVER.defaultMask = Set.of(PLAYER);
         POWER_UP.defaultMask = Set.of(PLAYER);
     }

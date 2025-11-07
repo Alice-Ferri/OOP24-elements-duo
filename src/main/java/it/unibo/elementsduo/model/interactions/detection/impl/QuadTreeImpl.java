@@ -26,7 +26,6 @@ public final class QuadTreeImpl implements QuadTree {
     private final QuadTree[] nodes = new QuadTree[4];
 
     /**
-     * <<<<<<< HEAD
      * Creates a new QuadTree instance starting at level 0 with the given bounds.
      *
      * @param bounds the bounding box representing the area of this quadtree
@@ -36,7 +35,6 @@ public final class QuadTreeImpl implements QuadTree {
     }
 
     /**
-     * <<<<<<< HEAD
      * Creates a new QuadTree with the specified level and bounding box.
      *
      * @param level  the current depth level of this node

@@ -15,9 +15,9 @@ import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformatio
  * instances.
  * 
  * <p>
- * The {@code CollisionHandlersRegister} stores all registered handlers,
+ * The {@code InteractionHandlersRegister} stores all registered handlers,
  * determines
- * which handlers can process specific collisions, and notifies them at the
+ * which handlers can process specific interactions, and notifies them at the
  * start
  * and end of each update cycle.
  */
@@ -29,7 +29,7 @@ public final class InteractionsHandlersRegister {
     /**
      * Registers a new {@link InteractionHandler} if it has not already been added.
      *
-     * @param ch the collision handler to register
+     * @param ch the interaction handler to register
      * @throws NullPointerException if the provided handler is {@code null}
      */
     public void registerHandler(final InteractionHandler ch) {

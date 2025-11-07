@@ -10,7 +10,7 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Handles collisions between a {@link Player} and an {@link Enemy}.
+ * Handles interactions between a {@link Player} and an {@link Enemy}.
  * 
  * <p>
  * Determines whether the player hits the enemy from above or from another
@@ -24,9 +24,9 @@ public final class PlayerEnemyHandler extends AbstractInteractionHandler<Player,
 
     /**
      * Creates a new {@code PlayerEnemyHandler} for managing player–enemy
-     * collisions.
+     * interactions.
      *
-     * @param em the event manager used to notify game events
+     * @param em the event manager used to dispatch game events
      */
     public PlayerEnemyHandler(final EventManager em) {
         super(Player.class, Enemy.class);
@@ -34,7 +34,7 @@ public final class PlayerEnemyHandler extends AbstractInteractionHandler<Player,
     }
 
     /**
-     * Handles the collision between a {@link Player} and an {@link Enemy}.
+     * Handles the interaction between a {@link Player} and an {@link Enemy}.
      * 
      * <p>
      * Determines whether the player struck the enemy from above and issues

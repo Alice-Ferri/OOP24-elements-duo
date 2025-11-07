@@ -4,7 +4,7 @@ import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 
 /**
- * Abstract base class for all static (non-moving) obstacles in the game,
+ * Abstract base class for all static obstacles in the game,
  * implementing the basic functionality of an obstacle with a fixed HitBox.
  */
 public abstract class AbstractStaticObstacle implements Obstacle {

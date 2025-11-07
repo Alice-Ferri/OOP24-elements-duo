@@ -11,7 +11,7 @@ import it.unibo.elementsduo.model.player.api.Player;
 import it.unibo.elementsduo.model.player.api.PlayerType;
 
 /**
- * Handles collisions between a {@link Player} and an {@link ExitZone}.
+ * Handles interactions between a {@link Player} and an {@link ExitZone}.
  * 
  * <p>
  * This handler determines whether the player has reached the correct exit
@@ -32,7 +32,7 @@ public final class PlayerExitHandler extends AbstractInteractionHandler<Player, 
     }
 
     /**
-     * Handles a collision between a {@link Player} and an {@link ExitZone}.
+     * Handles an interaction between a {@link Player} and an {@link ExitZone}.
      * 
      * <p>
      * If the player reaches the correct exit (Fireboy → FireExit, Watergirl →
@@ -43,7 +43,7 @@ public final class PlayerExitHandler extends AbstractInteractionHandler<Player, 
      * @param player        the player involved in the collision
      * @param exitZone      the exit zone involved in the collision
      * @param collisionInfo the collision information
-     * @param builder       the collision response builder used to queue logic
+     * @param builder       the interaction response builder used to queue logic
      *                      commands
      */
     @Override

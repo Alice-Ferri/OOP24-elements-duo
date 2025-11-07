@@ -7,11 +7,12 @@ import it.unibo.elementsduo.model.interactions.detection.api.CollisionInformatio
 import it.unibo.elementsduo.resources.Vector2D;
 
 /**
- * Abstract base class for handling collisions between two {@link Collidable}
+ * Abstract base class for handling interactions between two {@link Collidable}
  * types.
  * 
  * <p>
- * This class provides generic collision dispatch logic that identifies whether
+ * This class provides generic interaction dispatch logic that identifies
+ * whether
  * a pair of collidable objects can be processed by this handler and delegates
  * the actual collision handling to subclasses via the
  * {@link #handleCollision(Object, Object, CollisionInformations, InteractionResponse.Builder)}
@@ -20,7 +21,7 @@ import it.unibo.elementsduo.resources.Vector2D;
  * <p>
  * Subclasses should implement
  * {@link #handleCollision(Object, Object, CollisionInformations, InteractionResponse.Builder)}
- * to define specific collision behavior between two object types.
+ * to define specific interaction behavior between two object types.
  *
  * @param <A> the first {@link Collidable} type
  * @param <B> the second {@link Collidable} type
@@ -33,7 +34,7 @@ public abstract class AbstractInteractionHandler<A extends Collidable, B extends
     private final Class<B> typeB;
 
     /**
-     * Creates a new collision handler for the specified pair of collidable types.
+     * Creates a new interaction handler for the specified pair of collidable types.
      *
      * @param typeA the class type of the first collidable
      * @param typeB the class type of the second collidable
@@ -44,11 +45,11 @@ public abstract class AbstractInteractionHandler<A extends Collidable, B extends
     }
 
     /**
-     * Checks whether this handler can process a collision between the given
+     * Checks whether this handler can process a interaction between the given
      * objects.
      * 
      * <p>
-     * The handler can handle the collision if the pair of objects matches either
+     * The handler can handle the interaction if the pair of objects matches either
      * {@code (typeA, typeB)} or {@code (typeB, typeA)}.
      *
      * @param a the first collidable
@@ -63,7 +64,7 @@ public abstract class AbstractInteractionHandler<A extends Collidable, B extends
     }
 
     /**
-     * Handles a collision between two collidable objects if their types are
+     * Handles an interaction between two collidable objects if their types are
      * supported
      * by this handler.
      * 
@@ -87,10 +88,10 @@ public abstract class AbstractInteractionHandler<A extends Collidable, B extends
     }
 
     /**
-     * Handles a specific collision between two objects of the supported types.
+     * Handles a specific interaction between two objects of the supported types.
      * 
      * <p>
-     * Subclasses must implement this method to define collision behavior between
+     * Subclasses must implement this method to define interaction behavior between
      * the specified types.
      *
      * @param a       the first collidable object

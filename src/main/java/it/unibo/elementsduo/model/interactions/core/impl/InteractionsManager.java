@@ -20,15 +20,16 @@ import it.unibo.elementsduo.model.interactions.detection.impl.CollisionCheckerIm
 import it.unibo.elementsduo.model.interactions.events.impl.EventManager;
 
 /**
- * Manages all collision checks and responses between collidable entities in the
+ * Manages all interactions checks and responses between collidable entities in
+ * the
  * game world.
  * 
  * <p>
- * The {@code CollisionManager} uses a {@link CollisionChecker} to detect
+ * The {@code InteractionManager} uses a {@link CollisionChecker} to detect
  * collisions,
- * delegates handling to registered collision handlers, and executes the
+ * delegates handling to registered interactions handlers, and executes the
  * resulting
- * collision responses.
+ * interaction responses.
  */
 public final class InteractionsManager {
 
@@ -37,10 +38,11 @@ public final class InteractionsManager {
     private final EventManager eventManager;
 
     /**
-     * Creates a new {@code CollisionManager} and registers all collision handlers.
+     * Creates a new {@code InteractionManager} and registers all interaction
+     * handlers.
      *
-     * @param eventManager the event manager used to trigger game events on
-     *                     collisions
+     * @param eventManager the event manager used to dispatch events on the game
+     * 
      */
     public InteractionsManager(final EventManager eventManager) {
         this.eventManager = eventManager;
@@ -61,8 +63,7 @@ public final class InteractionsManager {
      * Performs collision detection and handling for all given collidable entities.
      * 
      * <p>
-     * The method checks for collisions, resets entity states (e.g., airborne
-     * players),
+     * The method checks for collisions among the provided entities,
      * delegates collision handling to the registered handlers, and executes the
      * final
      * collision responses.

@@ -8,7 +8,7 @@ import it.unibo.elementsduo.model.obstacles.staticobstacles.hazardobs.api.Hazard
 import it.unibo.elementsduo.model.player.api.Player;
 
 /**
- * Handles collisions between a {@link Player} and a {@link Hazard}.
+ * Handles interaction between a {@link Player} and a {@link Hazard}.
  * 
  * <p>
  * Determines whether the player should die based on their type and the
@@ -22,7 +22,7 @@ public final class PlayerHazardHandler extends AbstractInteractionHandler<Player
     /**
      * Creates a new {@code PlayerHazardHandler} that uses the provided
      * {@link EventManager}
-     * to notify player death events.
+     * to dispacth player death events.
      *
      * @param eventManager the event manager used to dispatch player death events
      */

@@ -9,7 +9,7 @@ import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.Toggler;
 import it.unibo.elementsduo.model.player.api.Player;
 
 /**
- * Handles collisions between a {@link Player} and a {@link Toggler} such as a
+ * Handles interactions between a {@link Player} and a {@link Toggler} such as a
  * lever.
  *
  * <p>
@@ -28,14 +28,14 @@ public final class LeverActivationHandler extends AbstractInteractionHandler<Pla
 
     /**
      * Creates a new {@code LeverActivationHandler} for handling player–lever
-     * collisions.
+     * interaction.
      */
     public LeverActivationHandler() {
         super(Player.class, Toggler.class);
     }
 
     /**
-     * Handles a collision between a {@link Player} and a {@link Toggler}.
+     * Handles a interaction between a {@link Player} and a {@link Toggler}.
      *
      * <p>
      * Adds the lever to the current frame's set of togglers and issues a toggle
