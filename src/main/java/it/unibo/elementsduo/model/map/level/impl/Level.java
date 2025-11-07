@@ -16,6 +16,8 @@ import it.unibo.elementsduo.model.map.level.api.LevelData;
 import it.unibo.elementsduo.model.map.level.api.LevelUpdate;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.TriggerSource;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.FireExit;
@@ -89,6 +91,20 @@ public final class Level implements LevelData, LevelUpdate {
     @Override
     public Set<AbstractInteractiveObstacle> getAllInteractiveObstacles() {
         return getEntitiesByClass(AbstractInteractiveObstacle.class);
+    }
+
+    @Override
+    public Set<AbstractStaticObstacle> getStaticObstacles(){
+        return getEntitiesByClass(AbstractStaticObstacle.class);
+    }
+
+    @Override
+    public Set<TriggerSource> getActiveObstacles(){
+        return this.gameEntities.stream()
+                .filter(TriggerSource.class::isInstance)
+                .map(TriggerSource.class::cast)
+                .filter(obs -> obs.isActive())
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override

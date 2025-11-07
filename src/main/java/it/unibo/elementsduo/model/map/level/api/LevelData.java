@@ -10,6 +10,8 @@ import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.interactions.core.api.Collidable;
 import it.unibo.elementsduo.model.obstacles.api.Obstacle;
 import it.unibo.elementsduo.model.obstacles.impl.AbstractInteractiveObstacle;
+import it.unibo.elementsduo.model.obstacles.impl.AbstractStaticObstacle;
+import it.unibo.elementsduo.model.obstacles.interactiveobstacles.api.TriggerSource;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Button;
 import it.unibo.elementsduo.model.obstacles.interactiveobstacles.impl.Lever;
 import it.unibo.elementsduo.model.obstacles.staticobstacles.exitzone.impl.FireExit;
@@ -39,7 +41,7 @@ public interface LevelData {
     /**
      * Gets all static and interactive obstacles in the level.
      *
-     * @return A set of all {@link obstacle} objects.
+     * @return A set of all {@link Obstacle} objects.
      */
     Set<Obstacle> getAllObstacles();
 
@@ -68,9 +70,23 @@ public interface LevelData {
      * Gets all interactive obstacles (e.g, levers, buttons, platforms) in the
      * level.
      *
-     * @return A set of all {@link InteractiveObstacle} objects.
+     * @return A set of all {@link AbstractInteractiveObstacle} objects.
      */
     Set<AbstractInteractiveObstacle> getAllInteractiveObstacles();
+
+    /**
+     * Gets all static obstacles in the level.
+     *
+     * @return A set of all {@link AbstractStaticObstacle} objects.
+     */
+    Set<AbstractStaticObstacle> getStaticObstacles();
+
+    /**
+     * Gets all active obstacles in the level.
+     *
+     * @return A set of all {@link TriggerSource} objects.
+     */
+    Set<TriggerSource> getActiveObstacles();
 
     /**
      * Gets all active projectiles in the level.
