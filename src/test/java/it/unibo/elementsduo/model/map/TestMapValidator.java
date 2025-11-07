@@ -1,7 +1,7 @@
 package it.unibo.elementsduo.model.map;
 
-import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.map.level.impl.Level;
+import it.unibo.elementsduo.model.map.level.impl.MapLoader;
 import it.unibo.elementsduo.model.map.mapvalidator.api.InvalidMapException;
 import it.unibo.elementsduo.model.map.mapvalidator.api.MapValidator;
 import it.unibo.elementsduo.model.map.mapvalidator.impl.MapValidatorImpl;

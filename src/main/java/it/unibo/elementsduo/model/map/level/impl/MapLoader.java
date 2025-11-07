@@ -1,4 +1,4 @@
-package it.unibo.elementsduo.model.map.level;
+package it.unibo.elementsduo.model.map.level.impl;
 
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.impl.EntityAssemblerImpl;

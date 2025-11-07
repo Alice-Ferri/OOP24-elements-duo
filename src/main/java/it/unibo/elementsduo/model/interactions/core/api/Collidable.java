@@ -3,7 +3,6 @@ package it.unibo.elementsduo.model.interactions.core.api;
 import java.util.Set;
 
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
-import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
 
 /**
  * Represents any object in the game world that can participate in collisions.
@@ -13,14 +12,6 @@ import it.unibo.elementsduo.model.interactions.hitbox.api.HitBox;
  * interface.
  */
 public interface Collidable extends GameEntity {
-
-    /**
-     * Returns the {@link HitBox} that defines the physical bounds of this
-     * collidable object.
-     *
-     * @return the hitbox representing this object's collision area
-     */
-    HitBox getHitBox();
 
     /**
      * Indicates whether this object is solid, meaning it should block or

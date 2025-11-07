@@ -1,7 +1,8 @@
 package it.unibo.elementsduo.model.map;
 
-import it.unibo.elementsduo.model.map.level.MapLoader;
 import it.unibo.elementsduo.model.gameentity.api.GameEntity;
+import it.unibo.elementsduo.model.map.level.impl.MapLoader;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

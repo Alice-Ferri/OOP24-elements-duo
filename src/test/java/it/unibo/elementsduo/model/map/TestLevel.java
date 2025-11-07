@@ -41,7 +41,6 @@ final class TestLevel {
     private Level level;
     private Set<GameEntity> originalEntities;
     private Player player1;
-    // private Player player2; // <-- RIMOSSO DA QUI
     private Enemy enemyAlive;
     private Enemy enemyDead;
     private Projectiles projActive;
@@ -57,7 +56,6 @@ final class TestLevel {
         originalEntities = new HashSet<>();
 
         player1 = new PlayerFactoryImpl().createPlayer(PlayerType.FIREBOY, new Position(1, 1));
-        // Dichiarato come variabile locale
         final Player player2 = new PlayerFactoryImpl().createPlayer(PlayerType.WATERGIRL, new Position(1, 1)); 
         enemyAlive = new ClassicEnemiesImpl(new Position(2, 1));
         enemyDead = new ClassicEnemiesImpl(new Position(2, 2));
@@ -71,7 +69,7 @@ final class TestLevel {
         interactive = new Lever(new Position(POS_FIVE, 1));
 
         originalEntities.add(player1);
-        originalEntities.add(player2); // Aggiunto qui
+        originalEntities.add(player2);
         originalEntities.add(enemyAlive);
         originalEntities.add(enemyDead);
         originalEntities.add(projActive);

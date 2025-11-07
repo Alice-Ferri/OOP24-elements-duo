@@ -94,16 +94,16 @@ public final class Level implements LevelData, LevelUpdate {
     }
 
     @Override
-    public Set<AbstractStaticObstacle> getStaticObstacles(){
+    public Set<AbstractStaticObstacle> getStaticObstacles() {
         return getEntitiesByClass(AbstractStaticObstacle.class);
     }
 
     @Override
-    public Set<TriggerSource> getActiveObstacles(){
+    public Set<TriggerSource> getActiveObstacles() {
         return this.gameEntities.stream()
                 .filter(TriggerSource.class::isInstance)
                 .map(TriggerSource.class::cast)
-                .filter(obs -> obs.isActive())
+                .filter(TriggerSource::isActive)
                 .collect(Collectors.toUnmodifiableSet());
     }
 

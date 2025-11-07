@@ -2,7 +2,6 @@ package it.unibo.elementsduo.model.enemies.api;
 
 import java.util.Optional;
 
-import it.unibo.elementsduo.model.gameentity.api.GameEntity;
 import it.unibo.elementsduo.model.gameentity.api.Updatable;
 import it.unibo.elementsduo.model.interactions.core.api.Movable;
 
